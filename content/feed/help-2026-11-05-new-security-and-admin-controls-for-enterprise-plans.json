@@ -1,0 +1,9 @@
+{
+  "id": "help-2026-11-05-new-security-and-admin-controls-for-enterprise-plans",
+  "source": "help-center",
+  "date": "2026-11-05",
+  "title": "New security and admin controls for Enterprise plans",
+  "summary": "Claude Enterprise-এ নিরাপত্তা ও অ্যাডমিনের জন্য নতুন কিছু ফিচার যোগ হয়েছে, যেমন security center, inference hooks, centralized management এবং বাড়তি access controls। এর ফলে নিরাপত্তা টিম Claude-এর ব্যবহার আরও ভালোভাবে দেখতে ও নিয়ন্ত্রণ করতে পারবে। এই ফিচারগুলোর মধ্যে বেশ কয়েকটি এখনও beta অবস্থায় আছে।",
+  "originalEn": "Claude Enterprise has new security and admin features, including a security center, inference hooks, centralized management, and additional access controls, several in beta. For more information, see our blog post: **[More visibility and control over Claude Enterprise for security teams](https://claude.com/resources/articles/claude-enterprise-security-updates).**",
+  "url": "https://support.claude.com/en/articles/12138966-release-notes"
+}
