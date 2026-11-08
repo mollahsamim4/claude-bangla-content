@@ -1,0 +1,137 @@
+{
+  "id": "everyday-04-thinking",
+  "track": "everyday",
+  "order": 4,
+  "title": "Step-by-Step Thinking & Extended Thinking",
+  "summary": "কঠিন প্রশ্নে Claude-কে ভেবেচিন্তে উত্তর দেওয়ান: Thinking আর Effort সেটিং কোথায়, কখন চালু করবেন, আর কীভাবে প্রম্পট লিখবেন।",
+  "updatedAt": "2026-11-08",
+  "blocks": [
+    {
+      "type": "heading",
+      "text": "Why thinking helps"
+    },
+    {
+      "type": "paragraph",
+      "text": "কিছু প্রশ্নের উত্তর এক কথায় হয় না: অঙ্ক, কয়েকটা অপশনের তুলনা, বাজেট প্ল্যান, বা কোনো বিষয়ের নানা দিক বিশ্লেষণ। মানুষ যেমন এসব কাজে আগে খাতায় একটু হিসাব করে নেয়, Claude-ও উত্তর দেওয়ার আগে ভেবে নিতে পারে। Claude অ্যাপে এর জন্য আছে Thinking (কিছু মডেলে নাম Extended) আর Effort সেটিং। আর প্রম্পট লেখার ধরনেও এই চিন্তাকে ভালো দিকে চালানো যায়।"
+    },
+    {
+      "type": "heading",
+      "text": "Thinking and effort in the Claude app"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "মেসেজ বক্সে send বাটনের পাশে মডেলের নামের উপর ক্লিক করুন। এখান থেকেই মডেল, effort আর thinking বদলানো যায়।",
+        "যে মডেলে effort level আছে, সেখানে \"Effort\"-এর উপর মাউস রাখুন। দেখবেন Low, Medium, High, Extra high আর Max অপশন। প্রতিটা মডেলের সুপারিশকৃত লেভেলের পাশে \"Default\" লেখা থাকে।",
+        "সেখানেই \"Thinking\" টগল আছে; চালু বা বন্ধ করুন। যে মডেলে effort level নেই, সেখানে টগলের নাম \"Extended\"।",
+        "উত্তর আসার পর \"Thinking\" অংশে ক্লিক করলে Claude কীভাবে সমস্যাটা ভেবেছে তার একটা সারাংশ দেখতে পাবেন।"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "মনে রাখবেন, thinking আর effort দুটো আলাদা সেটিং। Claude-এর help center অনুযায়ী Opus 5.5 আর Fable 5.1-এ thinking সব effort level-এ সবসময় চালু থাকে, আর Haiku 5.5, Sonnet 5.5 ও Opus 5-এ Claude অ্যাপে thinking বন্ধ করা যায় না। এসব মডেলে টগল না দেখলে অবাক হবেন না; Claude কম ভাবুক চাইলে effort কমিয়ে দিন। চ্যাটের মাঝখানেও সেটিং বদলানো যায়, পরের উত্তর থেকে তা কার্যকর হয়।"
+    },
+    {
+      "type": "warning",
+      "text": "Effort যত বেশি, উত্তর তত গভীর, কিন্তু সময়ও বেশি লাগে আর আপনার usage limit তাড়াতাড়ি ফুরায়। সাধারণ প্রশ্নে Max ব্যবহার করে লিমিট নষ্ট করবেন না।"
+    },
+    {
+      "type": "heading",
+      "text": "When to use it"
+    },
+    {
+      "type": "paragraph",
+      "text": "Help center-এর পরামর্শ: বেশি চিন্তা তখনই সবচেয়ে কাজে দেয় যখন প্রশ্নটা জটিল যুক্তির, কিন্তু ইন্টারনেটের সাম্প্রতিক তথ্য লাগে না। যেমন কোনো বিষয়ের নানা দিক বিশ্লেষণ বা একটা পদ্ধতি আরও ভালো করা। আজকের খবর বা খেলার স্কোরের মতো সোজা তথ্যের জন্য web search ভালো, আর অনেক উৎস ঘেঁটে বড় রিপোর্টের জন্য Research। এ দুটো নিয়ে এই ট্র্যাকের পরের একটা পাঠে বিস্তারিত আছে।"
+    },
+    {
+      "type": "heading",
+      "text": "Prompting for better reasoning"
+    },
+    {
+      "type": "paragraph",
+      "text": "Anthropic-এর গাইড একটা মজার কথা বলে: নিজে ধাপে ধাপে পরিকল্পনা লিখে দেওয়ার চেয়ে \"think thoroughly\"-এর মতো সাধারণ নির্দেশ প্রায়ই ভালো ফল দেয়, কারণ Claude-এর নিজের যুক্তি অনেক সময় আমাদের লেখা ধাপের চেয়েও ভালো হয়। আপনার কাজ হলো সমস্যাটা পুরো প্রেক্ষাপটসহ পরিষ্কার করে বলা।"
+    },
+    {
+      "type": "prompt",
+      "text": "I run a small tea stall in Sylhet. I earn about 1,500 taka profit a day and want to buy a 60,000 taka refrigerator to sell cold drinks. Option A: pay in full from savings. Option B: pay 10,000 taka now and 4,500 taka a month for 12 months.\n\nThink thoroughly about the total cost, my cash flow and the risks of each option, then recommend one. Show the key numbers in a short table."
+    },
+    {
+      "type": "tip",
+      "text": "শেষে একটা যাচাইয়ের লাইন যোগ করুন। গাইড বলছে এতে ভুল ধরা পড়ে, বিশেষ করে অঙ্ক আর হিসাবে। যেমন: \"Before you finish, verify your answer against [what must be true].\""
+    },
+    {
+      "type": "prompt",
+      "text": "Before you finish, verify your answer by recalculating the total amount paid under each option and checking that the recommendation matches those numbers."
+    },
+    {
+      "type": "heading",
+      "text": "If thinking is off"
+    },
+    {
+      "type": "paragraph",
+      "text": "পুরনো কোনো মডেলে thinking বন্ধ থাকলে হাতে-কলমে \"chain of thought\" চাওয়া যায়: Claude-কে উত্তর দেওয়ার আগে সমস্যাটা ধাপে ধাপে ভেবে দেখতে বলুন, আর শেষ উত্তরটা `<answer>` tag-এ দিতে বলুন, যাতে সহজে খুঁজে পান।"
+    },
+    {
+      "type": "prompt",
+      "text": "Reason through this problem step by step before answering, then put your final answer in <answer> tags.\n\n[Your problem here]"
+    },
+    {
+      "type": "warning",
+      "text": "নতুন মডেলে (গাইডে Opus 5.5, Opus 5, Sonnet 5.5, Fable 5.1 ও Fable 5-এর নাম আছে) \"তোমার পুরো চিন্তা `<thinking>` tag-এ লিখে দেখাও\" ধরনের অনুরোধ Claude ফিরিয়ে দিতে পারে। এসব মডেলে নিজস্ব thinking ফিচারের উপরই ভরসা রাখুন, আর উত্তর-প্রক্রিয়া দেখতে চাইলে \"Thinking\" অংশটা খুলে দেখুন।"
+    },
+    {
+      "type": "heading",
+      "text": "Recap"
+    },
+    {
+      "type": "paragraph",
+      "text": "জটিল প্রশ্নে Claude-কে ভাবার সুযোগ দিন: মডেলের নামে ক্লিক করে Effort আর Thinking ঠিক করুন, সহজ প্রশ্নে effort কম রাখুন। প্রম্পটে পুরো প্রেক্ষাপট দিন, \"think thoroughly\"-র মতো সাধারণ নির্দেশ দিন, আর শেষে উত্তর যাচাই করতে বলুন।"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Claude অ্যাপে Thinking টগল কোথায় পাবেন?",
+      "options": [
+        "Settings-এর Privacy পেজে",
+        "Send বাটনের পাশে মডেলের নামে ক্লিক করে, Effort-এর ভেতরে",
+        "চ্যাটের শিরোনামে ডাবল ক্লিক করে",
+        "শুধু মোবাইল অ্যাপে"
+      ],
+      "answer": 1,
+      "explanation": "মডেলের নামে ক্লিক করে \"Effort\"-এর উপর মাউস রাখলে \"Thinking\" টগল পাবেন। Effort নেই এমন মডেলে টগলের নাম \"Extended\"।"
+    },
+    {
+      "question": "Effort বাড়ালে কী হয়?",
+      "options": [
+        "উত্তর দ্রুত আসে আর লিমিট কম খরচ হয়",
+        "উত্তর বেশি গভীর হয়, কিন্তু সময় বেশি লাগে আর usage limit তাড়াতাড়ি ফুরায়",
+        "Claude ইন্টারনেট সার্চ শুরু করে",
+        "কোনো পরিবর্তন হয় না"
+      ],
+      "answer": 1,
+      "explanation": "Help center অনুযায়ী বেশি effort মানে বেশি thorough উত্তর, তবে সময় আর usage দুটোই বেশি লাগে।"
+    },
+    {
+      "question": "Anthropic-এর গাইড অনুযায়ী ভালো যুক্তির জন্য কোনটা প্রায়ই বেশি কার্যকর?",
+      "options": [
+        "নিজের হাতে লেখা খুঁটিনাটি ধাপের তালিকা",
+        "\"think thoroughly\"-র মতো সাধারণ নির্দেশ, সাথে পুরো প্রেক্ষাপট",
+        "যত ছোট সম্ভব প্রম্পট",
+        "একই প্রশ্ন বারবার পাঠানো"
+      ],
+      "answer": 1,
+      "explanation": "গাইড বলছে সাধারণ নির্দেশ প্রায়ই হাতে লেখা ধাপের চেয়ে ভালো যুক্তি তৈরি করে, কারণ Claude-এর নিজের যুক্তি অনেক সময় বেশি ভালো হয়।"
+    },
+    {
+      "question": "আজ রাতের খেলার স্কোর জানতে কোন ফিচার সবচেয়ে উপযুক্ত?",
+      "options": [
+        "Max effort-এ extended thinking",
+        "Web search",
+        "Few-shot উদাহরণ",
+        "কোনোটাই নয়"
+      ],
+      "answer": 1,
+      "explanation": "সাম্প্রতিক, সোজা তথ্যের জন্য web search ভালো। Extended thinking জটিল যুক্তির কাজে, যেখানে নতুন ওয়েব তথ্য লাগে না।"
+    }
+  ]
+}
