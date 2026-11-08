@@ -1,0 +1,168 @@
+{
+  "id": "start-04-models-opus-sonnet-haiku",
+  "track": "start",
+  "order": 4,
+  "title": "Models: Opus vs Sonnet vs Haiku",
+  "summary": "Claude-এর Haiku, Sonnet, Opus আর Fable model-এর পার্থক্য, কখন কোনটা বেছে নেবেন আর অ্যাপে কীভাবে model ও effort বদলাবেন।",
+  "updatedAt": "2026-11-08",
+  "blocks": [
+    {
+      "type": "paragraph",
+      "text": "Claude আসলে একটা নয়, কয়েকটা model-এর একটা পরিবার। কেউ খুব দ্রুত, কেউ গভীরভাবে চিন্তা করে, কেউ দুটোর মাঝামাঝি। ঠিক model বেছে নিলে উত্তর ভালো হয়, সময় বাঁচে, আর usage limit-ও বেশি দিন চলে। চলুন দেখি কোনটা কেমন।"
+    },
+    {
+      "type": "heading",
+      "text": "The model family"
+    },
+    {
+      "type": "paragraph",
+      "text": "Anthropic-এর models overview পেজ অনুযায়ী (নভেম্বর 2026) বর্তমান model-গুলো হলো Claude Haiku 5.5, Claude Sonnet 5.5, Claude Opus 5.5 আর Claude Fable 5.1। সংখ্যাগুলো version; নতুন version এলে সংখ্যা বাড়ে, কিন্তু নামের ধারণাটা একই থাকে।"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "Haiku: সবচেয়ে দ্রুত। অনেক ছোট ছোট কাজ, যেমন শ্রেণিবিভাগ, তথ্য বের করা বা দ্রুত উত্তরের জন্য।",
+        "Sonnet: গতি আর বুদ্ধিমত্তার সবচেয়ে ভালো মিশ্রণ। লেখা, কোড, ডেটা বিশ্লেষণের মতো রোজকার কাজের জন্য চমৎকার।",
+        "Opus: লম্বা ও জটিল কাজের জন্য, যেমন বড় কোডিং প্রজেক্ট বা গভীর বিশ্লেষণ। গতি মাঝারি।",
+        "Fable: সবচেয়ে সক্ষম model, খুব কঠিন যুক্তি আর ঘণ্টার পর ঘণ্টা চলা কাজের জন্য। তবে সবচেয়ে ধীর আর usage-ও বেশি খরচ করে।"
+      ]
+    },
+    {
+      "type": "tip",
+      "text": "সব বর্তমান model লেখা ও ছবি বুঝতে পারে, অনেক ভাষায় কাজ করে, আর tool ব্যবহার করতে পারে। তাই ছোটখাটো কাজের জন্য সবচেয়ে বড় model লাগবে, এমন নয়।"
+    },
+    {
+      "type": "heading",
+      "text": "Which one should I pick?"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "দ্রুত একটা তথ্য, ছোট অনুবাদ বা সহজ প্রশ্ন: Haiku বা Sonnet।",
+        "ইমেইল, রিপোর্ট, পড়াশোনা, সাধারণ কোড: Sonnet দিয়ে শুরু করুন।",
+        "জটিল সমস্যা, লম্বা ডকুমেন্ট বিশ্লেষণ, বড় কোডিং কাজ: Opus।",
+        "Opus-এ বেশি effort দিয়েও যে কাজ ঠিকমতো হচ্ছে না: Fable।"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "মনে রাখবেন, model-এর পাশাপাশি effort level-ও উত্তরের গভীরতা ঠিক করে। Anthropic-এর guide বলছে, অনেক সময় model বদলানোর চেয়ে effort বাড়ানো বা কমানোই ভালো উপায়।"
+    },
+    {
+      "type": "heading",
+      "text": "Changing the model in the app"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "নতুন চ্যাট খুলুন বা পুরোনো কোনো চ্যাটে যান।",
+        "send বাটনের পাশে বর্তমান model-এর নাম আর effort level দেখবেন।",
+        "model-এর নামে ক্লিক করে অন্য model বেছে নিন। আরও বিকল্প দেখতে \"More models\" এ ক্লিক করুন।",
+        "effort বদলাতে model-এর নামে ক্লিক করে \"Effort\" থেকে Low, Medium, High, Extra high বা Max বেছে নিন। প্রতিটি model-এর জন্য সুপারিশ করা লেভেলের পাশে \"Default\" লেখা থাকে।"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "চ্যাটের মাঝখানেও model, effort বা thinking বদলানো যায়। পরিবর্তনটা Claude-এর পরের উত্তর থেকে কার্যকর হয়। Haiku 5.5, Sonnet 5.5, Opus 5.5 আর Fable 5.1-এ thinking বন্ধ করা যায় না; কম ভাবাতে চাইলে effort কমিয়ে দিন।"
+    },
+    {
+      "type": "heading",
+      "text": "Models and your plan"
+    },
+    {
+      "type": "paragraph",
+      "text": "সব plan-এ সব model পাওয়া যায় না। claude.com/pricing অনুযায়ী Pro plan-এ Free-এর চেয়ে বেশি Claude model পাওয়া যায়। Fable-এর ক্ষেত্রে Pro-তে usage credits দিয়ে খরচ দিতে হয়, আর Max-এ weekly limit-এর সর্বোচ্চ অর্ধেক পর্যন্ত Fable ব্যবহার করা যায়। Enterprise-এ admin কোনো model বা effort level বন্ধ করে রাখতে পারেন।"
+    },
+    {
+      "type": "warning",
+      "text": "বড় model আর বেশি effort মানে বেশি usage খরচ। সারাদিন সব কাজ Fable বা Max effort-এ করলে limit তাড়াতাড়ি শেষ হবে। কাজ অনুযায়ী model বেছে নিন।"
+    },
+    {
+      "type": "heading",
+      "text": "For developers: model IDs"
+    },
+    {
+      "type": "paragraph",
+      "text": "API ব্যবহার করলে model-কে তার ID দিয়ে ডাকতে হয়। বর্তমান model-গুলোর Claude API ID নিচে দেওয়া হলো। Anthropic-এর পরামর্শ হলো, কোনটা নেবেন নিশ্চিত না হলে বেশিরভাগ কাজ Claude Opus 5.5 দিয়ে শুরু করুন।"
+    },
+    {
+      "type": "code",
+      "language": "text",
+      "code": "claude-fable-5-1\nclaude-opus-5-5\nclaude-sonnet-5-5\nclaude-haiku-5-5"
+    },
+    {
+      "type": "tip",
+      "text": "Model-এর নাম আর version দ্রুত বদলায়। অ্যাপের model menu বা platform.claude.com-এর models overview পেজে সবসময় সর্বশেষ তালিকা দেখে নিন।"
+    },
+    {
+      "type": "heading",
+      "text": "Recap"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "Haiku দ্রুততম, Sonnet ভারসাম্যপূর্ণ, Opus জটিল কাজের জন্য, Fable সবচেয়ে সক্ষম কিন্তু ধীর।",
+        "send বাটনের পাশের model-এর নামে ক্লিক করে model আর effort বদলান।",
+        "অনেক সময় model বদলানোর চেয়ে effort বদলানোই যথেষ্ট।",
+        "বড় model আর বেশি effort বেশি usage খরচ করে।"
+      ]
+    }
+  ],
+  "quiz": [
+    {
+      "question": "সবচেয়ে দ্রুত Claude model কোনটি?",
+      "options": [
+        "Fable",
+        "Opus",
+        "Haiku",
+        "সব একই গতির"
+      ],
+      "answer": 2,
+      "explanation": "Haiku সবচেয়ে দ্রুত, তাই ছোট আর অনেক বেশি সংখ্যক কাজের জন্য এটা উপযুক্ত।"
+    },
+    {
+      "question": "রোজকার লেখা ও সাধারণ কাজের জন্য ভারসাম্যপূর্ণ model কোনটি?",
+      "options": [
+        "Sonnet",
+        "Fable",
+        "শুধু Max effort",
+        "কোনোটিই নয়"
+      ],
+      "answer": 0,
+      "explanation": "Sonnet গতি আর বুদ্ধিমত্তার সবচেয়ে ভালো মিশ্রণ দেয়।"
+    },
+    {
+      "question": "অ্যাপে model কোথা থেকে বদলাবেন?",
+      "options": [
+        "ফোনের Settings অ্যাপ থেকে",
+        "send বাটনের পাশে model-এর নামে ক্লিক করে",
+        "account মুছে নতুন account খুলে",
+        "model বদলানো যায় না"
+      ],
+      "answer": 1,
+      "explanation": "send বাটনের পাশে model-এর নাম আর effort দেখা যায়; সেখানে ক্লিক করে বদলানো যায়।"
+    },
+    {
+      "question": "চ্যাটের মাঝখানে model বদলালে কী হয়?",
+      "options": [
+        "পুরো চ্যাট মুছে যায়",
+        "পরিবর্তনটা Claude-এর পরের উত্তর থেকে কার্যকর হয়",
+        "আগের সব উত্তর নতুন করে লেখা হয়",
+        "মাঝখানে বদলানো যায় না"
+      ],
+      "answer": 1,
+      "explanation": "model, effort বা thinking চ্যাটের যেকোনো সময় বদলানো যায়, আর তা পরের উত্তর থেকে কাজ করে।"
+    },
+    {
+      "question": "সব কাজ সবচেয়ে বড় model আর Max effort-এ করলে কী সমস্যা হতে পারে?",
+      "options": [
+        "কোনো সমস্যা নেই",
+        "usage limit দ্রুত শেষ হয়ে যাবে",
+        "উত্তর বাংলায় আসবে না",
+        "অ্যাপ বন্ধ হয়ে যাবে"
+      ],
+      "answer": 1,
+      "explanation": "বড় model আর বেশি effort বেশি usage খরচ করে, তাই কাজ অনুযায়ী বেছে নেওয়াই বুদ্ধিমানের কাজ।"
+    }
+  ]
+}
