@@ -1,7 +1,7 @@
 {
   "formatVersion": 1,
-  "commit": "5dd8a6c24b83768072642bd69f8a5050c8f4348f",
-  "generatedAt": "2026-11-08T16:52:41.338Z",
+  "commit": "597f549c3a7b3c0168d8bda6443c9484a0096a48",
+  "generatedAt": "2026-11-08T16:52:57.563Z",
   "files": [
     {
       "path": "coming-soon/sample.json",
@@ -166,6 +166,11 @@
     {
       "path": "feed/api-2026-11-05.json",
       "hash": "ec14b75ee7107adf",
+      "kind": "feed"
+    },
+    {
+      "path": "feed/claude-code-2-1-317.json",
+      "hash": "0d9fef79f264011c",
       "kind": "feed"
     },
     {
