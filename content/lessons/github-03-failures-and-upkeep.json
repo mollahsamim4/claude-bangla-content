@@ -1,0 +1,99 @@
+{
+  "id": "github-03-failures-and-upkeep",
+  "track": "github",
+  "order": 3,
+  "title": "When something fails, and occasional upkeep",
+  "summary": "লাল ✗ বা failed ইমেইল এলে কী করবেন, ৬০ দিনের নিয়ম, টোকেন বদলানো আর নিজে রোবট চালানো।",
+  "updatedAt": "2026-11-08",
+  "blocks": [
+    {
+      "type": "heading",
+      "text": "A red ✗ or a \"failed\" email"
+    },
+    {
+      "type": "paragraph",
+      "text": "মানে কোনো রোবট আটকে গেছে। ভয়ের কিছু নেই: ততক্ষণ অ্যাপ আগের কনটেন্ট দিয়েই ঠিকঠাক চলে।"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "কিছু মুছবেন না বা বদলাবেন না।",
+        "ইমেইলের লিংক খুলে লাল চিহ্ন দেওয়া ধাপটায় ক্লিক করুন।",
+        "সেই পাতার একটা স্ক্রিনশট Claude-কে পাঠান। Claude সমস্যাটা ঠিক করে দেবে।"
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "The 60-day rule"
+    },
+    {
+      "type": "paragraph",
+      "text": "পাবলিক repo-তে টানা ৬০ দিন কোনো কাজ না হলে GitHub রুটিন রোবটটা (Release notes) থামিয়ে দেয়। নিয়মিত Merge করলেই সক্রিয় থাকে। থেমে গেলে Actions → Release notes পাতায় গিয়ে আবার চালু করুন।"
+    },
+    {
+      "type": "heading",
+      "text": "Run it yourself"
+    },
+    {
+      "type": "paragraph",
+      "text": "এখনই নতুন release notes খোঁজাতে চাইলে: Actions → Release notes → Run workflow → সবুজ Run workflow বোতাম।"
+    },
+    {
+      "type": "code",
+      "code": "https://github.com/mollahsamim4/claude-bangla-content/actions"
+    },
+    {
+      "type": "heading",
+      "text": "Renewing the Claude token"
+    },
+    {
+      "type": "paragraph",
+      "text": "Release notes রোবট আপনার Claude সাবস্ক্রিপশনের একটা টোকেন দিয়ে বাংলা সারাংশ লেখে। প্ল্যান বদলালে বা টোকেনের মেয়াদ শেষ হলে রোবট ফেল করবে। তখন কম্পিউটারে এটা চালান:"
+    },
+    {
+      "type": "code",
+      "code": "claude setup-token",
+      "language": "bash"
+    },
+    {
+      "type": "paragraph",
+      "text": "তারপর `claude-bangla-content`-এর Settings → Secrets and variables → Actions পাতায় `CLAUDE_CODE_OAUTH_TOKEN`-এর পাশে এডিট চিহ্নে চেপে নতুন টোকেন বসান।"
+    },
+    {
+      "type": "warning",
+      "text": "টোকেন কখনো চ্যাটে, ইমেইলে বা অন্য কোথাও পেস্ট করবেন না, শুধু GitHub Secrets-এ।"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Actions-এ লাল ✗ দেখলে প্রথম কাজ কী?",
+      "options": [
+        "সব PR বন্ধ করে দেওয়া",
+        "কিছু না বদলে লাল ধাপটার স্ক্রিনশট Claude-কে পাঠানো",
+        "repo মুছে ফেলা"
+      ],
+      "answer": 1,
+      "explanation": "কিছু বদলানোর দরকার নেই। স্ক্রিনশট পেলে Claude কারণ খুঁজে ঠিক করবে।"
+    },
+    {
+      "question": "টানা ৬০ দিন কোনো কাজ না হলে কী হয়?",
+      "options": [
+        "GitHub রুটিন রোবটটা থামিয়ে দেয়",
+        "অ্যাপ মুছে যায়",
+        "কিছুই হয় না"
+      ],
+      "answer": 0,
+      "explanation": "পাবলিক repo-তে ৬০ দিন নিষ্ক্রিয় থাকলে scheduled রোবট থেমে যায়। Actions থেকে আবার চালু করা যায়।"
+    },
+    {
+      "question": "নতুন Claude টোকেন কোথায় রাখবেন?",
+      "options": [
+        "অ্যাপের ভেতরে",
+        "চ্যাটে পাঠিয়ে",
+        "GitHub-এর Settings → Secrets-এ"
+      ],
+      "answer": 2,
+      "explanation": "টোকেন শুধু GitHub Secrets-এ থাকে, যেখানে কেউ দেখতে পায় না।"
+    }
+  ]
+}

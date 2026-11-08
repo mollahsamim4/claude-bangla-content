@@ -1,0 +1,99 @@
+{
+  "id": "github-02-approve-content",
+  "track": "github",
+  "order": 2,
+  "title": "Approving content: your 5-minute routine",
+  "summary": "নতুন PR এলে কীভাবে পড়বেন, বাংলা সারাংশ ঠিক করবেন, আর Merge বা Close করবেন, ধাপে ধাপে।",
+  "updatedAt": "2026-11-08",
+  "blocks": [
+    {
+      "type": "paragraph",
+      "text": "নতুন কিছু অনুমোদনের অপেক্ষায় থাকলে GitHub আপনাকে ইমেইল পাঠায়। তখন এই রুটিনটা মেনে চলুন, সময় লাগে প্রায় ৫ মিনিট।"
+    },
+    {
+      "type": "heading",
+      "text": "Open the pull requests"
+    },
+    {
+      "type": "paragraph",
+      "text": "ইমেইলের লিংকে ক্লিক করুন, অথবা এই ঠিকানাটা খুলুন:"
+    },
+    {
+      "type": "code",
+      "code": "https://github.com/mollahsamim4/claude-bangla-content/pulls"
+    },
+    {
+      "type": "heading",
+      "text": "Read and decide"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "একটা PR-এ ক্লিক করুন, যেমন `Claude Code 2.1.319`। প্রথম পাতায় (Conversation) ইংরেজি মূল লেখাটা থাকে।",
+        "উপরের Files changed ট্যাবে ক্লিক করুন। `\"summary\"`-এর পাশের বাংলা লেখাটাই অ্যাপে দেখা যাবে। মন দিয়ে পড়ুন।",
+        "ঠিক থাকলে: Conversation → Merge pull request → Confirm merge।",
+        "দরকার না থাকলে: Conversation পাতার নিচে Close pull request।"
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "Fixing the Bengali summary"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "Files changed ট্যাবে ফাইলের ডান পাশের ⋯ বোতামে চাপুন, তারপর Edit file।",
+        "শুধু `\"summary\"`-এর ভেতরের বাংলা লেখা বদলান। উদ্ধৃতি চিহ্ন (\") আর কমা যেমন আছে তেমন রাখুন।",
+        "নিচে Commit changes চাপুন, তারপর উপরের মতো Merge করুন।"
+      ]
+    },
+    {
+      "type": "warning",
+      "text": "উদ্ধৃতি চিহ্ন বা কমা মুছে ফেললে ফাইলটা ভেঙে যায়। তখন Content validate রোবট লাল ✗ দেখাবে, আর ঠিক না করা পর্যন্ত Merge করবেন না।"
+    },
+    {
+      "type": "heading",
+      "text": "After merging"
+    },
+    {
+      "type": "paragraph",
+      "text": "কয়েক মিনিট পর ফোনে অ্যাপ খুলে নিচে টেনে রিফ্রেশ করুন। নতুন জিনিসটা দেখা যাবে, আর “নতুন কী” ট্যাবে ব্যাজ উঠবে।"
+    },
+    {
+      "type": "tip",
+      "text": "Merge করার আগে PR-এর নিচে সবুজ ✓ (চেক সফল) আসা পর্যন্ত অপেক্ষা করা ভালো। তাহলে ভুল থাকলে আগেই ধরা পড়ে।"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "বাংলা সারাংশটা কোথায় পড়বেন?",
+      "options": [
+        "Files changed ট্যাবে, \"summary\"-এর পাশে",
+        "Settings পাতায়",
+        "Actions পাতায়"
+      ],
+      "answer": 0,
+      "explanation": "Files changed ট্যাবে ফাইলের ভেতরের \"summary\" লেখাটাই অ্যাপে দেখা যায়।"
+    },
+    {
+      "question": "সারাংশ এডিট করার সময় কী সাবধানে রাখবেন?",
+      "options": [
+        "সব ইংরেজি শব্দ বাংলা করে দেবেন",
+        "উদ্ধৃতি চিহ্ন আর কমা যেমন আছে তেমন রাখবেন",
+        "ফাইলের নাম বদলাবেন"
+      ],
+      "answer": 1,
+      "explanation": "উদ্ধৃতি চিহ্ন বা কমা মুছলে ফাইল ভেঙে যায়। শুধু বাংলা লেখাটা বদলান।"
+    },
+    {
+      "question": "কোনো release note অ্যাপে চান না। কী করবেন?",
+      "options": [
+        "Merge pull request",
+        "Close pull request",
+        "কিছুই না, এমনিতেই চলে যাবে"
+      ],
+      "answer": 1,
+      "explanation": "Close করলে সেটা প্রকাশ হয় না, আর রোবট আবার প্রস্তাবও করে না।"
+    }
+  ]
+}

@@ -40,7 +40,7 @@ export const QuizQuestion = z
 
 export const Lesson = z.object({
   id,
-  track: z.enum(['start', 'everyday', 'developer']),
+  track: z.enum(['start', 'everyday', 'developer', 'github']),
   order: z.number().int().min(1),
   title: z.string().min(1),
   summary: z.string().min(1),
@@ -99,7 +99,7 @@ export const ContentIndex = z.object({
   ),
 });
 
-export type TrackId = 'start' | 'everyday' | 'developer';
+export type TrackId = 'start' | 'everyday' | 'developer' | 'github';
 export type ContentKind = 'lesson' | 'prompt' | 'error' | 'feed' | 'coming-soon';
 
 export const KIND_DIRS: Record<ContentKind, string> = {

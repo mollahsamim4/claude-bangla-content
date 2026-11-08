@@ -1,0 +1,93 @@
+{
+  "id": "github-01-basics",
+  "track": "github",
+  "order": 1,
+  "title": "GitHub basics: repository, pull request, merge",
+  "summary": "Claude Bangla-র কনটেন্ট GitHub-এ থাকে। Repository, Pull request, Merge, Close আর Actions কী, সহজ ভাষায়।",
+  "updatedAt": "2026-11-08",
+  "blocks": [
+    {
+      "type": "paragraph",
+      "text": "এই অ্যাপে যা দেখেন (পাঠ, প্রম্পট, এরর, “নতুন কী”), সবই GitHub নামের একটা ওয়েবসাইটে রাখা থাকে। নতুন কিছু অ্যাপে আসার আগে সেটা মালিকের অনুমতির জন্য GitHub-এ অপেক্ষা করে। এই পাঠে সেই শব্দগুলো চিনে নিন।"
+    },
+    {
+      "type": "heading",
+      "text": "Repository"
+    },
+    {
+      "type": "paragraph",
+      "text": "Repository (সংক্ষেপে repo) হলো ইন্টারনেটে রাখা একটা ফোল্ডার। Claude Bangla-র দুটো repo আছে: `claude-bangla` (প্রাইভেট, অ্যাপের কোড) আর `claude-bangla-content` (পাবলিক, অ্যাপে যা দেখা যায়)। আপনার কাজ শুধু `claude-bangla-content`-এ।"
+    },
+    {
+      "type": "heading",
+      "text": "Pull request"
+    },
+    {
+      "type": "paragraph",
+      "text": "Pull request (PR) হলো অনুমোদনের অপেক্ষায় থাকা একটা প্রস্তাবিত পরিবর্তন। যেমন নতুন একটা পাঠ, বা Claude-এর নতুন আপডেটের বাংলা সারাংশ। অনুমোদন না দেওয়া পর্যন্ত এটা কোনো ফোনে যায় না।"
+    },
+    {
+      "type": "heading",
+      "text": "Merge and Close"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "Merge মানে “হ্যাঁ, প্রকাশ করো।” কয়েক মিনিটের মধ্যে সব ফোনে পৌঁছে যায়।",
+        "Close মানে “না, বাদ দাও।” কিছুই বদলায় না, আর একই জিনিস আবার প্রস্তাব করা হয় না।"
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "Actions"
+    },
+    {
+      "type": "paragraph",
+      "text": "Actions হলো GitHub-এর ছোট রোবট, নিজে নিজে চলে। একটা প্রতিটি PR-এ ভুল খোঁজে (Content validate), একটা Merge-এর পর অ্যাপের কনটেন্ট-তালিকা আপডেট করে (Content index), আর একটা প্রতি ৬ ঘণ্টায় Anthropic-এর নতুন release notes খুঁজে বাংলা সারাংশসহ PR খোলে (Release notes)।"
+    },
+    {
+      "type": "heading",
+      "text": "Release notes"
+    },
+    {
+      "type": "paragraph",
+      "text": "Release notes হলো Anthropic-এর অফিসিয়াল “কী বদলাল” ঘোষণা: Claude Code, Claude API আর Claude অ্যাপের। Merge করলে সেগুলো অ্যাপের “নতুন কী” ট্যাবে দেখা যায়।"
+    },
+    {
+      "type": "tip",
+      "text": "সংক্ষেপে: রোবট প্রস্তাব করে, আপনি সিদ্ধান্ত নেন। Merge চাপলে প্রকাশ, Close চাপলে বাদ।"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Pull request (PR) কী?",
+      "options": [
+        "অনুমোদনের অপেক্ষায় থাকা একটা প্রস্তাবিত পরিবর্তন",
+        "অ্যাপের একটা নতুন সংস্করণ",
+        "GitHub-এর পাসওয়ার্ড"
+      ],
+      "answer": 0,
+      "explanation": "PR হলো প্রস্তাব। Merge না করা পর্যন্ত এটা অ্যাপে যায় না।"
+    },
+    {
+      "question": "কোনো PR-এ Merge চাপলে কী হয়?",
+      "options": [
+        "পরিবর্তনটা মুছে যায়",
+        "পরিবর্তনটা প্রকাশ হয় এবং কয়েক মিনিটে সব ফোনে পৌঁছায়",
+        "অ্যাপ বন্ধ হয়ে যায়"
+      ],
+      "answer": 1,
+      "explanation": "Merge মানে অনুমোদন দিয়ে প্রকাশ করা।"
+    },
+    {
+      "question": "অ্যাপের পাঠ আর খবর কোন repo-তে থাকে?",
+      "options": [
+        "claude-bangla",
+        "claude-bangla-content",
+        "দুটোর কোনোটাতেই না"
+      ],
+      "answer": 1,
+      "explanation": "claude-bangla-content পাবলিক repo, অ্যাপ এখান থেকেই কনটেন্ট নামায়। claude-bangla হলো প্রাইভেট কোডের repo।"
+    }
+  ]
+}
