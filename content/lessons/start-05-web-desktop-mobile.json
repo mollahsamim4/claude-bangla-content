@@ -1,0 +1,144 @@
+{
+  "id": "start-05-web-desktop-mobile",
+  "track": "start",
+  "order": 5,
+  "title": "Claude on web, desktop and mobile",
+  "summary": "Browser, কম্পিউটার অ্যাপ আর Android/iOS অ্যাপে Claude কীভাবে ব্যবহার করবেন, কোনটায় কী বাড়তি সুবিধা আর কীভাবে আসল অ্যাপ চিনবেন।",
+  "updatedAt": "2026-11-08",
+  "blocks": [
+    {
+      "type": "paragraph",
+      "text": "Claude ব্যবহার করতে কোনো বিশেষ যন্ত্র লাগে না। browser, কম্পিউটারের অ্যাপ বা মোবাইল, যেখানে সুবিধা সেখান থেকেই চালাতে পারেন। একই account-এ লগ ইন করলে আপনার চ্যাট এক যন্ত্র থেকে আরেক যন্ত্রে পাওয়া যায়। Free সহ সব plan-এ এই অ্যাপগুলো ব্যবহার করা যায়, তবে কিছু ফিচার শুধু paid plan-এ আছে।"
+    },
+    {
+      "type": "heading",
+      "text": "Claude on the web"
+    },
+    {
+      "type": "paragraph",
+      "text": "সবচেয়ে সহজ পথ: browser-এ claude.ai খুলে লগ ইন করুন। কিছু install করতে হয় না, আর যেকোনো কম্পিউটার থেকে কাজ করে। বন্ধুর বা সাইবার ক্যাফের কম্পিউটারে ব্যবহার করলে কাজ শেষে অবশ্যই log out করবেন।"
+    },
+    {
+      "type": "heading",
+      "text": "Claude on Android and iOS"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "Google Play Store খুলে \"Claude by Anthropic\" লিখে সার্চ করুন।",
+        "developer-এর নাম Anthropic কি না দেখে নিন, তারপর Install চাপুন।",
+        "অ্যাপ খুলে আপনার account দিয়ে লগ ইন করুন।",
+        "iPhone হলে App Store থেকে একইভাবে Claude অ্যাপ নামান।"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Claude-এর Help Center অনুযায়ী Android অ্যাপ চলে Android 8.0 Oreo বা তার নতুন version-এ। Play Store-এ অ্যাপটা খুঁজে না পেলে কারণ হতে পারে আপনার অঞ্চল সাপোর্টেড নয়, ফোনটা সাপোর্টেড নয়, অথবা Android version পুরোনো।"
+    },
+    {
+      "type": "warning",
+      "text": "অন্য কোনো ওয়েবসাইট থেকে APK নামাবেন না; নকল অ্যাপ আপনার account বা তথ্য চুরি করতে পারে। আর মনে রাখবেন, আপনি এখন যে \"Claude Bangla\" অ্যাপটা পড়ছেন সেটা শুধু শেখার জন্য একটা unofficial অ্যাপ। এখানে Claude-এর সাথে চ্যাট হয় না, আর এটা Anthropic-এর তৈরি নয়।"
+    },
+    {
+      "type": "heading",
+      "text": "Claude desktop app"
+    },
+    {
+      "type": "paragraph",
+      "text": "claude.com/download থেকে macOS, Windows আর Linux-এর জন্য desktop অ্যাপ পাওয়া যায়। Linux সাপোর্ট এখনো beta-তে, Ubuntu আর Debian-এর জন্য। browser-এ যা পান তার পাশাপাশি desktop অ্যাপে কিছু বাড়তি সুবিধা আছে:"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "Quick entry: কম্পিউটারের যেকোনো জায়গা থেকে দ্রুত Claude ডাকা যায়।",
+        "Desktop extensions: আপনার কম্পিউটারের ফাইল আর লোকাল টুলের সাথে Claude-কে যুক্ত করা যায়।",
+        "Claude Code সরাসরি desktop অ্যাপের ভেতরে চলে।",
+        "Claude Cowork-এর মতো বড় কাজ চালানোর ফিচারও desktop অ্যাপে আছে।"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Linux-এ চ্যাট সব plan-এ চলে, কিন্তু Claude Code আর Cowork-এর জন্য Pro, Max, Ultra, Team বা Enterprise plan লাগে। Computer Use আর dictation এখনো Linux-এ নেই।"
+    },
+    {
+      "type": "heading",
+      "text": "What the mobile app adds"
+    },
+    {
+      "type": "paragraph",
+      "text": "মোবাইলে ক্যামেরা দিয়ে ছবি তুলে বা ফাইল দিয়ে প্রশ্ন করা যায়, আর ভয়েসে কথা বলার সুবিধাও আছে। যারা কম্পিউটারে Claude Code বা Cowork চালান, তারা ফোন থেকে Remote Control দিয়ে Claude Code-এ কাজ পাঠাতে বা desktop-এর Cowork-এ কাজ হস্তান্তর করতে পারেন।"
+    },
+    {
+      "type": "heading",
+      "text": "Your chats follow you"
+    },
+    {
+      "type": "paragraph",
+      "text": "একই account-এ লগ ইন থাকলে আপনার conversations, projects, memory আর preferences সব যন্ত্রে sync হয়। মানে অফিসের কম্পিউটারে শুরু করা চ্যাট বাসায় ফিরে ফোনে চালিয়ে যেতে পারবেন। ব্যতিক্রম শুধু Claude Cowork-এর local session, যেগুলো সেই যন্ত্রেই থাকে।"
+    },
+    {
+      "type": "tip",
+      "text": "কোনো ফিচার দেখতে না পেলে প্রথমে অ্যাপটা update করুন। Android-এ Play Store-এ গিয়ে Claude-এর জন্য update আছে কি না দেখুন।"
+    },
+    {
+      "type": "heading",
+      "text": "Recap"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "Web: claude.ai, কিছু install লাগে না।",
+        "Mobile: Play Store-এ \"Claude by Anthropic\" (Android 8.0+), iPhone-এ App Store।",
+        "Desktop: claude.com/download থেকে macOS, Windows, Linux (beta)।",
+        "একই account-এ চ্যাট, projects, memory সব যন্ত্রে sync হয়।",
+        "শুধু অফিসিয়াল store থেকে অ্যাপ নামান।"
+      ]
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Android-এ আসল Claude অ্যাপ খুঁজতে Play Store-এ কী লিখে সার্চ করবেন?",
+      "options": [
+        "Claude Bangla",
+        "Claude by Anthropic",
+        "Free AI Chat APK",
+        "যেকোনো AI অ্যাপ"
+      ],
+      "answer": 1,
+      "explanation": "Help Center অনুযায়ী Play Store-এ \"Claude by Anthropic\" লিখে সার্চ করতে হয়। developer-এর নাম Anthropic কি না দেখে নিন।"
+    },
+    {
+      "question": "Claude Android অ্যাপ চালাতে কমপক্ষে কোন Android version লাগে?",
+      "options": [
+        "Android 4.4",
+        "Android 8.0 Oreo",
+        "শুধু Android 15",
+        "কোনো Android-এ চলে না"
+      ],
+      "answer": 1,
+      "explanation": "Help Center বলছে Android 8.0 Oreo বা তার নতুন version সাপোর্টেড।"
+    },
+    {
+      "question": "ফোনে শুরু করা চ্যাট কি কম্পিউটারের browser-এ দেখা যাবে?",
+      "options": [
+        "হ্যাঁ, একই account-এ লগ ইন থাকলে চ্যাট sync হয়",
+        "না, প্রতিটি যন্ত্রের চ্যাট আলাদা",
+        "শুধু paid plan-এ",
+        "শুধু ইমেইলে পাঠালে"
+      ],
+      "answer": 0,
+      "explanation": "একই account-এ conversations, projects, memory আর preferences সব যন্ত্রে sync হয়।"
+    },
+    {
+      "question": "\"Claude Bangla\" অ্যাপটা আসলে কী?",
+      "options": [
+        "Anthropic-এর অফিসিয়াল Claude অ্যাপ",
+        "Claude ব্যবহার শেখার একটা unofficial অ্যাপ, এখানে Claude-এর সাথে চ্যাট হয় না",
+        "Claude-এর বাংলা version",
+        "একটা APK ডাউনলোড সাইট"
+      ],
+      "answer": 1,
+      "explanation": "Claude Bangla শুধু শেখার জন্য তৈরি unofficial অ্যাপ। Claude ব্যবহার করতে claude.ai বা অফিসিয়াল Claude অ্যাপ লাগবে।"
+    }
+  ]
+}

@@ -1,0 +1,162 @@
+{
+  "id": "start-03-good-prompt-basics",
+  "track": "start",
+  "order": 3,
+  "title": "Writing a good prompt: the basics",
+  "summary": "Claude-কে নতুন কিন্তু খুব মেধাবী সহকর্মী ভেবে কীভাবে পরিষ্কার, নির্দিষ্ট আর কারণসহ নির্দেশ দেবেন, তার মূল নিয়মগুলো।",
+  "updatedAt": "2026-11-08",
+  "blocks": [
+    {
+      "type": "paragraph",
+      "text": "একই প্রশ্ন দুজন আলাদাভাবে করলে Claude-এর উত্তরও আলাদা হয়। পার্থক্যটা প্রায়ই Claude-এর নয়, প্রম্পটের। \"Your First Prompt\" লেসনে আমরা দেখেছি প্রম্পটে লক্ষ্য, প্রেক্ষাপট আর ফরম্যাট রাখা কেন জরুরি। এখানে আরেক ধাপ এগিয়ে দেখব Anthropic নিজে প্রম্পট লেখার জন্য কোন মূল নিয়মগুলোর কথা বলে, আর সেগুলো রোজকার কাজে কীভাবে লাগাবেন।"
+    },
+    {
+      "type": "heading",
+      "text": "Think of a brilliant new colleague"
+    },
+    {
+      "type": "paragraph",
+      "text": "Anthropic-এর prompting guide-এ একটা চমৎকার উপমা আছে: Claude-কে এমন একজন মেধাবী কিন্তু নতুন কর্মী ভাবুন, যে আপনার অফিসের নিয়মকানুন আর কাজের ধরন এখনও জানে না। সে খুব দক্ষ, কিন্তু আপনি যা বলবেন না তা সে জানবে না। আপনি যত নিখুঁতভাবে বোঝাবেন, ফল তত ভালো হবে।"
+    },
+    {
+      "type": "tip",
+      "text": "সহজ পরীক্ষা: আপনার প্রম্পটটা এমন কোনো বন্ধুকে দেখান যে কাজটার কিছুই জানে না। সে যদি পড়ে বিভ্রান্ত হয়, Claude-ও হবে।"
+    },
+    {
+      "type": "heading",
+      "text": "Be clear and specific"
+    },
+    {
+      "type": "paragraph",
+      "text": "কেমন উত্তর চান, কত লম্বা, কোন ফরম্যাটে, কী কী শর্ত, সব স্পষ্ট করে বলুন। আর কাজের বাইরে বাড়তি কিছু চাইলে সেটাও মুখে বলুন; Claude অস্পষ্ট প্রম্পট থেকে আপনার মনের কথা আন্দাজ করবে, এমন আশা করবেন না। নিচের দুটো প্রম্পট তুলনা করুন। প্রথমটা অস্পষ্ট:"
+    },
+    {
+      "type": "prompt",
+      "text": "Write about healthy food."
+    },
+    {
+      "type": "paragraph",
+      "text": "দ্বিতীয়টায় কার জন্য, কী ধরনের আর কতটুকু, সব বলা আছে:"
+    },
+    {
+      "type": "prompt",
+      "text": "Write a one-week healthy breakfast plan for a university student in Dhaka who has a small budget and only 10 minutes each morning. Use foods easily found in local markets. Show it as a table with Day, Breakfast, and Why it's healthy."
+    },
+    {
+      "type": "heading",
+      "text": "Explain the why"
+    },
+    {
+      "type": "paragraph",
+      "text": "শুধু নিয়ম না দিয়ে নিয়মের কারণটাও বলুন। কারণ জানলে Claude আপনার আসল লক্ষ্য বোঝে, আর এমন পরিস্থিতিতেও ঠিক সিদ্ধান্ত নিতে পারে যা আপনি আলাদা করে বলেননি। যেমন \"ছোট বাক্যে লেখো\" বলার চেয়ে এটা অনেক বেশি কাজের:"
+    },
+    {
+      "type": "prompt",
+      "text": "Explain how a credit card works. My father will read this and he is not comfortable with English, so use short, simple sentences and avoid banking jargon."
+    },
+    {
+      "type": "heading",
+      "text": "Say what to do, not only what not to do"
+    },
+    {
+      "type": "paragraph",
+      "text": "\"এটা কোরো না\" বলার চেয়ে \"এভাবে করো\" বললে Claude বেশি ভালো ফল দেয়। যেমন \"Do not use bullet points\" না লিখে লিখুন কী চান:"
+    },
+    {
+      "type": "prompt",
+      "text": "Write your answer as two or three short paragraphs of flowing prose."
+    },
+    {
+      "type": "heading",
+      "text": "Give Claude a role"
+    },
+    {
+      "type": "paragraph",
+      "text": "শুরুতে এক লাইনে একটা ভূমিকা দিলেও উত্তরের সুর আর মনোযোগ বদলে যায়। শিক্ষক, এডিটর, ইন্টারভিউয়ার, যে ভূমিকা আপনার কাজে লাগে সেটা দিন:"
+    },
+    {
+      "type": "prompt",
+      "text": "You are a patient maths tutor for a Class 8 student. Explain fractions step by step and check my understanding with one small question at the end."
+    },
+    {
+      "type": "heading",
+      "text": "Use numbered steps when order matters"
+    },
+    {
+      "type": "paragraph",
+      "text": "কাজটা যদি কয়েক ধাপে হয়, আর ধাপের ক্রম বা কোনো ধাপ বাদ না পড়া গুরুত্বপূর্ণ হয়, তাহলে নির্দেশগুলো নম্বর দিয়ে লিখুন:"
+    },
+    {
+      "type": "prompt",
+      "text": "Help me reply to this customer complaint:\n1. Summarise the customer's main problem in one sentence.\n2. Write a polite reply that apologises and offers a solution.\n3. Keep the reply under 120 words.\n\n[paste complaint here]"
+    },
+    {
+      "type": "warning",
+      "text": "প্রম্পটে কখনো পাসওয়ার্ড, OTP বা ব্যাংকের গোপন তথ্য দেবেন না। উদাহরণ দিতে হলে আসল তথ্যের বদলে কাল্পনিক তথ্য ব্যবহার করুন।"
+    },
+    {
+      "type": "tip",
+      "text": "উত্তর মনমতো না হলে পুরো প্রম্পট বাদ দেবেন না। কোন অংশটা ঠিক হয়নি সেটা বলুন, যেমন \"the tone is too formal, make it friendlier\"। পরের লেসনগুলোতে XML tag আর example দিয়ে প্রম্পট আরও শক্তিশালী করা শিখবেন।"
+    },
+    {
+      "type": "heading",
+      "text": "Recap"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "Claude-কে মেধাবী কিন্তু নতুন সহকর্মী ভাবুন, যে প্রেক্ষাপট জানে না।",
+        "কী চান, কত লম্বা, কোন ফরম্যাটে, স্পষ্ট করে বলুন।",
+        "নিয়মের পেছনের কারণটাও বলুন।",
+        "কী করবে না তার বদলে কী করবে সেটা বলুন।",
+        "দরকার হলে একটা ভূমিকা দিন আর ধাপগুলো নম্বর দিয়ে লিখুন।"
+      ]
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Anthropic-এর guide অনুযায়ী Claude-কে কার মতো ভাবা উচিত?",
+      "options": [
+        "একটা সার্চ ইঞ্জিন",
+        "মেধাবী কিন্তু নতুন একজন সহকর্মী, যে আপনার প্রেক্ষাপট জানে না",
+        "সবকিছু জানা একজন জাদুকর",
+        "একটা ক্যালকুলেটর"
+      ],
+      "answer": 1,
+      "explanation": "Claude দক্ষ, কিন্তু আপনার নিয়ম আর প্রেক্ষাপট জানে না। তাই যত পরিষ্কার করে বোঝাবেন, ফল তত ভালো।"
+    },
+    {
+      "question": "\"Use short sentences\" এর চেয়ে কোনটা ভালো নির্দেশ?",
+      "options": [
+        "SHORT SENTENCES!!!",
+        "Short.",
+        "Use short sentences because my father, who is not comfortable with English, will read this.",
+        "কিছুই না বলা"
+      ],
+      "answer": 2,
+      "explanation": "কারণ বললে Claude আপনার আসল লক্ষ্য বোঝে, তাই শুধু বাক্যের দৈর্ঘ্য না, শব্দচয়নও সহজ রাখে।"
+    },
+    {
+      "question": "Bullet point না চাইলে কোন প্রম্পটটা বেশি কাজ করে?",
+      "options": [
+        "Do not use bullet points.",
+        "Write your answer as two or three short paragraphs of flowing prose.",
+        "No lists ever!",
+        "Bullet points are bad."
+      ],
+      "answer": 1,
+      "explanation": "কী করবে না তার চেয়ে কী করবে সেটা বললে Claude ভালোভাবে অনুসরণ করে।"
+    },
+    {
+      "question": "প্রম্পট ঠিক আছে কি না বোঝার সহজ পরীক্ষা কোনটি?",
+      "options": [
+        "প্রম্পট যত ছোট তত ভালো ধরে নেওয়া",
+        "কাজটা না জানা কাউকে প্রম্পট পড়ে দেখানো; সে বিভ্রান্ত হলে Claude-ও হবে",
+        "সব শব্দ বড় হাতের অক্ষরে লেখা",
+        "একই প্রম্পট দশবার পাঠানো"
+      ],
+      "answer": 1,
+      "explanation": "যে প্রম্পট একজন মানুষ প্রেক্ষাপট ছাড়া বুঝতে পারে না, Claude-এর জন্যও সেটা অস্পষ্ট।"
+    }
+  ]
+}

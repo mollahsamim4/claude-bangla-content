@@ -1,0 +1,187 @@
+{
+  "id": "start-07-error-messages-troubleshooting",
+  "track": "start",
+  "order": 7,
+  "title": "Reading error messages & using this app's troubleshooting",
+  "summary": "Claude-এর error মেসেজ পড়ে বোঝা, কোনটা আপনার দিক থেকে ঠিক করা যায় আর কোনটায় শুধু অপেক্ষা করতে হয়, আর এই অ্যাপের \"Claude আটকে গেলে\" ট্যাব কীভাবে কাজে লাগাবেন।",
+  "updatedAt": "2026-11-08",
+  "blocks": [
+    {
+      "type": "paragraph",
+      "text": "error মেসেজ দেখলে অনেকেই ভাবেন কিছু একটা ভেঙে গেছে। আসলে বেশিরভাগ error মেসেজ আপনাকে পরিষ্কার করে বলে দেয় কী হয়েছে আর কী করতে হবে, শুধু ইংরেজিতে। এই লেসনে Claude-এর সবচেয়ে সাধারণ মেসেজগুলো পড়তে শিখব, আর দেখব এই অ্যাপের \"Claude আটকে গেলে\" ট্যাব কীভাবে সাহায্য করে।"
+    },
+    {
+      "type": "heading",
+      "text": "Three questions to ask"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "কোথায় দেখছি? Claude অ্যাপ বা claude.ai, Claude Code, নাকি API? একই সমস্যা আলাদা জায়গায় আলাদা ভাষায় আসে।",
+        "মেসেজে কোনো সময় বা দিন লেখা আছে? থাকলে সাধারণত সেটা limit, আর সেই সময়ের পরে আবার চলবে।",
+        "সমস্যা কি আমার দিকে (খুব বড় ফাইল, VPN, পুরোনো অ্যাপ) নাকি Claude-এর দিকে (বেশি চাপ, outage)?"
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "Usage limit messages"
+    },
+    {
+      "type": "paragraph",
+      "text": "limit-এর কাছাকাছি গেলে আগে সতর্কবার্তা আসে, যেমন \"Approaching session limit\" বা \"Approaching weekly limit\"। কখনো লেখা থাকে কত শতাংশ ব্যবহার হয়েছে, যেমন \"You've used X% of your weekly limit.\" limit শেষ হলে (আর usage credits চালু না থাকলে) এমন মেসেজ আসে:"
+    },
+    {
+      "type": "code",
+      "language": "text",
+      "code": "5-hour limit reached - resets [time]\nYou've reached your weekly limit. It resets [day] at [time]."
+    },
+    {
+      "type": "paragraph",
+      "text": "মানে: আপনার plan-এর usage এই মুহূর্তে শেষ। লেখা সময় পর্যন্ত অপেক্ষা করুন, অথবা plan upgrade বা usage credits চালু করুন (Lesson 2 দেখুন)। paid plan-এ usage credits চালু থাকলে কাজ থামে না; তখন \"Now using credits\" ধরনের মেসেজ দেখবেন।"
+    },
+    {
+      "type": "heading",
+      "text": "Length limit message"
+    },
+    {
+      "type": "code",
+      "language": "text",
+      "code": "Your message will exceed the length limit for this chat. Try attaching fewer or smaller files or starting a new conversation."
+    },
+    {
+      "type": "paragraph",
+      "text": "মানে: আপনার মেসেজ বা ফাইল এই চ্যাটের জন্য অনেক বড়। লম্বা লেখা কয়েক ভাগে ভাগ করে পাঠান, শুধু দরকারি অংশটুকু দিন, কম বা ছোট ফাইল যুক্ত করুন, অথবা নতুন চ্যাট শুরু করুন।"
+    },
+    {
+      "type": "heading",
+      "text": "Capacity message"
+    },
+    {
+      "type": "code",
+      "language": "text",
+      "code": "Due to unexpected capacity constraints, Claude is unable to respond to your message. Please try again soon."
+    },
+    {
+      "type": "paragraph",
+      "text": "মানে: এই মুহূর্তে সারা বিশ্বে অনেক মানুষ একসাথে Claude ব্যবহার করছে। এটা outage নয়, আপনার ভুলও নয়। কয়েক মিনিট পরে আবার চেষ্টা করুন। এই ধরনের সমস্যা status পেজে দেখানো হয় না।"
+    },
+    {
+      "type": "heading",
+      "text": "Login errors and outages"
+    },
+    {
+      "type": "paragraph",
+      "text": "লগ ইন করতে গিয়ে \"There was an error logging you in\" এর মতো মেসেজ এলে VPN বন্ধ করুন, browser extension বন্ধ করে দেখুন, আর browser-এর cache ও cookies মুছে আবার চেষ্টা করুন। Claude সবার জন্যই বন্ধ বা খুব ধীর মনে হলে status.claude.com খুলে দেখুন কোনো ঘোষিত সমস্যা (incident) চলছে কি না।"
+    },
+    {
+      "type": "heading",
+      "text": "For developers: API errors"
+    },
+    {
+      "type": "paragraph",
+      "text": "API ব্যবহার করলে error আসে JSON আকারে, যেখানে error-এর type আর message থাকে, সাথে একটা request_id। যেমন 429 মানে rate_limit_error (আপনার প্রতিষ্ঠান rate limit বা খরচের সীমায় পৌঁছেছে), আর 529 মানে overloaded_error (API সাময়িকভাবে অতিরিক্ত চাপে)। support-এ যোগাযোগ করলে request_id সাথে দিন।"
+    },
+    {
+      "type": "code",
+      "language": "json",
+      "code": "{\n  \"type\": \"error\",\n  \"error\": {\n    \"type\": \"not_found_error\",\n    \"message\": \"The requested resource could not be found.\"\n  },\n  \"request_id\": \"req_011CSHoEeqs5C35K2UUqR7Fy\"\n}"
+    },
+    {
+      "type": "heading",
+      "text": "Using the \"Claude আটকে গেলে\" tab"
+    },
+    {
+      "type": "paragraph",
+      "text": "এই অ্যাপের \"Claude আটকে গেলে\" ট্যাবে আসল Claude error মেসেজগুলো সাজানো আছে। প্রতিটির সাথে লেখা থাকে মেসেজটা কোথায় আসে (Claude অ্যাপ, Claude Code বা API), বাংলায় তার মানে, আর ঠিক করার ধাপগুলো।"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "error মেসেজের মূল অংশটা হুবহু লক্ষ করুন বা কপি করুন, যেমন \"length limit\" বা \"overloaded_error\"।",
+        "এই অ্যাপের \"Claude আটকে গেলে\" ট্যাব খুলুন।",
+        "সার্চ বক্সে মেসেজের কয়েকটা ইংরেজি শব্দ লিখুন। বাংলা শব্দ দিয়েও খুঁজতে পারেন।",
+        "মিলে যাওয়া entry খুলে দেখুন সেটা আপনার জায়গার (অ্যাপ, Claude Code বা API) সাথে মেলে কি না।",
+        "ধাপগুলো একে একে চেষ্টা করুন। বারবার দরকার হলে entry-টা bookmark করে রাখুন।"
+      ]
+    },
+    {
+      "type": "tip",
+      "text": "পুরো লম্বা মেসেজ না লিখে সবচেয়ে আলাদা দুই-তিনটা শব্দ দিয়ে সার্চ করুন। এতে দ্রুত মিল পাবেন।"
+    },
+    {
+      "type": "warning",
+      "text": "error ঠিক করার নামে কেউ আপনার পাসওয়ার্ড বা API key চাইলে দেবেন না। কোনো error ঠিক করতেই এগুলো অন্য কাউকে দিতে হয় না।"
+    },
+    {
+      "type": "heading",
+      "text": "Recap"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "মেসেজে সময় লেখা থাকলে সাধারণত সেটা usage limit; ওই সময়ের পর আবার চলবে।",
+        "length limit: মেসেজ বা ফাইল ছোট করুন, বা নতুন চ্যাট খুলুন।",
+        "capacity message: আপনার ভুল নয়, কয়েক মিনিট পরে চেষ্টা করুন।",
+        "বড় সমস্যা মনে হলে status.claude.com দেখুন।",
+        "\"Claude আটকে গেলে\" ট্যাবে মেসেজের শব্দ দিয়ে সার্চ করে সমাধান খুঁজুন।"
+      ]
+    }
+  ],
+  "quiz": [
+    {
+      "question": "\"5-hour limit reached - resets [time]\" মেসেজের মানে কী?",
+      "options": [
+        "আপনার account বন্ধ হয়ে গেছে",
+        "চলতি session-এর usage শেষ; লেখা সময়ের পরে আবার ব্যবহার করা যাবে",
+        "আপনার ফোন নষ্ট",
+        "Claude চিরতরে বন্ধ"
+      ],
+      "answer": 1,
+      "explanation": "এটা usage limit-এর মেসেজ। লেখা সময়ে limit reset হলে আবার চ্যাট করতে পারবেন।"
+    },
+    {
+      "question": "\"Your message will exceed the length limit for this chat...\" দেখলে কী করবেন?",
+      "options": [
+        "আরও বড় ফাইল যুক্ত করবেন",
+        "লেখা ভাগ করে বা ছোট করে পাঠাবেন, কম ফাইল দেবেন, বা নতুন চ্যাট খুলবেন",
+        "পাসওয়ার্ড বদলাবেন",
+        "অ্যাপ মুছে ফেলবেন"
+      ],
+      "answer": 1,
+      "explanation": "মেসেজ বা ফাইল এই চ্যাটের জন্য খুব বড়, তাই আকার কমাতে হবে বা নতুন চ্যাট শুরু করতে হবে।"
+    },
+    {
+      "question": "\"Due to unexpected capacity constraints...\" মেসেজ সম্পর্কে কোনটি সত্য?",
+      "options": [
+        "এটা আপনার account-এর সমস্যা",
+        "এটা outage, status পেজে অবশ্যই দেখা যাবে",
+        "সাময়িক বেশি চাপের কারণে আসে; কয়েক মিনিট পরে আবার চেষ্টা করুন",
+        "plan বাতিল করতে হবে"
+      ],
+      "answer": 2,
+      "explanation": "capacity constraint মানে সাময়িক বেশি চাহিদা, outage নয়। এটা status পেজে দেখায় না; একটু পরে আবার চেষ্টা করুন।"
+    },
+    {
+      "question": "\"Claude আটকে গেলে\" ট্যাবে সবচেয়ে ভালোভাবে কীভাবে সার্চ করবেন?",
+      "options": [
+        "error মেসেজের মূল ইংরেজি শব্দ দিয়ে, যেমন \"length limit\"",
+        "শুধু \"help\" লিখে",
+        "নিজের পাসওয়ার্ড লিখে",
+        "সার্চ না করে সব entry একে একে পড়ে"
+      ],
+      "answer": 0,
+      "explanation": "error মেসেজের সবচেয়ে আলাদা শব্দগুলো দিয়ে সার্চ করলে দ্রুত সঠিক entry পাওয়া যায়।"
+    },
+    {
+      "question": "Claude সবার জন্য বন্ধ কি না বুঝতে কোথায় দেখবেন?",
+      "options": [
+        "status.claude.com",
+        "Facebook-এর গুজব",
+        "ফোনের ক্যালকুলেটর",
+        "কোথাও দেখা যায় না"
+      ],
+      "answer": 0,
+      "explanation": "status.claude.com-এ চলমান incident, তার প্রভাব আর সমাধানের অগ্রগতি দেখানো হয়।"
+    }
+  ]
+}

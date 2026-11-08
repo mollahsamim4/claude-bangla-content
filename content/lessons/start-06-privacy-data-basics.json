@@ -1,0 +1,157 @@
+{
+  "id": "start-06-privacy-data-basics",
+  "track": "start",
+  "order": 6,
+  "title": "Privacy & data basics",
+  "summary": "আপনার চ্যাট দিয়ে Claude-কে train করা হবে কি না, সেটা কোথা থেকে ঠিক করবেন, ডেটা কতদিন থাকে আর কী কখনো শেয়ার করবেন না।",
+  "updatedAt": "2026-11-08",
+  "blocks": [
+    {
+      "type": "paragraph",
+      "text": "Claude-এর সাথে আমরা অনেক কিছু শেয়ার করি: অফিসের ইমেইল, পড়াশোনার নোট, কখনো ব্যক্তিগত সমস্যাও। তাই জানা দরকার এই চ্যাটগুলোর কী হয়। ভালো খবর হলো, গুরুত্বপূর্ণ সিদ্ধান্তগুলো আপনার হাতেই। এই লেসনে Free, Pro আর Max-এর মতো ব্যক্তিগত (consumer) account নিয়ে কথা বলব।"
+    },
+    {
+      "type": "heading",
+      "text": "Is my chat used to train Claude?"
+    },
+    {
+      "type": "paragraph",
+      "text": "Free, Pro আর Max account-এ (এবং এই account দিয়ে Claude Code ব্যবহার করলে) আপনার চ্যাট ও coding session দিয়ে Claude-কে উন্নত করা হবে কি না, সেটা আপনি একটা setting দিয়ে ঠিক করেন। এটা চালু থাকলে আপনার চ্যাট model training-এ ব্যবহার হতে পারে; বন্ধ থাকলে নতুন চ্যাট আর ভবিষ্যতের training-এ ব্যবহার হবে না। এই setting যেকোনো সময় বদলানো যায়।"
+    },
+    {
+      "type": "heading",
+      "text": "Change the setting"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "web বা desktop-এ আপনার নামে ক্লিক করে menu খুলুন।",
+        "Settings বেছে নিন, তারপর Privacy-তে যান। সরাসরি যেতে চাইলে browser-এ claude.ai/settings/data-privacy-controls খুলুন।",
+        "\"Help Improve our AI models\" লেখা toggle-টা আপনার পছন্দমতো চালু বা বন্ধ করুন।",
+        "মোবাইলে: আপনার নামে ট্যাপ করে Settings, তারপর Privacy-তে গিয়ে একই toggle পাবেন।"
+      ]
+    },
+    {
+      "type": "warning",
+      "text": "setting বন্ধ করলে আগে থেকে শুরু হয়ে যাওয়া training বা আগে train করা model থেকে আপনার ডেটা সরানো হয় না। তাই সংবেদনশীল কাজ শুরুর আগেই setting ঠিক করে নিন।"
+    },
+    {
+      "type": "heading",
+      "text": "How long is my data kept?"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "কোনো চ্যাট delete করলে সেটা সাথে সাথে আপনার history থেকে সরে যায়, আর 30 দিনের মধ্যে Anthropic-এর back-end থেকে মুছে যায়। delete করা চ্যাট ভবিষ্যতের training-এ ব্যবহার হয় না।",
+        "model improvement setting চালু থাকলে নতুন বা আবার চালু করা চ্যাট de-identified অবস্থায় training pipeline-এ সর্বোচ্চ 5 বছর পর্যন্ত রাখা হতে পারে।",
+        "thumbs up বা thumbs down দিয়ে feedback দিলে পুরো সংশ্লিষ্ট conversation 5 বছর পর্যন্ত রাখা হয়, আর সেটা training-এ ব্যবহার হতে পারে।",
+        "কোনো চ্যাট Usage Policy ভঙ্গের জন্য automated system-এ flag হলে input আর output 2 বছর পর্যন্ত রাখা হতে পারে।"
+      ]
+    },
+    {
+      "type": "tip",
+      "text": "thumbs up/down বাটন চাপার আগে মনে রাখুন, এতে পুরো চ্যাটটা feedback হিসেবে জমা হয়। চ্যাটে ব্যক্তিগত তথ্য থাকলে feedback না দেওয়াই ভালো।"
+    },
+    {
+      "type": "heading",
+      "text": "Incognito chats"
+    },
+    {
+      "type": "paragraph",
+      "text": "Claude-এ Incognito chat নামে একটা অপশন আছে। Help Center অনুযায়ী Incognito chat কখনো Claude-কে উন্নত করতে ব্যবহার হয় না, এমনকি model improvement setting চালু থাকলেও। একবারের জন্য সংবেদনশীল কিছু জিজ্ঞেস করতে এটা কাজের। Incognito কীভাবে চালু করবেন, তা Everyday track-এর একটি লেসনে দেখানো হবে।"
+    },
+    {
+      "type": "heading",
+      "text": "Work accounts are different"
+    },
+    {
+      "type": "paragraph",
+      "text": "অফিসের Team বা Enterprise account, Claude for Education, Claude Gov বা API-এর মতো commercial product-এ নিয়ম আলাদা। এখানে ডিফল্টভাবে আপনার input বা output দিয়ে model train করা হয় না, যদি না আপনি নিজে feedback পাঠান বা অনুমতি দেন। অফিসের account-এর নিয়ম নিয়ে প্রশ্ন থাকলে আপনার প্রতিষ্ঠানের admin-কে জিজ্ঞেস করুন।"
+    },
+    {
+      "type": "heading",
+      "text": "What never to share"
+    },
+    {
+      "type": "paragraph",
+      "text": "setting যাই হোক, কিছু তথ্য কোনো AI চ্যাটেই দেওয়া উচিত নয়। এগুলো দরকারও হয় না:"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "পাসওয়ার্ড, PIN বা OTP কোড।",
+        "ব্যাংক কার্ডের পুরো নম্বর, CVV বা মোবাইল ব্যাংকিংয়ের গোপন তথ্য।",
+        "জাতীয় পরিচয়পত্র বা পাসপোর্টের পুরো নম্বর।",
+        "অন্য কারও ব্যক্তিগত তথ্য, তার অনুমতি ছাড়া।",
+        "অফিসের গোপন তথ্য, যদি প্রতিষ্ঠান অনুমতি না দেয়।"
+      ]
+    },
+    {
+      "type": "tip",
+      "text": "কোনো ডকুমেন্ট নিয়ে সাহায্য চাইলে আগে নাম, ফোন নম্বর আর ঠিকানার মতো তথ্য মুছে বা বদলে দিন, যেমন \"[NAME]\" বা \"[PHONE]\" লিখে।"
+    },
+    {
+      "type": "prompt",
+      "text": "Here is a letter with personal details replaced by placeholders like [NAME] and [PHONE]. Please improve the wording but keep the placeholders exactly as they are.\n\n[paste letter here]"
+    },
+    {
+      "type": "heading",
+      "text": "Recap"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "Settings > Privacy-তে \"Help Improve our AI models\" toggle দিয়ে training-এর সিদ্ধান্ত নিন।",
+        "delete করা চ্যাট 30 দিনের মধ্যে back-end থেকে মুছে যায়।",
+        "Incognito chat training-এ ব্যবহার হয় না।",
+        "পাসওয়ার্ড, OTP, কার্ড নম্বর কখনো শেয়ার করবেন না।"
+      ]
+    }
+  ],
+  "quiz": [
+    {
+      "question": "আপনার চ্যাট দিয়ে Claude-কে train করা হবে কি না, সেটা কোথা থেকে ঠিক করবেন?",
+      "options": [
+        "Settings > Privacy-তে \"Help Improve our AI models\" toggle থেকে",
+        "Anthropic-কে চিঠি লিখে",
+        "ফোনের Wi-Fi বন্ধ করে",
+        "এটা বদলানো যায় না"
+      ],
+      "answer": 0,
+      "explanation": "Settings > Privacy-তে \"Help Improve our AI models\" toggle দিয়ে যেকোনো সময় এই সিদ্ধান্ত বদলানো যায়।"
+    },
+    {
+      "question": "একটা চ্যাট delete করলে কী হয়?",
+      "options": [
+        "কিছুই হয় না",
+        "history থেকে সাথে সাথে সরে যায়, আর 30 দিনের মধ্যে back-end থেকে মুছে যায়",
+        "শুধু ফোন থেকে মুছে যায়",
+        "চ্যাটটা অন্যদের সাথে শেয়ার হয়ে যায়"
+      ],
+      "answer": 1,
+      "explanation": "delete করা চ্যাট সাথে সাথে history থেকে সরে যায় আর 30 দিনের মধ্যে back-end storage থেকে মুছে ফেলা হয়।"
+    },
+    {
+      "question": "Incognito chat সম্পর্কে কোনটি সত্য?",
+      "options": [
+        "এটা সবসময় training-এ ব্যবহার হয়",
+        "model improvement চালু থাকলেও Incognito chat Claude-কে উন্নত করতে ব্যবহার হয় না",
+        "এটা শুধু Enterprise-এ আছে",
+        "এতে Claude উত্তর দেয় না"
+      ],
+      "answer": 1,
+      "explanation": "Help Center অনুযায়ী Incognito chat কখনো Claude-কে উন্নত করতে ব্যবহার হয় না।"
+    },
+    {
+      "question": "নিচের কোনটা Claude-এর সাথে কখনো শেয়ার করা উচিত নয়?",
+      "options": [
+        "একটা রেসিপির প্রশ্ন",
+        "আপনার মোবাইল ব্যাংকিংয়ের PIN বা OTP",
+        "ইংরেজি ব্যাকরণের প্রশ্ন",
+        "একটা কবিতার খসড়া"
+      ],
+      "answer": 1,
+      "explanation": "পাসওয়ার্ড, PIN আর OTP কোনো AI চ্যাটে দেওয়ার দরকার নেই, আর দেওয়া বিপজ্জনক।"
+    }
+  ]
+}

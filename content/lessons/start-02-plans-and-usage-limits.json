@@ -1,0 +1,172 @@
+{
+  "id": "start-02-plans-and-usage-limits",
+  "track": "start",
+  "order": 2,
+  "title": "Claude plans & usage limits",
+  "summary": "Claude-এর কোন plan-এ কী পাওয়া যায়, usage limit কীভাবে কাজ করে আর কোথায় নিজের usage দেখবেন, সহজ ভাষায়।",
+  "updatedAt": "2026-11-08",
+  "blocks": [
+    {
+      "type": "paragraph",
+      "text": "Claude ব্যবহার করতে করতে হঠাৎ একটা মেসেজ দেখলেন যে limit শেষ, কিছুক্ষণ পরে আবার চেষ্টা করুন। ঘাবড়ানোর কিছু নেই। প্রতিটি plan-এ নির্দিষ্ট পরিমাণ usage থাকে, আর সেটা নির্দিষ্ট সময় পরপর আবার পূর্ণ হয়ে যায়। এই লেসনে দেখব কোন plan-এ মোটামুটি কী থাকে, limit কীভাবে গোনা হয় আর কীভাবে usage একটু বেশি দিন চালানো যায়।"
+    },
+    {
+      "type": "heading",
+      "text": "The plans at a glance"
+    },
+    {
+      "type": "paragraph",
+      "text": "ব্যক্তিগত ব্যবহারের জন্য Claude-এর plan-গুলো হলো Free, Pro, Max আর Ultra। প্রতিষ্ঠানের জন্য আছে Team আর Enterprise, আর বিশ্ববিদ্যালয়ের জন্য একটি Education plan।"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "Free: বিনা খরচে শুরু করার জন্য। web, desktop আর mobile-এ চ্যাট, web search, ফাইল তৈরি, memory আর Artifacts পাওয়া যায়। তবে usage সীমিত, আর Claude Code-এর মতো কিছু ফিচার এতে নেই।",
+        "Pro: Free-এর সবকিছু, সাথে Free-এর চেয়ে বেশি usage, Claude Code, Research, আরও বেশি Claude model আর আরও কিছু ফিচার।",
+        "Max: Pro-এর সবকিছু, সাথে Pro-এর 5 গুণ usage।",
+        "Ultra: Max-এর সবকিছু, সাথে প্রতি সপ্তাহে Pro-এর 10 গুণ usage। verified Ultra account-এ 5-hour limit নেই।",
+        "Team ও Enterprise: অফিস বা প্রতিষ্ঠানের জন্য, যেখানে admin সবার account একসাথে পরিচালনা করেন।"
+      ]
+    },
+    {
+      "type": "warning",
+      "text": "দাম আর ফিচারের তালিকা প্রায়ই বদলায়, তাই এখানে দাম লিখছি না। কেনার আগে সবসময় claude.com/pricing পেজে বর্তমান তথ্য দেখে নিন।"
+    },
+    {
+      "type": "heading",
+      "text": "How usage limits work"
+    },
+    {
+      "type": "paragraph",
+      "text": "Usage limit-কে আপনার একটা \"conversation budget\" ভাবতে পারেন। কতগুলো মেসেজ পাঠাতে পারবেন বা কতক্ষণ Claude Code চালাতে পারবেন, সেটা এই budget ঠিক করে। কতটা খরচ হবে তা নির্ভর করে চ্যাট কত লম্বা ও জটিল, কোন ফিচার ব্যবহার করছেন, কোন model বেছে নিয়েছেন আর effort level কত, তার উপর।"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "Five-hour session limit: আপনার প্রথম মেসেজ পাঠানোর সময় থেকে একটা 5 ঘণ্টার সময় শুরু হয়। 5 ঘণ্টা পর limit পুরোপুরি আবার ভরে যায়।",
+        "Weekly limit: প্রতি সপ্তাহে একবার reset হয়। reset-এর দিন আর সময় আপনার account-এর জন্য নির্দিষ্ট, কখন ব্যবহার শুরু করলেন তাতে বদলায় না।",
+        "কিছু plan-এ Fable model-এর জন্য আলাদা একটা weekly limit-ও থাকে।",
+        "claude.ai, Claude Code আর Claude Desktop, সব জায়গার ব্যবহার একই limit থেকে কাটা যায়।"
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "Check your usage"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "Claude-এ Settings খুলুন, তারপর Usage-এ যান (Settings > Usage)।",
+        "Current session অংশে দেখবেন চলতি 5 ঘণ্টার কতটা ব্যবহার হয়েছে আর কত সময় বাকি।",
+        "একই পেজে আপনার পরের weekly reset কবে, সেটাও দেখা যায়।"
+      ]
+    },
+    {
+      "type": "tip",
+      "text": "limit-এর কাছাকাছি গেলে Claude আগে থেকেই সতর্ক করে, যেমন \"Approaching session limit\"। এই ধরনের মেসেজের মানে কী, তা Lesson 7-এ বিস্তারিত আছে।"
+    },
+    {
+      "type": "heading",
+      "text": "Usage limits vs length limits"
+    },
+    {
+      "type": "paragraph",
+      "text": "দুটো আলাদা জিনিস গুলিয়ে ফেলবেন না। Usage limit হলো সময়ের হিসাবে সব চ্যাট মিলিয়ে আপনি কতটা ব্যবহার করতে পারবেন। Length limit হলো একটা চ্যাট কত লম্বা হতে পারে, যা Claude-এর context window-এর উপর নির্ভর করে। context window-কে Claude-এর working memory ভাবতে পারেন। paid plan-এ নতুন model-গুলো সর্বোচ্চ 1M token পর্যন্ত context window সাপোর্ট করে, কিছু model-এ 500K বা 200K।"
+    },
+    {
+      "type": "heading",
+      "text": "Make your usage last longer"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "নতুন বিষয়ের জন্য নতুন চ্যাট শুরু করুন। লম্বা চ্যাট প্রতিটি উত্তরে বেশি usage খরচ করে।",
+        "সাধারণ কাজের জন্য কম effort level বেছে নিন। যে model-এ thinking toggle আছে, দরকার না হলে সেটা বন্ধ রাখুন।",
+        "দরকার না হলে connected app বা connector বন্ধ রাখুন, আর বর্তমান তথ্য না লাগলে web search করতে মানা করুন।",
+        "Projects ব্যবহার করলে instructions ছোট রাখুন আর অপ্রয়োজনীয় ফাইল সরিয়ে দিন।"
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "Hit the limit? Your options"
+    },
+    {
+      "type": "paragraph",
+      "text": "limit শেষ হলে তিনটা পথ আছে: reset-এর জন্য অপেক্ষা করা, plan upgrade করা (upgrade করলে নতুন limit সাথে সাথে চালু হয়), অথবা paid plan-এ usage credits চালু করা। usage credits চালু থাকলে limit শেষ হলেও কাজ থামে না, তখন pay-as-you-go হিসাবে credits থেকে খরচ কাটা হয়। Free plan-এ usage credits নেই।"
+    },
+    {
+      "type": "warning",
+      "text": "Anthropic প্রয়োজনে usage limit বদলাতে পারে, আর নিরবচ্ছিন্ন সার্ভিসের নিশ্চয়তা দেয় না। তাই জরুরি কাজ শেষ মুহূর্তের জন্য ফেলে রাখবেন না।"
+    },
+    {
+      "type": "heading",
+      "text": "Recap"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "Plan: Free, Pro, Max, Ultra (ব্যক্তিগত); Team, Enterprise (প্রতিষ্ঠান)। দাম দেখুন claude.com/pricing-এ।",
+        "Usage-এ আছে 5 ঘণ্টার session limit আর weekly limit।",
+        "Settings > Usage-এ নিজের ব্যবহার আর reset-এর সময় দেখুন।",
+        "নতুন বিষয়ে নতুন চ্যাট আর কম effort দিয়ে usage বাঁচান।"
+      ]
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Five-hour session limit কখন থেকে গোনা শুরু হয়?",
+      "options": [
+        "রাত বারোটা থেকে",
+        "আপনার প্রথম মেসেজ পাঠানোর সময় থেকে",
+        "account খোলার দিন থেকে",
+        "plan কেনার সময় থেকে"
+      ],
+      "answer": 1,
+      "explanation": "প্রথম মেসেজ পাঠানোর সাথে সাথে 5 ঘণ্টার সময় শুরু হয়, আর 5 ঘণ্টা পর limit পুরোপুরি আবার ভরে যায়।"
+    },
+    {
+      "question": "নিজের usage আর পরের reset-এর সময় কোথায় দেখবেন?",
+      "options": [
+        "Settings > Usage",
+        "ইমেইলের inbox-এ",
+        "Google Play Store-এ",
+        "কোথাও দেখা যায় না"
+      ],
+      "answer": 0,
+      "explanation": "Settings > Usage পেজে Current session-এর ব্যবহার, বাকি সময় আর পরের weekly reset দেখা যায়।"
+    },
+    {
+      "question": "claude.ai-তে চ্যাট আর Claude Code ব্যবহার, দুটো কি আলাদা limit থেকে কাটে?",
+      "options": [
+        "হ্যাঁ, পুরোপুরি আলাদা",
+        "না, সব জায়গার ব্যবহার একই usage limit থেকে কাটে",
+        "Claude Code-এর কোনো limit নেই",
+        "শুধু mobile app-এর limit আছে"
+      ],
+      "answer": 1,
+      "explanation": "claude.ai, Claude Code আর Claude Desktop, সবকিছুর ব্যবহার একই usage limit-এর মধ্যে গোনা হয়।"
+    },
+    {
+      "question": "usage বাঁচানোর ভালো উপায় কোনটি?",
+      "options": [
+        "সব কাজ একটাই বিশাল চ্যাটে করা",
+        "সবসময় সর্বোচ্চ effort ব্যবহার করা",
+        "নতুন বিষয়ের জন্য নতুন চ্যাট শুরু করা",
+        "সব connector সবসময় চালু রাখা"
+      ],
+      "answer": 2,
+      "explanation": "লম্বা চ্যাট প্রতিটি উত্তরে বেশি usage খরচ করে, তাই নতুন বিষয়ে নতুন চ্যাট শুরু করা ভালো।"
+    },
+    {
+      "question": "Usage limit আর length limit-এর পার্থক্য কী?",
+      "options": [
+        "দুটো একই জিনিস",
+        "Usage limit সময়ের হিসাবে মোট ব্যবহার, length limit একটা চ্যাট কত লম্বা হতে পারে",
+        "Length limit শুধু Free plan-এ থাকে",
+        "Usage limit শুধু ছবির জন্য"
+      ],
+      "answer": 1,
+      "explanation": "Usage limit সব চ্যাট মিলিয়ে নির্দিষ্ট সময়ে কতটা ব্যবহার করা যায় তা ঠিক করে; length limit context window অনুযায়ী একটা চ্যাটের দৈর্ঘ্য ঠিক করে।"
+    }
+  ]
+}
