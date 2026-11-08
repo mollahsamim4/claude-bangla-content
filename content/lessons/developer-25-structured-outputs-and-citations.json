@@ -1,0 +1,154 @@
+{
+  "id": "developer-25-structured-outputs-and-citations",
+  "track": "developer",
+  "order": 25,
+  "title": "Structured Outputs & Citations",
+  "summary": "Schema মেনে নিশ্চিত JSON উত্তর (`output_config.format`, `messages.parse()`, `strict: true`) আর ডকুমেন্টের ঠিক কোন অংশ থেকে উত্তর এল তা দেখানো (citations)।",
+  "updatedAt": "2026-11-08",
+  "blocks": [
+    {
+      "type": "paragraph",
+      "text": "Claude-এর উত্তর যখন মানুষ না পড়ে আপনার কোড পড়বে, তখন \"প্রায় ঠিক JSON\" যথেষ্ট না — একটা কমা কম থাকলেই `json.loads()` ভেঙে পড়ে। আবার Claude যখন কোনো ডকুমেন্ট থেকে উত্তর দেয়, তখন জানতে ইচ্ছে করে কথাটা ঠিক কোথা থেকে এল। প্রথম সমস্যার সমাধান structured outputs, দ্বিতীয়টার citations। দুটোই বেশ কাজের, তবে একসাথে ব্যবহার করা যায় না — সেটাও এই লেসনে দেখব।"
+    },
+    {
+      "type": "heading",
+      "text": "Structured outputs (JSON outputs)"
+    },
+    {
+      "type": "paragraph",
+      "text": "Structured outputs-এ আপনি একটা JSON Schema দেন, আর API constrained decoding দিয়ে নিশ্চিত করে Claude-এর উত্তর ঠিক সেই schema মেনে চলবে — ভুল syntax, বাদ পড়া required ফিল্ড বা ভুল type থাকবে না। Schema যায় রিকোয়েস্টের `output_config.format`-এ, `type: \"json_schema\"` দিয়ে।"
+    },
+    {
+      "type": "heading",
+      "text": "The easy way: Pydantic + messages.parse()"
+    },
+    {
+      "type": "paragraph",
+      "text": "Python SDK-তে সবচেয়ে সহজ (আর ডকসের সুপারিশ করা) উপায় হলো একটা Pydantic model বানিয়ে `client.messages.parse()`-এ `output_format` হিসেবে দেওয়া। SDK নিজেই schema বানায়, `output_config.format` হিসেবে পাঠায়, উত্তর যাচাই করে আর `parsed_output`-এ আপনার টাইপের অবজেক্ট ফেরত দেয়।"
+    },
+    {
+      "type": "code",
+      "code": "import anthropic\nfrom pydantic import BaseModel\n\n\nclass ContactInfo(BaseModel):\n    name: str\n    email: str\n    plan_interest: str\n    demo_requested: bool\n\n\nclient = anthropic.Anthropic()\n\nresponse = client.messages.parse(\n    model=\"claude-opus-5-5\",\n    max_tokens=1024,\n    messages=[\n        {\n            \"role\": \"user\",\n            \"content\": (\n                \"Extract the key information from this email: \"\n                \"John Smith (john@example.com) is interested in our Enterprise plan \"\n                \"and wants to schedule a demo for next Tuesday at 2pm.\"\n            ),\n        }\n    ],\n    output_format=ContactInfo,\n)\n\nprint(response.parsed_output)",
+      "language": "python"
+    },
+    {
+      "type": "paragraph",
+      "text": "SDK ছাড়া raw JSON Schema দিয়ে একই কাজ। লক্ষ করুন `required` আর `\"additionalProperties\": false`:"
+    },
+    {
+      "type": "code",
+      "code": "curl https://api.anthropic.com/v1/messages \\\n  -H \"content-type: application/json\" \\\n  -H \"x-api-key: $ANTHROPIC_API_KEY\" \\\n  -H \"anthropic-version: 2026-10-21\" \\\n  -d '{\n    \"model\": \"claude-opus-5-5\",\n    \"max_tokens\": 1024,\n    \"messages\": [{\"role\": \"user\", \"content\": \"Extract the key information from this email: John Smith (john@example.com) is interested in our Enterprise plan and wants to schedule a demo for next Tuesday at 2pm.\"}],\n    \"output_config\": {\n      \"format\": {\n        \"type\": \"json_schema\",\n        \"schema\": {\n          \"type\": \"object\",\n          \"properties\": {\n            \"name\": {\"type\": \"string\"},\n            \"email\": {\"type\": \"string\"},\n            \"plan_interest\": {\"type\": \"string\"},\n            \"demo_requested\": {\"type\": \"boolean\"}\n          },\n          \"required\": [\"name\", \"email\", \"plan_interest\", \"demo_requested\"],\n          \"additionalProperties\": false\n        }\n      }\n    }\n  }'",
+      "language": "bash"
+    },
+    {
+      "type": "paragraph",
+      "text": "Tool call-এর input-ও যেন schema মেনে চলে, তার জন্য tool definition-এ `\"strict\": true` দিন (strict tool use)। দুটো ফিচার একই রিকোয়েস্টে একসাথেও চলে। যে মডেলে forced `tool_choice` নেই (যেমন Claude Opus 5.5), সেখানে শুধু JSON পাওয়ার জন্য tool জোর করে ডাকানোর বদলে structured outputs-ই ঠিক পথ।"
+    },
+    {
+      "type": "warning",
+      "text": "Schema মানার নিশ্চয়তার কয়েকটা ব্যতিক্রম আছে: `stop_reason` যদি `refusal` হয় (নিরাপত্তার কারণে Claude থেমেছে) বা `max_tokens` হয় (উত্তর কেটে গেছে), তাহলে JSON অসম্পূর্ণ বা schema-বহির্ভূত হতে পারে — parse করার আগে `stop_reason` দেখুন। আর `enum` মানের বড়-ছোট হাতের অক্ষর (capitalization) নিশ্চিত না, তাই enum তুলনা case-insensitive করুন।"
+    },
+    {
+      "type": "heading",
+      "text": "Citations"
+    },
+    {
+      "type": "paragraph",
+      "text": "Citations চালু করলে Claude ডকুমেন্ট থেকে যা বলে, প্রতিটা দাবির সাথে জুড়ে দেয় ঠিক কোন অংশ থেকে নেওয়া — RAG বা নথিভিত্তিক Q&A অ্যাপে উত্তর যাচাই করতে খুব কাজে লাগে। সব active মডেলে citations সমর্থিত। চালু করতে প্রতিটা `document` block-এ `\"citations\": {\"enabled\": true}` দিন। একটা রিকোয়েস্টে হয় সব ডকুমেন্টে চালু, নয়তো কোনোটায় না।"
+    },
+    {
+      "type": "code",
+      "code": "response = client.messages.create(\n    model=\"claude-opus-5-5\",\n    max_tokens=1024,\n    messages=[\n        {\n            \"role\": \"user\",\n            \"content\": [\n                {\n                    \"type\": \"document\",\n                    \"source\": {\n                        \"type\": \"text\",\n                        \"media_type\": \"text/plain\",\n                        \"data\": \"The grass is green. The sky is blue.\",\n                    },\n                    \"title\": \"My Document\",\n                    \"citations\": {\"enabled\": True},\n                },\n                {\"type\": \"text\", \"text\": \"What color is the grass and sky?\"},\n            ],\n        }\n    ],\n)\n\nfor block in response.content:\n    if block.type == \"text\":\n        print(block.text)\n        for c in block.citations or []:\n            print(\"   source:\", c.cited_text)",
+      "language": "python"
+    },
+    {
+      "type": "heading",
+      "text": "Reading citations"
+    },
+    {
+      "type": "paragraph",
+      "text": "Citations চালু থাকলে উত্তর কয়েকটা `text` block-এ ভাগ হয়ে আসে, আর যে block-এ কোনো দাবি আছে তাতে থাকে `citations` list। প্রতিটা citation-এ থাকে `cited_text`, `document_index`, `document_title` আর ডকুমেন্টের ধরন অনুযায়ী অবস্থান:"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "Plain text ডকুমেন্ট → `char_location`: `start_char_index` / `end_char_index` (0 থেকে গোনা)।",
+        "PDF → `page_location`: `start_page_number` / `end_page_number` (1 থেকে গোনা)।",
+        "Custom content ডকুমেন্ট → `content_block_location`: block index (0 থেকে গোনা)।"
+      ]
+    },
+    {
+      "type": "tip",
+      "text": "`cited_text` output টোকেন হিসেবে গোনা হয় না, আর পরের টার্নে ফেরত পাঠালে input টোকেন হিসেবেও না। তবে citations চালু করলে system prompt আর chunking-এর জন্য input টোকেন সামান্য বাড়ে। বুলেট পয়েন্ট বা ট্রান্সক্রিপ্টের মতো নিজের মতো ভাগ করা অংশ উদ্ধৃত করাতে চাইলে custom content ডকুমেন্ট ব্যবহার করুন।"
+    },
+    {
+      "type": "warning",
+      "text": "Citations আর structured outputs একসাথে চলে না। কোনো ডকুমেন্টে citations চালু রেখে `output_config.format` (বা পুরনো, deprecated `output_format` প্যারামিটার) পাঠালে API 400 error দেয়, কারণ citations-এর জন্য লেখার ফাঁকে ফাঁকে citation block বসাতে হয়, যা কঠোর JSON schema-র সাথে মেলে না।"
+    },
+    {
+      "type": "heading",
+      "text": "Recap"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "নির্ভরযোগ্য JSON চাইলে `output_config.format` — Python-এ `client.messages.parse(output_format=YourModel)`।",
+        "Tool input-এর জন্য `\"strict\": true`।",
+        "parse করার আগে `stop_reason` দেখুন (`refusal`, `max_tokens`)।",
+        "উৎস দেখাতে `document` block-এ `citations: {enabled: true}`; structured outputs-এর সাথে নয়।"
+      ]
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Structured outputs-এর schema রিকোয়েস্টের কোথায় যায়?",
+      "options": [
+        "`output_config.format`-এ",
+        "`system` prompt-এ",
+        "`metadata`-তে"
+      ],
+      "answer": 0,
+      "explanation": "Schema যায় `output_config.format`-এ, `type: \"json_schema\"` দিয়ে। Python SDK-র `messages.parse()` এটা নিজেই সেট করে।"
+    },
+    {
+      "question": "Python-এ `client.messages.parse()` ব্যবহার করলে যাচাই করা ফলাফল কোথায় পাবেন?",
+      "options": [
+        "`response.parsed_output`",
+        "`response.usage`",
+        "`response.stop_sequence`"
+      ],
+      "answer": 0,
+      "explanation": "SDK উত্তর যাচাই করে Pydantic অবজেক্টটা `parsed_output`-এ দেয়।"
+    },
+    {
+      "question": "কোন অবস্থায় structured output schema না মানতেও পারে?",
+      "options": [
+        "`stop_reason` যখন `end_turn`",
+        "`stop_reason` যখন `refusal` বা `max_tokens`",
+        "যখন schema-তে `required` থাকে"
+      ],
+      "answer": 1,
+      "explanation": "Refusal বা টোকেন সীমায় কেটে গেলে আউটপুট অসম্পূর্ণ বা schema-বহির্ভূত হতে পারে।"
+    },
+    {
+      "question": "PDF ডকুমেন্টের citation-এ অবস্থান কীভাবে দেওয়া থাকে?",
+      "options": [
+        "character index দিয়ে",
+        "page number দিয়ে, 1 থেকে গোনা",
+        "লাইন নম্বর দিয়ে"
+      ],
+      "answer": 1,
+      "explanation": "PDF-এর জন্য `page_location`, যাতে `start_page_number` আর `end_page_number` 1 থেকে গোনা।"
+    },
+    {
+      "question": "citations চালু রেখে `output_config.format` পাঠালে কী হয়?",
+      "options": [
+        "দুটোই ঠিকঠাক কাজ করে",
+        "400 error আসে",
+        "citations চুপচাপ বন্ধ হয়ে যায়"
+      ],
+      "answer": 1,
+      "explanation": "Citations আর structured outputs একসাথে ব্যবহার করা যায় না; API 400 error দেয়।"
+    }
+  ]
+}

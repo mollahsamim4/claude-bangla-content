@@ -1,0 +1,200 @@
+{
+  "id": "developer-28-build-mcp-server",
+  "track": "developer",
+  "order": 28,
+  "title": "Building Your Own MCP Server",
+  "summary": "Python-এ নিজের MCP server বানানো (`MCPServer`, `@mcp.tool()`), Inspector দিয়ে পরীক্ষা, আর Claude Code, Claude for Desktop ও Claude API-তে যুক্ত করা।",
+  "updatedAt": "2026-11-08",
+  "blocks": [
+    {
+      "type": "paragraph",
+      "text": "Lesson 21-এ দেখেছি tool use দিয়ে Claude-কে নিজের function দেওয়া যায়। কিন্তু সেই tool শুধু আপনার নিজের কোডের ভেতরে চলে। ধরুন আপনি চান একই tool Claude Desktop, Claude Code আর অন্য AI অ্যাপ সবখানে কাজ করুক — তখন সেটা বানাতে হবে একটা MCP server হিসেবে। Model Context Protocol (MCP) হলো AI অ্যাপকে বাইরের tool আর ডেটার সাথে যুক্ত করার একটা open standard। একবার server বানালে যেকোনো MCP client সেটা ব্যবহার করতে পারে। এই লেসনে modelcontextprotocol.io-র অফিসিয়াল টিউটোরিয়াল ধরে Python-এ একটা ছোট server বানাব।"
+    },
+    {
+      "type": "heading",
+      "text": "Three building blocks"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "Tools — function, যা মডেল নিজে ঠিক করে কখন ডাকবে (ইউজারের অনুমতি সাপেক্ষে)। যেমন ফ্লাইট খোঁজা, মেসেজ পাঠানো।",
+        "Resources — শুধু-পড়ার ডেটা, যেমন ফাইলের কনটেন্ট বা ডাটাবেস schema; অ্যাপ ঠিক করে কখন দেবে।",
+        "Prompts — আগে থেকে লেখা নির্দেশনার টেমপ্লেট, যা ইউজার বেছে নেয়।"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "এই লেসনে আমরা শুধু tool নিয়ে কাজ করব — সবচেয়ে বেশি ব্যবহৃত আর সবচেয়ে সহজ।"
+    },
+    {
+      "type": "heading",
+      "text": "Step 1: Set up the project"
+    },
+    {
+      "type": "paragraph",
+      "text": "লাগবে Python 3.10 বা তার বেশি, আর MCP Python SDK 2.0.0 বা তার বেশি। টিউটোরিয়াল প্রজেক্ট সামলাতে `uv` ব্যবহার করে:"
+    },
+    {
+      "type": "code",
+      "code": "uv init bangla-tools\ncd bangla-tools\nuv venv\nsource .venv/bin/activate\nuv add \"mcp[cli]\"",
+      "language": "bash"
+    },
+    {
+      "type": "paragraph",
+      "text": "Windows-এ activate করার কমান্ড `.venv\\Scripts\\activate`।"
+    },
+    {
+      "type": "heading",
+      "text": "Step 2: Write the server"
+    },
+    {
+      "type": "paragraph",
+      "text": "`server.py` নামে একটা ফাইল বানান। `MCPServer` ক্লাস function-এর type hint আর docstring দেখে নিজেই tool-এর definition বানিয়ে নেয় — আলাদা JSON Schema লিখতে হয় না:"
+    },
+    {
+      "type": "code",
+      "code": "import logging\n\nfrom mcp.server import MCPServer\n\nlogger = logging.getLogger(__name__)\n\nmcp = MCPServer(\"bangla-tools\")\n\n\n@mcp.tool()\nasync def count_words(text: str) -> str:\n    \"\"\"Count the words in a piece of text.\n\n    Args:\n        text: The text to count words in\n    \"\"\"\n    logger.info(\"count_words called\")  # stderr-এ যায়, stdout-এ না\n    return f\"The text has {len(text.split())} words.\"\n\n\nif __name__ == \"__main__\":\n    mcp.run(transport=\"stdio\")",
+      "language": "python"
+    },
+    {
+      "type": "warning",
+      "text": "STDIO server-এ কখনো stdout-এ কিছু লিখবেন না — মানে `print()` একদম না। Client আর server stdout দিয়েই JSON-RPC মেসেজ আদান-প্রদান করে, তাই একটা `print()` পুরো যোগাযোগ নষ্ট করে দেয়। লগের জন্য `logging` মডিউল ব্যবহার করুন, যা stderr-এ লেখে।"
+    },
+    {
+      "type": "paragraph",
+      "text": "চালিয়ে দেখুন — server চুপচাপ client-এর মেসেজের অপেক্ষায় থাকবে:"
+    },
+    {
+      "type": "code",
+      "code": "uv run server.py",
+      "language": "bash"
+    },
+    {
+      "type": "heading",
+      "text": "Step 3: Test with the MCP Inspector"
+    },
+    {
+      "type": "paragraph",
+      "text": "কোনো AI অ্যাপে লাগানোর আগে MCP Inspector দিয়ে tool-গুলো দেখে নেওয়া ভালো। এটা `npx` দিয়ে সরাসরি চলে (Node 22.19.0 বা নতুন লাগে); Inspector-এর পরে server চালানোর কমান্ডটা লিখুন:"
+    },
+    {
+      "type": "code",
+      "code": "npx @modelcontextprotocol/inspector uv --directory /ABSOLUTE/PATH/TO/bangla-tools run server.py",
+      "language": "bash"
+    },
+    {
+      "type": "paragraph",
+      "text": "ব্রাউজারে Inspector খুলবে; সেখান থেকে `count_words` tool দেখে হাতে চালিয়ে পরীক্ষা করতে পারবেন।"
+    },
+    {
+      "type": "heading",
+      "text": "Step 4a: Connect to Claude Code"
+    },
+    {
+      "type": "paragraph",
+      "text": "Claude Code-এ local stdio server যোগ করার কমান্ড। `--` এর পরের অংশটা হুবহু server চালানোর কমান্ড:"
+    },
+    {
+      "type": "code",
+      "code": "claude mcp add --transport stdio bangla-tools -- uv --directory /ABSOLUTE/PATH/TO/bangla-tools run server.py",
+      "language": "bash"
+    },
+    {
+      "type": "heading",
+      "text": "Step 4b: Connect to Claude for Desktop"
+    },
+    {
+      "type": "paragraph",
+      "text": "Claude for Desktop-এর config ফাইলে `mcpServers`-এর নিচে server যোগ করুন। ফাইলটা macOS-এ `~/Library/Application Support/Claude/claude_desktop_config.json`, Windows-এ `$env:AppData\\Claude\\claude_desktop_config.json` (PowerShell-এর ভাষায়; না থাকলে বানিয়ে নিন):"
+    },
+    {
+      "type": "code",
+      "code": "{\n  \"mcpServers\": {\n    \"bangla-tools\": {\n      \"command\": \"uv\",\n      \"args\": [\n        \"--directory\",\n        \"/ABSOLUTE/PATH/TO/bangla-tools\",\n        \"run\",\n        \"server.py\"\n      ]\n    }\n  }\n}",
+      "language": "json"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "ফাইল সেভ করে Claude for Desktop পুরোপুরি বন্ধ করে আবার চালু করুন।",
+        "চ্যাট বক্সের \"+\" বাটনে ক্লিক করে \"Connectors\" মেনুতে `bangla-tools` আছে কিনা দেখুন।",
+        "জিজ্ঞেস করুন, যেমন: \"How many words are in this sentence: আমি বাংলায় গান গাই\"।"
+      ]
+    },
+    {
+      "type": "tip",
+      "text": "path সবসময় absolute দিন। Windows-এ JSON-এর ভেতরে path লিখতে double backslash (`\\\\`) বা forward slash (`/`) ব্যবহার করুন। Server না দেখালে `command`-এ `uv`-এর পুরো path দিয়ে দেখুন — macOS/Linux-এ `which uv`, Windows-এ `where uv` দিয়ে পাবেন।"
+    },
+    {
+      "type": "heading",
+      "text": "Using your server from the Claude API"
+    },
+    {
+      "type": "paragraph",
+      "text": "Messages API-তেও MCP server যুক্ত করা যায় MCP connector দিয়ে (এখন beta)। তবে দুটো শর্ত: server-টা HTTP দিয়ে পাবলিকলি পৌঁছানো যায় এমন হতে হবে (local STDIO server সরাসরি যুক্ত হয় না), আর MCP-র ফিচারের মধ্যে শুধু tool call সমর্থিত। রিকোয়েস্টে `mcp_servers` আর `tools`-এ `mcp_toolset` দুটোই লাগে:"
+    },
+    {
+      "type": "code",
+      "code": "import anthropic\n\nclient = anthropic.Anthropic()\n\nresponse = client.beta.messages.create(\n    model=\"claude-opus-5-5\",\n    max_tokens=1000,\n    messages=[{\"role\": \"user\", \"content\": \"What tools do you have available?\"}],\n    mcp_servers=[\n        {\n            \"type\": \"url\",\n            \"url\": \"https://your-server.example.com/mcp\",\n            \"name\": \"bangla-tools\",\n        }\n    ],\n    tools=[{\"type\": \"mcp_toolset\", \"mcp_server_name\": \"bangla-tools\"}],\n    betas=[\"mcp-client-2025-11-20\"],\n)",
+      "language": "python"
+    },
+    {
+      "type": "paragraph",
+      "text": "ডকস অনুযায়ী Claude API-তে নতুন `mcp-client-2026-09-15` header-ও আছে, যা আগেরটার সব কিছু করে আর সাথে server-এর tool তালিকা pin করা যায়।"
+    },
+    {
+      "type": "heading",
+      "text": "Recap"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "MCP server = একবার বানাও, যেকোনো MCP client-এ চালাও।",
+        "`uv add \"mcp[cli]\"`, তারপর `MCPServer` + `@mcp.tool()` + `mcp.run(transport=\"stdio\")`।",
+        "STDIO server-এ `print()` নয়, `logging`।",
+        "পরীক্ষা Inspector দিয়ে; যুক্ত করুন `claude mcp add` বা `claude_desktop_config.json` দিয়ে।"
+      ]
+    }
+  ],
+  "quiz": [
+    {
+      "question": "MCP server-এর তিনটা মূল building block কী?",
+      "options": [
+        "Tools, Resources, Prompts",
+        "Models, Keys, Tokens",
+        "Images, PDFs, Files"
+      ],
+      "answer": 0,
+      "explanation": "MCP server তিন ধরনের জিনিস দিতে পারে: tools (মডেল ডাকে), resources (পড়ার ডেটা) আর prompts (টেমপ্লেট)।"
+    },
+    {
+      "question": "STDIO-ভিত্তিক MCP server-এ `print()` ব্যবহার করা কেন সমস্যা?",
+      "options": [
+        "এটা খুব ধীর",
+        "stdout দিয়ে JSON-RPC মেসেজ যায়, তাই print সেটা নষ্ট করে দেয়",
+        "Python 3.10-এ print নেই"
+      ],
+      "answer": 1,
+      "explanation": "STDIO server-এ stdout হলো যোগাযোগের লাইন। লগ লিখতে `logging` ব্যবহার করুন, যা stderr-এ যায়।"
+    },
+    {
+      "question": "Python MCP SDK-তে একটা function-কে tool বানাতে কী লাগাবেন?",
+      "options": [
+        "`@mcp.tool()` decorator",
+        "`@beta_tool` decorator",
+        "`tool_choice` প্যারামিটার"
+      ],
+      "answer": 0,
+      "explanation": "`MCPServer` instance-এর `@mcp.tool()` decorator function-এর type hint আর docstring থেকে tool definition বানায়।"
+    },
+    {
+      "question": "Claude API-র MCP connector দিয়ে কোন server যুক্ত করা যায়?",
+      "options": [
+        "যেকোনো local STDIO server",
+        "HTTP দিয়ে পাবলিকলি পৌঁছানো যায় এমন server",
+        "শুধু Anthropic-এর নিজের server"
+      ],
+      "answer": 1,
+      "explanation": "MCP connector-এ server পাবলিকলি HTTP দিয়ে exposed থাকতে হয়; local STDIO server সরাসরি যুক্ত হয় না।"
+    }
+  ]
+}

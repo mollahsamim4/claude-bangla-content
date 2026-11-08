@@ -1,0 +1,171 @@
+{
+  "id": "developer-20-streaming",
+  "track": "developer",
+  "order": 20,
+  "title": "Streaming Responses",
+  "summary": "Claude-এর উত্তর লেখার সাথে সাথে টুকরো টুকরো করে পাওয়া: SDK helper, `get_final_message()`, SSE event-এর ক্রম আর stream-এর error সামলানো।",
+  "updatedAt": "2026-11-08",
+  "blocks": [
+    {
+      "type": "paragraph",
+      "text": "সাধারণ রিকোয়েস্টে Claude পুরো উত্তর লিখে শেষ করার পরেই আপনি সেটা হাতে পান। ছোট উত্তরে সমস্যা নেই, কিন্তু লম্বা উত্তরে ইউজারকে অনেকক্ষণ খালি স্ক্রিন দেখতে হয়। Streaming চালু করলে Claude যত লেখে, টুকরো টুকরো করে তত পাঠাতে থাকে — ঠিক claude.ai-তে যেমন লেখা একটু একটু করে ভেসে ওঠে। চ্যাট অ্যাপ বানালে streaming প্রায় বাধ্যতামূলক, আর খুব বড় `max_tokens` দিলে timeout এড়াতেও এটা লাগে।"
+    },
+    {
+      "type": "heading",
+      "text": "Streaming with the Python SDK"
+    },
+    {
+      "type": "paragraph",
+      "text": "Python SDK-তে `client.messages.stream(...)` একটা context manager দেয়। `stream.text_stream` থেকে লেখার টুকরোগুলো আসতে থাকে, আপনি সেগুলো সাথে সাথে প্রিন্ট করতে পারেন:"
+    },
+    {
+      "type": "code",
+      "code": "import anthropic\n\nclient = anthropic.Anthropic()\n\nwith client.messages.stream(\n    model=\"claude-opus-5-5\",\n    max_tokens=1024,\n    messages=[{\"role\": \"user\", \"content\": \"Write a short poem about the monsoon.\"}],\n) as stream:\n    for text in stream.text_stream:\n        print(text, end=\"\", flush=True)",
+      "language": "python"
+    },
+    {
+      "type": "paragraph",
+      "text": "TypeScript SDK-তে একই কাজ `.on(\"text\", ...)` দিয়ে করা যায়:"
+    },
+    {
+      "type": "code",
+      "code": "import Anthropic from \"@anthropic-ai/sdk\";\n\nconst client = new Anthropic();\n\nawait client.messages\n  .stream({\n    model: \"claude-opus-5-5\",\n    max_tokens: 1024,\n    messages: [{ role: \"user\", content: \"Write a short poem about the monsoon.\" }],\n  })\n  .on(\"text\", (text) => {\n    process.stdout.write(text);\n  });",
+      "language": "typescript"
+    },
+    {
+      "type": "heading",
+      "text": "Get the final message without handling events"
+    },
+    {
+      "type": "paragraph",
+      "text": "অনেক সময় টুকরোগুলো দেখানোর দরকার নেই, শুধু লম্বা উত্তরটা নিরাপদে পেতে চান। তখন stream খুলে `get_final_message()` ডাকুন — হাতে পাবেন সাধারণ `messages.create()`-এর মতোই সম্পূর্ণ `Message` অবজেক্ট।"
+    },
+    {
+      "type": "code",
+      "code": "with client.messages.stream(\n    model=\"claude-opus-5-5\",\n    max_tokens=128000,\n    messages=[{\"role\": \"user\", \"content\": \"Write a detailed analysis...\"}],\n) as stream:\n    message = stream.get_final_message()\n\nfor block in message.content:\n    if block.type == \"text\":\n        print(block.text)",
+      "language": "python"
+    },
+    {
+      "type": "tip",
+      "text": "ডকস অনুযায়ী `max_tokens` 21,333-এর বেশি হলে SDK নিজেই streaming চায়, যাতে লম্বা রিকোয়েস্ট HTTP timeout-এ না আটকায়। এটা API-র নিয়ম না, SDK-র নিজের চেক। তাই বড় উত্তরের জন্য `.stream()` + `get_final_message()` অভ্যাস করে ফেলুন।"
+    },
+    {
+      "type": "heading",
+      "text": "Streaming with curl (raw events)"
+    },
+    {
+      "type": "paragraph",
+      "text": "SDK ছাড়া সরাসরি HTTP দিয়ে চাইলে body-তে `\"stream\": true` দিন। উত্তর আসে server-sent events (SSE) হিসেবে:"
+    },
+    {
+      "type": "code",
+      "code": "curl https://api.anthropic.com/v1/messages \\\n  -H \"anthropic-version: 2026-10-21\" \\\n  -H \"content-type: application/json\" \\\n  -H \"x-api-key: $ANTHROPIC_API_KEY\" \\\n  -d '{\n    \"model\": \"claude-opus-5-5\",\n    \"messages\": [{\"role\": \"user\", \"content\": \"Hello\"}],\n    \"max_tokens\": 256,\n    \"stream\": true\n  }'",
+      "language": "bash"
+    },
+    {
+      "type": "heading",
+      "text": "The event flow"
+    },
+    {
+      "type": "paragraph",
+      "text": "প্রতিটা stream একই ক্রমে event পাঠায়। নিজে parse করলে এই ক্রমটা জানা জরুরি:"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "`message_start` — একটা `Message` অবজেক্ট, যার `content` এখনো খালি।",
+        "প্রতিটা content block-এর জন্য `content_block_start`, তারপর এক বা একাধিক `content_block_delta`, শেষে `content_block_stop`। প্রতিটা block-এর একটা `index` থাকে।",
+        "এক বা একাধিক `message_delta` — যেমন `stop_reason` আর `usage`-এর আপডেট।",
+        "সবশেষে `message_stop`।"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "এর ফাঁকে ফাঁকে `ping` event আসতে পারে। delta-র ধরনও কয়েকটা: সাধারণ লেখার জন্য `text_delta`, tool-এর input-এর জন্য `input_json_delta` (এতে অসম্পূর্ণ JSON string থাকে, block শেষ হলে জোড়া লাগিয়ে parse করতে হয়), আর thinking-এর জন্য `thinking_delta` ও `signature_delta`।"
+    },
+    {
+      "type": "warning",
+      "text": "`message_delta` event-এর `usage`-এ যে টোকেন সংখ্যা থাকে সেটা cumulative — মানে এ পর্যন্ত মোট। প্রতিটা event-এর সংখ্যা যোগ করলে ভুল হিসাব হবে। আর ডকস বলছে নতুন event type ভবিষ্যতে যোগ হতে পারে, তাই অচেনা event পেলে কোড যেন crash না করে, চুপচাপ এড়িয়ে যায়।"
+    },
+    {
+      "type": "heading",
+      "text": "Errors inside a stream"
+    },
+    {
+      "type": "paragraph",
+      "text": "Stream চলার মাঝেও error আসতে পারে। যেমন চাপ বেশি থাকলে আসে `overloaded_error` — non-streaming রিকোয়েস্টে যেটা HTTP 529 হিসেবে আসত:"
+    },
+    {
+      "type": "code",
+      "code": "event: error\ndata: {\"type\": \"error\", \"error\": {\"type\": \"overloaded_error\", \"message\": \"Overloaded\"}}",
+      "language": "text"
+    },
+    {
+      "type": "paragraph",
+      "text": "নেটওয়ার্ক কেটে গিয়ে stream মাঝপথে থেমে গেলে পুরোটা আবার শুরু না করে যতটুকু পেয়েছেন সেটা বাঁচিয়ে রাখুন। Claude 4.6 ও পরের মডেলের জন্য ডকসের পরামর্শ হলো: নতুন একটা `user` মেসেজে আগের আংশিক উত্তরটা দিয়ে চালিয়ে যেতে বলা, যেমন:"
+    },
+    {
+      "type": "prompt",
+      "text": "Your previous response was interrupted and ended with [previous_response]. Continue from where you left off."
+    },
+    {
+      "type": "paragraph",
+      "text": "মনে রাখবেন, `tool_use` আর `thinking` block আংশিকভাবে উদ্ধার করা যায় না; শুধু সর্বশেষ text block থেকে আবার শুরু করা যায়।"
+    },
+    {
+      "type": "heading",
+      "text": "Recap"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "লম্বা বা ইন্টারঅ্যাকটিভ উত্তরে streaming ব্যবহার করুন — `client.messages.stream(...)`।",
+        "শুধু ফাইনাল উত্তর লাগলে `get_final_message()` (TypeScript-এ `finalMessage()`)।",
+        "Raw HTTP-তে `\"stream\": true`; event ক্রম: `message_start` → block events → `message_delta` → `message_stop`।",
+        "`usage` cumulative, আর অচেনা event নিরাপদে এড়িয়ে যান।"
+      ]
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Python SDK-তে লেখা আসার সাথে সাথে প্রিন্ট করতে কোনটা ব্যবহার করবেন?",
+      "options": [
+        "`stream.text_stream`",
+        "`message.content[0]`",
+        "`client.models.list()`"
+      ],
+      "answer": 0,
+      "explanation": "`client.messages.stream(...)` খুলে `stream.text_stream`-এ loop চালালে টুকরোগুলো আসার সাথে সাথে পাওয়া যায়।"
+    },
+    {
+      "question": "একটা stream কোন event দিয়ে শেষ হয়?",
+      "options": [
+        "`content_block_start`",
+        "`message_stop`",
+        "`ping`"
+      ],
+      "answer": 1,
+      "explanation": "ক্রমটা হলো `message_start` → content block events → `message_delta` → `message_stop`।"
+    },
+    {
+      "question": "`message_delta` event-এর `usage` সংখ্যাগুলো সম্পর্কে কোনটা ঠিক?",
+      "options": [
+        "এগুলো cumulative, মানে এ পর্যন্ত মোট",
+        "প্রতিটা event-এর আলাদা সংখ্যা, যোগ করতে হয়",
+        "এতে কখনো টোকেন সংখ্যা থাকে না"
+      ],
+      "answer": 0,
+      "explanation": "ডকস স্পষ্ট বলেছে `message_delta`-র usage cumulative। যোগ করলে দ্বিগুণ হিসাব হবে।"
+    },
+    {
+      "question": "খুব বড় `max_tokens` দিয়ে শুধু সম্পূর্ণ উত্তরটা চাইলে সবচেয়ে ভালো উপায় কী?",
+      "options": [
+        "`messages.create()` দিয়ে timeout বাড়ানো",
+        "`.stream()` খুলে `get_final_message()` ডাকা",
+        "`max_tokens` বাদ দিয়ে দেওয়া"
+      ],
+      "answer": 1,
+      "explanation": "`max_tokens` 21,333-এর বেশি হলে SDK streaming চায়। `get_final_message()` stream ব্যবহার করে সম্পূর্ণ `Message` ফেরত দেয়।"
+    }
+  ]
+}

@@ -1,0 +1,175 @@
+{
+  "id": "developer-23-prompt-caching",
+  "track": "developer",
+  "order": 23,
+  "title": "Prompt Caching",
+  "summary": "বারবার পাঠানো system prompt, ডকুমেন্ট আর tool-কে cache করে খরচ ও সময় কমানো: automatic ও explicit `cache_control`, TTL, দাম আর cache ভাঙার কারণ।",
+  "updatedAt": "2026-11-08",
+  "blocks": [
+    {
+      "type": "paragraph",
+      "text": "ধরুন আপনার অ্যাপ প্রতিটা প্রশ্নের সাথে একই ৫০ পাতার ম্যানুয়াল, একই লম্বা system prompt আর একই tool তালিকা পাঠায়। প্রতিবার এগুলো পুরো দামে প্রসেস হচ্ছে — টাকাও যাচ্ছে, সময়ও। Prompt caching দিয়ে API-কে বলা যায়: \"এই শুরুর অংশটা মনে রাখো, পরের বার এখান থেকেই চালিয়ে যেও।\" Anthropic-এর নিজের cost guide বলছে খরচ কমানোর উপায়গুলোর মধ্যে prompt caching সাধারণত সবচেয়ে বড় লিভার, তাই অন্য কিছুর আগে এটা চালু করতে।"
+    },
+    {
+      "type": "heading",
+      "text": "How it works: prefix matching"
+    },
+    {
+      "type": "paragraph",
+      "text": "Cache কাজ করে prompt-এর শুরুর অংশ (prefix) মিলিয়ে। ক্রমটা সবসময় `tools` → `system` → `messages`। যে block-এ `cache_control` বসান, শুরু থেকে সেই block পর্যন্ত পুরোটা cache হয়। পরের রিকোয়েস্টে ঠিক একই prefix এলে সেটা cache থেকে পড়া হয়, যা অনেক সস্তা আর দ্রুত। কিন্তু prefix-এর কোনো স্তরে সামান্য বদল হলেই সেই স্তর আর তার পরের সব স্তরের cache বাতিল।"
+    },
+    {
+      "type": "heading",
+      "text": "Option 1: Automatic caching"
+    },
+    {
+      "type": "paragraph",
+      "text": "সবচেয়ে সহজ উপায় — রিকোয়েস্টের top level-এ একটা `cache_control` দিন। API নিজেই শেষ cache করার মতো block-এ breakpoint বসায় আর কথোপকথন বড় হওয়ার সাথে সাথে সেটা সামনে সরিয়ে নেয়। Multi-turn চ্যাটের জন্য এটাই সেরা।"
+    },
+    {
+      "type": "code",
+      "code": "import anthropic\n\nclient = anthropic.Anthropic()\n\nresponse = client.messages.create(\n    model=\"claude-opus-5-5\",\n    max_tokens=1024,\n    cache_control={\"type\": \"ephemeral\"},\n    system=\"You are an AI assistant tasked with analyzing literary works.\",\n    messages=[{\"role\": \"user\", \"content\": \"Analyze the major themes in 'Pride and Prejudice'.\"}],\n)\nprint(response.usage)",
+      "language": "python"
+    },
+    {
+      "type": "heading",
+      "text": "Option 2: Explicit breakpoints"
+    },
+    {
+      "type": "paragraph",
+      "text": "কোনটা cache হবে নিজে ঠিক করতে চাইলে নির্দিষ্ট content block-এ `cache_control` বসান। এক রিকোয়েস্টে সর্বোচ্চ ৪টা breakpoint দেওয়া যায় — যেমন একটা tools-এর পরে, একটা বড় ডকুমেন্টের পরে। স্থির জিনিস (tool, নির্দেশনা, ডকুমেন্ট, উদাহরণ) সবসময় শুরুতে রাখুন, আর বদলাতে থাকা প্রশ্ন শেষে।"
+    },
+    {
+      "type": "code",
+      "code": "manual_text = open(\"manual.txt\", encoding=\"utf-8\").read()\n\nresponse = client.messages.create(\n    model=\"claude-opus-5-5\",\n    max_tokens=1024,\n    system=[\n        {\"type\": \"text\", \"text\": \"Answer questions using only the manual below.\"},\n        {\n            \"type\": \"text\",\n            \"text\": manual_text,\n            \"cache_control\": {\"type\": \"ephemeral\"},\n        },\n    ],\n    messages=[{\"role\": \"user\", \"content\": \"How do I reset the device?\"}],\n)",
+      "language": "python"
+    },
+    {
+      "type": "heading",
+      "text": "Cache lifetime"
+    },
+    {
+      "type": "paragraph",
+      "text": "ডিফল্টে cache টিকে থাকে ৫ মিনিট, আর প্রতিবার ব্যবহারে বিনা খরচে আবার ৫ মিনিট বেড়ে যায়। সময়টা গোনা হয় রিকোয়েস্ট শুরুর মুহূর্ত থেকে, উত্তর শেষ হওয়া থেকে না। বেশি সময় লাগলে বাড়তি দামে ১ ঘণ্টার cache নেওয়া যায়:"
+    },
+    {
+      "type": "code",
+      "code": "{\"cache_control\": {\"type\": \"ephemeral\", \"ttl\": \"1h\"}}",
+      "language": "json"
+    },
+    {
+      "type": "heading",
+      "text": "What it costs"
+    },
+    {
+      "type": "paragraph",
+      "text": "Pricing পেজ (২০২৬-১১-০৮ তারিখে দেখা) অনুযায়ী মূল গুণকগুলো: ৫ মিনিটের cache-এ লেখা = base input দামের 1.25 গুণ, ১ ঘণ্টার cache-এ লেখা = 2 গুণ, আর cache থেকে পড়া = সাধারণত 0.1 গুণ। Claude Opus 5.5 আর Claude Sonnet 5.5-এ পড়া আরও সস্তা, 0.05 গুণ; Claude Fable 5.1-এ 0.025 গুণ। মানে একবার লিখতে একটু বেশি খরচ, তারপর প্রতিটা পড়ায় বড় সাশ্রয়। সঠিক ডলারের দাম সবসময় pricing পেজে মিলিয়ে নিন: platform.claude.com/docs/en/about-claude/pricing"
+    },
+    {
+      "type": "heading",
+      "text": "Check that it actually works"
+    },
+    {
+      "type": "paragraph",
+      "text": "উত্তরের `usage`-এ তিনটা ফিল্ড দেখুন:"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "`cache_creation_input_tokens` — এবার cache-এ নতুন লেখা টোকেন।",
+        "`cache_read_input_tokens` — cache থেকে পড়া টোকেন।",
+        "`input_tokens` — শেষ breakpoint-এর পরের, cache-এর বাইরের টোকেন।"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "মোট input = এই তিনটার যোগফল। একই prefix দিয়ে দ্বিতীয়বার রিকোয়েস্ট পাঠানোর পরও `cache_read_input_tokens` শূন্য থাকলে বুঝবেন কোথাও গোলমাল আছে।"
+    },
+    {
+      "type": "warning",
+      "text": "খুব ছোট prompt cache হয় না, আর API কোনো error-ও দেয় না — চুপচাপ cache ছাড়াই চালিয়ে দেয়। Claude Opus 5.5, Sonnet 5.5, Haiku 5.5 ও Fable 5.1-এ ন্যূনতম 512 টোকেন লাগে (পুরনো কিছু মডেলে 1,024 থেকে 4,096)। দুটো cache ফিল্ডই শূন্য হলে সম্ভবত এই সীমার নিচে আছেন।"
+    },
+    {
+      "type": "heading",
+      "text": "Silent cache breakers"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "tool definition বদলানো (নাম, বর্ণনা, প্যারামিটার) — পুরো cache বাতিল।",
+        "system prompt-এ সময়, তারিখ বা প্রতিবার আলাদা কোনো ID বসানো — system আর messages cache বাতিল। এসব জিনিস শেষ breakpoint-এর পরে রাখুন।",
+        "কথোপকথনের মাঝে thinking-এর সেটিং বা top-level `effort` বদলানো — messages cache বাতিল।",
+        "ছবি যোগ বা বাদ দেওয়া, `tool_choice` বদলানো — messages cache বাতিল।"
+      ]
+    },
+    {
+      "type": "tip",
+      "text": "একসাথে অনেকগুলো সমান্তরাল রিকোয়েস্ট পাঠালে মনে রাখুন: cache entry তৈরি হয় প্রথম উত্তর শুরু হওয়ার পরে। তাই প্রথম রিকোয়েস্টের উত্তর আসা পর্যন্ত অপেক্ষা করে বাকিগুলো পাঠালে cache hit পাবেন।"
+    },
+    {
+      "type": "heading",
+      "text": "Recap"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "শুরু করুন top-level `cache_control: {\"type\": \"ephemeral\"}` দিয়ে।",
+        "স্থির জিনিস আগে, বদলানো জিনিস পরে; সর্বোচ্চ ৪টা breakpoint।",
+        "ডিফল্ট ৫ মিনিট, দরকার হলে `\"ttl\": \"1h\"`।",
+        "`cache_read_input_tokens` দেখে নিশ্চিত হন cache কাজ করছে।"
+      ]
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Prompt cache কোন ক্রমে prefix তৈরি করে?",
+      "options": [
+        "`messages` → `system` → `tools`",
+        "`tools` → `system` → `messages`",
+        "এলোমেলো ক্রমে"
+      ],
+      "answer": 1,
+      "explanation": "ক্রমটা `tools` → `system` → `messages`; কোনো স্তর বদলালে সেটা আর তার পরের স্তরের cache বাতিল হয়।"
+    },
+    {
+      "question": "ডিফল্ট cache কতক্ষণ টিকে থাকে?",
+      "options": [
+        "৫ মিনিট, ব্যবহারে আবার বাড়ে",
+        "২৪ ঘণ্টা",
+        "চিরকাল"
+      ],
+      "answer": 0,
+      "explanation": "ডিফল্ট lifetime ৫ মিনিট, প্রতিবার ব্যবহারে বিনা খরচে রিফ্রেশ হয়। বাড়তি দামে ১ ঘণ্টার বিকল্পও আছে।"
+    },
+    {
+      "question": "cache কাজ করছে কিনা বোঝার সবচেয়ে ভালো উপায় কী?",
+      "options": [
+        "উত্তরের দৈর্ঘ্য দেখা",
+        "`usage.cache_read_input_tokens` দেখা",
+        "API key বদলে দেখা"
+      ],
+      "answer": 1,
+      "explanation": "পরের রিকোয়েস্টে `cache_read_input_tokens` শূন্যের বেশি হলে cache থেকে পড়া হচ্ছে।"
+    },
+    {
+      "question": "system prompt-এর শুরুতে প্রতিবার বর্তমান সময় বসালে কী হবে?",
+      "options": [
+        "cache আরও ভালো কাজ করবে",
+        "প্রতিবার prefix বদলায়, তাই cache hit হবে না",
+        "কোনো প্রভাব নেই"
+      ],
+      "answer": 1,
+      "explanation": "Prefix-এর যেকোনো বদল cache ভেঙে দেয়। বদলানো জিনিস শেষ breakpoint-এর পরে রাখুন।"
+    },
+    {
+      "question": "Claude Opus 5.5-এ 300 টোকেনের একটা prompt-এ `cache_control` দিলে কী হবে?",
+      "options": [
+        "error আসবে",
+        "cache ছাড়াই চলবে, কোনো error ছাড়া",
+        "cache হবে কিন্তু দ্বিগুণ দামে"
+      ],
+      "answer": 1,
+      "explanation": "Opus 5.5-এ ন্যূনতম cacheable দৈর্ঘ্য 512 টোকেন। এর কম হলে API চুপচাপ cache ছাড়াই প্রসেস করে।"
+    }
+  ]
+}

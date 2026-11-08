@@ -1,0 +1,163 @@
+{
+  "id": "developer-27-computer-use",
+  "track": "developer",
+  "order": 27,
+  "title": "Computer Use",
+  "summary": "Claude-কে স্ক্রিন দেখে মাউস-কিবোর্ড চালাতে দেওয়া: `computer_toolset_20260801`, agent loop, batch action, নিরাপত্তা আর খরচ।",
+  "updatedAt": "2026-11-08",
+  "blocks": [
+    {
+      "type": "paragraph",
+      "text": "Computer use মানে Claude একটা কম্পিউটারের স্ক্রিন দেখে (screenshot নিয়ে) মাউস ক্লিক করে, কিবোর্ডে টাইপ করে কাজ করে — যেমন একজন মানুষ করে। যে সফটওয়্যারের কোনো API নেই, সেটার কাজও এভাবে automate করা যায়, যেমন পুরনো ডেস্কটপ অ্যাপে ফর্ম পূরণ বা সফটওয়্যার টেস্টিং। তবে ক্ষমতা যত বেশি, ঝুঁকিও তত বেশি — তাই এই লেসনের নিরাপত্তা অংশটা বিশেষ মন দিয়ে পড়ুন।"
+    },
+    {
+      "type": "heading",
+      "text": "What the tool actually is"
+    },
+    {
+      "type": "paragraph",
+      "text": "Computer use হলো Anthropic-এর বানানো একটা client toolset। `tools`-এ শুধু `{\"type\": \"computer_toolset_20260801\"}` লিখলেই Claude ১৭টা member tool পায় — যেমন `screenshot`, `left_click`, `type`, `zoom`। কোনো beta header লাগে না। গুরুত্বপূর্ণ কথা: Claude নিজে কোনো কম্পিউটারে ঢোকে না। প্রতিটা অ্যাকশন আপনার অ্যাপ নিজের নিয়ন্ত্রিত পরিবেশে (সাধারণত একটা virtual machine বা Docker container) চালায়, তারপর ফলাফল Claude-কে ফেরত দেয়।"
+    },
+    {
+      "type": "warning",
+      "text": "মডেল আর tool version মিলিয়ে নিন। Claude 5.5 ও পরের মডেলে computer use চলে `computer_toolset_20260801` দিয়ে; Claude API-তে এসব মডেলে পুরনো `computer_20251124` পাঠালে 400 error আসে। আবার Claude Opus 4.7, Opus 4.6, Sonnet 4.6 আর Opus 4.5-এ চলে শুধু `computer_20251124`, beta header `computer-use-2025-11-24` সহ। Claude Managed Agents-এ computer use এখন পাওয়া যায় না।"
+    },
+    {
+      "type": "heading",
+      "text": "Quick start"
+    },
+    {
+      "type": "paragraph",
+      "text": "ডকসের quick start-এ সাথে text editor আর bash tool-ও দেওয়া হয়েছে, কারণ Claude সাধারণত এগুলো computer use-এর পাশাপাশি ব্যবহার করে:"
+    },
+    {
+      "type": "code",
+      "code": "import anthropic\n\nclient = anthropic.Anthropic()\n\nresponse = client.messages.create(\n    model=\"claude-opus-5-5\",\n    max_tokens=1024,\n    tools=[\n        {\"type\": \"computer_toolset_20260801\"},\n        {\"type\": \"text_editor_20250728\", \"name\": \"str_replace_based_edit_tool\"},\n        {\"type\": \"bash_20250124\", \"name\": \"bash\"},\n    ],\n    messages=[{\"role\": \"user\", \"content\": \"Save a picture of a cat to my desktop.\"}],\n)\nprint(response)",
+      "language": "python"
+    },
+    {
+      "type": "heading",
+      "text": "The agent loop"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "Toolset আর একটা কাজের prompt দিয়ে রিকোয়েস্ট পাঠান।",
+        "Claude উত্তরে এক বা একাধিক member `tool_use` block পাঠায় (`stop_reason: \"tool_use\"`), প্রতিটায় `\"toolset_name\": \"computer\"`।",
+        "আপনার কোড block-গুলো ক্রমানুসারে চালায় — `name` দেখে ঠিক করে কোন অ্যাকশন — আর প্রতিটার জন্য একটা `tool_result` বানায়।",
+        "সব ফলাফল একটা `user` মেসেজে ফেরত পাঠান। `screenshot` আর `zoom`-এর ফলাফলে ছবি দিন; বাকিগুলোর জন্য `OK`-এর মতো ছোট লেখা যথেষ্ট।",
+        "Claude ফলাফল দেখে আরও অ্যাকশন চায়, অথবা কাজ শেষ হলে লেখা দিয়ে উত্তর দেয়।"
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "Batch actions: run in order, stop at first failure"
+    },
+    {
+      "type": "paragraph",
+      "text": "Claude একবারে কয়েকটা অ্যাকশন পাঠাতে পারে — যেমন ক্লিক, তারপর টাইপ, তারপর screenshot। এগুলো একসাথে না চালিয়ে ক্রম মেনে একটা একটা করে চালাতে হবে, কারণ পরেরটা আগেরটার ওপর নির্ভর করে। প্রতিটা `tool_result`-এ অবশ্যই `\"toolset_name\": \"computer\"` থাকতে হবে, না থাকলে রিকোয়েস্ট বাতিল হয়।"
+    },
+    {
+      "type": "code",
+      "code": "{\n  \"type\": \"tool_result\",\n  \"tool_use_id\": \"toolu_01HqCF3nJ4Vzr8sTkPZ2wxYA\",\n  \"toolset_name\": \"computer\",\n  \"content\": [{\"type\": \"text\", \"text\": \"OK\"}]\n}",
+      "language": "json"
+    },
+    {
+      "type": "paragraph",
+      "text": "কোনো অ্যাকশন ব্যর্থ হলে বাকিগুলো চালাবেন না। ব্যর্থটার জন্য `is_error: true` সহ কী ভুল হলো লিখুন, আর পরের প্রতিটার জন্য `is_error: true` দিয়ে ডকসে দেওয়া ঠিক এই লেখাটা পাঠান:"
+    },
+    {
+      "type": "code",
+      "code": "Not executed: an earlier computer action in this turn failed.",
+      "language": "text"
+    },
+    {
+      "type": "tip",
+      "text": "কোনো `tool_use` block-এর উত্তর বাদ পড়লে পরের রিকোয়েস্ট `invalid_request_error` দেয়। পুরো কাজের পরিবেশ শূন্য থেকে না বানিয়ে Anthropic-এর reference implementation দিয়ে শুরু করতে পারেন: github.com/anthropics/claude-quickstarts/tree/main/computer-use-demo — এতে Docker container, tool implementation, agent loop আর একটা web interface আছে।"
+    },
+    {
+      "type": "heading",
+      "text": "Safety first"
+    },
+    {
+      "type": "paragraph",
+      "text": "ডকস নিজেই বলছে computer use-এর ঝুঁকি সাধারণ API ফিচারের চেয়ে আলাদা, বিশেষ করে ইন্টারনেটের সাথে কাজ করলে। পরামর্শগুলো:"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "কম অনুমতির একটা আলাদা virtual machine বা container ব্যবহার করুন।",
+        "লগইন তথ্যের মতো সংবেদনশীল ডেটা মডেলের নাগালে রাখবেন না।",
+        "ইন্টারনেট অ্যাক্সেস নির্দিষ্ট কিছু ডোমেইনের allowlist-এ সীমিত রাখুন।",
+        "বাস্তবে প্রভাব ফেলে এমন সিদ্ধান্তে (টাকা লেনদেন, শর্তে সম্মতি, cookie গ্রহণ) একজন মানুষের অনুমোদন নিন — batch-এর প্রতিটা block চালানোর আগেই।"
+      ]
+    },
+    {
+      "type": "warning",
+      "text": "Prompt injection: ওয়েবপেজ বা ছবির ভেতরে লেখা নির্দেশ কখনো কখনো Claude আপনার নির্দেশের বদলে মেনে ফেলতে পারে। Anthropic classifier দিয়ে screenshot-এ সম্ভাব্য injection খোঁজে আর তখন Claude-কে যাচাই করতে বলে, কিন্তু তবুও উপরের সতর্কতাগুলো জরুরি। নিজের প্রোডাক্টে computer use চালু করার আগে ইউজারকে ঝুঁকি জানিয়ে সম্মতি নিন।"
+    },
+    {
+      "type": "heading",
+      "text": "Limits and cost"
+    },
+    {
+      "type": "paragraph",
+      "text": "Computer use মানুষের চেয়ে ধীর হতে পারে, তাই যেখানে গতি জরুরি না (ব্যাকগ্রাউন্ডে তথ্য সংগ্রহ, অটোমেটেড টেস্টিং) সেখানে ব্যবহার করুন। Claude ভুল coordinate-এ ক্লিক করতে পারে, scroll সবসময় কাজ নাও করতে পারে। খরচের দিকে, ডিফল্ট member-সহ toolset ঘোষণা করলেই প্রায় 4,500 input টোকেন যোগ হয়, আর প্রতিটা screenshot ছবি হিসেবে বিল হয় (Lesson 26)। শুধু ওয়েবপেজের ভেতরের কাজ হলে ডকস browser use tool-কে বেশি মানানসই বলে, কারণ তাতে পুরো ডেস্কটপ লাগে না।"
+    },
+    {
+      "type": "heading",
+      "text": "Recap"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "Claude 5.5+ মডেলে `{\"type\": \"computer_toolset_20260801\"}`, কোনো beta header ছাড়া।",
+        "অ্যাকশন আপনার কোড চালায়, Claude শুধু নির্দেশ দেয়।",
+        "Batch ক্রমে চালান, প্রতিটা `tool_result`-এ `toolset_name`, প্রথম ব্যর্থতায় থামুন।",
+        "আলাদা VM, সংবেদনশীল ডেটা দূরে, গুরুত্বপূর্ণ কাজে মানুষের অনুমোদন।"
+      ]
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Claude Opus 5.5-এর সাথে computer use চালাতে `tools`-এ কী দেবেন?",
+      "options": [
+        "`{\"type\": \"computer_toolset_20260801\"}`",
+        "`{\"type\": \"computer_20251124\"}` আর beta header",
+        "কিছু না, এটা ডিফল্টে চালু"
+      ],
+      "answer": 0,
+      "explanation": "Claude 5.5 ও পরের মডেলে computer use চলে `computer_toolset_20260801` দিয়ে; Claude API-তে `computer_20251124` দিলে 400 আসে।"
+    },
+    {
+      "question": "Computer use-এ মাউস ক্লিক বা টাইপিং আসলে কে চালায়?",
+      "options": [
+        "Anthropic-এর সার্ভার",
+        "আপনার অ্যাপ, নিজের নিয়ন্ত্রিত পরিবেশে",
+        "ইউজারের ফোন"
+      ],
+      "answer": 1,
+      "explanation": "এটা client toolset — Claude শুধু `tool_use` পাঠায়, অ্যাকশন চালায় আপনার কোড।"
+    },
+    {
+      "question": "Batch action-এর দ্বিতীয় অ্যাকশন ব্যর্থ হলে কী করবেন?",
+      "options": [
+        "বাকি অ্যাকশনগুলো চালিয়ে যাবেন",
+        "থামবেন; ব্যর্থটায় error আর পরেরগুলোয় নির্দিষ্ট 'Not executed' বার্তা `is_error: true` দিয়ে পাঠাবেন",
+        "পুরো batch-এর কোনো উত্তর পাঠাবেন না"
+      ],
+      "answer": 1,
+      "explanation": "পরের অ্যাকশন আগেরটার ওপর নির্ভর করে, তাই প্রথম ব্যর্থতায় থামতে হয়, কিন্তু প্রতিটা block-এর `tool_result` দিতেই হবে।"
+    },
+    {
+      "question": "Computer use-এর জন্য কোনটা ডকসের নিরাপত্তা পরামর্শ নয়?",
+      "options": [
+        "আলাদা VM বা container ব্যবহার",
+        "ব্যাংকের পাসওয়ার্ড মডেলকে দিয়ে রাখা",
+        "গুরুত্বপূর্ণ সিদ্ধান্তে মানুষের অনুমোদন"
+      ],
+      "answer": 1,
+      "explanation": "ডকস স্পষ্ট বলছে লগইন তথ্যের মতো সংবেদনশীল ডেটা মডেলের নাগালে রাখবেন না।"
+    }
+  ]
+}
