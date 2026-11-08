@@ -1,0 +1,158 @@
+{
+  "id": "everyday-14-claude-in-chrome",
+  "track": "everyday",
+  "order": 14,
+  "title": "Claude in Chrome",
+  "summary": "Claude in Chrome extension দিয়ে Claude ওয়েবসাইট পড়ে, ক্লিক করে, ফর্ম পূরণ করে — জেনে নিন কীভাবে নিরাপদে ব্যবহার করবেন।",
+  "updatedAt": "2026-11-08",
+  "blocks": [
+    {
+      "type": "paragraph",
+      "text": "Claude in Chrome হলো Google Chrome-এর একটা browser extension। এটা দিয়ে Claude আপনার পাশে বসে ওয়েবসাইট পড়তে, বাটনে ক্লিক করতে, টাইপ করতে আর এক পেজ থেকে অন্য পেজে যেতে পারে। কয়েকটা ট্যাবের তথ্য মিলিয়ে দেখা বা একঘেয়ে ফর্ম পূরণের মতো কাজে এটা অনেক সময় বাঁচায়। তবে Claude আপনার হয়ে আসল ওয়েবসাইটে কাজ করছে — তাই এই লেসনের নিরাপত্তার অংশটা বিশেষ মন দিয়ে পড়ুন।"
+    },
+    {
+      "type": "heading",
+      "text": "Availability"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "শুধু paid plan-এ: Pro, Max, Ultra, Team আর Enterprise। Free plan-এ নেই।",
+        "Help Center-এর “Use Claude in Chrome safely” পেজ অনুযায়ী Chrome browser-এ এটা এখনো beta-তে।",
+        "শুধু Google Chrome-এ চলে — অন্য Chromium browser (যেমন Edge, Brave) বা মোবাইলে সাপোর্ট করে না। তাই Android ফোনে এটা পাবেন না, কম্পিউটার লাগবে।",
+        "Max, Ultra আর Team plan-এ side panel একটা Cowork session হিসেবে চলে, তাই কথোপকথন history-তে সেভ হয়। Pro-তে এটা ধাপে ধাপে আসছে, Enterprise-এ admin চালু করলে পাওয়া যায়। তার আগে পুরোনো “classic” side panel চলে।"
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "Install"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "Google Chrome খুলুন।",
+        "Chrome Web Store-এ গিয়ে Claude extension খুঁজুন।",
+        "“Add to Chrome” চাপুন।",
+        "সাইন ইন করতে বললে আপনার Claude অ্যাকাউন্ট দিয়ে সাইন ইন করুন।",
+        "puzzle piece আইকনে চেপে “Claude”-এর পাশের পিন চিহ্নে চাপ দিয়ে extension-টা পিন করুন।",
+        "দরকারি permission দিন। এরপর toolbar-এ Claude আইকন চাপলেই পাশে side panel খুলবে।"
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "What to ask"
+    },
+    {
+      "type": "paragraph",
+      "text": "Side panel আপনি যে ট্যাবে আছেন সেটা নিজেই পড়ে নেয়। ছোট, তাৎক্ষণিক কাজে এটা সবচেয়ে ভালো: খোলা ট্যাবগুলোর তুলনা, কোনো পেজ থেকে তথ্য তুলে নোট বা ফর্মে বসানো, অথবা কোনো সাইটে ধাপে ধাপে একটা কাজ — আপনি পাশে বসে দেখছেন।"
+    },
+    {
+      "type": "prompt",
+      "text": "Compare the prices, delivery times and return policies of the products open in my tabs and put them in a table."
+    },
+    {
+      "type": "prompt",
+      "text": "Summarize this article in 5 bullet points, then list any claims I should double-check."
+    },
+    {
+      "type": "heading",
+      "text": "Permission modes"
+    },
+    {
+      "type": "paragraph",
+      "text": "চ্যাট বক্সের drop-down থেকে তিনটে mode বেছে নেওয়া যায়:"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "Manually approve (Manual): প্রতিটা কাজের আগে Claude থেমে আপনার অনুমতি চায়। সবচেয়ে বেশি নিয়ন্ত্রণ আপনার হাতে।",
+        "Automatically approve (Auto): Claude থামে না, তবে প্রতিটা কাজ চালানোর আগে নিজে নিরাপত্তা যাচাই করে, ঝুঁকিপূর্ণ মনে হলে আটকে দেয় বা আপনাকে জিজ্ঞেস করে। Cowork side panel-এ এটাই default।",
+        "Skip all approvals (Skip): কিছুই জিজ্ঞেস করে না, কোনো স্বয়ংক্রিয় যাচাইও নেই। কাজের সবকিছুর ওপর পুরো ভরসা থাকলে তবেই এটা বাছবেন।"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "কোনো সাইটে অনুমতি চাইলে সাধারণত তিনটে অপশন আসে: “Allow this action” (শুধু এই একটা কাজ — Help Center একে সবচেয়ে নিরাপদ বলে), “Always allow actions on this site” (শুধু পুরো বিশ্বস্ত সাইটে), আর “Decline”। Mode যেটাই হোক, permission বদলানো, authorization দেওয়া, সংবেদনশীল তথ্য টাইপ করা বা স্থায়ীভাবে কিছু মুছে ফেলার আগে Claude সবসময় আপনার স্পষ্ট অনুমতি নেয়। আর কিছু কাজ Claude কোনো অবস্থাতেই করে না: কেনাকাটা বা টাকার লেনদেন, নতুন অ্যাকাউন্ট খোলা, ক্রেডিট কার্ড বা পরিচয়পত্রের তথ্য নিয়ে কাজ, আর ইমেইল বা ওয়েব কনটেন্টের ভেতরের নির্দেশ মেনে চলা।"
+    },
+    {
+      "type": "heading",
+      "text": "Prompt injection: the biggest risk"
+    },
+    {
+      "type": "warning",
+      "text": "Help Center-এর ভাষায় browser-চালানো AI-এর সবচেয়ে বড় ঝুঁকি prompt injection: কোনো ওয়েবসাইট, ইমেইল বা ডকুমেন্টে অদৃশ্য লেখায় ক্ষতিকর নির্দেশ লুকানো থাকে, আর Claude সেটাকে আপনার অনুরোধ ভেবে ভুল কাজ করে ফেলতে পারে। Anthropic safety classifier দিয়ে এগুলো আটকানোর চেষ্টা করে, কিন্তু নিজেরাই বলে ঝুঁকি শূন্য নয়। Claude হঠাৎ অপ্রাসঙ্গিক কথা বললে, অচেনা সাইটে গেলে বা সংবেদনশীল তথ্য চাইলে সঙ্গে সঙ্গে কাজ থামিয়ে দিন।"
+    },
+    {
+      "type": "tip",
+      "text": "Claude আপনার ট্যাবের screenshot নিয়ে পেজ দেখে, তাই ট্যাবে যা দেখা যায় সবই কথোপকথনে চলে যায়। Help Center-এর পরামর্শ মেনে Claude-এর জন্য Chrome-এ আলাদা একটা profile খুলুন, যেখানে ব্যাংক, স্বাস্থ্য বা সরকারি অ্যাকাউন্টে লগইন করা নেই।"
+    },
+    {
+      "type": "paragraph",
+      "text": "আরও কয়েকটা অভ্যাস কাজে লাগবে: আগে চেনা, বিশ্বস্ত সাইটে সহজ কাজ দিয়ে শুরু করুন। নতুন সাইটে Claude কী করতে চায় দেখে তবেই approve করুন। prompt নির্দিষ্ট করে লিখুন। ব্যাংকিং, আইনি কাগজপত্র, চিকিৎসার তথ্য বা অন্যের ব্যক্তিগত তথ্যে এটা ব্যবহার করবেন না। মনে রাখবেন, Claude আপনার হয়ে যা পাঠায়, প্রকাশ করে বা বদলায় — তার দায় আপনার।"
+    },
+    {
+      "type": "heading",
+      "text": "Recap"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "Claude in Chrome শুধু paid plan-এ, শুধু কম্পিউটারের Google Chrome-এ, আর Chrome-এ এখনো beta।",
+        "Manual, Auto আর Skip — এই তিন mode বুঝে বাছুন। নতুন সাইটে “Allow this action” সবচেয়ে নিরাপদ।",
+        "আলাদা Chrome profile ব্যবহার করুন, সংবেদনশীল সাইট এড়িয়ে চলুন, আর সন্দেহজনক আচরণ দেখলে কাজ থামান।"
+      ]
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Claude in Chrome কোথায় ব্যবহার করা যায়?",
+      "options": [
+        "Android ফোনের Chrome-এ",
+        "কম্পিউটারের Google Chrome-এ, paid plan থাকলে",
+        "যেকোনো browser-এ, Free plan-এও"
+      ],
+      "answer": 1,
+      "explanation": "এটা শুধু Google Chrome-এ চলে। অন্য Chromium browser বা মোবাইলে চলে না, আর লাগে Pro, Max, Ultra, Team বা Enterprise plan।"
+    },
+    {
+      "question": "কোন permission mode-এ প্রতিটা কাজের আগে Claude আপনার অনুমতি চায়?",
+      "options": [
+        "Manually approve",
+        "Automatically approve",
+        "Skip all approvals"
+      ],
+      "answer": 0,
+      "explanation": "Manually approve (Manual) mode-এ প্রতিটা কাজের আগে Claude থেমে জিজ্ঞেস করে। Auto mode নিজে যাচাই করে চালায়, আর Skip কিছুই যাচাই করে না।"
+    },
+    {
+      "question": "কোন কাজটা Claude in Chrome কোনো mode-এই করবে না?",
+      "options": [
+        "একটা আর্টিকেলের সারাংশ করা",
+        "অনলাইনে কেনাকাটা বা টাকার লেনদেন",
+        "খোলা ট্যাবগুলোর তুলনা করা"
+      ],
+      "answer": 1,
+      "explanation": "Help Center-এর “Prohibited actions” তালিকায় কেনাকাটা ও আর্থিক লেনদেন আছে। Permission যাই দিন, Claude এটা করবে না।"
+    },
+    {
+      "question": "কাজের মাঝে Claude হঠাৎ অচেনা সাইটে গিয়ে আপনার ব্যক্তিগত তথ্য চাইছে। কী করবেন?",
+      "options": [
+        "তথ্য দিয়ে দেবেন, Claude তো জানে কী করছে",
+        "সঙ্গে সঙ্গে কাজ থামাবেন — এটা prompt injection-এর লক্ষণ হতে পারে",
+        "Skip all approvals চালু করবেন"
+      ],
+      "answer": 1,
+      "explanation": "অপ্রাসঙ্গিক আচরণ, অচেনা সাইটে যাওয়া বা সংবেদনশীল তথ্য চাওয়া prompt injection-এর লক্ষণ হতে পারে। Help Center এমন হলে সঙ্গে সঙ্গে কাজ থামাতে বলে।"
+    },
+    {
+      "question": "Claude in Chrome ব্যবহারের জন্য Help Center কী ধরনের Chrome profile সুপারিশ করে?",
+      "options": [
+        "যে profile-এ সব অ্যাকাউন্ট লগইন করা",
+        "আলাদা profile, যেখানে ব্যাংক, স্বাস্থ্য বা সরকারি অ্যাকাউন্টের access নেই",
+        "Guest mode ছাড়া অন্য কিছু চলে না"
+      ],
+      "answer": 1,
+      "explanation": "Claude ট্যাবের screenshot দেখে কাজ করে, তাই সংবেদনশীল অ্যাকাউন্ট ছাড়া আলাদা profile রাখলে ঝুঁকি কমে।"
+    }
+  ]
+}

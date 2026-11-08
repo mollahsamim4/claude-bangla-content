@@ -1,0 +1,135 @@
+{
+  "id": "everyday-16-images-and-screenshots",
+  "track": "everyday",
+  "order": 16,
+  "title": "Images & Screenshots (Vision)",
+  "summary": "ছবি, screenshot আর চার্ট দেখিয়ে Claude-কে প্রশ্ন করুন — কী পারে, কী পারে না, জেনে নিন।",
+  "updatedAt": "2026-11-08",
+  "blocks": [
+    {
+      "type": "paragraph",
+      "text": "অনেক সময় একটা ছবি দেখানো একশো লাইন লেখার চেয়ে সহজ। ফোনে অচেনা error এসেছে, অফিসের চার্ট বুঝতে পারছেন না, বা কোনো নোটিশের ছবি তুলেছেন — Claude আপলোড করা ছবি দেখে বিশ্লেষণ করতে পারে। এই ক্ষমতাকে বলে vision। একটা কথা পরিষ্কার থাকা দরকার: Claude ছবি দেখতে আর বুঝতে পারে, কিন্তু image-generation টুলের মতো ছবি বা illustration আঁকে না। তবে web আর desktop-এ চ্যাটের ভেতরে diagram বা chart বানিয়ে দিতে পারে (এটা এখনো beta)।"
+    },
+    {
+      "type": "heading",
+      "text": "Supported images"
+    },
+    {
+      "type": "paragraph",
+      "text": "Claude JPEG, PNG, GIF আর WebP ফরম্যাট সাপোর্ট করে। প্রতিটা ছবি সর্বোচ্চ 8000x8000 pixel হতে পারে। Help Center-এর পরামর্শ — ভালো ফলের জন্য অন্তত 1000x1000 pixel-এর ছবি দিন, খুব ছোট বা ঝাপসা ছবি এড়িয়ে চলুন।"
+    },
+    {
+      "type": "heading",
+      "text": "How to share an image"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "চ্যাট বক্সের “+” বাটনে চাপুন, তারপর “Add files or photos”।",
+        "ফোনের গ্যালারি বা কম্পিউটার থেকে ছবি বাছুন। কম্পিউটারে চাইলে ছবি টেনে চ্যাটে ছেড়ে দিন, বা clipboard থেকে সরাসরি paste করুন।",
+        "ছবির সাথে কী জানতে চান, স্পষ্ট করে লিখুন।"
+      ]
+    },
+    {
+      "type": "tip",
+      "text": "Android-এ Claude widget (Android 8.0 বা নতুন) home screen-এ রাখলে তাতে একটা camera বাটন থাকে। চাপলেই নতুন চ্যাট খুলে ক্যামেরা চালু হয় — ছবি তুলে সরাসরি Claude-কে দেখাতে পারবেন। widget যোগ করতে home screen-এর খালি জায়গায় চেপে ধরে “Widgets” থেকে “Claude” বেছে নিন।"
+    },
+    {
+      "type": "heading",
+      "text": "Useful prompts"
+    },
+    {
+      "type": "prompt",
+      "text": "This is a screenshot of an error on my phone. Explain what it means in simple Bengali and tell me what to try first."
+    },
+    {
+      "type": "prompt",
+      "text": "Read this chart and tell me the three most important trends. If any number is hard to read, say so instead of guessing."
+    },
+    {
+      "type": "prompt",
+      "text": "Copy all the text in this photo exactly as written. Mark any word you cannot read clearly with [?]."
+    },
+    {
+      "type": "paragraph",
+      "text": "Anthropic-এর docs অনুযায়ী Claude সবচেয়ে ভালো কাজ করে যখন ছবি আগে আসে আর প্রশ্ন পরে। তাই আগে ছবি যোগ করুন, তারপর প্রশ্ন লিখুন। একসাথে কয়েকটা ছবি দিলে বলে দিন কোনটা কী — যেমন “প্রথম ছবিটা পুরোনো বিল, দ্বিতীয়টা নতুন”।"
+    },
+    {
+      "type": "heading",
+      "text": "What Claude can't do well"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "ছবিতে মানুষ কে, তা নাম ধরে চেনাবে না — Anthropic-এর Usage Policy অনুযায়ী Claude এটা করতে অস্বীকার করে।",
+        "নিম্নমানের, ঘোরানো বা খুব ছোট (200 pixel-এর কম) ছবিতে ভুল করতে পারে, এমনকি বানিয়েও বলতে পারে।",
+        "অনেক ছোট ছোট জিনিস গুনতে বললে সংখ্যাটা আনুমানিক হতে পারে।",
+        "কোনো ছবি AI দিয়ে বানানো কিনা, Claude তা নির্ভরযোগ্যভাবে বলতে পারে না — ভুয়া ছবি ধরতে এর ওপর ভরসা করবেন না।",
+        "সাধারণ মেডিক্যাল ছবি নিয়ে কথা বলতে পারে, কিন্তু CT বা MRI-এর মতো জটিল scan পড়ার জন্য তৈরি নয়। এটা ডাক্তারের পরামর্শের বিকল্প নয়।"
+      ]
+    },
+    {
+      "type": "warning",
+      "text": "Screenshot পাঠানোর আগে একবার দেখে নিন তাতে কী কী আছে। OTP, পাসওয়ার্ড, ব্যাংক অ্যাকাউন্ট নম্বর, জাতীয় পরিচয়পত্রের নম্বর বা অন্যের ব্যক্তিগত মেসেজ থাকলে আগে crop করে বা ঢেকে দিন। যা দরকার শুধু সেটুকুই পাঠান।"
+    },
+    {
+      "type": "paragraph",
+      "text": "Anthropic নিজেও বলে, ছবির ব্যাখ্যা — বিশেষ করে গুরুত্বপূর্ণ কাজে — সবসময় মিলিয়ে দেখুন। ছবি থেকে কপি করা লেখা বা সংখ্যা কোথাও জমা দেওয়ার আগে মূল ছবির সাথে একবার মিলিয়ে নিন।"
+    },
+    {
+      "type": "heading",
+      "text": "Recap"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "“+” > “Add files or photos” দিয়ে JPEG, PNG, GIF বা WebP ছবি দিন — পরিষ্কার, বড় ছবি দিলে ফল ভালো।",
+        "আগে ছবি, পরে প্রশ্ন। আর পড়তে না পারলে আন্দাজ না করে জানাতে বলুন।",
+        "সংবেদনশীল তথ্য ঢেকে দিন, আর গুরুত্বপূর্ণ ফলাফল নিজে মিলিয়ে নিন।"
+      ]
+    }
+  ],
+  "quiz": [
+    {
+      "question": "নিচের কোনটা Claude করে না?",
+      "options": [
+        "আপলোড করা ছবি বিশ্লেষণ",
+        "image-generation টুলের মতো ছবি বা illustration আঁকা",
+        "চার্ট পড়ে প্রবণতা বলা"
+      ],
+      "answer": 1,
+      "explanation": "Help Center অনুযায়ী Claude image-generation টুলের মতো ছবি তৈরি করে না। তবে ছবি দেখে বিশ্লেষণ করতে পারে, আর চ্যাটে diagram বা chart বানাতে পারে।"
+    },
+    {
+      "question": "Claude-এর জন্য কোন ছবির ফরম্যাট সাপোর্টেড নয়?",
+      "options": [
+        "PNG",
+        "WebP",
+        "PSD (Photoshop file)",
+        "JPEG"
+      ],
+      "answer": 2,
+      "explanation": "সাপোর্টেড ছবির ফরম্যাট হলো JPEG, PNG, GIF আর WebP। PSD এই তালিকায় নেই।"
+    },
+    {
+      "question": "ছবির সাথে প্রশ্ন করার ভালো ক্রম কোনটা?",
+      "options": [
+        "আগে ছবি, তারপর প্রশ্ন",
+        "আগে প্রশ্ন, ছবি একদম শেষে কয়েক মেসেজ পরে",
+        "ছবি দিয়ে কোনো প্রশ্ন না লেখা"
+      ],
+      "answer": 0,
+      "explanation": "Anthropic-এর docs বলে, ছবি আগে আর লেখা পরে থাকলে Claude সবচেয়ে ভালো কাজ করে।"
+    },
+    {
+      "question": "একটা ছবি AI দিয়ে বানানো কিনা জানতে কি Claude-এর ওপর ভরসা করা যায়?",
+      "options": [
+        "হ্যাঁ, Claude সবসময় নির্ভুল বলে",
+        "না, Claude এটা নির্ভরযোগ্যভাবে বলতে পারে না",
+        "শুধু PNG হলে পারে"
+      ],
+      "answer": 1,
+      "explanation": "Anthropic-এর vision docs-এর Limitations অংশে স্পষ্ট বলা আছে, ছবি AI-generated কিনা Claude তা নির্ধারণ করতে পারে না।"
+    }
+  ]
+}

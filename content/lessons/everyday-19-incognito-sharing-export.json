@@ -1,0 +1,133 @@
+{
+  "id": "everyday-19-incognito-sharing-export",
+  "track": "everyday",
+  "order": 19,
+  "title": "Incognito Chats, Sharing & Exporting",
+  "summary": "History-তে না রাখা incognito chat, চ্যাট শেয়ার করা আর নিজের সব ডেটা export করা — কখন কোনটা, কীভাবে।",
+  "updatedAt": "2026-11-08",
+  "blocks": [
+    {
+      "type": "paragraph",
+      "text": "কিছু কথোপকথন আপনি history-তে রাখতে চান না। কিছু আবার বন্ধু বা সহকর্মীকে দেখাতে চান। আর মাঝে মাঝে নিজের সব চ্যাটের একটা কপি নিজের কাছে রাখতে ইচ্ছে করে। এই তিনটে কাজের জন্য Claude-এ তিনটে আলাদা ব্যবস্থা আছে: incognito chat, sharing আর data export।"
+    },
+    {
+      "type": "heading",
+      "text": "Incognito chats"
+    },
+    {
+      "type": "paragraph",
+      "text": "Incognito chat একটা অস্থায়ী কথোপকথন, যা আপনার chat history-তে বা Claude-এর memory-তে সেভ হয় না। সব plan-এ (Free, Pro, Max, Ultra, Team, Enterprise) পাওয়া যায়। Help Center অনুযায়ী incognito chat ট্রেনিংয়ে ব্যবহার হয় না, আর পুরোনো চ্যাট খোঁজার সময় Claude এগুলো থেকে কিছু আনে না। Incognito chat শুরু হয় Claude-এর আগের memory ছাড়াই, আর এর কিছু পরে memory-তেও যোগ হয় না।"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "কোনো Project-এর বাইরে নতুন চ্যাট শুরু করুন।",
+        "উপরে ডানদিকে ভূতের (ghost) আইকনে চাপুন।",
+        "চারপাশে কালো বর্ডার আর উপরে বাঁদিকে “Incognito chat” লেখা দেখলে বুঝবেন incognito চালু হয়েছে।",
+        "কথা শেষ হলে উপরে ডানদিকের “x” চেপে বন্ধ করুন।"
+      ]
+    },
+    {
+      "type": "warning",
+      "text": "Incognito মানে “কোথাও কিছু থাকে না” নয়। History-তে না থাকলেও chat-গুলো 30 দিন (default) রাখা হয়, আর Enterprise-এ organization-এর retention setting অনুযায়ী আরও বেশি দিন। Team আর Enterprise-এ এগুলো organization owner-দের data export-এ থাকে। একবার বন্ধ করলে আর খোলা যায় না, আর regular chat-এ রূপান্তরও করা যায় না — দরকারি কিছু থাকলে বন্ধ করার আগেই কপি করে রাখুন।"
+    },
+    {
+      "type": "paragraph",
+      "text": "আরও কয়েকটা কথা: incognito-তেও Claude আপনার profile-এর তথ্য, যেমন custom style আর personal preferences, দেখতে পায়। Project-এর ভেতরে incognito হয় না। সেখানে কোনো একটা চ্যাট memory ছাড়া চালাতে চাইলে প্রথম মেসেজের আগে “+” মেনু থেকে “Memory” বন্ধ করুন — চ্যাটটা history-তে থাকবে, কিন্তু memory ব্যবহার বা আপডেট হবে না। আর আপনার অ্যাকাউন্টে নতুন Claude experience চালু থাকলে incognito chat পুরোনো চ্যাট experience-এ খোলে, তাই সেখানে Claude ফাইল বানাতে বা code চালাতে পারে না।"
+    },
+    {
+      "type": "heading",
+      "text": "Share a chat"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "চ্যাট খুলে উপরে ডানদিকের “Share” বাটনে চাপুন।",
+        "“People with access”-এর ঘরে এক বা একাধিক ইমেইল ঠিকানা লিখুন।",
+        "“Send” চাপুন। প্রত্যেকে একটা ইমেইল পাবে, লিংকটা শুধু সেই ইমেইল ঠিকানা দিয়েই খোলে।"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "শেয়ার করলে যায় চ্যাটের একটা snapshot — শেয়ার করার মুহূর্ত পর্যন্ত সব মেসেজ আর artifact। যারা দেখবে তারা উত্তর দিতে বা চ্যাট চালিয়ে যেতে পারে না। আপনার আপলোড করা ফাইল যায় না, connector বা MCP টুলের কাঁচা ডেটাও না, শুধু Claude-এর চূড়ান্ত উত্তর। পরে নতুন মেসেজ যোগ করে সেগুলোও দেখাতে চাইলে share dialog-এ “Update shared chat” চাপুন। শেয়ার পুরো বন্ধ করতে “Turn off” চাপুন। কাকে কী শেয়ার করেছেন, সব দেখা যায় Settings > Privacy-এর Shared chats অংশে।"
+    },
+    {
+      "type": "paragraph",
+      "text": "Free, Pro, Max আর Ultra plan-এ public link-ও বানানো যায়, যা লিংক থাকা যে কেউ Claude অ্যাকাউন্ট ছাড়াই দেখতে পারে। Team আর Enterprise-এ শেয়ার শুধু নিজের organization-এর ভেতরে চলে, public link হয় না। আর Help Center অনুযায়ী নির্দিষ্ট লোককে শেয়ার করার সুবিধা এখনো মোবাইল অ্যাপে নেই, claude.ai-এর web থেকে করতে হয়। তবে শেয়ার করা চ্যাট যেকোনো ডিভাইসে খোলা যায়।"
+    },
+    {
+      "type": "tip",
+      "text": "Public link-কে public-ই ভাবুন। Anthropic search engine-কে index না করতে বলে, কিন্তু কেউ লিংকটা ফেসবুক বা কোনো ফোরামে দিলে যে কেউ পড়তে পারবে, screenshot-ও রাখতে পারবে। লিংক বন্ধ করলে সেই কপি মুছে যায় না। ফোন নম্বর, ঠিকানা বা ব্যক্তিগত কথা থাকলে public link বানাবেন না।"
+    },
+    {
+      "type": "heading",
+      "text": "Export your data"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "web বা Claude Desktop-এ Settings > Privacy-এ যান। (iOS বা Android অ্যাপ থেকে export করা যায় না।)",
+        "“Export data”-এ চাপুন।",
+        "প্রসেস শেষ হলে অ্যাকাউন্টের ইমেইলে একটা download link আসবে। লগইন করা অবস্থায় সেটা দিয়ে ফাইল নামান।"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Free, Pro, Max আর Ultra-তে export-এ থাকে আপনার চ্যাট, project, memory আর অ্যাকাউন্টের তথ্য — তবে আপনার আপলোড করা আসল ফাইলগুলো থাকে না। Download link 24 ঘণ্টা পর মেয়াদ শেষ হয়, আর হয়তো একবারই কাজ করে, তাই সঙ্গে সঙ্গে নামিয়ে নিন। মেয়াদ চলে গেলে আবার export চালান। Team বা Enterprise-এ নিজের ডেটা export করতে হলে আগে owner-কে “Allow members to export their own data” চালু করতে হয়। আর exported ডেটা অন্য কোনো personal Claude অ্যাকাউন্টে import করা যায় না।"
+    },
+    {
+      "type": "heading",
+      "text": "Recap"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "Incognito (ghost আইকন): history আর memory-তে যায় না, ট্রেনিংয়ে ব্যবহার হয় না, কিন্তু 30 দিন রাখা হয়।",
+        "Share: snapshot যায়, view-only। আপলোড করা ফাইল যায় না। “Update shared chat” আর “Turn off” মনে রাখুন।",
+        "Export: Settings > Privacy > “Export data” (web/Desktop)। ইমেইলের লিংক 24 ঘণ্টার মধ্যে নামান।"
+      ]
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Incognito chat সম্পর্কে কোনটা সঠিক?",
+      "options": [
+        "সাথে সাথে চিরতরে মুছে যায়, কোথাও থাকে না",
+        "History আর memory-তে সেভ হয় না, তবে default অবস্থায় 30 দিন রাখা হয়",
+        "পরে regular chat-এ রূপান্তর করা যায়"
+      ],
+      "answer": 1,
+      "explanation": "Incognito chat history বা memory-তে যায় না, কিন্তু Help Center অনুযায়ী default অবস্থায় 30 দিন রাখা হয়, আর regular chat-এ বদলানো যায় না।"
+    },
+    {
+      "question": "একটা চ্যাট শেয়ার করলে আপনার আপলোড করা PDF কি দেখা যায়?",
+      "options": [
+        "হ্যাঁ, সবাই ডাউনলোড করতে পারে",
+        "না, আপলোড করা ফাইল snapshot-এ যায় না",
+        "শুধু public link-এ দেখা যায়"
+      ],
+      "answer": 1,
+      "explanation": "Shared snapshot-এ মেসেজ আর artifact যায়, কিন্তু আপনার attach করা ফাইল private থাকে (organization-এর ভেতরে শেয়ার করলে ছাড়া)।"
+    },
+    {
+      "question": "শেয়ার করার পরে নতুন মেসেজগুলোও দেখাতে চাইলে কী করবেন?",
+      "options": [
+        "Share dialog-এ “Update shared chat” চাপবেন",
+        "নতুন অ্যাকাউন্ট খুলবেন",
+        "কিছুই করতে হবে না, নিজে থেকেই আপডেট হয়"
+      ],
+      "answer": 0,
+      "explanation": "শেয়ার করা হয় শুধু সেই মুহূর্তের snapshot। নতুন মেসেজ দেখাতে “Update shared chat” দিয়ে snapshot বদলাতে হয়।"
+    },
+    {
+      "question": "Data export কোথা থেকে করা যায়?",
+      "options": [
+        "শুধু Android অ্যাপ থেকে",
+        "web বা Claude Desktop-এর Settings > Privacy থেকে",
+        "Claude-কে চ্যাটে বললেই"
+      ],
+      "answer": 1,
+      "explanation": "Help Center অনুযায়ী export হয় web বা Desktop-এর Settings > Privacy > “Export data” থেকে। iOS বা Android অ্যাপ থেকে সম্ভব নয়।"
+    }
+  ]
+}

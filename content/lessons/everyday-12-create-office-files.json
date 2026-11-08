@@ -1,0 +1,149 @@
+{
+  "id": "everyday-12-create-office-files",
+  "track": "everyday",
+  "order": 12,
+  "title": "Creating Excel, Word & PowerPoint Files",
+  "summary": "চ্যাটে বলে দিলেই Claude আসল .xlsx, .docx, .pptx আর PDF ফাইল বানিয়ে দেয় — কীভাবে চাইবেন শিখুন।",
+  "updatedAt": "2026-11-08",
+  "blocks": [
+    {
+      "type": "paragraph",
+      "text": "অফিসের বাজেট শিট, দরখাস্ত, ক্লাসের প্রেজেন্টেশন — এগুলো বানাতে অনেক সময় যায়। Claude এখন নিজের একটা আলাদা, সুরক্ষিত কম্পিউটিং পরিবেশে (sandbox) code চালিয়ে সত্যিকারের ফাইল বানাতে পারে: Excel (.xlsx), PowerPoint (.pptx), Word (.docx) আর PDF। ফাইলটা আপনি সরাসরি ডাউনলোড করতে পারবেন, অথবা Google Drive-এ সেভ করতে পারবেন।"
+    },
+    {
+      "type": "heading",
+      "text": "Availability"
+    },
+    {
+      "type": "paragraph",
+      "text": "Help Center অনুযায়ী এই সুবিধার নাম “Code execution and file creation”। এটা সব plan-এ (Free, Pro, Max, Ultra, Team, Enterprise) আছে — web, Claude Desktop আর Claude Mobile-এ। Free, Pro, Max আর Ultra-তে এটা default অবস্থায় চালু থাকে। Team আর Enterprise-এ সাধারণত চালু থাকে, তবে organization owner চাইলে বন্ধ করে দিতে পারেন।"
+    },
+    {
+      "type": "heading",
+      "text": "Turn it on"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "web বা Desktop-এ Settings > Capabilities-এ যান।",
+        "“Code execution and file creation” toggle চালু আছে কিনা দেখুন। নতুন Settings লেআউটে এর নাম “Create and edit files”।",
+        "মোবাইলে (iOS/Android): বাঁদিকের sidebar-এ আপনার নাম বা নামের আদ্যক্ষরে চাপুন, Settings খুলুন, তারপর “Capabilities” থেকে একই toggle চালু করুন।"
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "Ask for a file"
+    },
+    {
+      "type": "paragraph",
+      "text": "সাধারণ ভাষায় লিখে দিন কী ফাইল চান। নিচের তিনটে উদাহরণ Anthropic-এর Help Center থেকে নেওয়া:"
+    },
+    {
+      "type": "prompt",
+      "text": "Create a monthly budget tracker with income, expense categories, and automatic calculations for savings."
+    },
+    {
+      "type": "prompt",
+      "text": "Convert this Word document to a presentation."
+    },
+    {
+      "type": "prompt",
+      "text": "Extract all the data from this PDF into an Excel spreadsheet and create a summary chart."
+    },
+    {
+      "type": "paragraph",
+      "text": "Help Center বলছে তৈরি করা ফাইলের ভেতরেও একাধিক ভাষা পুরোপুরি সাপোর্ট করে। তাই বাংলায় ডকুমেন্ট চাইলে স্পষ্ট করে বলে দিন:"
+    },
+    {
+      "type": "prompt",
+      "text": "Create a Word document in Bengali: a one-page leave application to my office manager for 3 days (12–14 November) because of a family wedding. Use a formal tone and leave blanks for my name and designation."
+    },
+    {
+      "type": "tip",
+      "text": "যত নির্দিষ্ট করে বলবেন, ফল তত ভালো হবে। Excel হলে কোন কোন কলাম আর কয়টা শিট, প্রেজেন্টেশন হলে কয়টা স্লাইড আর কাদের সামনে দেখাবেন, Word হলে কত পাতা আর কেমন ভঙ্গি — সব লিখে দিন। প্রথমবার পুরোপুরি মনমতো না হলে “স্লাইড ৩-এ একটা চার্ট যোগ করো” ধরনের ফলো-আপ দিন।"
+    },
+    {
+      "type": "paragraph",
+      "text": "মোবাইলে “Download” চাপলে ফাইলটা ফোনের preview-তে বা সংশ্লিষ্ট অ্যাপে খোলে (যেমন .docx হলে Word অ্যাপে)। এক চ্যাটে একাধিক ফাইলও বানানো যায় — যেমন একটা CSV দিয়ে Excel মডেল, তার সারাংশের memo আর একটা PowerPoint, তিনটেই।"
+    },
+    {
+      "type": "heading",
+      "text": "Limits and usage"
+    },
+    {
+      "type": "paragraph",
+      "text": "Help Center অনুযায়ী এই ফিচারে প্রতিটা ফাইলের সর্বোচ্চ সাইজ 30MB (আপলোড আর ডাউনলোড দুটোতেই)। আর মনে রাখুন, ফাইল বানাতে সাধারণ চ্যাটের চেয়ে আপনার plan-এর usage limit বেশি খরচ হয়। Excel-এর ফর্মুলা আর হিসাব কাজে লাগানোর আগে একবার নিজে মিলিয়ে নিন — Help Center-ও বলে, আউটপুট রিভিউ করে ঠিকঠাক করে নিতে হতে পারে।"
+    },
+    {
+      "type": "heading",
+      "text": "Security"
+    },
+    {
+      "type": "warning",
+      "text": "ফাইল বানানোর সময় Claude code চালায়, আর network access চালু থাকলে ইন্টারনেট থেকে package নামাতে পারে। Help Center সতর্ক করে যে কোনো অচেনা ফাইল বা ওয়েবসাইটে লুকানো নির্দেশ (prompt injection) থাকলে Claude-কে দিয়ে আপনার চ্যাটের তথ্য বাইরে পাঠানোর চেষ্টা হতে পারে। তাই কাজ চলার সময় Claude কী করছে খেয়াল রাখুন, আর অপ্রত্যাশিত কিছু দেখলে থামিয়ে দিন।"
+    },
+    {
+      "type": "paragraph",
+      "text": "নিরাপত্তার জন্য Free, Pro, Max আর Ultra plan-এ এই ফিচারে বানানো ফাইল আছে এমন চ্যাট public-ভাবে শেয়ার করা বন্ধ রাখা হয়েছে। প্রতিটা ইউজারের sandbox আলাদা, কারো সাথে শেয়ার হয় না।"
+    },
+    {
+      "type": "tip",
+      "text": "পেছনে Claude Anthropic-এর built-in Excel, Word, PowerPoint আর PDF skills নিজে থেকেই ব্যবহার করে — আপনাকে আলাদা করে কিছু চালু করতে হয় না। Skills নিয়ে পরের লেসনে বিস্তারিত আছে।"
+    },
+    {
+      "type": "heading",
+      "text": "Recap"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "Settings > Capabilities-এ “Code execution and file creation” (বা “Create and edit files”) চালু রাখুন।",
+        "কী ফাইল, কী কাঠামো, কোন ভাষা — স্পষ্ট করে বলুন, তারপর ফলো-আপ দিয়ে ঠিক করুন।",
+        "ফর্মুলা ও সংখ্যা নিজে মিলিয়ে নিন, আর অচেনা ফাইল নিয়ে কাজের সময় Claude-এর কাজ খেয়াল রাখুন।"
+      ]
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Claude কোন কোন ধরনের ফাইল বানাতে পারে?",
+      "options": [
+        "শুধু .txt",
+        "Excel (.xlsx), PowerPoint (.pptx), Word (.docx) আর PDF",
+        "শুধু ছবি",
+        "শুধু Google Docs"
+      ],
+      "answer": 1,
+      "explanation": "Help Center অনুযায়ী Claude .xlsx, .pptx, .docx আর PDF ফাইল বানায়, যা ডাউনলোড করা বা Google Drive-এ সেভ করা যায়।"
+    },
+    {
+      "question": "Free plan-এ এই ফিচার পেতে কোন setting চালু থাকতে হবে?",
+      "options": [
+        "Settings > Capabilities-এ “Code execution and file creation”",
+        "Incognito mode",
+        "Voice mode"
+      ],
+      "answer": 0,
+      "explanation": "Settings > Capabilities-এর “Code execution and file creation” (নতুন লেআউটে “Create and edit files”) টগলটাই এই ফিচার নিয়ন্ত্রণ করে। Free plan-এ এটা default চালু থাকে।"
+    },
+    {
+      "question": "ফাইল বানানো কি সাধারণ চ্যাটের সমান usage খরচ করে?",
+      "options": [
+        "হ্যাঁ, একদম সমান",
+        "না, সাধারণ চ্যাটের চেয়ে বেশি খরচ করে",
+        "না, একদম ফ্রি"
+      ],
+      "answer": 1,
+      "explanation": "Help Center স্পষ্ট বলে, ফাইল তৈরি করতে সাধারণ চ্যাটের চেয়ে বেশি usage limit লাগে।"
+    },
+    {
+      "question": "অচেনা উৎসের ফাইল নিয়ে কাজ করানোর সময় কোনটা সবচেয়ে ভালো অভ্যাস?",
+      "options": [
+        "Claude কী করছে খেয়াল রাখা আর অপ্রত্যাশিত কিছু দেখলে থামিয়ে দেওয়া",
+        "চ্যাট খুলে রেখে চলে যাওয়া",
+        "ফাইলে নিজের পাসওয়ার্ড লিখে দেওয়া"
+      ],
+      "answer": 0,
+      "explanation": "অচেনা ফাইলে prompt injection থাকতে পারে। Help Center-এর পরামর্শ: Claude-এর কাজ মনিটর করুন, সন্দেহজনক কিছু দেখলে থামান।"
+    }
+  ]
+}
