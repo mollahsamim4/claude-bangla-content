@@ -1,0 +1,143 @@
+{
+  "id": "everyday-13-skills",
+  "track": "everyday",
+  "order": 13,
+  "title": "Skills in Claude Apps",
+  "summary": "Skills দিয়ে Claude-কে আপনার নিজের কাজের ধরন একবার শিখিয়ে দিন — বারবার একই নির্দেশ লিখতে হবে না।",
+  "updatedAt": "2026-11-08",
+  "blocks": [
+    {
+      "type": "paragraph",
+      "text": "ধরুন প্রতি সপ্তাহে আপনি একই ফরম্যাটে রিপোর্ট লেখান, আর প্রতিবার Claude-কে একই নির্দেশ টাইপ করেন। Skills এই ঝামেলা মেটায়। একটা skill হলো একটা ফোল্ডার — ভেতরে নির্দেশ লেখা একটা ফাইল, দরকার হলে সাথে টেমপ্লেট, রেফারেন্স ফাইল বা script। Claude প্রথমে শুধু প্রতিটা skill-এর নাম আর ছোট বিবরণটা দেখে রাখে। আপনার অনুরোধের সাথে মিললে তখনই পুরো নির্দেশ খুলে পড়ে। তাই অনেক skill চালু রাখলেও কথোপকথন ভারী হয় না।"
+    },
+    {
+      "type": "heading",
+      "text": "Availability"
+    },
+    {
+      "type": "paragraph",
+      "text": "Help Center অনুযায়ী Skills Free, Pro, Max, Ultra, Team আর Enterprise — সব plan-এ আছে, তবে শর্ত একটাই: code execution চালু থাকতে হবে (আগের লেসনের “Code execution and file creation” setting)। Team plan-এ organization লেভেলে default চালু থাকে। Enterprise-এ Owner-কে আগে Skills চালু করতে হয়।"
+    },
+    {
+      "type": "warning",
+      "text": "নাম বদলাচ্ছে: Help Center জানিয়েছে, sidebar-এর Customize-এর নাম বদলে Plugins হচ্ছে, আর Skills, Connectors, Plugins আলাদা ট্যাবের বদলে একটা Plugins পেজে আসছে। Free থেকে Team plan-এ এটা ২৯ অক্টোবর থেকে ধাপে ধাপে চালু হচ্ছে (সবার জন্য ৯ নভেম্বর), Enterprise-এ ৩০ নভেম্বর। আপনার অ্যাকাউন্টে Plugins দেখালে নিচের “Customize > Skills” মানে Plugins পেজ, যেখানে skills-এর filter আছে।"
+    },
+    {
+      "type": "heading",
+      "text": "Anthropic's built-in skills"
+    },
+    {
+      "type": "paragraph",
+      "text": "Anthropic নিজে কয়েকটা skill বানিয়ে দিয়েছে: Excel spreadsheet বানানো ও এডিট, Word document, PowerPoint presentation আর PDF তৈরি ও প্রসেসিং। Code execution চালু থাকলে Claude এগুলো দরকার মতো নিজেই ব্যবহার করে। যেমন “Create a PowerPoint presentation about Q3 results” লিখলেই PowerPoint skill কাজে লাগে — আলাদা করে ডাকতে হয় না।"
+    },
+    {
+      "type": "heading",
+      "text": "Turn skills on or off"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "Free, Pro, Max বা Ultra হলে Settings > Capabilities-এ “Code execution and file creation” (নতুন লেআউটে “Create and edit files”) চালু করুন।",
+        "Customize > Skills-এ যান (নতুন লেআউটে Plugins)।",
+        "যে skill চান তার পাশের toggle চালু বা বন্ধ করুন। বন্ধ skill Claude ব্যবহার করতে পারে না।"
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "Create your own skill"
+    },
+    {
+      "type": "paragraph",
+      "text": "প্রতিটা skill-এর কেন্দ্রে থাকে SKILL.md নামের একটা ফাইল। শুরুতে YAML frontmatter-এ দুটো জিনিস বাধ্যতামূলক: name আর description। Anthropic-এর docs অনুযায়ী name-এ শুধু ছোট হাতের ইংরেজি অক্ষর, সংখ্যা আর হাইফেন চলবে (সর্বোচ্চ 64 ক্যারেক্টার), আর তাতে “anthropic” বা “claude” শব্দ রাখা যাবে না। description সবচেয়ে জরুরি অংশ — এখানে লিখতে হয় skill-টা কী করে আর কখন ব্যবহার হবে। claude.ai-এর জন্য Help Center-এর পরামর্শ, description 200 ক্যারেক্টারের মধ্যে রাখুন। নিচে একটা ছোট উদাহরণ:"
+    },
+    {
+      "type": "code",
+      "language": "markdown",
+      "code": "---\nname: bangla-formal-letter\ndescription: Writes formal Bengali letters and applications (leave, complaint, request). Use when the user asks for a formal letter or application in Bengali.\n---\n\n# Bengali formal letter\n\n## Instructions\n1. Write in standard Bengali (cholito bhasha), polite and formal.\n2. Order: date, recipient, subject line, salutation, body, closing, sender.\n3. Keep the body under 200 words unless the user asks for more.\n4. Leave clear blanks like [Your name] for anything the user did not give.\n\n## Example\nInput: Leave application for 2 days because of fever.\nOutput: A complete Bengali leave application with date, subject and closing."
+    },
+    {
+      "type": "steps",
+      "items": [
+        "একটা ফোল্ডার বানান, যার নাম skill-এর name-এর সাথে মিলবে (যেমন bangla-formal-letter), আর ভেতরে SKILL.md রাখুন।",
+        "পুরো ফোল্ডারটা ZIP করুন — ZIP-এর ভেতরে ফোল্ডারটা থাকবে, ফাইলগুলো সরাসরি নয়।",
+        "Customize > Skills-এ গিয়ে “+” বাটন, তারপর “+ Create skill” চাপুন।",
+        "“Upload a skill” বেছে ZIP ফাইলটা আপলোড করুন।",
+        "তালিকায় skill-টা এলে toggle চালু করে কয়েকটা আলাদা prompt দিয়ে পরীক্ষা করুন।"
+      ]
+    },
+    {
+      "type": "tip",
+      "text": "Claude যদি আপনার skill ব্যবহার না করে, প্রথমে description-টা আরও স্পষ্ট করুন। তাৎক্ষণিক সমাধান হিসেবে নাম ধরে বলে দিন, যেমন নিচের prompt-এর মতো।"
+    },
+    {
+      "type": "prompt",
+      "text": "Use my bangla-formal-letter skill to write a complaint letter to the electricity office about frequent power cuts in our area."
+    },
+    {
+      "type": "heading",
+      "text": "Safety"
+    },
+    {
+      "type": "warning",
+      "text": "Skill শুধু বিশ্বস্ত উৎস থেকে নিন — আপনার নিজের বানানো বা Anthropic-এর। একটা skill-এ script থাকতে পারে, বাইরের package install করার নির্দেশও থাকতে পারে। Help Center-এর মতে সবচেয়ে বড় ঝুঁকি prompt injection আর ডেটা বাইরে পাচার হওয়া। সহকর্মী শেয়ার করলেও চালু করার আগে ভেতরের ফাইলগুলো পড়ে দেখুন, বিশেষ করে script আর বাইরের ওয়েবসাইটে যোগাযোগের নির্দেশ আছে কিনা। আর skill-এর ভেতরে কখনো API key বা পাসওয়ার্ড লিখে রাখবেন না।"
+    },
+    {
+      "type": "paragraph",
+      "text": "বাড়তি তথ্য: Team ও Enterprise plan-এ skill নির্দিষ্ট সহকর্মীদের সাথে শেয়ার করা যায় (তারা শুধু ব্যবহার করতে পারে, এডিট নয়)। আর Claude-এর settings-এ চালু থাকা skill একই অ্যাকাউন্ট দিয়ে সাইন ইন করা Claude Code-এও (v2.1.273 বা নতুন) লোড হয়।"
+    },
+    {
+      "type": "heading",
+      "text": "Recap"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "Skill = নির্দেশ (SKILL.md) আর দরকারি ফাইলের একটা ফোল্ডার, যা Claude প্রয়োজন হলে নিজেই খুলে পড়ে।",
+        "Code execution চালু রেখে Customize > Skills (বা Plugins) থেকে চালু/বন্ধ বা আপলোড করুন।",
+        "ভালো description লিখুন, আর শুধু বিশ্বস্ত skill চালু করুন।"
+      ]
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Skills ব্যবহার করতে কোন setting চালু থাকা বাধ্যতামূলক?",
+      "options": [
+        "Voice mode",
+        "Code execution (Code execution and file creation)",
+        "Incognito chat"
+      ],
+      "answer": 1,
+      "explanation": "Skills চলে code execution-এর পরিবেশে। তাই Help Center অনুযায়ী এটা চালু না থাকলে Skills অংশ দেখা যায় না বা ধূসর থাকে।"
+    },
+    {
+      "question": "SKILL.md-এর কোন অংশ দেখে Claude ঠিক করে কখন skill-টা ব্যবহার করবে?",
+      "options": [
+        "ফাইলের সাইজ",
+        "description",
+        "ফোল্ডারের রং"
+      ],
+      "answer": 1,
+      "explanation": "description-এ লেখা থাকে skill কী করে আর কখন লাগবে। Claude আপনার অনুরোধ এর সাথেই মিলিয়ে দেখে।"
+    },
+    {
+      "question": "নিচের কোনটা skill-এর জন্য বৈধ name?",
+      "options": [
+        "Bangla Letter!",
+        "claude-helper",
+        "bangla-formal-letter"
+      ],
+      "answer": 2,
+      "explanation": "name-এ শুধু ছোট হাতের অক্ষর, সংখ্যা আর হাইফেন চলে, আর “claude” বা “anthropic” শব্দ নিষেধ। তাই bangla-formal-letter ঠিক।"
+    },
+    {
+      "question": "সহকর্মী একটা skill শেয়ার করলে চালু করার আগে কী করা উচিত?",
+      "options": [
+        "সরাসরি চালু করে দেওয়া",
+        "ভেতরের ফাইল, বিশেষ করে script আর বাইরের network-এ যাওয়ার নির্দেশ, পড়ে দেখা",
+        "skill-এর ভেতরে নিজের পাসওয়ার্ড যোগ করা"
+      ],
+      "answer": 1,
+      "explanation": "Help Center বলে, কম-বিশ্বস্ত উৎস (সহকর্মীর শেয়ার করা সহ) থেকে skill নিলে চালুর আগে পর্যালোচনা করুন। এতে prompt injection আর ডেটা পাচারের ঝুঁকি কমে।"
+    }
+  ]
+}

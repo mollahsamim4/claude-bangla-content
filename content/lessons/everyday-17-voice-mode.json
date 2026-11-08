@@ -1,0 +1,145 @@
+{
+  "id": "everyday-17-voice-mode",
+  "track": "everyday",
+  "order": 17,
+  "title": "Voice Mode",
+  "summary": "টাইপ না করে Claude-এর সাথে মুখে কথা বলুন — voice mode চালু করা, ভাষা বাছা আর dictation-এর সাথে পার্থক্য।",
+  "updatedAt": "2026-11-08",
+  "blocks": [
+    {
+      "type": "paragraph",
+      "text": "রান্না করছেন, হাঁটছেন বা বাসে বসে আছেন — হাত ব্যস্ত, কিন্তু মাথা খালি। Voice mode-এ আপনি Claude-এর সাথে মুখে কথা বলেন আর Claude-ও কথা বলে উত্তর দেয়, একদম ফোনালাপের মতো। একই কথোপকথনে লেখা আর কথা বলার মধ্যে আসা-যাওয়াও করা যায়, আগের প্রসঙ্গ হারায় না।"
+    },
+    {
+      "type": "heading",
+      "text": "Availability"
+    },
+    {
+      "type": "paragraph",
+      "text": "Help Center অনুযায়ী voice mode একটা beta ফিচার। সব plan-এ (Free, Pro, Max, Ultra, Team, Enterprise) পাওয়া যায়: Claude Mobile (iOS ও Android), Claude Desktop আর web-এ। তবে এটা বানানো হয়েছে মূলত ফোনে সবচেয়ে ভালো চলার জন্য। Voice-এ কথা বলাও আপনার plan-এর সাধারণ usage limit থেকেই খরচ হয়।"
+    },
+    {
+      "type": "heading",
+      "text": "Dictation vs voice mode"
+    },
+    {
+      "type": "paragraph",
+      "text": "দুটো আলাদা জিনিস। Dictation (মাইক্রোফোন আইকন) আপনার কথা লেখায় রূপান্তর করে prompt হিসেবে পাঠায়, আর Claude লিখে উত্তর দেয়। Voice mode (sound wave আইকন) পুরো দুই-দিকের কথোপকথন — আপনি বলেন, Claude-ও বলে। তাতে web search আর আপনার connect করা টুল, যেমন Gmail, Google Calendar, Google Docs, Slack, ব্যবহার করা যায়।"
+    },
+    {
+      "type": "heading",
+      "text": "Start voice mode"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "মোবাইলে: Claude অ্যাপ খুলে লেখার ঘরে মাইক্রোফোনের পাশের sound wave আইকনে চাপুন।",
+        "প্রথমবার একটা voice বেছে নিন।",
+        "কথা বলা শুরু করুন। আপনি থামলে Claude উত্তর দেবে।",
+        "web বা Desktop-এ: নতুন চ্যাটে নিচে ডানদিকের sound wave চিহ্নে চাপুন। শেষ করতে একই জায়গার “Stop” বাটন চাপুন।"
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "Hands-free or push-to-talk"
+    },
+    {
+      "type": "paragraph",
+      "text": "Default হলো hands-free mode: Claude একটানা শোনে আর আপনার স্বাভাবিক বিরতি বুঝে উত্তর দেয়। শান্ত জায়গায় এটা সবচেয়ে ভালো চলে। Claude ভুল দিকে যাচ্ছে মনে হলে মাঝপথে কথা বলা শুরু করুন — Claude থেমে শুনবে। ভিড়ের রাস্তা, বাজার বা অনেক লোকের মাঝে থাকলে push-to-talk-এ যান: কথা বলার সময় বাটন চেপে ধরে রাখুন, শেষ হলে ছেড়ে দিন।"
+    },
+    {
+      "type": "heading",
+      "text": "Language: what about Bengali?"
+    },
+    {
+      "type": "paragraph",
+      "text": "Help Center বলছে voice mode ইংরেজি ছাড়াও অনেক ভাষায় চলে, তবে ইংরেজি ছাড়া অন্য ভাষার সাপোর্ট এখনো beta-তে। কোন কোন ভাষা আছে তার তালিকা ওই পেজে দেওয়া নেই। তাই নিজের অ্যাপে দেখে নিন: Settings > Capabilities-এ গিয়ে Voice > Spoken language খুলুন। সেখানে Voice না থাকলে Settings > General > Voice > Language-এ দেখুন। তালিকায় বাংলা থাকলে বেছে নিন, না থাকলে ইংরেজিতে কথা বলুন বা বাংলায় টাইপ করুন।"
+    },
+    {
+      "type": "tip",
+      "text": "অ্যাপের display language বদলালে voice-এর ভাষা বদলায় না — সেটা আলাদা করে Spoken language-এ ঠিক করতে হয়। আর জেনে রাখুন, Help Center-এর বর্তমান তালিকা অনুযায়ী মোবাইলের dictation-এ বাংলা নেই (হিন্দি আছে)।"
+    },
+    {
+      "type": "heading",
+      "text": "Things to try"
+    },
+    {
+      "type": "prompt",
+      "text": "Let's practise for a job interview for a customer service role. Ask me one question at a time, wait for my answer, and give me short feedback after each one."
+    },
+    {
+      "type": "prompt",
+      "text": "Check my Google Calendar and brief me on what I have today, in the order it happens."
+    },
+    {
+      "type": "paragraph",
+      "text": "দ্বিতীয়টা কাজ করবে শুধু Google Calendar connector যুক্ত থাকলে। Free plan-এ একটা টুল connect করা যায়, paid plan-এ বেশি। জটিল প্রশ্ন হলে একসাথে না বলে একটা একটা করে জিজ্ঞেস করুন — Help Center-ও এটাই পরামর্শ দেয়। URL বা code-এর মতো জিনিস মুখে বলা কঠিন হলে মাঝপথে টাইপ করে দিন।"
+    },
+    {
+      "type": "heading",
+      "text": "Privacy and troubleshooting"
+    },
+    {
+      "type": "paragraph",
+      "text": "Voice কথোপকথনের লিখিত transcript সাধারণ চ্যাটের মতোই history-তে সেভ থাকে। নিরাপত্তার জন্য voice শুধু নির্দিষ্ট কয়েকটা preset থেকে বাছা যায়, কারো গলা নকল করা যায় না। Claude আপনার কথা ঠিকমতো না বুঝলে ফোনে Claude-এর মাইক্রোফোন permission চালু আছে কিনা দেখুন, শান্ত জায়গায় যান বা push-to-talk ব্যবহার করুন। উত্তর ভেঙে ভেঙে এলে ইন্টারনেট কানেকশন দেখুন। Claude সাড়া না দিলে usage limit শেষ হয়ে গেছে কিনা দেখুন, অথবা voice mode থেকে বেরিয়ে আবার ঢুকুন।"
+    },
+    {
+      "type": "warning",
+      "text": "Claude Cowork আর Claude Code-এ শুধু dictation চলে, voice mode নয়। তবে Help Center বলছে নতুন Claude experience-এ (chat আর Cowork একসাথে) যেকোনো কথোপকথনে voice mode কাজ করে।"
+    },
+    {
+      "type": "heading",
+      "text": "Recap"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "Voice mode beta, সব plan-এ — লেখার ঘরের sound wave আইকন দিয়ে শুরু।",
+        "শান্ত জায়গায় hands-free, ভিড়ে push-to-talk।",
+        "ভাষা ঠিক করুন Settings > Capabilities > Voice > Spoken language থেকে। বাংলা না পেলে টাইপ করে বাংলায় লিখুন।"
+      ]
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Dictation আর voice mode-এর মূল পার্থক্য কী?",
+      "options": [
+        "কোনো পার্থক্য নেই",
+        "Dictation শুধু কথাকে লেখায় রূপান্তর করে, voice mode-এ Claude-ও কথা বলে উত্তর দেয়",
+        "Voice mode শুধু Enterprise plan-এ"
+      ],
+      "answer": 1,
+      "explanation": "Dictation-এ Claude লিখে উত্তর দেয়। Voice mode পুরো দুই-দিকের কথোপকথন, যাতে connect করা টুলও ব্যবহার করা যায়।"
+    },
+    {
+      "question": "ভিড়ের রাস্তায় Claude বারবার ভুল শুনছে। কী করবেন?",
+      "options": [
+        "Push-to-talk mode-এ যাবেন",
+        "আরও জোরে চিৎকার করবেন",
+        "অ্যাপ মুছে দেবেন"
+      ],
+      "answer": 0,
+      "explanation": "শব্দের মাঝে push-to-talk বেশি নির্ভরযোগ্য, কারণ আপনি বাটন চেপে ধরলে তবেই Claude শোনে।"
+    },
+    {
+      "question": "Voice mode-এর ভাষা কোথা থেকে বদলাবেন?",
+      "options": [
+        "ফোনের display language বদলে",
+        "Settings > Capabilities > Voice > Spoken language (বা Settings > General > Voice > Language)",
+        "ভাষা বদলানো যায় না"
+      ],
+      "answer": 1,
+      "explanation": "Help Center অনুযায়ী অ্যাপের display language বদলালে voice-এর ভাষা বদলায় না। এটা Voice settings-এ আলাদা করে বেছে নিতে হয়।"
+    },
+    {
+      "question": "Voice mode-এর কথোপকথন কি সেভ হয়?",
+      "options": [
+        "না, কিছুই সেভ হয় না",
+        "হ্যাঁ, লিখিত transcript চ্যাট history-তে সেভ থাকে",
+        "শুধু অডিও রেকর্ডিং সেভ হয়"
+      ],
+      "answer": 1,
+      "explanation": "Help Center-এর FAQ অনুযায়ী voice কথোপকথনের লিখিত transcript সাধারণ চ্যাটের মতোই history-তে থাকে।"
+    }
+  ]
+}

@@ -1,0 +1,151 @@
+{
+  "id": "everyday-15-long-pdfs-and-data",
+  "track": "everyday",
+  "order": 15,
+  "title": "Analysing Long PDFs & Data",
+  "summary": "লম্বা PDF, রিপোর্ট আর CSV/Excel ডেটা Claude-কে দিয়ে বিশ্লেষণ করান — সীমা জেনে, ঠিকভাবে প্রশ্ন করে।",
+  "updatedAt": "2026-11-08",
+  "blocks": [
+    {
+      "type": "paragraph",
+      "text": "শ-খানেক পাতার সরকারি নির্দেশিকা, ব্যাংকের শর্তাবলি, থিসিস বা দোকানের ছয় মাসের বিক্রির হিসাব — নিজে পড়ে বের করতে ঘণ্টার পর ঘণ্টা লাগে। Claude এগুলো পড়ে সারাংশ করতে, নির্দিষ্ট তথ্য খুঁজে দিতে, আর ডেটা থেকে চার্ট বানাতে পারে। তবে ভালো ফল পেতে দুটো জিনিস জানা দরকার: কোন ফাইলের কী সীমা, আর কীভাবে প্রশ্ন করলে Claude সবচেয়ে নির্ভুল থাকে।"
+    },
+    {
+      "type": "heading",
+      "text": "Upload a file"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "চ্যাট বক্সের নিচে বাঁদিকের “+” বাটনে চাপুন।",
+        "“Add files or photos” বেছে নিন।",
+        "ডিভাইস থেকে ফাইল বাছুন। কম্পিউটারে চাইলে ফাইল টেনে চ্যাট উইন্ডোতে ছেড়েও দিতে পারেন।",
+        "এরপর প্রশ্ন লিখে পাঠান।"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "সাপোর্টেড ডকুমেন্ট: PDF, DOCX, CSV, TXT, HTML, ODT, RTF, EPUB, JSON আর XLSX। XLSX আপলোড করতে “Code execution and file creation” চালু থাকতে হয়।"
+    },
+    {
+      "type": "heading",
+      "text": "Know the limits"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "“Upload files to Claude” পেজ অনুযায়ী চ্যাটে প্রতি ফাইল সর্বোচ্চ 500MB, এক চ্যাটে সর্বোচ্চ 20টা ফাইল, আর PDF সর্বোচ্চ 1000 পাতা।",
+        "100 পাতা বা তার কম PDF-এ Claude লেখার সাথে ছবি, চার্ট আর গ্রাফিক্সও বিশ্লেষণ করে। 101 থেকে 1000 পাতার PDF-এ শুধু লেখা পড়ে, ছবি বা চার্ট দেখে না।",
+        "1000 পাতার বেশি PDF দিলে “Uploaded file is too large” error আসে।",
+        "PDF ছাড়া অন্য ডকুমেন্ট (যেমন DOCX) থেকে Claude শুধু লেখা বের করে, ভেতরের ছবি পড়তে পারে না।",
+        "Project-এর Files অংশে প্রতি ফাইল সর্বোচ্চ 30MB।"
+      ]
+    },
+    {
+      "type": "tip",
+      "text": "নির্দিষ্ট পাতার কথা বললে PDF viewer-এ যে পাতা নম্বর দেখায় সেটা বলুন, ডকুমেন্টের গায়ে ছাপা নম্বর নয়। আর খুব বড় ডকুমেন্ট হলে Help Center-এর পরামর্শ — ছোট ছোট অংশে ভাগ করে দিন।"
+    },
+    {
+      "type": "heading",
+      "text": "Ask better questions about long documents"
+    },
+    {
+      "type": "paragraph",
+      "text": "Anthropic-এর prompting guide বলে, লম্বা ডকুমেন্টে আগে ডকুমেন্ট আর শেষে প্রশ্ন রাখলে ফল ভালো হয়। আর Claude-কে আগে প্রাসঙ্গিক অংশগুলো হুবহু উদ্ধৃত (quote) করতে বললে, তারপর সেটার ভিত্তিতে উত্তর দিলে, Claude দরকারি অংশেই মন দেয়। আপনিও মূল লাইনটা মিলিয়ে দেখতে পারেন।"
+    },
+    {
+      "type": "prompt",
+      "text": "First, find and quote the exact passages in this PDF that talk about refunds or cancellation, with page numbers. Then, based only on those quotes, explain the rules in simple Bengali."
+    },
+    {
+      "type": "prompt",
+      "text": "Summarize this report in 10 bullet points. After that, list every number or deadline mentioned, with the page where it appears."
+    },
+    {
+      "type": "heading",
+      "text": "Analyse data: CSV and Excel"
+    },
+    {
+      "type": "paragraph",
+      "text": "“Code execution and file creation” চালু থাকলে Claude CSV, TSV বা Excel-এর ডেটার ওপর Python চালিয়ে হিসাব করতে, চার্ট (PNG ছবি) বানাতে আর ফলাফল Excel বা Word ফাইলে দিতে পারে। শুধু চোখ বুলিয়ে আন্দাজ নয়, সত্যিকারের হিসাব হয়।"
+    },
+    {
+      "type": "prompt",
+      "text": "This CSV has my shop's sales for the last 6 months. Find the 5 best-selling products, show monthly totals as a chart, and point out any unusual drops."
+    },
+    {
+      "type": "prompt",
+      "text": "Extract all the data from this PDF into an Excel spreadsheet and create a summary chart."
+    },
+    {
+      "type": "paragraph",
+      "text": "একটা ছোট গরমিল আছে: code দিয়ে ফাইল নিয়ে কাজের Help Center পেজ (“Create and edit files with Claude”) প্রতি ফাইলে 30MB সীমা বলে। তাই বড় ডেটা ফাইলে সমস্যা হলে ফাইলটা ছোট করুন, অথবা Help Center-এ বর্তমান সীমা দেখে নিন।"
+    },
+    {
+      "type": "heading",
+      "text": "Many documents? Use a Project"
+    },
+    {
+      "type": "paragraph",
+      "text": "একই বিষয়ের অনেক ডকুমেন্ট নিয়ে বারবার কাজ করলে সেগুলো একটা Project-এর Files অংশে রাখুন। paid plan-এ (Pro, Max, Ultra, Team, Enterprise) project knowledge context window-এর সীমার কাছে গেলে Claude নিজে থেকেই RAG mode চালু করে। তখন project প্রায় 10 গুণ পর্যন্ত বেশি কনটেন্ট রাখতে পারে, আর Claude “project knowledge search” টুল দিয়ে শুধু দরকারি অংশ খুঁজে আনে। ফাইলের নাম স্পষ্ট রাখুন, আর প্রশ্নে ডকুমেন্টের নাম উল্লেখ করুন।"
+    },
+    {
+      "type": "warning",
+      "text": "Claude ভুল করতে পারে, বিশেষ করে লম্বা ডকুমেন্টের সংখ্যা, তারিখ আর আইনি শর্তে। টাকা-পয়সা, চুক্তি বা পরীক্ষার মতো গুরুত্বপূর্ণ বিষয়ে Claude-এর দেওয়া পাতা নম্বর ধরে মূল ডকুমেন্টে মিলিয়ে নিন।"
+    },
+    {
+      "type": "heading",
+      "text": "Recap"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "চ্যাটে PDF সর্বোচ্চ 1000 পাতা। ছবি আর চার্টসহ পুরো বিশ্লেষণ পেতে 100 পাতার মধ্যে রাখুন।",
+        "আগে quote, তারপর উত্তর — এভাবে চাইলে উত্তর নির্ভুল হয় আর মিলিয়ে দেখাও সহজ।",
+        "ডেটা বিশ্লেষণে code execution চালু রাখুন, আর অনেক ডকুমেন্ট হলে Project ব্যবহার করুন।"
+      ]
+    }
+  ],
+  "quiz": [
+    {
+      "question": "300 পাতার একটা PDF চ্যাটে আপলোড করলে Claude কী দেখে?",
+      "options": [
+        "লেখা, ছবি, চার্ট — সব",
+        "শুধু লেখা, ছবি বা চার্ট নয়",
+        "কিছুই না, আপলোডই হয় না"
+      ],
+      "answer": 1,
+      "explanation": "Help Center অনুযায়ী 101 থেকে 1000 পাতার PDF-এ Claude শুধু লেখা পড়ে। ছবি-চার্টসহ বিশ্লেষণ হয় 100 পাতা বা তার কম হলে।"
+    },
+    {
+      "question": "লম্বা ডকুমেন্টে নির্ভুল উত্তর পেতে কোন কৌশল কাজে দেয়?",
+      "options": [
+        "আগে প্রাসঙ্গিক অংশ quote করতে বলা, তারপর সেই ভিত্তিতে উত্তর চাওয়া",
+        "প্রশ্ন যত ছোট তত ভালো, ডকুমেন্টের কথা না বলা",
+        "একসাথে ২০টা আলাদা প্রশ্ন করা"
+      ],
+      "answer": 0,
+      "explanation": "Anthropic-এর prompting guide বলে, আগে quote বের করালে Claude দরকারি অংশে মন দেয়। আপনিও মিলিয়ে দেখতে পারেন।"
+    },
+    {
+      "question": "PDF-এর নির্দিষ্ট পাতার কথা বলতে কোন নম্বর ব্যবহার করবেন?",
+      "options": [
+        "ডকুমেন্টের গায়ে ছাপা পাতা নম্বর",
+        "PDF viewer-এ যে পাতা নম্বর দেখায়",
+        "যেকোনো একটা, কিছু যায় আসে না"
+      ],
+      "answer": 1,
+      "explanation": "Help Center-এর টিপস: PDF viewer-এর পাতা নম্বর ব্যবহার করুন, ছাপা নম্বর নয় — দুটো প্রায়ই আলাদা হয়।"
+    },
+    {
+      "question": "XLSX ফাইল আপলোড করতে কী লাগে?",
+      "options": [
+        "Voice mode চালু থাকা",
+        "“Code execution and file creation” চালু থাকা",
+        "Incognito chat"
+      ],
+      "answer": 1,
+      "explanation": "“Upload files to Claude” পেজে লেখা আছে, XLSX আপলোড করতে code execution and file creation চালু থাকতে হবে।"
+    }
+  ]
+}

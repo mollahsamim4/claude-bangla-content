@@ -1,0 +1,170 @@
+{
+  "id": "everyday-18-cowork",
+  "track": "everyday",
+  "order": 18,
+  "title": "Claude Cowork",
+  "summary": "Cowork-এ Claude পুরো একটা কাজ নিজে ধাপে ধাপে শেষ করে দেয় — কোথায় পাবেন, কীভাবে দেবেন, কীভাবে নিরাপদ থাকবেন।",
+  "updatedAt": "2026-11-08",
+  "blocks": [
+    {
+      "type": "paragraph",
+      "text": "সাধারণ চ্যাটে আপনি একটা প্রশ্ন করেন, Claude একটা উত্তর দেয়। Claude Cowork-এ আপনি পুরো একটা কাজ বুঝিয়ে দেন — যেমন “এই পাঁচটা ইন্টারভিউ নোট থেকে মূল বিষয়গুলো বের করো” বা “Downloads ফোল্ডার গুছিয়ে দাও”। Claude নিজে পরিকল্পনা করে, কাজ ভাগ করে, code চালায়, ওয়েবে খোঁজে, আর শেষে তৈরি ফাইল আপনার হাতে দেয়। Anthropic-এর ভাষায়, Cowork হলো Claude Code-এর agentic ক্ষমতা কোডিংয়ের বাইরের কাজে নিয়ে আসা, কোনো terminal ছাড়াই।"
+    },
+    {
+      "type": "heading",
+      "text": "Availability"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "শুধু paid plan-এ: Pro, Max, Ultra, Team, Enterprise। Free plan-এ নেই।",
+        "Claude Desktop for macOS, Windows আর Linux (Help Center-এ “beta” লেখা): সব paid plan-এ।",
+        "Web আর Claude Mobile: Pro, Max, Ultra আর Team-এ (Team-এ beta)। Enterprise-এ Owner চালু করলে।",
+        "Claude in Chrome side panel: সব paid plan-এ (Enterprise-এ Owner চালু করলে)।"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Cowork-এর কাজ চলে cloud-এ, মানে Anthropic-এর server-এ। তাই ল্যাপটপ বন্ধ করে দিলেও কাজ চলতে থাকে, আর একই session ফোন, web বা Desktop — যেকোনো জায়গা থেকে খুলে দেখা যায়। ২০২৬ সালের ৬ অক্টোবর থেকে Pro, Max আর Ultra-তে নতুন সব Cowork task cloud-এই চলে। তবে কম্পিউটারের লোকাল ফোল্ডার, browser বা computer use লাগলে Claude Desktop অ্যাপ খোলা আর connected থাকতে হয়।"
+    },
+    {
+      "type": "heading",
+      "text": "Start a task"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "claude.ai, Claude Desktop বা Claude মোবাইল অ্যাপ খুলুন।",
+        "মেসেজ বক্সে “Chat” আর “Cowork” অপশন দেখালে “Cowork” বেছে নিন।",
+        "এই অপশন না দেখালে আপনার অ্যাকাউন্টে নতুন Claude experience চালু হয়ে গেছে — সেখানে chat আর Cowork একসাথে, যেকোনো কথোপকথনেই কাজ দেওয়া যায়।",
+        "কী ফলাফল চান, পরিষ্কার করে লিখুন।",
+        "Claude-এর পরিকল্পনা দেখে নিন, তারপর চলতে দিন। মাঝপথে চাইলে নির্দেশ বদলাতে পারেন।"
+      ]
+    },
+    {
+      "type": "prompt",
+      "text": "Go through these five interview notes and pull out the top themes, with a quote for each."
+    },
+    {
+      "type": "prompt",
+      "text": "Research the top project management tools for small teams and write up a comparison. I'll check back later."
+    },
+    {
+      "type": "prompt",
+      "text": "Organize my Downloads folder by file type and date."
+    },
+    {
+      "type": "paragraph",
+      "text": "শেষ prompt-টা Desktop-এ আপনার connect করা ফোল্ডারে কাজ করে। Cowork Excel (চালু ফর্মুলাসহ), PowerPoint আর ফরম্যাট করা ডকুমেন্টও বানাতে পারে।"
+    },
+    {
+      "type": "heading",
+      "text": "Choose how Claude checks with you"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "Manually approve (Manual): কাজ করার আগে Claude অনুমতি চায়, আপনি Allow বা Deny করেন।",
+        "Automatically approve (Auto): Claude থামে না, তবে প্রতিটা কাজের আগে নিরাপত্তা যাচাই করে (ডেটা পাচার বা prompt injection আছে কিনা), ঝুঁকিপূর্ণ হলে আটকে দেয় বা আপনাকে জিজ্ঞেস করে।",
+        "Skip all approvals (Skip): কিছু জিজ্ঞেস করে না, কিছু যাচাইও করে না। শুধু সবকিছুর ওপর পুরো ভরসা থাকলে।"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "নতুন Claude experience-এ মেসেজ বক্সে শুধু Auto আর Manual দেখা যায়। Pro, Max, Ultra আর Team-এ Auto default, Enterprise-এ Manual। আর mode যেটাই হোক, কোনো ফাইল স্থায়ীভাবে মুছে ফেলার আগে Cowork আপনার স্পষ্ট অনুমতি নেয় — “Allow” না চাপলে মুছবে না।"
+    },
+    {
+      "type": "heading",
+      "text": "Scheduled tasks and memory"
+    },
+    {
+      "type": "paragraph",
+      "text": "নিয়মিত কাজের জন্য যেকোনো Cowork task-এ /schedule টাইপ করুন, অথবা বাঁদিকের sidebar-এর “Scheduled”-এ যান। Scheduled task cloud-এ চলে, তাই কম্পিউটার বন্ধ থাকলেও চলে। Cloud session-এ Claude আপনার chat-এর memory ব্যবহার করে। কোনো একটা task memory ছাড়া চালাতে চাইলে প্রথম মেসেজ পাঠানোর আগেই “+” মেনু থেকে “Memory” বন্ধ করুন — পরে আর বদলানো যায় না।"
+    },
+    {
+      "type": "code",
+      "language": "text",
+      "code": "/schedule"
+    },
+    {
+      "type": "tip",
+      "text": "বহু ধাপের কাজে সাধারণ প্রশ্নের চেয়ে অনেক বেশি usage খরচ হয়। কাছাকাছি কাজগুলো এক task-এ রাখুন, শুধু ছোট উত্তর দরকার হলে সেটা বলে দিন, আর Settings > Usage-এ খরচ দেখে নিন।"
+    },
+    {
+      "type": "heading",
+      "text": "Use Cowork safely"
+    },
+    {
+      "type": "warning",
+      "text": "Cowork আপনার ফাইল পড়তে, ওয়েব ব্রাউজ করতে আর connect করা অ্যাপে কাজ করতে পারে, তাই এর ঝুঁকিও আলাদা। Help Center ব্যাখ্যা করে, prompt injection সফল হতে দুটো জিনিস একসাথে লাগে: Claude আপনার বিশ্বস্ত গণ্ডির বাইরের লেখা পড়ছে, আর এমন কাজ করার ক্ষমতা আছে যাতে আপনার ক্ষতি হতে পারে। তাই টাকা-পয়সার কাগজ, পাসওয়ার্ড বা ব্যক্তিগত রেকর্ডের ফোল্ডার Claude-কে দেবেন না। শুধু বিশ্বস্ত সাইট আর বিশ্বস্ত connector (MCP) ব্যবহার করুন, আর সন্দেহজনক কিছু দেখলে কাজ থামিয়ে দিন।"
+    },
+    {
+      "type": "paragraph",
+      "text": "Help Center আরও মনে করিয়ে দেয়: টাকা, আপনার নামে পাঠানো মেসেজ বা জরুরি ফাইলের মতো বাস্তব পরিণতির কাজে পাশে থেকে দেখুন Claude কী করছে, প্রয়োজনে Manual mode-এ ফিরে যান। Computer use (Pro, Max আর Ultra-তে beta — Claude সরাসরি আপনার স্ক্রিনে ক্লিক-টাইপ করে) নিয়ে বিশেষ সাবধান থাকুন। প্রতিটা অ্যাপে ঢোকার আগে Claude অনুমতি চায় ঠিকই, কিন্তু Help Center বলছে এতে অন্য Cowork টুলের মতো ধাপে ধাপে permission check থাকে না। আর এখনো Cowork session অন্যের সাথে শেয়ার করা যায় না, তবে session-এ বানানো আলাদা artifact শেয়ার করা যায়।"
+    },
+    {
+      "type": "heading",
+      "text": "Recap"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "Cowork = Claude-কে পুরো কাজ বুঝিয়ে দেওয়া। শুধু paid plan-এ, cloud-এ চলে।",
+        "মেসেজ বক্সে “Cowork” বাছুন, অথবা নতুন experience-এ সরাসরি কাজ লিখুন। নিয়মিত কাজের জন্য /schedule।",
+        "Manual, Auto, Skip বুঝে বাছুন, সংবেদনশীল ফোল্ডার দেবেন না, আর গুরুত্বপূর্ণ কাজে নজর রাখুন।"
+      ]
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Claude Cowork কোন plan-এ পাওয়া যায়?",
+      "options": [
+        "সব plan-এ, Free সহ",
+        "শুধু paid plan-এ (Pro, Max, Ultra, Team, Enterprise)",
+        "শুধু Enterprise-এ"
+      ],
+      "answer": 1,
+      "explanation": "Help Center অনুযায়ী Cowork শুধু paid plan-এ। Free plan-এ নেই।"
+    },
+    {
+      "question": "Cowork-এর cloud task কি ল্যাপটপ বন্ধ করলে থেমে যায়?",
+      "options": [
+        "হ্যাঁ, সঙ্গে সঙ্গে থেমে যায়",
+        "না, cloud-এ চলতে থাকে। তবে লোকাল ফাইল বা browser লাগলে Desktop অ্যাপ খোলা থাকতে হয়",
+        "শুধু মোবাইল খোলা থাকলে চলে"
+      ],
+      "answer": 1,
+      "explanation": "Cowork session Anthropic-এর server-এ চলে, তাই ল্যাপটপ বন্ধ হলেও কাজ চলে। কিন্তু কম্পিউটারের ফোল্ডার বা browser লাগলে Claude Desktop খোলা আর connected থাকা দরকার।"
+    },
+    {
+      "question": "একটা Cowork task memory ছাড়া চালাতে কী করবেন?",
+      "options": [
+        "Task শেষ হওয়ার পর Memory বন্ধ করবেন",
+        "প্রথম মেসেজ পাঠানোর আগেই “+” মেনু থেকে “Memory” বন্ধ করবেন",
+        "এটা সম্ভব নয়"
+      ],
+      "answer": 1,
+      "explanation": "Memory সেটিং task শুরুর সময়েই ঠিক হয়, পরে বদলানো যায় না। তাই প্রথম মেসেজের আগে বন্ধ করতে হয়।"
+    },
+    {
+      "question": "Help Center অনুযায়ী prompt injection সফল হতে কোন দুটো শর্ত একসাথে লাগে?",
+      "options": [
+        "ধীর ইন্টারনেট আর পুরোনো ফোন",
+        "Claude বিশ্বস্ত গণ্ডির বাইরের লেখা পড়ছে, আর ক্ষতিকর কাজ করার ক্ষমতা আছে",
+        "Free plan আর ইংরেজি ভাষা"
+      ],
+      "answer": 1,
+      "explanation": "দুটোর যেকোনো একটা না থাকলে আক্রমণ কঠিন হয়। তাই কী পড়তে দিচ্ছেন আর কী করতে দিচ্ছেন — দুটোই সীমিত রাখুন।"
+    },
+    {
+      "question": "Cowork কি আপনার অনুমতি ছাড়া ফাইল স্থায়ীভাবে মুছে ফেলতে পারে?",
+      "options": [
+        "হ্যাঁ, যখন খুশি",
+        "না, মোছার আগে permission prompt আসে আর “Allow” চাপতে হয়",
+        "শুধু Skip mode-এ জিজ্ঞেস করে"
+      ],
+      "answer": 1,
+      "explanation": "Help Center-এর “Deletion protection” অনুযায়ী স্থায়ীভাবে ফাইল মোছার আগে Cowork সবসময় আপনার স্পষ্ট অনুমতি চায়।"
+    }
+  ]
+}
