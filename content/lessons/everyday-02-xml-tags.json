@@ -1,0 +1,141 @@
+{
+  "id": "everyday-02-xml-tags",
+  "track": "everyday",
+  "order": 2,
+  "title": "Prompt Structure with XML Tags",
+  "summary": "লম্বা বা জটিল প্রম্পটকে XML tag দিয়ে ভাগ করে সাজান, যাতে Claude নির্দেশ, প্রেক্ষাপট আর ডকুমেন্ট গুলিয়ে না ফেলে।",
+  "updatedAt": "2026-11-08",
+  "blocks": [
+    {
+      "type": "heading",
+      "text": "Why structure matters"
+    },
+    {
+      "type": "paragraph",
+      "text": "ছোট প্রশ্নের জন্য সাধারণ এক লাইনের প্রম্পটই যথেষ্ট। কিন্তু যখন একই প্রম্পটে আপনার নির্দেশ, পটভূমি, উদাহরণ আর একটা লম্বা লেখা সব একসাথে থাকে, তখন Claude বুঝতে ভুল করতে পারে কোনটা নির্দেশ আর কোনটা শুধু পড়ার জিনিস। Anthropic-এর prompt engineering গাইড বলছে, প্রতিটা অংশকে আলাদা XML tag-এ মুড়ে দিলে এই ভুল বোঝাবুঝি কমে যায়।"
+    },
+    {
+      "type": "paragraph",
+      "text": "XML tag দেখতে ভয়ের কিছু নয়, কোডিং জানারও দরকার নেই। এটা অনেকটা বাক্সের গায়ে লেবেল লাগানোর মতো: শুরুতে `<context>`, শেষে `</context>`, মাঝখানে আপনার লেখা। শেষের tag-এ শুধু একটা `/` বেশি থাকে।"
+    },
+    {
+      "type": "heading",
+      "text": "A basic structure"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "আপনার পরিচয় বা পটভূমি `<context>` tag-এর ভেতরে লিখুন।",
+        "যে লেখা বা ডেটা নিয়ে কাজ হবে (রচনা, ইমেইল, রিপোর্ট) সেটা আলাদা একটা tag-এ রাখুন, যেমন `<essay>` বা `<document>`।",
+        "Claude ঠিক কী করবে তা `<instructions>` tag-এ লিখুন। ক্রম জরুরি হলে 1, 2, 3 করে নম্বর দিন।",
+        "প্রতিটা tag খোলার পর ঠিকমতো বন্ধ করেছেন কিনা একবার দেখে নিন।"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "ধরুন রাজশাহীর এক SSC পরীক্ষার্থী তার English essay-র ভুল ধরাতে চায়। নিচের প্রম্পটটা কপি করে, শুধু essay-টা বসিয়ে দিন:"
+    },
+    {
+      "type": "prompt",
+      "text": "<context>\nI am a Class 10 student in Bangladesh preparing for the SSC English exam. My teacher says my essays have too many grammar mistakes.\n</context>\n\n<essay>\n[Paste your essay here]\n</essay>\n\n<instructions>\n1. List every grammar mistake in the essay inside the <essay> tags, with the corrected version.\n2. Explain each correction in simple Bengali.\n3. Give the essay a score out of 10 and one tip to improve.\n</instructions>"
+    },
+    {
+      "type": "tip",
+      "text": "নির্দেশের ভেতরে tag-এর নাম ধরে উল্লেখ করুন, যেমন \"the essay inside the <essay> tags\"। এতে Claude ঠিক বুঝে যায় কোন অংশের কথা বলছেন।"
+    },
+    {
+      "type": "heading",
+      "text": "Naming your tags"
+    },
+    {
+      "type": "paragraph",
+      "text": "Tag-এর নাম আপনি নিজেই ঠিক করবেন। গাইডের পরামর্শ দুটো: নাম যেন দেখেই বোঝা যায় ভেতরে কী আছে (`<customer_email>`, `<price_list>`), আর একই ধরনের জিনিসের জন্য সবসময় একই নাম ব্যবহার করুন। আজ `<report>` আর কাল `<doc>` না লিখে একটাতেই থাকুন।"
+    },
+    {
+      "type": "heading",
+      "text": "Several documents at once"
+    },
+    {
+      "type": "paragraph",
+      "text": "একাধিক ডকুমেন্ট থাকলে tag-এর ভেতরে tag রাখা যায় (nesting)। Anthropic-এর গাইডে প্রতিটা ডকুমেন্ট `<document>` tag-এ রাখা হয়েছে, ভেতরে `<source>` (কোথা থেকে এসেছে) আর `<document_content>` (আসল লেখা)। আরেকটা জরুরি পরামর্শ: লম্বা ডকুমেন্ট প্রম্পটের উপরে দিন, আর প্রশ্ন বা নির্দেশ দিন একদম শেষে। Anthropic-এর পরীক্ষায় শেষে প্রশ্ন রাখলে জটিল, বহু-ডকুমেন্টের কাজে উত্তরের মান 30 শতাংশ পর্যন্ত ভালো হয়েছে।"
+    },
+    {
+      "type": "paragraph",
+      "text": "উদাহরণ: ঢাকার একটা ছোট দোকান দুই সাপ্লায়ারের কোটেশন তুলনা করতে চায়।"
+    },
+    {
+      "type": "prompt",
+      "text": "<documents>\n  <document index=\"1\">\n    <source>supplier_a_quote.pdf</source>\n    <document_content>\n    [Paste Supplier A's quotation here]\n    </document_content>\n  </document>\n  <document index=\"2\">\n    <source>supplier_b_quote.pdf</source>\n    <document_content>\n    [Paste Supplier B's quotation here]\n    </document_content>\n  </document>\n</documents>\n\nI run a small grocery shop in Dhaka. Compare these two quotations on price, delivery time and payment terms. Then recommend one supplier and explain why in 3 short points."
+    },
+    {
+      "type": "heading",
+      "text": "Ask for answers in tags too"
+    },
+    {
+      "type": "paragraph",
+      "text": "Tag শুধু ইনপুটের জন্য না, উত্তর সাজাতেও কাজে লাগে। লম্বা ডকুমেন্ট নিয়ে কাজ করলে গাইড বলছে আগে Claude-কে প্রাসঙ্গিক অংশগুলো হুবহু উদ্ধৃত করতে বলুন, তারপর সেই উদ্ধৃতির ভিত্তিতে উত্তর দিতে বলুন। এতে Claude দরকারি অংশে মন দেয়, বাকিটা বাদ দেয়।"
+    },
+    {
+      "type": "prompt",
+      "text": "<document>\n[Paste the long document here]\n</document>\n\nFind quotes from the document that are relevant to this question: [your question]. Place them in <quotes> tags. Then, based only on these quotes, answer the question in <answer> tags."
+    },
+    {
+      "type": "warning",
+      "text": "খোলা আর বন্ধ tag-এর নাম হুবহু এক হতে হবে। `<essay>` খুলে `</document>` দিয়ে বন্ধ করলে Claude বুঝবে না লেখাটা কোথায় শেষ হলো।"
+    },
+    {
+      "type": "heading",
+      "text": "Recap"
+    },
+    {
+      "type": "paragraph",
+      "text": "জটিল প্রম্পটে প্রতিটা অংশ (পটভূমি, ডকুমেন্ট, নির্দেশ) আলাদা tag-এ রাখুন; বোঝা যায় এমন নাম দিন আর একই নাম বারবার ব্যবহার করুন; লম্বা লেখা উপরে, প্রশ্ন শেষে; আর দরকার হলে উত্তরও tag-এ চেয়ে নিন।"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "প্রম্পটে XML tag ব্যবহারের মূল সুবিধা কী?",
+      "options": [
+        "Claude দ্রুত টাইপ করে",
+        "নির্দেশ, প্রেক্ষাপট আর ডকুমেন্ট আলাদা থাকে, তাই ভুল বোঝাবুঝি কমে",
+        "উত্তর সবসময় ছোট হয়",
+        "শুধু প্রোগ্রামাররা এটা ব্যবহার করতে পারে"
+      ],
+      "answer": 1,
+      "explanation": "প্রতিটা অংশ নিজের tag-এ থাকলে Claude পরিষ্কার বোঝে কোনটা নির্দেশ আর কোনটা শুধু পড়ার জিনিস। কোডিং জানার দরকার নেই।"
+    },
+    {
+      "question": "Tag-এর নাম নিয়ে Anthropic-এর পরামর্শ কোনটা?",
+      "options": [
+        "শুধু Anthropic-এর ঠিক করে দেওয়া নামই কাজ করে",
+        "প্রতিবার নতুন নতুন নাম দেওয়া ভালো",
+        "বোঝা যায় এমন নাম দিন এবং একই নাম ধারাবাহিকভাবে ব্যবহার করুন",
+        "নাম যত ছোট, তত ভালো, যেমন `<a>`"
+      ],
+      "answer": 2,
+      "explanation": "গাইড বলছে consistent ও descriptive নাম ব্যবহার করতে, যেমন `<customer_email>`। নামটা আপনিই বেছে নিতে পারেন।"
+    },
+    {
+      "question": "লম্বা ডকুমেন্ট আর প্রশ্ন একসাথে দিলে কোন ক্রমে দেওয়া ভালো?",
+      "options": [
+        "আগে প্রশ্ন, পরে ডকুমেন্ট",
+        "আগে ডকুমেন্ট, প্রশ্ন বা নির্দেশ একদম শেষে",
+        "ক্রমে কিছু যায় আসে না",
+        "ডকুমেন্টকে কয়েক ভাগ করে প্রশ্নের মাঝে মাঝে"
+      ],
+      "answer": 1,
+      "explanation": "Anthropic-এর পরীক্ষায় লম্বা লেখা উপরে আর প্রশ্ন শেষে রাখলে জটিল কাজে উত্তরের মান 30 শতাংশ পর্যন্ত ভালো হয়েছে।"
+    },
+    {
+      "question": "`<essay>` দিয়ে খুলে `</document>` দিয়ে বন্ধ করলে কী সমস্যা হতে পারে?",
+      "options": [
+        "কোনো সমস্যা নেই",
+        "Claude বুঝবে না লেখাটা কোথায় শেষ হলো",
+        "Claude অ্যাপ বন্ধ হয়ে যাবে",
+        "উত্তর ইংরেজিতে আসবে না"
+      ],
+      "answer": 1,
+      "explanation": "খোলা আর বন্ধ tag-এর নাম মিলতে হবে, নইলে কোন অংশ কোথায় শেষ তা অস্পষ্ট হয়ে যায়।"
+    }
+  ]
+}

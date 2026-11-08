@@ -1,0 +1,149 @@
+{
+  "id": "everyday-06-projects",
+  "track": "everyday",
+  "order": 6,
+  "title": "Projects & Project Knowledge",
+  "summary": "একই বিষয়ের সব চ্যাট, ফাইল আর নির্দেশ এক জায়গায় রাখতে Projects ব্যবহার করুন, যাতে প্রতিবার নতুন করে বোঝাতে না হয়।",
+  "updatedAt": "2026-11-08",
+  "blocks": [
+    {
+      "type": "heading",
+      "text": "What is a Project?"
+    },
+    {
+      "type": "paragraph",
+      "text": "প্রতিবার নতুন চ্যাটে নিজের ব্যবসার দামের তালিকা বা কোর্সের সিলেবাস পেস্ট করতে করতে ক্লান্ত? Projects ঠিক এই সমস্যার সমাধান। Claude-এর help center অনুযায়ী Project হলো একটা আলাদা workspace, যার নিজস্ব chat history আর knowledge base থাকে। এক Project-এ রাখা ফাইল আর নির্দেশ সেই Project-এর প্রতিটা চ্যাটে Claude ব্যবহার করে।"
+    },
+    {
+      "type": "paragraph",
+      "text": "Projects সব ইউজারের জন্য আছে, free অ্যাকাউন্টেও। তবে Free প্ল্যানে সর্বোচ্চ পাঁচটা Project বানানো যায়।"
+    },
+    {
+      "type": "heading",
+      "text": "Create a project"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "বাঁ পাশের প্যানেলে Projects-এ যান (বা claude.ai/projects খুলুন)।",
+        "উপরের ডান কোণে \"+ New Project\" ক্লিক করুন।",
+        "একটা নাম আর বিবরণ দিন। খেয়াল করুন, Claude এই নাম আর বিবরণ দেখতে পায় না; এগুলো শুধু আপনার নিজের চেনার জন্য।",
+        "Team বা Enterprise প্ল্যানে থাকলে বেছে নিন Project-টা প্রাইভেট থাকবে নাকি প্রতিষ্ঠানের সাথে শেয়ার হবে।"
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "Add project knowledge"
+    },
+    {
+      "type": "paragraph",
+      "text": "Project-এর মূল পাতায় ডান দিকে \"+\" বাটনে ক্লিক করে ডকুমেন্ট, টেক্সট ফাইল বা কোড আপলোড করুন। এই কনটেন্ট Project-এর প্রতিটা চ্যাটে Claude প্রেক্ষাপট হিসেবে ব্যবহার করে।"
+    },
+    {
+      "type": "paragraph",
+      "text": "উদাহরণ: ঢাকার একটা হোম-বেকারি তাদের মেনু, দামের তালিকা আর ডেলিভারির নিয়ম একটা Project-এ রাখল। এখন যেকোনো চ্যাটে শুধু কাস্টমারের প্রশ্ন পেস্ট করলেই Claude সঠিক দাম আর নিয়ম মেনে উত্তরের খসড়া দেবে। একইভাবে একজন বিশ্ববিদ্যালয়ের ছাত্র তার কোর্সের সিলেবাস আর লেকচার নোট রেখে প্রতিটা চ্যাটে পড়া বুঝে নিতে পারে।"
+    },
+    {
+      "type": "tip",
+      "text": "Paid প্ল্যানে (Pro, Max, Ultra, Team বা Enterprise) knowledge বেশি বড় হয়ে context window-এর সীমার কাছে গেলে Claude নিজে থেকে RAG mode চালু করে। Help center বলছে এতে ধারণক্ষমতা 10 গুণ পর্যন্ত বাড়ে, উত্তরের মান ঠিক রেখে।"
+    },
+    {
+      "type": "heading",
+      "text": "Set project instructions"
+    },
+    {
+      "type": "paragraph",
+      "text": "\"Set project instructions\" ক্লিক করে লিখুন Claude এই Project-এ কীভাবে উত্তর দেবে, তারপর \"Save instructions\" চাপুন। এই নির্দেশ শুধু এই Project-এর চ্যাটেই খাটে। টোন, ভূমিকা, ফরম্যাট, কী করবে আর কী করবে না, সব এখানে লিখে রাখা যায়। বেকারির জন্য একটা নমুনা:"
+    },
+    {
+      "type": "prompt",
+      "text": "You help me reply to customers of my home bakery in Dhaka.\n- Always use the prices and delivery rules in the project files. Never invent a price.\n- Reply in the same language the customer used (Bengali or English).\n- Keep replies short, warm and polite, like a friendly shop owner.\n- If a question is not covered by the files, say you will confirm and get back to them."
+    },
+    {
+      "type": "heading",
+      "text": "Organise your chats"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "পুরনো কোনো চ্যাট Project-এ আনতে চ্যাটের নামের পাশের dropdown arrow-তে ক্লিক করে \"Add to project\" বেছে নিন।",
+        "\"Move chat\" উইন্ডোতে Project খুঁজে ক্লিক করুন।",
+        "Project থেকে সরাতে বা অন্য Project-এ নিতে চ্যাটের ভেতরের একই dropdown ব্যবহার করুন।"
+      ]
+    },
+    {
+      "type": "warning",
+      "text": "একই Project-এর এক চ্যাটে যা বলেছেন, অন্য চ্যাট তা আপনাআপনি জানে না। কোনো তথ্য সব চ্যাটে কাজে লাগাতে চাইলে সেটা project knowledge-এ যোগ করুন।"
+    },
+    {
+      "type": "heading",
+      "text": "Memory and sharing"
+    },
+    {
+      "type": "paragraph",
+      "text": "প্রতিটা Project-এর নিজস্ব memory থাকে। Project-এর memory আপনার বাকি অ্যাকাউন্টের memory থেকে পুরো আলাদা রাখতে চাইলে Project-এর পাতায় Memory অংশে \"Use account memory\" বন্ধ করুন। (Memory নিয়ে বিস্তারিত এই ট্র্যাকের Memory-র পাঠে।)"
+    },
+    {
+      "type": "paragraph",
+      "text": "শেয়ার করার সুবিধা শুধু Team আর Enterprise প্ল্যানে। Project খুলে নামের পাশে \"Share project\" ক্লিক করে সদস্য যোগ করুন, আর দিন \"Can view\" (শুধু পড়া ও চ্যাট) বা \"Can edit\" (instructions, knowledge আর settings বদলানো) অনুমতি। আপনার অ্যাডমিন শেয়ারিং বন্ধ রাখলে এটা দেখবেন না।"
+    },
+    {
+      "type": "tip",
+      "text": "দরকারি Project তারকা চিহ্ন দিয়ে উপরে রাখুন (Project-এর ভেতরে উপরের ডানে star আইকন)। কাজ শেষ হলে archive করে রাখুন; archive করা Project-এর চ্যাট পরেও খোলা যায়।"
+    },
+    {
+      "type": "heading",
+      "text": "Recap"
+    },
+    {
+      "type": "paragraph",
+      "text": "Project হলো একটা বিষয়ের নিজস্ব ঘর: ফাইল রাখুন project knowledge-এ, স্থায়ী নিয়ম লিখুন project instructions-এ, আর সংশ্লিষ্ট সব চ্যাট এক জায়গায় রাখুন। Free প্ল্যানে পাঁচটা পর্যন্ত Project, বড় knowledge-এর জন্য RAG শুধু paid প্ল্যানে, আর শেয়ারিং Team ও Enterprise-এ।"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Free প্ল্যানে সর্বোচ্চ কয়টা Project বানানো যায়?",
+      "options": [
+        "একটাও না",
+        "পাঁচটা",
+        "পঞ্চাশটা",
+        "সীমাহীন"
+      ],
+      "answer": 1,
+      "explanation": "Help center অনুযায়ী Projects সবার জন্য আছে, তবে free ইউজাররা সর্বোচ্চ পাঁচটা Project বানাতে পারেন।"
+    },
+    {
+      "question": "Project-এর নাম আর বিবরণ সম্পর্কে কোনটা সত্যি?",
+      "options": [
+        "Claude এগুলো পড়ে নির্দেশ হিসেবে মানে",
+        "Claude এগুলো দেখতে পায় না; নির্দেশ দিতে project instructions ব্যবহার করুন",
+        "এগুলো প্রতিটা উত্তরের শুরুতে ছাপা হয়",
+        "নাম বদলানো যায় না"
+      ],
+      "answer": 1,
+      "explanation": "নাম ও বিবরণ শুধু আপনার জন্য। Claude-এর জন্য নিয়ম লিখতে \"Set project instructions\" ব্যবহার করুন।"
+    },
+    {
+      "question": "এক Project-এর একটা চ্যাটে দেওয়া তথ্য অন্য সব চ্যাটে কাজে লাগাতে কী করবেন?",
+      "options": [
+        "কিছু করতে হবে না, সব চ্যাট আপনাআপনি জানে",
+        "তথ্যটা project knowledge-এ যোগ করবেন",
+        "চ্যাটটা মুছে দেবেন",
+        "নতুন Project বানাবেন"
+      ],
+      "answer": 1,
+      "explanation": "Project-এর চ্যাটগুলোর মধ্যে প্রেক্ষাপট শেয়ার হয় না, যদি না তা knowledge base-এ রাখা থাকে।"
+    },
+    {
+      "question": "Project অন্যদের সাথে শেয়ার করা যায় কোন প্ল্যানে?",
+      "options": [
+        "সব প্ল্যানে",
+        "শুধু Free প্ল্যানে",
+        "শুধু Team আর Enterprise প্ল্যানে",
+        "কোনো প্ল্যানেই না"
+      ],
+      "answer": 2,
+      "explanation": "Project sharing শুধু Team ও Enterprise-এ আছে, আর অ্যাডমিন চাইলে তা বন্ধও রাখতে পারেন।"
+    }
+  ]
+}

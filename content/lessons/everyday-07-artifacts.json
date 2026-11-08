@@ -1,0 +1,160 @@
+{
+  "id": "everyday-07-artifacts",
+  "track": "everyday",
+  "order": 7,
+  "title": "Artifacts: Building Mini-Apps",
+  "summary": "কোড না লিখেই Claude-কে দিয়ে ডকুমেন্ট, প্রেজেন্টেশন বা ছোট ইন্টারঅ্যাকটিভ টুল বানান, আর নিরাপদে শেয়ার করুন।",
+  "updatedAt": "2026-11-08",
+  "blocks": [
+    {
+      "type": "heading",
+      "text": "What is an Artifact?"
+    },
+    {
+      "type": "paragraph",
+      "text": "Claude-এর help center-এর ভাষায়, artifact হলো Claude আপনার জন্য এমন কিছু বানাল যা আপনি অন্য কাউকে দেখাতে পারেন। একটা ডকুমেন্ট, একটা স্লাইড ডেক, একটা ডিজাইন, বা একটা ছোট ইন্টারঅ্যাকটিভ টুল, যেমন হিসাবের ক্যালকুলেটর বা পড়ার ফ্ল্যাশকার্ড। Artifact চ্যাটের পাশে আলাদা প্যানেলে খোলে, সেখানে এডিট করা যায়, পরে আবার ফিরে আসা যায়, আর শেয়ারও করা যায়। লেখাটা বড়, নিজে নিজে সম্পূর্ণ (সাধারণত 15 লাইনের বেশি) আর বারবার কাজে লাগার মতো হলে Claude সেটা artifact হিসেবে বানায়।"
+    },
+    {
+      "type": "paragraph",
+      "text": "Artifacts আছে Free, Pro, Max, Ultra, Team আর Enterprise, সব প্ল্যানে। মোবাইলেও (iOS ও Android) যেকোনো চ্যাটে artifact বানানো, দেখা আর এডিট করা যায়।"
+    },
+    {
+      "type": "heading",
+      "text": "Turn it on first"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "Free, Pro, Max বা Ultra প্ল্যানে: Settings > Capabilities-এ যান।",
+        "\"Create and edit files\" চালু করুন (পুরনো লেআউটে এর নাম \"Cloud code execution and file creation\")। Artifacts কাজ করতে এটা লাগবেই।",
+        "Team বা Enterprise প্ল্যানে এই সেটিং থাকে Organization settings > Capabilities-এ, যা সাধারণত অ্যাডমিন নিয়ন্ত্রণ করেন।"
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "Ask for a mini-app"
+    },
+    {
+      "type": "paragraph",
+      "text": "সবচেয়ে সহজ উপায়: যেকোনো চ্যাটে সাধারণ ভাষায় বলুন কী বানাতে চান, কারা ব্যবহার করবে আর কী কী করতে পারবে। চাইলে মেসেজ বক্সে \"Output\" বেছে একটা template থেকেও শুরু করা যায়, বা সাইডবারের \"Artifacts\" ট্যাব থেকে।"
+    },
+    {
+      "type": "prompt",
+      "text": "Build me a simple monthly expense tracker as an interactive artifact.\n- I live in Dhaka and spend in taka (৳).\n- Categories: Rent, Food, Transport, Mobile & Internet, Family, Other.\n- Let me add an expense with amount, category and date.\n- Show the total for the month and a bar chart by category.\n- Use large buttons so it works well on a phone."
+    },
+    {
+      "type": "prompt",
+      "text": "Create an interactive flashcard app to help a Bengali student learn English vocabulary. Show the English word on the front and the Bengali meaning plus one example sentence on the back. Include a \"Shuffle\" button and a score counter. Start with these words: [list 20 words]."
+    },
+    {
+      "type": "tip",
+      "text": "প্রথম ভার্সন নিখুঁত হবে না, এটাই স্বাভাবিক। ছোট ছোট পরিবর্তন চান: \"Add a Delete button for each expense\" বা \"Make the colours darker\"। একবারে একটা-দুটো পরিবর্তন চাইলে ফল ভালো হয়।"
+    },
+    {
+      "type": "heading",
+      "text": "Templates"
+    },
+    {
+      "type": "paragraph",
+      "text": "Docs (শেয়ার করা যায় এমন ডকুমেন্ট), Slides (প্রেজেন্টেশন) আর Design (mockup, prototype, landing page) template সব প্ল্যানে আছে। Dashboards template এখন beta-তে, Pro, Max, Ultra, Team আর Enterprise-এ। Motion (অ্যানিমেটেড ভিডিও) beta-তে শুধু Team আর Enterprise-এ।"
+    },
+    {
+      "type": "heading",
+      "text": "Edit, fix and export"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "চ্যাটে বলে বদলান, অথবা template থেকে বানানো artifact সরাসরি এডিট করুন। ডক বা Markdown ফাইলে কোনো অংশ হাইলাইট করে \"Edit with Claude\" বেছে শুধু ওই অংশটা বদলাতে পারেন।",
+        "Artifact-এ error দেখালে \"Try fixing with Claude\" ক্লিক করুন। Claude ঠিক করার চেষ্টা করবে, যদিও সবসময় সফল হবে এমন নিশ্চয়তা নেই।",
+        "আগের কোনো মেসেজ এডিট করলে চ্যাটের আলাদা একটা ভার্সন তৈরি হয়, তাই অন্য দিকে চেষ্টা করলেও আগের কাজ হারায় না।",
+        "\"Export\" ক্লিক করে নামিয়ে নিন: Docs যায় Word, PDF, Markdown বা Google Docs-এ; Slides যায় PowerPoint বা PDF-এ।"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "যা কিছু বানান সব সাইডবারের Artifacts ট্যাবে জমা থাকে, সেখান থেকে খুঁজে নেওয়া আর সাজানো যায়।"
+    },
+    {
+      "type": "heading",
+      "text": "Sharing safely"
+    },
+    {
+      "type": "paragraph",
+      "text": "নতুন artifact শুরুতে প্রাইভেট থাকে। শেয়ার করতে artifact খুলে \"Share\" ক্লিক করুন, তারপর লিংক কপি করুন। Pro, Max আর Ultra-তে বেছে নিতে পারেন \"Only you\" বা \"Anyone with the link\"। Team আর Enterprise-এ অপশন \"Only people invited\", আপনার প্রতিষ্ঠানের সবাই, অথবা অ্যাডমিন অনুমতি দিলে \"Anyone with the link\"। Sharing সেটিং মোবাইল অ্যাপ থেকে বদলানো যায় না; এর জন্য web বা Claude Desktop লাগবে।"
+    },
+    {
+      "type": "warning",
+      "text": "চ্যাটে বানানো artifact শেয়ার করলে, যারা দেখবে তারা ওই চ্যাটের attachment আর ফাইলগুলোও দেখতে পায়। তাই চ্যাটে NID, ব্যাংক স্টেটমেন্ট বা ব্যক্তিগত ফাইল থাকলে শেয়ার করার আগে দুবার ভাবুন। আর অন্যের শেয়ার করা artifact শুধু বিশ্বস্ত মানুষের কাছ থেকে পেলে খুলুন।"
+    },
+    {
+      "type": "paragraph",
+      "text": "Artifact নিজেও Claude-কে ডাকতে পারে (AI-powered artifact)। তখন যে ব্যবহার করে সে নিজের Claude অ্যাকাউন্টে সাইন ইন করে, আর খরচ হয় তার নিজের প্ল্যানের usage থেকে, আপনার নয়। Pro এবং উপরের প্ল্যানে artifact ডেটাও জমিয়ে রাখতে পারে (web আর desktop-এ, প্রতি artifact-এ 20 MB, শুধু টেক্সট)। কোনো artifact shared storage ব্যবহার করলে সেখানে লেখা জিনিস সব ব্যবহারকারী দেখতে পায়, তাই সংবেদনশীল তথ্য দেওয়ার আগে দেখে নিন।"
+    },
+    {
+      "type": "heading",
+      "text": "Recap"
+    },
+    {
+      "type": "paragraph",
+      "text": "Settings > Capabilities-এ \"Create and edit files\" চালু করুন, তারপর সাধারণ ভাষায় বলুন কী বানাতে চান। ছোট ছোট ধাপে উন্নত করুন, দরকার হলে Export করুন, আর শেয়ার করার আগে মনে রাখুন চ্যাটের ফাইলও দর্শকেরা দেখতে পায়।"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Artifacts কাজ করার জন্য কোন সেটিং চালু থাকতে হয়?",
+      "options": [
+        "Dark mode",
+        "Settings > Capabilities-এ \"Create and edit files\"",
+        "Voice mode",
+        "Incognito chat"
+      ],
+      "answer": 1,
+      "explanation": "Artifacts-এর জন্য \"Create and edit files\" (পুরনো নাম \"Cloud code execution and file creation\") চালু থাকা লাগে।"
+    },
+    {
+      "question": "Artifacts কোন প্ল্যানে পাওয়া যায়?",
+      "options": [
+        "শুধু Max প্ল্যানে",
+        "শুধু Team ও Enterprise-এ",
+        "Free থেকে Enterprise, সব প্ল্যানে",
+        "শুধু ডেভেলপারদের জন্য API-তে"
+      ],
+      "answer": 2,
+      "explanation": "Help center অনুযায়ী Artifacts Free, Pro, Max, Ultra, Team ও Enterprise প্ল্যানে আছে।"
+    },
+    {
+      "question": "চ্যাটে বানানো artifact শেয়ার করলে দর্শকেরা আর কী দেখতে পায়?",
+      "options": [
+        "আপনার পাসওয়ার্ড",
+        "ওই চ্যাটের attachment আর ফাইলগুলো",
+        "আপনার সব চ্যাট হিস্টরি",
+        "কিছুই না"
+      ],
+      "answer": 1,
+      "explanation": "Help center সতর্ক করেছে: চ্যাটে বানানো artifact শেয়ার করলে দর্শকেরা সেই চ্যাটের attachment ও ফাইলেও access পায়।"
+    },
+    {
+      "question": "কেউ আপনার AI-powered artifact ব্যবহার করলে usage কার প্ল্যান থেকে খরচ হয়?",
+      "options": [
+        "আপনার প্ল্যান থেকে",
+        "যে ব্যবহার করছে তার নিজের প্ল্যান থেকে",
+        "Anthropic বিনা খরচে দেয়, কারও লিমিট খরচ হয় না",
+        "অর্ধেক আপনার, অর্ধেক তার"
+      ],
+      "answer": 1,
+      "explanation": "ব্যবহারকারী নিজের অ্যাকাউন্টে সাইন ইন করেন এবং তার নিজের প্ল্যানের লিমিট থেকেই খরচ হয়।"
+    },
+    {
+      "question": "মোবাইল অ্যাপ থেকে কোন কাজটা করা যায় না?",
+      "options": [
+        "Artifact বানানো",
+        "Artifacts ট্যাবে artifact দেখা",
+        "Artifact-এর sharing সেটিং বদলানো",
+        "Artifact এডিট করা"
+      ],
+      "answer": 2,
+      "explanation": "iOS ও Android-এ artifact বানানো, দেখা ও এডিট করা যায়, কিন্তু sharing সেটিং বদলাতে web বা Desktop লাগে।"
+    }
+  ]
+}

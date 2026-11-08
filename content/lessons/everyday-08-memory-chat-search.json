@@ -1,0 +1,155 @@
+{
+  "id": "everyday-08-memory-chat-search",
+  "track": "everyday",
+  "order": 8,
+  "title": "Memory & Chat Search",
+  "summary": "Claude কীভাবে আপনার কথা মনে রাখে, আগের চ্যাট খুঁজে আনে, আর কীভাবে সেগুলো দেখবেন, বদলাবেন বা বন্ধ করবেন।",
+  "updatedAt": "2026-11-08",
+  "blocks": [
+    {
+      "type": "heading",
+      "text": "Two ways Claude uses your past"
+    },
+    {
+      "type": "paragraph",
+      "text": "প্রতিটা নতুন চ্যাটে \"আমি ময়মনসিংহের একজন স্কুলশিক্ষক, ক্লাস 8-এ বিজ্ঞান পড়াই\" বলে শুরু করতে হলে বিরক্ত লাগারই কথা। Claude-এর দুটো ফিচার এখানে সাহায্য করে। Memory: চ্যাট করতে করতে Claude আপনার সম্পর্কে দরকারি কথা মনে রাখে। Chat search: আপনি বললে Claude আপনার আগের চ্যাটগুলো খুঁজে দেখে সেখান থেকে প্রেক্ষাপট নিয়ে আসে।"
+    },
+    {
+      "type": "heading",
+      "text": "Who has it"
+    },
+    {
+      "type": "paragraph",
+      "text": "Help center অনুযায়ী Memory Free, Pro, Max আর Ultra প্ল্যানে ডিফল্টভাবে চালু থাকে। Chat search, মানে আগের চ্যাট খোঁজা, শুধু paid প্ল্যানে: Pro, Max, Ultra, Team আর Enterprise। Team আর Enterprise-এ memory থাকবে কিনা তা প্রতিষ্ঠানের owner ঠিক করেন। দুটো ফিচারই web, Claude Desktop আর মোবাইল অ্যাপে আছে।"
+    },
+    {
+      "type": "heading",
+      "text": "Using chat search"
+    },
+    {
+      "type": "paragraph",
+      "text": "আলাদা কোনো বাটন লাগে না, সাধারণ ভাষায় বলুন। Claude যখন খোঁজে, সেটা চ্যাটে একটা tool call হিসেবে দেখা যায়।"
+    },
+    {
+      "type": "prompt",
+      "text": "What did we discuss last week about my Class 8 science lesson plan?"
+    },
+    {
+      "type": "prompt",
+      "text": "Let's continue where we left off with my bakery price list."
+    },
+    {
+      "type": "paragraph",
+      "text": "Project-এর বাইরের চ্যাটগুলো Claude খুঁজতে পারে, আর কোনো Project-এর ভেতরে থাকলে শুধু সেই Project-এর চ্যাট। এক Project থেকে আরেক Project-এর চ্যাট খোঁজে না।"
+    },
+    {
+      "type": "heading",
+      "text": "How memory works"
+    },
+    {
+      "type": "paragraph",
+      "text": "Claude চ্যাট শেষ হওয়ার পর সারাংশ বানায় না; বরং কথা চলাকালীনই আলাদা আলাদা topic হিসেবে memory সেভ করে। নিজে থেকেও করে, আবার আপনি সরাসরি বলতেও পারেন:"
+    },
+    {
+      "type": "prompt",
+      "text": "Remember this: I teach Class 8 science in Bangladesh, and I want lesson plans in Bengali with simple experiments that need no lab equipment."
+    },
+    {
+      "type": "steps",
+      "items": [
+        "Memory দেখতে: Settings > Your Claude-এ যান (পুরনো লেআউটে Settings > Memory)।",
+        "\"Your memory\"-র পাশে Manage বেছে নিন। সব কিছু \"Topics\"-এর নিচে তালিকা আকারে থাকে।",
+        "কোনো topic পড়তে তাতে ক্লিক করুন, বদলাতে edit আইকন, মুছতে \"Delete\"।",
+        "চ্যাটেও বলা যায়, যেমন \"Forget that I live in Mymensingh\", বা কোনো তথ্য বদলে দিতে বলা যায়।"
+      ]
+    },
+    {
+      "type": "tip",
+      "text": "মাঝে মাঝে Topics তালিকাটা খুলে দেখুন। পুরনো বা ভুল তথ্য (যেমন আগের চাকরি) মুছে দিলে Claude-এর উত্তর আরও মানানসই হবে।"
+    },
+    {
+      "type": "heading",
+      "text": "Sensitive topics and privacy"
+    },
+    {
+      "type": "paragraph",
+      "text": "ডিফল্টভাবে Claude স্বাস্থ্য, রাজনীতি বা ধর্মের মতো সংবেদনশীল বিষয় memory-তে রাখে না। চাইলে Settings > Your Claude-এ \"Include sensitive topics in memory\" চালু করতে পারেন। কিছু তথ্য Claude কখনোই সেভ করে না, যেমন সরকারি পরিচয়পত্রের নম্বর, অপরাধের ইতিহাস, আর্থিক অ্যাকাউন্টের নম্বর ও অভিবাসন সংক্রান্ত অবস্থা।"
+    },
+    {
+      "type": "heading",
+      "text": "Controls: off, pause, reset"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "Chat search বন্ধ করতে: Settings > Your Claude-এ \"Search and reference chats\" টগল বন্ধ করুন।",
+        "নতুন memory তৈরি চালু বা বন্ধ: Settings > Your Claude-এ \"Generate memory from chats\"।",
+        "শুধু একটা চ্যাটে memory বন্ধ: নতুন চ্যাট খুলে \"+\" (মোবাইলে মেসেজ বক্সের পাশের \"+\") চাপুন আর প্রথম মেসেজ পাঠানোর আগে \"Memory\" বন্ধ করুন। চ্যাট শুরু হয়ে গেলে এটা আর বদলানো যায় না।",
+        "Pause memory: পুরনো memory থেকে যায়, কিন্তু Claude তা ব্যবহার করে না এবং নতুন memory বানায় না।",
+        "Reset memory: Project-এর memory সহ সব memory চিরতরে মুছে যায়।"
+      ]
+    },
+    {
+      "type": "warning",
+      "text": "Reset memory আর ফেরত আনা যায় না। শুধু কিছুদিন বিরতি চাইলে Pause ব্যবহার করুন, Reset নয়।"
+    },
+    {
+      "type": "paragraph",
+      "text": "প্রতিটা Project-এর নিজস্ব memory থাকে। Claude সেটা আপনার সাধারণ (Project-এর বাইরের) memory-র সাথে ব্যবহার করে, কিন্তু অন্য Project-এর memory নয়। আর এমন চ্যাট চাইলে যা memory বা history-তে একেবারেই থাকবে না, তার জন্য আছে incognito chat; সেটা নিয়ে আলাদা পাঠ আছে।"
+    },
+    {
+      "type": "heading",
+      "text": "Recap"
+    },
+    {
+      "type": "paragraph",
+      "text": "Memory Claude-কে আপনার পরিচয় আর পছন্দ মনে রাখতে দেয় (Free থেকেই চালু), chat search আগের চ্যাট খুঁজে আনে (শুধু paid প্ল্যানে)। সব নিয়ন্ত্রণ Settings > Your Claude-এ: topic দেখা, এডিট, মুছে ফেলা, pause বা reset। কোনো একটা চ্যাটে memory না চাইলে প্রথম মেসেজের আগেই \"+\" থেকে বন্ধ করুন।"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "আগের চ্যাট খোঁজার (chat search) সুবিধা কোন প্ল্যানে আছে?",
+      "options": [
+        "সব প্ল্যানে, Free সহ",
+        "শুধু paid প্ল্যানে: Pro, Max, Ultra, Team ও Enterprise",
+        "শুধু Enterprise-এ",
+        "কোনো প্ল্যানেই নেই"
+      ],
+      "answer": 1,
+      "explanation": "Help center অনুযায়ী past chat search শুধু paid প্ল্যানে। Memory অবশ্য Free প্ল্যানেও ডিফল্টভাবে চালু।"
+    },
+    {
+      "question": "Memory-তে কী আছে তা কোথায় দেখবেন?",
+      "options": [
+        "Settings > Your Claude-এ \"Your memory\"-র পাশে Manage",
+        "Projects পেজে",
+        "Artifacts ট্যাবে",
+        "দেখা সম্ভব নয়"
+      ],
+      "answer": 0,
+      "explanation": "Settings > Your Claude-এ Manage বেছে নিলে \"Topics\"-এর নিচে সব memory দেখা, এডিট ও মুছে ফেলা যায়।"
+    },
+    {
+      "question": "শুধু একটা নির্দিষ্ট চ্যাটে memory বন্ধ রাখতে কখন সেটিং বদলাতে হবে?",
+      "options": [
+        "চ্যাট শেষ হওয়ার পর",
+        "যেকোনো সময়",
+        "প্রথম মেসেজ পাঠানোর আগে, \"+\" মেনু থেকে",
+        "পরের দিন"
+      ],
+      "answer": 2,
+      "explanation": "চ্যাট শুরু হয়ে গেলে এই সেটিং আর বদলানো যায় না, তাই প্রথম মেসেজের আগেই \"Memory\" বন্ধ করতে হয়।"
+    },
+    {
+      "question": "Pause memory আর Reset memory-র পার্থক্য কী?",
+      "options": [
+        "দুটো একই জিনিস",
+        "Pause-এ পুরনো memory থাকে কিন্তু ব্যবহার হয় না; Reset-এ সব memory চিরতরে মুছে যায়",
+        "Reset-এ শুধু আজকের memory মোছে",
+        "Pause-এ সব memory মুছে যায়"
+      ],
+      "answer": 1,
+      "explanation": "Pause অস্থায়ী বিরতি; Reset সব memory, Project-এর memory সহ, স্থায়ীভাবে মুছে দেয় এবং ফেরত আনা যায় না।"
+    }
+  ]
+}

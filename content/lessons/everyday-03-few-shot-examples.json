@@ -1,0 +1,132 @@
+{
+  "id": "everyday-03-few-shot-examples",
+  "track": "everyday",
+  "order": 3,
+  "title": "Few-Shot Examples",
+  "summary": "কয়েকটা ভালো উদাহরণ দেখিয়ে Claude-কে ঠিক আপনার পছন্দের ফরম্যাট, টোন আর স্টাইলে উত্তর দেওয়ানো শিখুন।",
+  "updatedAt": "2026-11-08",
+  "blocks": [
+    {
+      "type": "heading",
+      "text": "Show, don't just tell"
+    },
+    {
+      "type": "paragraph",
+      "text": "\"বন্ধুসুলভ কিন্তু প্রফেশনাল টোনে লেখো\" বললে Claude নিজের মতো করে একটা মানে ধরে নেয়, আর সেটা আপনার মনের সাথে নাও মিলতে পারে। তার চেয়ে আগে কয়েকটা নমুনা দেখিয়ে দিন, তারপর বলুন \"এরকম করে লেখো\"। এই কৌশলের নাম few-shot বা multishot prompting। Anthropic-এর গাইড অনুযায়ী উত্তরের format, tone আর structure নিয়ন্ত্রণ করার সবচেয়ে নির্ভরযোগ্য উপায়গুলোর একটা হলো উদাহরণ দেওয়া।"
+    },
+    {
+      "type": "heading",
+      "text": "Three rules for good examples"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "Relevant: উদাহরণ যেন আপনার আসল কাজের সাথে মেলে। কাস্টমারের মেসেজের উত্তর চাইলে উদাহরণও কাস্টমারের মেসেজ আর উত্তর হোক, কবিতা নয়।",
+        "Diverse: উদাহরণগুলো যেন একে অপরের থেকে আলাদা হয় এবং কঠিন বা ব্যতিক্রমী কেসও থাকে। সব উদাহরণ একরকম হলে Claude এমন প্যাটার্ন ধরে নেয় যা আপনি চাননি।",
+        "Structured: প্রতিটা উদাহরণ `<example>` tag-এ রাখুন, আর কয়েকটা হলে সবগুলোকে `<examples>` tag-এ মুড়ে দিন। এতে Claude উদাহরণ আর নির্দেশ আলাদা করে চিনতে পারে।"
+      ]
+    },
+    {
+      "type": "tip",
+      "text": "গাইডের পরামর্শ: সবচেয়ে ভালো ফলের জন্য 3 থেকে 5টা উদাহরণ দিন।"
+    },
+    {
+      "type": "heading",
+      "text": "Example: sorting customer messages"
+    },
+    {
+      "type": "paragraph",
+      "text": "ঢাকার একটা অনলাইন পোশাকের দোকান প্রতিদিন Facebook-এ অনেক মেসেজ পায়। মালিক চান Claude প্রতিটা মেসেজকে একটা ক্যাটাগরিতে ফেলে দিক। খেয়াল করুন, উদাহরণগুলো ইচ্ছা করেই আলাদা ধরনের রাখা হয়েছে, আর একটায় দুটো বিষয় মিশে আছে।"
+    },
+    {
+      "type": "prompt",
+      "text": "Sort each customer message into exactly one category: Order status, Size exchange, Price question, or Other. Reply with the category only.\n\n<examples>\n<example>\nMessage: I ordered a kurti 5 days ago, when will it reach Mirpur?\nCategory: Order status\n</example>\n<example>\nMessage: The panjabi is too tight. Can I get XL instead?\nCategory: Size exchange\n</example>\n<example>\nMessage: How much is the blue saree in your last post? Any discount for two?\nCategory: Price question\n</example>\n<example>\nMessage: Do you have a shop I can visit in Dhanmondi?\nCategory: Other\n</example>\n</examples>\n\nNow sort this message:\nMessage: [Paste the new customer message here]"
+    },
+    {
+      "type": "heading",
+      "text": "Example: matching your writing style"
+    },
+    {
+      "type": "paragraph",
+      "text": "উদাহরণ দিয়ে লেখার স্টাইলও শেখানো যায়। কলকাতার একটা শাড়ির দোকান আগে যেভাবে প্রোডাক্টের বর্ণনা লিখেছে, সেগুলো দেখিয়ে নতুন বর্ণনা লেখানো যাক।"
+    },
+    {
+      "type": "prompt",
+      "text": "Write a product description for our online saree shop in Kolkata. Match the length, tone and structure of the examples.\n\n<examples>\n<example>\nProduct: Red Banarasi silk saree with gold zari border\nDescription: A wedding classic. Rich red Banarasi silk with a heavy gold zari border that catches the light. Comes with an unstitched blouse piece. Dry clean only.\n</example>\n<example>\nProduct: Light green cotton tant saree\nDescription: Made for long summer days. Soft, airy Bengal tant cotton in a fresh light green. Easy to drape, easy to wash. Perfect for office or college.\n</example>\n<example>\nProduct: Black georgette saree with sequin work\nDescription: Party ready. Flowing black georgette with scattered sequins that shimmer at every step. Lightweight and travel friendly. Gentle hand wash.\n</example>\n</examples>\n\nProduct: [Describe the new saree here]"
+    },
+    {
+      "type": "warning",
+      "text": "উদাহরণে যা আছে Claude অনেক সময় হুবহু সেটাই অনুসরণ করে। যদি তিনটা উদাহরণই \"Dear Sir\" দিয়ে শুরু হয়, নতুন লেখাও সম্ভবত তাই হবে। যে প্যাটার্ন চান না, সেটা যেন সব উদাহরণে একসাথে না থাকে।"
+    },
+    {
+      "type": "heading",
+      "text": "Let Claude help with examples"
+    },
+    {
+      "type": "paragraph",
+      "text": "নিজের উদাহরণ যথেষ্ট ভালো কিনা বুঝতে না পারলে Claude-কেই জিজ্ঞেস করুন। Anthropic-এর গাইডও বলছে, Claude-কে দিয়ে উদাহরণের relevance আর diversity যাচাই করানো যায়, বা প্রথম কয়েকটা দেখে আরও উদাহরণ বানিয়ে নেওয়া যায়।"
+    },
+    {
+      "type": "prompt",
+      "text": "Here are the examples I plan to use in a prompt:\n\n<examples>\n[Paste your examples here]\n</examples>\n\nAre these examples relevant and diverse enough? Point out any pattern you might copy by mistake, then write 2 more examples that cover cases mine are missing."
+    },
+    {
+      "type": "tip",
+      "text": "কঠিন হিসাব বা যুক্তির কাজেও উদাহরণ কাজে লাগে। তখন প্রতিটা উদাহরণে থাকুক সমস্যা, কোন পদ্ধতিতে সমাধান করা হলো, আর শেষ উত্তর। Claude তার নিজের চিন্তাতেও সেই পদ্ধতি অনুসরণ করে।"
+    },
+    {
+      "type": "heading",
+      "text": "Recap"
+    },
+    {
+      "type": "paragraph",
+      "text": "বর্ণনা দেওয়ার চেয়ে উদাহরণ দেখানো বেশি কার্যকর। 3 থেকে 5টা উদাহরণ দিন, যেগুলো আপনার কাজের সাথে মেলে, একে অপরের থেকে আলাদা, আর `<example>` / `<examples>` tag-এ সাজানো। অনিশ্চিত হলে Claude-কে দিয়েই উদাহরণ যাচাই করিয়ে নিন।"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Few-shot prompting মানে কী?",
+      "options": [
+        "খুব ছোট প্রম্পট লেখা",
+        "প্রম্পটে কয়েকটা নমুনা উদাহরণ দিয়ে কাঙ্ক্ষিত উত্তর দেখিয়ে দেওয়া",
+        "একই প্রশ্ন কয়েকবার পাঠানো",
+        "কয়েকটা আলাদা চ্যাটে কাজ ভাগ করা"
+      ],
+      "answer": 1,
+      "explanation": "Few-shot বা multishot prompting-এ আপনি কয়েকটা উদাহরণ দেখিয়ে দেন, Claude সেই format ও tone অনুসরণ করে।"
+    },
+    {
+      "question": "Anthropic-এর গাইড অনুযায়ী সবচেয়ে ভালো ফলের জন্য কয়টা উদাহরণ দেওয়া উচিত?",
+      "options": [
+        "মাত্র 1টা",
+        "3 থেকে 5টা",
+        "অন্তত 20টা",
+        "উদাহরণ না দেওয়াই ভালো"
+      ],
+      "answer": 1,
+      "explanation": "গাইড 3 থেকে 5টা উদাহরণ দেওয়ার পরামর্শ দেয়।"
+    },
+    {
+      "question": "সব উদাহরণ যদি একই ধরনের হয় তাহলে কী হতে পারে?",
+      "options": [
+        "Claude উদাহরণগুলো উপেক্ষা করবে",
+        "Claude এমন প্যাটার্ন নকল করতে পারে যা আপনি চাননি",
+        "উত্তর বেশি সৃজনশীল হবে",
+        "কিছুই হবে না"
+      ],
+      "answer": 1,
+      "explanation": "এজন্যই উদাহরণ diverse হওয়া দরকার, যাতে Claude অনিচ্ছাকৃত প্যাটার্ন না ধরে।"
+    },
+    {
+      "question": "উদাহরণগুলো নির্দেশ থেকে আলাদা রাখতে কোন tag ব্যবহার করা হয়?",
+      "options": [
+        "`<example>` এবং `<examples>`",
+        "`<b>` এবং `<i>`",
+        "`<html>`",
+        "কোনো tag লাগে না, শুধু স্পেস দিন"
+      ],
+      "answer": 0,
+      "explanation": "প্রতিটা উদাহরণ `<example>` tag-এ এবং সবগুলো একসাথে `<examples>` tag-এ রাখলে Claude সহজে চিনতে পারে।"
+    }
+  ]
+}

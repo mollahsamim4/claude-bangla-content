@@ -1,0 +1,165 @@
+{
+  "id": "everyday-09-web-search-research",
+  "track": "everyday",
+  "order": 9,
+  "title": "Web Search & Research",
+  "summary": "Claude-কে ইন্টারনেট থেকে সাম্প্রতিক তথ্য আনাতে web search, আর অনেক উৎস ঘেঁটে গভীর অনুসন্ধানের জন্য Research ব্যবহার শিখুন।",
+  "updatedAt": "2026-11-08",
+  "blocks": [
+    {
+      "type": "heading",
+      "text": "Why Claude needs the web"
+    },
+    {
+      "type": "paragraph",
+      "text": "Claude-এর নিজস্ব জ্ঞান একটা নির্দিষ্ট সময় পর্যন্ত। আজকের ডলারের রেট, এবারের HSC রেজাল্টের তারিখ, বা কাল রাতের খেলার ফল জানতে হলে Claude-কে ইন্টারনেটে খুঁজতে হবে। এর জন্য দুটো ফিচার: web search (দ্রুত তথ্য খোঁজা) আর Research (অনেকগুলো সার্চ করে গভীর অনুসন্ধান)।"
+    },
+    {
+      "type": "heading",
+      "text": "Turn on web search"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "চ্যাট উইন্ডোর নিচে বাঁ কোণে \"+\" বাটনে ক্লিক করুন।",
+        "Dropdown থেকে \"Web search\" বেছে নিন।",
+        "\"Web search\"-এর পাশে টিক চিহ্ন দেখলে বুঝবেন চালু হয়েছে।"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Team বা Enterprise প্ল্যানে আগে প্রতিষ্ঠানের Owner বা Primary Owner-কে Organization settings > Capabilities থেকে web search চালু করতে হয়, তারপর সদস্যরা নিজের চ্যাটে চালু করতে পারেন। আর আপনার অ্যাকাউন্টে যদি নতুন Claude experience এসে থাকে, তাহলে কোনো web search টগল দেখবেন না; দরকার মনে হলে Claude নিজেই ওয়েবে খোঁজে।"
+    },
+    {
+      "type": "heading",
+      "text": "What you get"
+    },
+    {
+      "type": "paragraph",
+      "text": "Web search চালু থাকলে Claude সময়-নির্ভর প্রশ্নে সার্চ করে, আর প্রতিটা উত্তরে citation দেয়, যাতে আপনি নিজে উৎস মিলিয়ে দেখতে পারেন। কোনো নির্দিষ্ট লিংক দিলে Claude সেই পেজের পুরো লেখাও পড়ে বিশ্লেষণ করতে পারে (web fetch)। সার্চের ফলাফল থেকে ছবিও দেখাতে পারে; প্রতিটা ছবির সাথে উৎসের লিংক থাকে।"
+    },
+    {
+      "type": "prompt",
+      "text": "Search the web for the latest official announcement about the HSC exam schedule in Bangladesh. Give me the key dates in a short list and link to the official source."
+    },
+    {
+      "type": "prompt",
+      "text": "Read this article and summarise it in 5 bullet points in simple Bengali: [paste the URL here]"
+    },
+    {
+      "type": "warning",
+      "text": "Web search আর web fetch দুটোই আপনার usage limit থেকে খরচ হয়। Free অ্যাকাউন্টে খুব লম্বা একটা আর্টিকেলের লিংক দিলে লিমিটের বড় একটা অংশ চলে যেতে পারে। আর citation থাকলেও গুরুত্বপূর্ণ তথ্য (পরীক্ষার তারিখ, সরকারি নিয়ম) মূল উৎসে গিয়ে একবার মিলিয়ে নিন।"
+    },
+    {
+      "type": "heading",
+      "text": "Research: deep investigation"
+    },
+    {
+      "type": "paragraph",
+      "text": "Research-এ Claude একটার পর একটা সার্চ চালায়, যেখানে প্রতিটা সার্চ আগেরটার ফলের উপর দাঁড়ায়, আর যা পায় তা দেখে ঠিক করে এরপর কী খুঁজবে। Help center বলছে, Research সবচেয়ে ভালো যখন ব্যাপক তথ্য সংগ্রহ লাগে, যেমন পাঁচ বা তার বেশি tool call, এক থেকে তিন মিনিট ধরে।"
+    },
+    {
+      "type": "paragraph",
+      "text": "Research শুধু paid প্ল্যানে আছে (Pro, Max, Ultra, Team বা Enterprise), web, Claude Desktop আর মোবাইলে। আপনি চ্যাটে যে মডেলই বেছে নিন, Research চলে Claude Opus 5.5-এ (না পেলে Claude Opus 4.8-এ)।"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "আগে web search চালু আছে কিনা নিশ্চিত করুন; এটা ছাড়া Research কাজ করে না।",
+        "চ্যাটের নিচে বাঁ দিকে \"+\" বাটনে ক্লিক করে \"Research\" বেছে নিন।",
+        "চ্যাট উইন্ডোর নিচে একটা নীল indicator দেখা যাবে। বন্ধ করতে আবার সেটাতে ক্লিক করুন।",
+        "এবার আপনার প্রশ্নটা বিস্তারিত লিখে পাঠান।"
+      ]
+    },
+    {
+      "type": "prompt",
+      "text": "I want to start a small online business selling handmade jute bags from Bangladesh to customers in Europe. Research the main export rules, popular marketplaces, typical shipping options and what similar sellers charge. End with a step-by-step plan for my first three months, with sources for each key claim."
+    },
+    {
+      "type": "tip",
+      "text": "Claude যদি Research চালু থাকা সত্ত্বেও গভীরে না খোঁজে, সরাসরি বলুন: \"Claude, please use the research tool to…\"। Help center এই পরামর্শই দেয়।"
+    },
+    {
+      "type": "paragraph",
+      "text": "Research আপনার চ্যাটে চালু করা connector-গুলোতেও (যেমন Gmail, Google Calendar, Google Docs) খুঁজতে পারে। তবে মোবাইল অ্যাপে Research শুধু ওয়েবে খোঁজে, connector বাদ দেয়, আর কোনো সতর্কবার্তাও দেখায় না। Research সাধারণ চ্যাটের মতোই লিমিট থেকে খরচ হয়, কিন্তু তাড়াতাড়ি ফুরায়।"
+    },
+    {
+      "type": "heading",
+      "text": "Which one should I use?"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "এক-দুটো সার্চে মেলে এমন সোজা তথ্য (আবহাওয়া, কোনো কোম্পানির খবর, সাম্প্রতিক ঘটনা): web search।",
+        "অনেক উৎস মিলিয়ে তুলনা বা রিপোর্ট (প্রতিযোগী কোম্পানির তুলনা, নতুন ব্যবসার বাজার যাচাই): Research।",
+        "ওয়েবের নতুন তথ্য লাগে না কিন্তু গভীর যুক্তি লাগে: শুধু extended thinking।",
+        "ভেবেচিন্তে পরিকল্পনা করে তারপর খুঁজতে হবে: Research আর extended thinking একসাথে।"
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "Recap"
+    },
+    {
+      "type": "paragraph",
+      "text": "\"+\" মেনু থেকে \"Web search\" চালু করলে Claude সাম্প্রতিক তথ্য খোঁজে আর citation দেয়। গভীর অনুসন্ধানের জন্য একই মেনু থেকে \"Research\" (শুধু paid প্ল্যানে, web search চালু থাকতে হবে)। দুটোই usage limit খরচ করে, আর জরুরি তথ্য সবসময় মূল উৎসে যাচাই করুন।"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Web search চালু করার ধাপ কোনটা?",
+      "options": [
+        "Settings > Appearance থেকে",
+        "চ্যাটের নিচে বাঁ কোণে \"+\" > \"Web search\"",
+        "মডেলের নামে ক্লিক করে",
+        "Project instructions-এ লিখে"
+      ],
+      "answer": 1,
+      "explanation": "\"+\" বাটনে ক্লিক করে \"Web search\" বেছে নিলে পাশে টিক চিহ্ন আসে। নতুন Claude experience-এ টগল থাকে না, Claude নিজেই ঠিক করে।"
+    },
+    {
+      "question": "Research ব্যবহারের পূর্বশর্ত কী?",
+      "options": [
+        "Web search চালু থাকতে হবে, আর paid প্ল্যান লাগবে",
+        "শুধু Free প্ল্যান লাগবে",
+        "Incognito chat খুলতে হবে",
+        "কোনো শর্ত নেই"
+      ],
+      "answer": 0,
+      "explanation": "Research শুধু Pro, Max, Ultra, Team ও Enterprise-এ, আর web search চালু না থাকলে এটা কাজ করে না।"
+    },
+    {
+      "question": "চ্যাটে Sonnet বেছে নিলেও Research কোন মডেলে চলে?",
+      "options": [
+        "আপনার বেছে নেওয়া মডেলেই",
+        "Claude Opus 5.5 (না পেলে Claude Opus 4.8)",
+        "সবসময় Haiku",
+        "কোনো মডেল লাগে না"
+      ],
+      "answer": 1,
+      "explanation": "Help center অনুযায়ী Research চ্যাটের মডেল যাই হোক, Claude Opus 5.5-এ চলে, fallback হিসেবে Claude Opus 4.8।"
+    },
+    {
+      "question": "\"কাল রাতের খেলায় কে জিতেছে?\" এই প্রশ্নের জন্য কোনটা যথেষ্ট?",
+      "options": [
+        "Research",
+        "Web search",
+        "Few-shot উদাহরণ",
+        "Artifact"
+      ],
+      "answer": 1,
+      "explanation": "এক-দুটো সার্চে উত্তর মেলে এমন সোজা, সাম্প্রতিক তথ্যের জন্য web search-ই সবচেয়ে উপযুক্ত।"
+    },
+    {
+      "question": "মোবাইল অ্যাপে Research সম্পর্কে কোনটা সত্যি?",
+      "options": [
+        "মোবাইলে Research একেবারেই নেই",
+        "মোবাইলে Research শুধু ওয়েবে খোঁজে, connector ব্যবহার করে না",
+        "মোবাইলে Research বিনামূল্যে",
+        "মোবাইলে Research বেশি connector ব্যবহার করে"
+      ],
+      "answer": 1,
+      "explanation": "Help center বলছে Claude Mobile-এ Research শুধু ওয়েব খোঁজে এবং connector বাদ দেয়, কোনো সতর্কবার্তা ছাড়াই।"
+    }
+  ]
+}

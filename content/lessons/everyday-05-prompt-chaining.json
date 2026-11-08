@@ -1,0 +1,140 @@
+{
+  "id": "everyday-05-prompt-chaining",
+  "track": "everyday",
+  "order": 5,
+  "title": "Prompt Chaining for Long Tasks",
+  "summary": "বড় কাজকে কয়েকটা ছোট প্রম্পটে ভাগ করুন: প্রতিটা ধাপের ফল দেখে, ঠিক করে, তারপর পরের ধাপে যান।",
+  "updatedAt": "2026-11-08",
+  "blocks": [
+    {
+      "type": "heading",
+      "text": "One giant prompt vs. a chain"
+    },
+    {
+      "type": "paragraph",
+      "text": "একটা স্কলারশিপের আবেদন, একটা ব্যবসার প্রস্তাব বা একটা লম্বা রিপোর্ট, এসব কাজে কয়েকটা আলাদা ধাপ থাকে: তথ্য জোগাড়, খসড়া লেখা, ভুল ধরা, ঠিক করা। সব ধাপ এক প্রম্পটে চাপিয়ে দিলে মাঝের কোথাও ভুল হলে আপনি টেরও পান না। Prompt chaining মানে কাজটাকে কয়েকটা প্রম্পটে ভাগ করা, যেখানে এক ধাপের ফল পরের ধাপের ইনপুট হয়।"
+    },
+    {
+      "type": "paragraph",
+      "text": "Anthropic-এর গাইড স্বীকার করে যে এখনকার Claude নিজের thinking দিয়েই অনেক বহু-ধাপের কাজ ভেতরে ভেতরে সামলে নেয়। তবু chaining তখনো কাজের, যখন আপনি মাঝের ফলগুলো নিজে দেখে নিতে চান, বা কাজটা একটা নির্দিষ্ট ক্রমেই করাতে চান।"
+    },
+    {
+      "type": "heading",
+      "text": "The self-correction chain"
+    },
+    {
+      "type": "paragraph",
+      "text": "গাইডে সবচেয়ে প্রচলিত chain-টা হলো self-correction: খসড়া লেখা, তারপর নির্দিষ্ট মানদণ্ডে Claude-কে দিয়ে খসড়া রিভিউ করানো, তারপর রিভিউ অনুযায়ী উন্নত করা। ধরুন খুলনার এক HSC পাস ছাত্রী একটা বিদেশি স্কলারশিপের জন্য personal statement লিখছে। তিনটা আলাদা মেসেজে পাঠান, প্রতিবার উত্তর পড়ে তারপর পরেরটা।"
+    },
+    {
+      "type": "prompt",
+      "text": "Step 1 (draft):\n\n<about_me>\n[Your background: studies, results, family, goals, activities]\n</about_me>\n\n<scholarship>\n[Paste the scholarship's description and essay question here]\n</scholarship>\n\nWrite a first draft of my personal statement (about 500 words) answering the essay question. Use only facts from <about_me>."
+    },
+    {
+      "type": "prompt",
+      "text": "Step 2 (review):\n\nReview the draft above against these criteria:\n1. Does it answer the essay question directly?\n2. Is every claim backed by a fact from <about_me>?\n3. Does it sound like a real 18-year-old, not a template?\n4. Is it within 500 words?\n\nList the problems in <review> tags. Do not rewrite the draft yet."
+    },
+    {
+      "type": "prompt",
+      "text": "Step 3 (refine):\n\nRewrite the draft to fix every problem in your <review>. Keep it under 500 words. After the essay, list in 3 bullet points what you changed."
+    },
+    {
+      "type": "tip",
+      "text": "প্রতিটা ধাপের পর থামুন আর পড়ুন। Step 2-এর রিভিউতে যদি দেখেন Claude ভুল কিছু ধরেছে, Step 3-এর আগেই বলে দিন \"Point 3 is not a problem, ignore it\"। এই নিয়ন্ত্রণটাই chaining-এর আসল সুবিধা।"
+    },
+    {
+      "type": "heading",
+      "text": "A chain for long documents"
+    },
+    {
+      "type": "paragraph",
+      "text": "লম্বা ডকুমেন্ট নিয়ে কাজেও chain ভালো কাজ করে। গাইডের পরামর্শ অনুযায়ী প্রথমে প্রাসঙ্গিক অংশ হুবহু উদ্ধৃত করান, তারপর সেই উদ্ধৃতির উপর ভিত্তি করে লেখান। উদাহরণ: কলকাতার একটা ছোট ক্যাফের মালিক এক বছরের কাস্টমার রিভিউ থেকে উন্নতির পরিকল্পনা বানাতে চান।"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "ধাপ 1: রিভিউগুলো `<reviews>` tag-এ দিয়ে বলুন খাবার, দাম, সার্ভিস আর পরিবেশ নিয়ে অভিযোগগুলো হুবহু `<quotes>` tag-এ তুলে দিতে।",
+        "ধাপ 2: উদ্ধৃতিগুলো দেখে নিন। তারপর বলুন এগুলো থেকে সবচেয়ে বড় তিনটা সমস্যা বের করে, প্রতিটার পাশে কতগুলো রিভিউতে এসেছে তা লিখতে।",
+        "ধাপ 3: সেই তিনটা সমস্যার জন্য একটা তিন মাসের, কম খরচের কাজের পরিকল্পনা বানাতে বলুন।"
+      ]
+    },
+    {
+      "type": "prompt",
+      "text": "<reviews>\n[Paste customer reviews here]\n</reviews>\n\nFind every complaint about food, price, service or atmosphere in these reviews. Copy each one word for word into <quotes> tags, grouped by topic. Do not summarise or add advice yet."
+    },
+    {
+      "type": "heading",
+      "text": "Passing results between steps"
+    },
+    {
+      "type": "paragraph",
+      "text": "একই চ্যাটে থাকলে Claude আগের ধাপগুলো দেখতে পায়, তাই \"the draft above\" বললেই চলে। কিন্তু চ্যাট খুব লম্বা হয়ে গেলে বা নতুন চ্যাটে পরের ধাপ শুরু করলে আগের ধাপের ফলটা কপি করে tag-এ মুড়ে দিন, যেমন `<draft>` বা `<quotes>`। আগের পাঠে শেখা XML tag এখানে কাজে আসে।"
+    },
+    {
+      "type": "prompt",
+      "text": "<draft>\n[Paste the output of the previous step here]\n</draft>\n\nThis is a draft from an earlier step. [Your next instruction here]"
+    },
+    {
+      "type": "warning",
+      "text": "সব কাজে chain লাগে না। একটা ইমেইল লেখা বা একটা প্রশ্নের উত্তরের মতো সহজ কাজ এক প্রম্পটেই ভালো হয়। অপ্রয়োজনে ধাপ বাড়ালে সময় আর usage দুটোই বেশি খরচ হয়।"
+    },
+    {
+      "type": "tip",
+      "text": "যে ডকুমেন্ট বারবার লাগে (যেমন রিভিউ ফাইল বা স্কলারশিপের নিয়ম), সেটা প্রতিবার পেস্ট না করে একটা Project-এ রেখে দিন। পরের পাঠে Projects শিখবেন।"
+    },
+    {
+      "type": "heading",
+      "text": "Recap"
+    },
+    {
+      "type": "paragraph",
+      "text": "বড় কাজকে ধাপে ভাগ করুন, প্রতিটা প্রম্পটে একটাই কাজ দিন, আর প্রতিটা ফল দেখে তবে এগোন। সবচেয়ে কাজের chain হলো খসড়া, রিভিউ, উন্নতি। ধাপের মধ্যে ফল আদান-প্রদানে XML tag ব্যবহার করুন, আর সহজ কাজে chain এড়িয়ে চলুন।"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Prompt chaining কী?",
+      "options": [
+        "একটা প্রম্পট বারবার কপি করে পাঠানো",
+        "বড় কাজকে কয়েকটা প্রম্পটে ভাগ করা, যেখানে এক ধাপের ফল পরের ধাপের ইনপুট",
+        "কয়েকটা AI অ্যাপ একসাথে ব্যবহার করা",
+        "প্রম্পট যত লম্বা করা যায় তত লম্বা করা"
+      ],
+      "answer": 1,
+      "explanation": "Chaining-এ কাজ ধাপে ধাপে হয় এবং প্রতিটা ধাপের ফল পরের ধাপে ব্যবহার হয়।"
+    },
+    {
+      "question": "Anthropic-এর গাইডে সবচেয়ে প্রচলিত chaining প্যাটার্ন কোনটা?",
+      "options": [
+        "অনুবাদ → সারাংশ → কবিতা",
+        "খসড়া → মানদণ্ডে রিভিউ → রিভিউ অনুযায়ী উন্নতি",
+        "প্রশ্ন → উত্তর → প্রশ্ন",
+        "ছবি → ভিডিও → অডিও"
+      ],
+      "answer": 1,
+      "explanation": "এটাকে self-correction chain বলে: draft, review, refine।"
+    },
+    {
+      "question": "এখনকার Claude নিজেই অনেক বহু-ধাপের কাজ সামলাতে পারলে chaining কখন দরকার?",
+      "options": [
+        "কখনোই না",
+        "যখন মাঝের ফলগুলো নিজে দেখে ঠিক করতে চান বা নির্দিষ্ট ক্রম মানাতে চান",
+        "শুধু ইংরেজি লেখার সময়",
+        "শুধু মোবাইল অ্যাপে"
+      ],
+      "answer": 1,
+      "explanation": "গাইড বলছে chaining তখন কাজের, যখন intermediate output পরীক্ষা করতে হয় বা নির্দিষ্ট pipeline মানতে হয়।"
+    },
+    {
+      "question": "নতুন চ্যাটে পরের ধাপ শুরু করলে আগের ধাপের ফল কীভাবে দেবেন?",
+      "options": [
+        "কিছু দিতে হবে না, নতুন চ্যাট আগের চ্যাটের পুরো লেখা নিজে থেকেই দেখতে পায়",
+        "ফলটা কপি করে `<draft>`-এর মতো একটা tag-এ মুড়ে পেস্ট করবেন",
+        "শুধু চ্যাটের নাম লিখবেন",
+        "স্ক্রিনশট পাঠাতেই হবে"
+      ],
+      "answer": 1,
+      "explanation": "Tag-এ মুড়ে দিলে Claude বোঝে এটা আগের ধাপের ফল, আর নির্দেশ থেকে আলাদা।"
+    }
+  ]
+}

@@ -1,0 +1,155 @@
+{
+  "id": "everyday-10-styles-custom-instructions",
+  "track": "everyday",
+  "order": 10,
+  "title": "Styles & Custom Instructions",
+  "summary": "প্রতিবার বলে না দিয়েই Claude-কে আপনার পছন্দের ভাষা, টোন আর ফরম্যাটে উত্তর দেওয়ান: Instructions, project instructions আর styles।",
+  "updatedAt": "2026-11-08",
+  "blocks": [
+    {
+      "type": "heading",
+      "text": "Stop repeating yourself"
+    },
+    {
+      "type": "paragraph",
+      "text": "ধরুন আপনি চান Claude সবসময় সহজ বাংলায় ব্যাখ্যা করুক, কিন্তু টেকনিক্যাল শব্দগুলো ইংরেজিতে রাখুক, আর উত্তর ছোট রাখুক কারণ আপনি ফোনে পড়েন। প্রতিটা চ্যাটে এটা লিখতে হলে ঝামেলা। Claude-এ এমন স্থায়ী পছন্দ জানানোর তিনটা স্তর আছে: পুরো অ্যাকাউন্টের জন্য Instructions, একটা Project-এর জন্য project instructions, আর একটা চ্যাটের জন্য সাধারণ অনুরোধ।"
+    },
+    {
+      "type": "heading",
+      "text": "Instructions for Claude"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "নিচে বাঁ কোণে আপনার নামের আদ্যক্ষরে (initials) ক্লিক করে \"Settings\" খুলুন।",
+        "\"Your Claude\"-এ যান (পুরনো লেআউটে \"Account\")।",
+        "\"Instructions\" ঘরে (পুরনো লেআউটে \"Instructions for Claude\") আপনার পছন্দগুলো লিখুন।"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Help center অনুযায়ী এখানে যা লিখবেন তা আপনার সব কথোপকথনে প্রযোজ্য হবে। কী লিখবেন? আপনার পছন্দের কাজের পদ্ধতি, যে শব্দগুলো আপনি প্রায়ই ব্যবহার করেন, সাধারণত কোন ধরনের কাজে Claude-কে লাগান, আর যোগাযোগের ধরন নিয়ে আপনার পছন্দ। একটা নমুনা:"
+    },
+    {
+      "type": "prompt",
+      "text": "I am a university student in Chattogram studying business.\n- Explain things in simple Bengali, but keep technical terms in English (for example: cash flow, marketing mix).\n- I usually read on my phone, so keep answers short and put the main point first.\n- When I ask about numbers, use Bangladeshi taka and local examples where possible.\n- If you are not sure about a fact, say so instead of guessing."
+    },
+    {
+      "type": "tip",
+      "text": "শুধু নিয়ম না দিয়ে কারণটাও বলুন, যেমন উপরে \"because I read on my phone\"। Anthropic-এর prompt গাইড বলছে কারণ জানলে Claude আপনার লক্ষ্য ভালো বোঝে এবং নিয়মটা অন্য পরিস্থিতিতেও ঠিকভাবে প্রয়োগ করে।"
+    },
+    {
+      "type": "heading",
+      "text": "Say what to do, not what not to do"
+    },
+    {
+      "type": "paragraph",
+      "text": "ফরম্যাট নিয়ে নির্দেশ দেওয়ার সময় গাইডের পরামর্শ হলো \"এটা কোরো না\" না বলে \"এভাবে করো\" বলা। যেমন \"Do not use markdown\" লেখার চেয়ে নিচের মতো লেখা বেশি কাজ করে। আরেকটা মজার কথা: আপনার প্রম্পট যে ধাঁচে লেখা, উত্তরও অনেক সময় সেই ধাঁচ নেয়। প্রম্পটে বুলেট আর হেডিং কম থাকলে উত্তরেও কম আসে।"
+    },
+    {
+      "type": "prompt",
+      "text": "Your response should be composed of smoothly flowing prose paragraphs."
+    },
+    {
+      "type": "heading",
+      "text": "Project instructions"
+    },
+    {
+      "type": "paragraph",
+      "text": "যে নিয়ম শুধু একটা নির্দিষ্ট কাজের জন্য, সেটা অ্যাকাউন্ট-জোড়া Instructions-এ না রেখে সেই Project-এর \"Set project instructions\"-এ রাখুন। এই নির্দেশ শুধু ওই Project-এর চ্যাটেই খাটে। কীভাবে করবেন তা Projects-এর পাঠে দেখানো হয়েছে।"
+    },
+    {
+      "type": "warning",
+      "text": "Instructions সব চ্যাটে প্রযোজ্য। সেখানে যদি লেখেন \"Always reply as my bakery's customer service assistant\", তাহলে অঙ্কের প্রশ্ন বা চিঠি লেখার চ্যাটেও Claude সেই ভূমিকা টানতে পারে। নির্দিষ্ট কাজের নিয়ম project instructions-এ রাখুন।"
+    },
+    {
+      "type": "heading",
+      "text": "What about Styles?"
+    },
+    {
+      "type": "paragraph",
+      "text": "Claude অ্যাপে আগে Styles নামে একটা অপশন ছিল, যা দিয়ে উত্তরের লেখার ধরন বেছে নেওয়া যেত। Anthropic-এর help center জানিয়েছিল যে styles এখন skills-এ সরিয়ে নেওয়া হচ্ছে, আর বর্তমানে help center-এ Styles নিয়ে আলাদা কোনো গাইড নেই। তাই আপনার অ্যাপে Styles মেনু না-ও দেখতে পারেন।"
+    },
+    {
+      "type": "paragraph",
+      "text": "লেখার ধরন ঠিক করার এখনকার নিশ্চিত দুটো উপায়: (1) উপরের মতো Instructions-এ টোন আর ফরম্যাট বর্ণনা করুন; এটা সব চ্যাটে প্রযোজ্য হয়। (2) Skills ব্যবহার করুন। Skills সব প্ল্যানে আছে (Free, Pro, Max, Ultra, Team, Enterprise); Customize > Skills থেকে চালু বা বন্ধ করা যায়, আর এর জন্য Settings > Capabilities-এ \"Create and edit files\" চালু থাকতে হয়। Instructions-এর মতো প্রতিটা চ্যাটে নয়, Claude দরকার বুঝে প্রাসঙ্গিক skill নিজে থেকে লোড করে; চাইলে অনুরোধে skill-এর নাম বলে দিতে পারেন। Skills নিয়ে এই ট্র্যাকে আলাদা পাঠ আছে।"
+    },
+    {
+      "type": "heading",
+      "text": "Just for this chat"
+    },
+    {
+      "type": "paragraph",
+      "text": "কোনো পছন্দ যদি শুধু একটা কথোপকথনের জন্য হয়, চ্যাটের শুরুতেই বলে দিন। এটা আপনার স্থায়ী সেটিং বদলায় না।"
+    },
+    {
+      "type": "prompt",
+      "text": "For the rest of this chat, act as a strict English teacher. Correct every mistake in my messages first, then reply to what I said."
+    },
+    {
+      "type": "heading",
+      "text": "Recap"
+    },
+    {
+      "type": "paragraph",
+      "text": "সব চ্যাটের জন্য পছন্দ: Settings > Your Claude > Instructions। একটা কাজের জন্য: project instructions। শুধু এই চ্যাটের জন্য: চ্যাটে বলে দিন। নির্দেশে কারণ লিখুন আর \"কী করবে\" বলুন। আলাদা Styles মেনু না পেলে Instructions বা Skills দিয়েই একই কাজ করুন।"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "সব কথোপকথনে প্রযোজ্য পছন্দ কোথায় লিখবেন?",
+      "options": [
+        "Settings > Your Claude-এর \"Instructions\" ঘরে",
+        "প্রতিটা চ্যাটের নামে",
+        "Artifacts ট্যাবে",
+        "Project-এর নাম ও বিবরণে"
+      ],
+      "answer": 0,
+      "explanation": "Instructions (পুরনো লেআউটে \"Instructions for Claude\") আপনার সব কথোপকথনে প্রযোজ্য হয়।"
+    },
+    {
+      "question": "শুধু একটা নির্দিষ্ট কাজের নিয়ম (যেমন বেকারির কাস্টমার সার্ভিস) কোথায় রাখা ভালো?",
+      "options": [
+        "অ্যাকাউন্ট-জোড়া Instructions-এ",
+        "সেই Project-এর project instructions-এ",
+        "Memory reset করে",
+        "কোথাও না, প্রতিবার মনে করিয়ে দিতে হবে"
+      ],
+      "answer": 1,
+      "explanation": "Project instructions শুধু ওই Project-এর চ্যাটে খাটে, তাই অন্য চ্যাটে অপ্রাসঙ্গিক ভূমিকা চলে আসে না।"
+    },
+    {
+      "question": "ফরম্যাট নিয়ে কোন নির্দেশ বেশি কার্যকর?",
+      "options": [
+        "\"Do not use markdown\"",
+        "\"Your response should be composed of smoothly flowing prose paragraphs.\"",
+        "\"NO LISTS!!!\"",
+        "কোনো নির্দেশ না দেওয়া"
+      ],
+      "answer": 1,
+      "explanation": "Anthropic-এর গাইড বলছে কী করবে না তার বদলে কী করবে তা বলা বেশি কাজ করে।"
+    },
+    {
+      "question": "নির্দেশের সাথে কারণ লিখলে কী লাভ?",
+      "options": [
+        "কোনো লাভ নেই, শুধু লেখা লম্বা হয়",
+        "Claude আপনার লক্ষ্য ভালো বোঝে এবং নিয়মটা ঠিকভাবে প্রয়োগ করে",
+        "Usage limit বাড়ে",
+        "Claude দ্রুত উত্তর দেয়"
+      ],
+      "answer": 1,
+      "explanation": "গাইড অনুযায়ী কারণ বা প্রেক্ষাপট দিলে Claude আপনার উদ্দেশ্য বুঝে আরও মানানসই উত্তর দেয়।"
+    },
+    {
+      "question": "অ্যাপে Styles মেনু খুঁজে না পেলে লেখার ধরন ঠিক করবেন কীভাবে?",
+      "options": [
+        "সম্ভব নয়",
+        "Instructions-এ টোন ও ফরম্যাট লিখে, বা Customize > Skills থেকে skill ব্যবহার করে",
+        "অ্যাপ আনইনস্টল করে আবার ইনস্টল করে",
+        "শুধু API ব্যবহার করে"
+      ],
+      "answer": 1,
+      "explanation": "Styles skills-এ সরে যাচ্ছে বলে জানানো হয়েছিল। Instructions বা Skills দিয়েই এখন লেখার ধরন ঠিক করা যায়।"
+    }
+  ]
+}
