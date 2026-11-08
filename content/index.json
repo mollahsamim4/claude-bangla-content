@@ -1,7 +1,7 @@
 {
   "formatVersion": 1,
-  "commit": "23dbdf6457f9b4651bf33804a5e2563844699a81",
-  "generatedAt": "2026-11-08T15:54:36.906Z",
+  "commit": "843179763edb0e57bc08c00256ebfbcada1789c4",
+  "generatedAt": "2026-11-08T15:55:31.403Z",
   "files": [
     {
       "path": "coming-soon/sample.json",
@@ -246,6 +246,61 @@
     {
       "path": "lessons/developer-18-claude-code-github-actions.json",
       "hash": "c74394ddedf42c45",
+      "kind": "lesson"
+    },
+    {
+      "path": "lessons/developer-19-messages-api-basics.json",
+      "hash": "295228339faed798",
+      "kind": "lesson"
+    },
+    {
+      "path": "lessons/developer-20-streaming.json",
+      "hash": "62f23bd4e5bd5f32",
+      "kind": "lesson"
+    },
+    {
+      "path": "lessons/developer-21-tool-use.json",
+      "hash": "fad59b648513d34f",
+      "kind": "lesson"
+    },
+    {
+      "path": "lessons/developer-22-extended-thinking-api.json",
+      "hash": "3e9e0d32b95607ff",
+      "kind": "lesson"
+    },
+    {
+      "path": "lessons/developer-23-prompt-caching.json",
+      "hash": "e622dba26ca962b2",
+      "kind": "lesson"
+    },
+    {
+      "path": "lessons/developer-24-batch-and-files-api.json",
+      "hash": "3d17b04573b4b5b8",
+      "kind": "lesson"
+    },
+    {
+      "path": "lessons/developer-25-structured-outputs-and-citations.json",
+      "hash": "7a5f48d2c222d0da",
+      "kind": "lesson"
+    },
+    {
+      "path": "lessons/developer-26-images-and-pdfs-api.json",
+      "hash": "16cd85d7a685bcb7",
+      "kind": "lesson"
+    },
+    {
+      "path": "lessons/developer-27-computer-use.json",
+      "hash": "443cb89cf0cf8d3a",
+      "kind": "lesson"
+    },
+    {
+      "path": "lessons/developer-28-build-mcp-server.json",
+      "hash": "3c94d162a408c9a8",
+      "kind": "lesson"
+    },
+    {
+      "path": "lessons/developer-29-models-and-cost.json",
+      "hash": "b43cbbbd12236ff9",
       "kind": "lesson"
     },
     {
