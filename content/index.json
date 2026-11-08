@@ -1,7 +1,7 @@
 {
   "formatVersion": 1,
-  "commit": "22974636a365a5dd05ed2cd97df27386ebaaa4de",
-  "generatedAt": "2026-11-08T15:54:13.521Z",
+  "commit": "23dbdf6457f9b4651bf33804a5e2563844699a81",
+  "generatedAt": "2026-11-08T15:54:36.906Z",
   "files": [
     {
       "path": "coming-soon/sample.json",
@@ -206,6 +206,46 @@
     {
       "path": "lessons/developer-10-context-management.json",
       "hash": "88479d90604c85fe",
+      "kind": "lesson"
+    },
+    {
+      "path": "lessons/developer-11-custom-subagents.json",
+      "hash": "41c5998730948ce3",
+      "kind": "lesson"
+    },
+    {
+      "path": "lessons/developer-12-hooks.json",
+      "hash": "4885561b0ffaad98",
+      "kind": "lesson"
+    },
+    {
+      "path": "lessons/developer-13-mcp-servers.json",
+      "hash": "e28a2619caa5e931",
+      "kind": "lesson"
+    },
+    {
+      "path": "lessons/developer-14-skills.json",
+      "hash": "1665774a0d2b7235",
+      "kind": "lesson"
+    },
+    {
+      "path": "lessons/developer-15-plugins-and-marketplaces.json",
+      "hash": "8048ce6f25b4038f",
+      "kind": "lesson"
+    },
+    {
+      "path": "lessons/developer-16-output-styles-and-status-line.json",
+      "hash": "784301b66b658853",
+      "kind": "lesson"
+    },
+    {
+      "path": "lessons/developer-17-headless-mode-and-agent-sdk.json",
+      "hash": "2745ff086d767fbf",
+      "kind": "lesson"
+    },
+    {
+      "path": "lessons/developer-18-claude-code-github-actions.json",
+      "hash": "c74394ddedf42c45",
       "kind": "lesson"
     },
     {
