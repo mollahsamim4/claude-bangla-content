@@ -1,7 +1,7 @@
 {
   "formatVersion": 1,
-  "commit": "e013c941d681dd62f27b26750d5f5569d0c46ee4",
-  "generatedAt": "2026-11-08T17:01:08.192Z",
+  "commit": "b58f5f2f1cb69b269003ae9d527adc2a6c2d3f4a",
+  "generatedAt": "2026-11-08T17:11:58.248Z",
   "files": [
     {
       "path": "coming-soon/sample.json",
@@ -431,6 +431,21 @@
     {
       "path": "lessons/everyday-19-incognito-sharing-export.json",
       "hash": "fd76ce3f5e375e16",
+      "kind": "lesson"
+    },
+    {
+      "path": "lessons/github-01-basics.json",
+      "hash": "bb5a77219148cea3",
+      "kind": "lesson"
+    },
+    {
+      "path": "lessons/github-02-approve-content.json",
+      "hash": "f6841f3da308d725",
+      "kind": "lesson"
+    },
+    {
+      "path": "lessons/github-03-failures-and-upkeep.json",
+      "hash": "07d68d66a7fc0053",
       "kind": "lesson"
     },
     {
