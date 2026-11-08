@@ -1,7 +1,7 @@
 {
   "formatVersion": 1,
-  "commit": "76e45c27486773587eee5c8caac5ec06933081fc",
-  "generatedAt": "2026-11-08T15:50:38.753Z",
+  "commit": "7772f27690129acdf6fae4949bebf5af7cce5680",
+  "generatedAt": "2026-11-08T15:53:00.804Z",
   "files": [
     {
       "path": "coming-soon/sample.json",
@@ -216,6 +216,46 @@
     {
       "path": "lessons/start-01-what-is-claude.json",
       "hash": "eeca040fe1e8356b",
+      "kind": "lesson"
+    },
+    {
+      "path": "lessons/start-02-plans-and-usage-limits.json",
+      "hash": "f65fcf54173bd01b",
+      "kind": "lesson"
+    },
+    {
+      "path": "lessons/start-03-good-prompt-basics.json",
+      "hash": "639edba2c9090d91",
+      "kind": "lesson"
+    },
+    {
+      "path": "lessons/start-04-models-opus-sonnet-haiku.json",
+      "hash": "ecdb19cd0649b590",
+      "kind": "lesson"
+    },
+    {
+      "path": "lessons/start-05-web-desktop-mobile.json",
+      "hash": "848ce90c42d2a377",
+      "kind": "lesson"
+    },
+    {
+      "path": "lessons/start-06-privacy-data-basics.json",
+      "hash": "b5d73bbd26e8d28a",
+      "kind": "lesson"
+    },
+    {
+      "path": "lessons/start-07-error-messages-troubleshooting.json",
+      "hash": "2a1183cead0b4a14",
+      "kind": "lesson"
+    },
+    {
+      "path": "lessons/start-08-using-claude-in-bengali.json",
+      "hash": "ed7f5a6c54f9654f",
+      "kind": "lesson"
+    },
+    {
+      "path": "lessons/start-09-checking-claudes-answers.json",
+      "hash": "d828c3ddd88c6f8b",
       "kind": "lesson"
     },
     {
