@@ -1,0 +1,9 @@
+{
+  "id": "help-2026-11-05-personal-finance-in-claude",
+  "source": "help-center",
+  "date": "2026-11-05",
+  "title": "Personal Finance in Claude",
+  "summary": "Claude এখন Personal Finance নামে একটি beta ফিচার চালু করছে, যেখানে আপনি আপনার bank, credit card, loan এবং investment account Claude-এর সাথে যুক্ত করতে পারবেন। এতে এক পাতাতেই আপনার balance ও খরচ দেখা যাবে, আর নিজের টাকাপয়সা নিয়ে Claude-কে প্রশ্নও করা যাবে। ফিচারটি Pro, Max এবং Ultra plan-এ পাওয়া যাচ্ছে, তবে এখন শুধু US-এ।",
+  "originalEn": "We’re rolling out Personal Finance, a beta that lets you link your bank, credit card, loan, and investment accounts to Claude, so you can see your balances and spending on one page and ask Claude questions about your own money. It's available on Pro, Max, and Ultra plans, and is available in the US only. For more information, see our blog post: **[Introducing Personal Finance in Claude](https://claude.com/resources/articles/introducing-personal-finance-in-claude)**.",
+  "url": "https://support.claude.com/en/articles/12138966-release-notes"
+}
