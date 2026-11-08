@@ -1,0 +1,190 @@
+{
+  "id": "developer-19-messages-api-basics",
+  "track": "developer",
+  "order": 19,
+  "title": "Messages API Basics",
+  "summary": "API key, SDK আর প্রথম `messages.create` রিকোয়েস্ট থেকে শুরু করে response, system prompt ও multi-turn কথোপকথন।",
+  "updatedAt": "2026-11-08",
+  "blocks": [
+    {
+      "type": "paragraph",
+      "text": "এতদিন হয়তো Claude ব্যবহার করেছেন claude.ai বা Claude Code দিয়ে। কিন্তু নিজের অ্যাপ, ওয়েবসাইট বা স্ক্রিপ্টের ভেতরে Claude-কে বসাতে চাইলে লাগবে Claude API। আর এই API-র মূল দরজা হলো Messages API — একটা `POST /v1/messages` রিকোয়েস্ট পাঠান, Claude উত্তর ফেরত দেয়। Tool use, streaming, caching — সামনের সব লেসন এই একটা endpoint-এর ওপরেই দাঁড়িয়ে। তাই আগে এটা ভালোভাবে বুঝে নেওয়া যাক।"
+    },
+    {
+      "type": "heading",
+      "text": "Step 1: Get an API key"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "Claude Console-এ (platform.claude.com) লগ ইন করুন।",
+        "API keys পেজে (`platform.claude.com/settings/keys`) গিয়ে একটা নতুন key তৈরি করুন।",
+        "key-টা কোডে না লিখে `ANTHROPIC_API_KEY` নামের environment variable-এ রাখুন। SDK আর CLI নিজে থেকেই এই variable থেকে key পড়ে নেয়।"
+      ]
+    },
+    {
+      "type": "code",
+      "code": "export ANTHROPIC_API_KEY=\"your-api-key-here\"",
+      "language": "bash"
+    },
+    {
+      "type": "paragraph",
+      "text": "Windows PowerShell হলে একই কাজ এভাবে করা যায়:"
+    },
+    {
+      "type": "code",
+      "code": "$env:ANTHROPIC_API_KEY = \"your-api-key-here\"",
+      "language": "powershell"
+    },
+    {
+      "type": "warning",
+      "text": "API key কখনো সোর্স কোডে, GitHub রিপোতে বা মোবাইল অ্যাপের ভেতরে লিখবেন না। কেউ key পেয়ে গেলে আপনার টাকায় API চালাতে পারবে। key ফাঁস হয়ে গেছে মনে হলে Console থেকে সেটা সাথে সাথে বাতিল করে নতুন key বানান।"
+    },
+    {
+      "type": "heading",
+      "text": "Step 2: Install the SDK"
+    },
+    {
+      "type": "paragraph",
+      "text": "অফিসিয়াল SDK ব্যবহার করাই সবচেয়ে সহজ। Python-এর প্যাকেজের নাম `anthropic`, আর TypeScript/JavaScript-এর জন্য `@anthropic-ai/sdk`।"
+    },
+    {
+      "type": "code",
+      "code": "pip install anthropic",
+      "language": "bash"
+    },
+    {
+      "type": "code",
+      "code": "npm install @anthropic-ai/sdk",
+      "language": "bash"
+    },
+    {
+      "type": "heading",
+      "text": "Step 3: Send your first message"
+    },
+    {
+      "type": "paragraph",
+      "text": "প্রতিটা রিকোয়েস্টে তিনটা জিনিস লাগবেই: `model` (কোন মডেল), `max_tokens` (উত্তর সর্বোচ্চ কত টোকেন লম্বা হতে পারে), আর `messages` (কথোপকথন)। নিচের উদাহরণে মডেল `claude-opus-5-5`, যেটা Anthropic-এর models overview পেজ এখন বেশিরভাগ কাজের জন্য শুরু করতে বলে।"
+    },
+    {
+      "type": "code",
+      "code": "import anthropic\n\nclient = anthropic.Anthropic()  # ANTHROPIC_API_KEY থেকে key নেয়\n\nmessage = client.messages.create(\n    model=\"claude-opus-5-5\",\n    max_tokens=1000,\n    messages=[\n        {\"role\": \"user\", \"content\": \"Explain what an API is in two sentences.\"}\n    ],\n)\n\nfor block in message.content:\n    if block.type == \"text\":\n        print(block.text)",
+      "language": "python"
+    },
+    {
+      "type": "paragraph",
+      "text": "একই রিকোয়েস্ট curl দিয়ে পাঠালে তিনটা header লাগে: `x-api-key`, `anthropic-version` আর `content-type`। ডকসে এখনকার উদাহরণগুলোতে `anthropic-version: 2026-10-21` ব্যবহার করা হয়েছে।"
+    },
+    {
+      "type": "code",
+      "code": "curl https://api.anthropic.com/v1/messages \\\n  -H \"content-type: application/json\" \\\n  -H \"x-api-key: $ANTHROPIC_API_KEY\" \\\n  -H \"anthropic-version: 2026-10-21\" \\\n  -d '{\n    \"model\": \"claude-opus-5-5\",\n    \"max_tokens\": 1000,\n    \"messages\": [\n      {\"role\": \"user\", \"content\": \"Explain what an API is in two sentences.\"}\n    ]\n  }'",
+      "language": "bash"
+    },
+    {
+      "type": "heading",
+      "text": "Reading the response"
+    },
+    {
+      "type": "paragraph",
+      "text": "উত্তর আসে একটা JSON অবজেক্ট হিসেবে। সবচেয়ে দরকারি ফিল্ডগুলো হলো:"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "`content` — একটা list, যার ভেতরে এক বা একাধিক block থাকে। সাধারণ উত্তর থাকে `type: \"text\"` block-এ। Claude Opus 5.5-এর মতো মডেলে thinking সবসময় চালু, তাই উত্তরের আগে একটা `thinking` block-ও থাকতে পারে (Lesson 22)। তাই `content[0]` ধরে না নিয়ে block-এর `type` দেখে নিন।",
+        "`stop_reason` — Claude কেন থামল। `end_turn` মানে স্বাভাবিকভাবে শেষ, `max_tokens` মানে আপনার দেওয়া সীমায় কেটে গেছে, `tool_use` মানে Claude একটা tool চালাতে চাইছে, আর `refusal` মানে নিরাপত্তা নীতির কারণে উত্তর থামিয়ে দিয়েছে।",
+        "`usage` — `input_tokens` আর `output_tokens`; এগুলো দিয়েই বিল হিসাব হয়।"
+      ]
+    },
+    {
+      "type": "tip",
+      "text": "`stop_reason` যদি `max_tokens` হয়, উত্তর মাঝপথে কেটে গেছে। আরেকটু বড় `max_tokens` দিয়ে আবার চেষ্টা করুন।"
+    },
+    {
+      "type": "heading",
+      "text": "System prompts"
+    },
+    {
+      "type": "paragraph",
+      "text": "Claude-এর ভূমিকা বা নিয়ম ঠিক করে দিতে চাইলে `messages`-এর ভেতরে না রেখে আলাদা top-level `system` ফিল্ডে লিখুন:"
+    },
+    {
+      "type": "code",
+      "code": "message = client.messages.create(\n    model=\"claude-opus-5-5\",\n    max_tokens=1000,\n    system=\"You are a patient tutor. Answer in simple English.\",\n    messages=[{\"role\": \"user\", \"content\": \"What is recursion?\"}],\n)",
+      "language": "python"
+    },
+    {
+      "type": "heading",
+      "text": "Multi-turn conversations"
+    },
+    {
+      "type": "paragraph",
+      "text": "Messages API হলো stateless — মানে আগের কথোপকথন সার্ভার নিজে মনে রাখে না। তাই প্রতিবার পুরো ইতিহাস `user` আর `assistant` পালা করে পাঠাতে হয়। প্রথম মেসেজটা `user` হতে হবে।"
+    },
+    {
+      "type": "code",
+      "code": "message = client.messages.create(\n    model=\"claude-opus-5-5\",\n    max_tokens=1024,\n    messages=[\n        {\"role\": \"user\", \"content\": \"Hello, Claude\"},\n        {\"role\": \"assistant\", \"content\": \"Hello!\"},\n        {\"role\": \"user\", \"content\": \"Can you describe LLMs to me?\"},\n    ],\n)",
+      "language": "python"
+    },
+    {
+      "type": "warning",
+      "text": "পুরনো টিউটোরিয়ালে দুটো জিনিস প্রায়ই দেখবেন যেগুলো এখনকার মডেলে 400 error দেয়। এক, prefill (শেষ মেসেজটা `assistant` রেখে উত্তরের শুরুটা নিজে লিখে দেওয়া) — Claude 4.6 ও পরের মডেলে চলে না। দুই, `temperature`, `top_p`, `top_k` — Claude Opus 5.5-এর মতো নতুন মডেলে ডিফল্ট ছাড়া অন্য মান দিলে, আর API version `2026-10-21` থেকে যেকোনো মডেলে এগুলো পাঠালেই 400 আসে। নির্দিষ্ট ফরম্যাট চাইলে structured outputs (Lesson 25) বা system prompt ব্যবহার করুন।"
+    },
+    {
+      "type": "heading",
+      "text": "Recap"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "Console থেকে API key নিয়ে `ANTHROPIC_API_KEY`-তে রাখুন।",
+        "`pip install anthropic` বা `npm install @anthropic-ai/sdk`।",
+        "প্রতিটা রিকোয়েস্টে `model`, `max_tokens`, `messages` দিন; নিয়ম দিতে `system` ব্যবহার করুন।",
+        "উত্তর পড়ার সময় block-এর `type` আর `stop_reason` দেখুন।",
+        "API stateless — পুরো কথোপকথন প্রতিবার পাঠান।"
+      ]
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Messages API-র প্রতিটা রিকোয়েস্টে কোন তিনটা ফিল্ড অবশ্যই লাগে?",
+      "options": [
+        "`model`, `max_tokens`, `messages`",
+        "`prompt`, `temperature`, `key`",
+        "`system`, `stream`, `tools`"
+      ],
+      "answer": 0,
+      "explanation": "`model`, `max_tokens` আর `messages` ছাড়া রিকোয়েস্ট চলবে না। `system`, `stream`, `tools` ঐচ্ছিক।"
+    },
+    {
+      "question": "API key রাখার সবচেয়ে নিরাপদ উপায় কোনটা?",
+      "options": [
+        "সরাসরি Python ফাইলে লিখে রাখা",
+        "`ANTHROPIC_API_KEY` environment variable-এ রাখা",
+        "মোবাইল অ্যাপের ভেতরে লুকিয়ে রাখা"
+      ],
+      "answer": 1,
+      "explanation": "SDK নিজেই `ANTHROPIC_API_KEY` থেকে key পড়ে। কোডে বা অ্যাপে key লিখলে সেটা ফাঁস হওয়ার ঝুঁকি থাকে।"
+    },
+    {
+      "question": "উত্তরে `stop_reason` হিসেবে `max_tokens` এলে এর মানে কী?",
+      "options": [
+        "Claude স্বাভাবিকভাবে উত্তর শেষ করেছে",
+        "উত্তর আপনার দেওয়া টোকেন সীমায় কেটে গেছে",
+        "Claude একটা tool চালাতে চাইছে"
+      ],
+      "answer": 1,
+      "explanation": "`max_tokens` মানে উত্তর সীমায় পৌঁছে থেমে গেছে, তাই অসম্পূর্ণ হতে পারে। স্বাভাবিক শেষ হলে আসে `end_turn`।"
+    },
+    {
+      "question": "আগের কথোপকথন Claude-কে মনে রাখাতে কী করতে হয়?",
+      "options": [
+        "কিছু করতে হয় না, সার্ভার সব মনে রাখে",
+        "প্রতিটা রিকোয়েস্টে আগের `user` আর `assistant` মেসেজগুলোও পাঠাতে হয়",
+        "`remember: true` ফিল্ড দিতে হয়"
+      ],
+      "answer": 1,
+      "explanation": "Messages API stateless। প্রতিবার পুরো ইতিহাস `messages` list-এ পাঠাতে হয়।"
+    }
+  ]
+}

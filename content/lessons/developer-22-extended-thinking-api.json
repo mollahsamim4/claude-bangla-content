@@ -1,0 +1,166 @@
+{
+  "id": "developer-22-extended-thinking-api",
+  "track": "developer",
+  "order": 22,
+  "title": "Extended Thinking in the API",
+  "summary": "API-তে Claude-এর thinking: পুরনো `budget_tokens` বনাম adaptive thinking, `effort` লেভেল, `display`, tool use-এ thinking block আর খরচের হিসাব।",
+  "updatedAt": "2026-11-08",
+  "blocks": [
+    {
+      "type": "paragraph",
+      "text": "কঠিন অঙ্ক, জটিল বাগ বা লম্বা agent-এর কাজে প্রথম চেষ্টাতেই সঠিক উত্তর পাওয়া কঠিন। Thinking চালু থাকলে Claude উত্তর দেওয়ার আগে নিজের মতো করে ভাবে — প্রশ্নটা আবার বোঝে, কয়েকটা পথ চেষ্টা করে, মাঝের ফলাফল যাচাই করে। এই ভাবনা আসে আলাদা `thinking` block-এ, আসল উত্তরের আগে। API-তে এই ব্যবস্থা গত কয়েক মডেলে বেশ বদলেছে, তাই পুরনো টিউটোরিয়াল দেখে কোড লিখলে সহজেই 400 error খেতে পারেন। এই লেসনে এখনকার নিয়মটা দেখে নিই।"
+    },
+    {
+      "type": "heading",
+      "text": "Extended thinking vs adaptive thinking"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "Extended thinking — পুরনো, ম্যানুয়াল পদ্ধতি: `thinking: {\"type\": \"enabled\", \"budget_tokens\": N}`। কত টোকেন ভাববে তা আপনি ঠিক করে দিতেন। Claude Opus 4.6 আর Sonnet 4.6-এ এটা deprecated, আর তার পরের মডেলগুলো (Claude Opus 5.5, Sonnet 5.5, Haiku 5.5, Fable 5.1 ইত্যাদি) এটা পেলে 400 error দেয়।",
+        "Adaptive thinking — এখনকার পদ্ধতি: `thinking: {\"type\": \"adaptive\"}`। Claude নিজে ঠিক করে কখন আর কতটা ভাবতে হবে, আর আপনি `effort` দিয়ে সেটাকে কমবেশি করেন।"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Claude 5 ও পরের মডেলে thinking এমনিতেই চালু থাকে, কিছু সেট করতে হয় না। কিন্তু একটা ফাঁদ আছে: এসব মডেলে `display`-এর ডিফল্ট `\"omitted\"`, তাই `thinking` block আসে ঠিকই কিন্তু তার লেখা খালি থাকে। Claude কী ভাবল তার সারাংশ দেখতে চাইলে `display: \"summarized\"` দিতে হবে:"
+    },
+    {
+      "type": "code",
+      "code": "import anthropic\n\nclient = anthropic.Anthropic()\n\nresponse = client.messages.create(\n    model=\"claude-opus-5-5\",\n    max_tokens=16000,\n    thinking={\"type\": \"adaptive\", \"display\": \"summarized\"},\n    output_config={\"effort\": \"high\"},\n    messages=[\n        {\"role\": \"user\", \"content\": \"What is the greatest common divisor of 1071 and 462?\"}\n    ],\n)\n\nfor block in response.content:\n    if block.type == \"thinking\":\n        print(\"Thinking:\", block.thinking)\n    elif block.type == \"text\":\n        print(\"Answer:\", block.text)",
+      "language": "python"
+    },
+    {
+      "type": "paragraph",
+      "text": "এখানে যে লেখা দেখবেন সেটা Claude-এর ভাবনার একটা সারাংশ, কাঁচা chain of thought কখনো ফেরত দেওয়া হয় না। প্রতিটা `thinking` block-এ একটা `signature` ফিল্ডও থাকে — এটা যেমন আছে তেমনই রেখে দিতে হয়।"
+    },
+    {
+      "type": "heading",
+      "text": "Effort: the main dial"
+    },
+    {
+      "type": "paragraph",
+      "text": "`output_config.effort` দিয়ে বলে দেন Claude পুরো উত্তরে (thinking, লেখা, tool call সব মিলিয়ে) কতটা খাটবে। লেভেলগুলো হলো `low`, `medium`, `high`, `xhigh`, `max`। বেশিরভাগ মডেলে ডিফল্ট `high`, তবে Claude Opus 5.5 আর Claude Haiku 5.5-এ ডিফল্ট `medium`। ডকসের পরামর্শ: effort সবসময় নিজে স্পষ্ট করে সেট করুন, আর নিজের কাজের ওপর পরীক্ষা করে দেখুন কোন লেভেলে মান ঠিক থাকে।"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "`low` — সহজ কাজ, দ্রুত আর সস্তা উত্তর, subagent-এর জন্য ভালো।",
+        "`medium` — গতি, খরচ আর মানের ভারসাম্য।",
+        "`high` — জটিল যুক্তি, কঠিন কোডিং, agent-এর কাজ।",
+        "`xhigh` / `max` — সবচেয়ে কঠিন, লম্বা কাজ; টোকেন খরচও সবচেয়ে বেশি।"
+      ]
+    },
+    {
+      "type": "tip",
+      "text": "Effort একটা আচরণগত সংকেত, কঠোর সীমা না। খরচের জন্য পাকা ছাদ দরকার হলে `max_tokens` ব্যবহার করুন — thinking-এর টোকেনও `max_tokens`-এর মধ্যেই গোনা হয়, আর বিল হয় output টোকেন হিসেবে, এমনকি thinking-এর লেখা আপনাকে না দেখালেও। তাই thinking চালু থাকলে `max_tokens` উদার রাখুন; 21,333-এর বেশি দিলে streaming ব্যবহার করুন।"
+    },
+    {
+      "type": "heading",
+      "text": "Can I turn thinking off?"
+    },
+    {
+      "type": "paragraph",
+      "text": "মডেলভেদে উত্তর আলাদা, ডকসের টেবিল অনুযায়ী:"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "Claude Opus 5.5 আর Claude Fable 5.1 — thinking সবসময় চালু। `{\"type\": \"disabled\"}` পাঠালে 400। কম ভাবাতে চাইলে effort কমান।",
+        "Claude Sonnet 5.5 — `disabled` চলে না; আগে থেকে ভাবা বন্ধ করতে `{\"type\": \"between_tools\"}`, যা শুধু `high` বা তার নিচের effort-এ কাজ করে।",
+        "Claude Haiku 5.5 — `{\"type\": \"disabled\"}` চলে, তবে শুধু `high` বা তার নিচের effort-এ।",
+        "Claude Opus 4.8 / 4.7 / 4.6, Sonnet 4.6 — `thinking` না দিলে thinking বন্ধ থাকে; চালু করতে `{\"type\": \"adaptive\"}` দিন।"
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "Thinking with tool use"
+    },
+    {
+      "type": "paragraph",
+      "text": "Claude যখন thinking-সহ একটা tool চায়, তখন `tool_result` পাঠানোর সময় আগের `assistant` মেসেজের `thinking` block-গুলো হুবহু, কোনো পরিবর্তন ছাড়া ফেরত পাঠাতে হবে — Claude ওখান থেকেই ভাবনা চালিয়ে যায়। সবচেয়ে সহজ উপায় হলো `response.content` পুরোটা `assistant` মেসেজ হিসেবে যোগ করে দেওয়া।"
+    },
+    {
+      "type": "code",
+      "code": "messages.append({\"role\": \"assistant\", \"content\": response.content})  # thinking block সহ\nmessages.append({\n    \"role\": \"user\",\n    \"content\": [{\"type\": \"tool_result\", \"tool_use_id\": tool_use.id, \"content\": result}],\n})",
+      "language": "python"
+    },
+    {
+      "type": "warning",
+      "text": "thinking block-এর লেখা বদলালে, ক্রম পাল্টালে বা কিছু অংশ বাদ দিলে API 400 error দেয়। আর মনে রাখবেন, top-level `effort` বা thinking-এর সেটিং কথোপকথনের মাঝে বদলালে prompt cache-এর message অংশ বাতিল হয়ে যায় — খরচ বাড়বে (Lesson 23)।"
+    },
+    {
+      "type": "heading",
+      "text": "Streaming thinking"
+    },
+    {
+      "type": "paragraph",
+      "text": "Streaming-এ thinking আসে `thinking_delta` event হিসেবে, আর block শেষ হওয়ার ঠিক আগে একটা `signature_delta`। `display: \"omitted\"` হলে কোনো thinking লেখা stream হয় না — ইউজারের কাছে মনে হতে পারে লম্বা সময় কিছু হচ্ছে না। ইউজারকে ভাবনা দেখাতে চাইলে তাই `\"summarized\"` দিন।"
+    },
+    {
+      "type": "heading",
+      "text": "Recap"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "নতুন কোডে `budget_tokens` নয়, `{\"type\": \"adaptive\"}` + `output_config.effort`।",
+        "ভাবনার সারাংশ দেখতে `display: \"summarized\"`।",
+        "Thinking টোকেন output হিসেবে বিল হয় আর `max_tokens`-এর মধ্যে পড়ে।",
+        "Tool use-এ thinking block হুবহু ফেরত দিন।"
+      ]
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Claude Opus 5.5-এ `thinking: {\"type\": \"enabled\", \"budget_tokens\": 8000}` পাঠালে কী হবে?",
+      "options": [
+        "ঠিকঠাক চলবে",
+        "400 error আসবে",
+        "thinking বন্ধ হয়ে যাবে"
+      ],
+      "answer": 1,
+      "explanation": "Manual extended thinking (`budget_tokens`) নতুন মডেলে গ্রহণযোগ্য না। Adaptive thinking আর effort ব্যবহার করুন।"
+    },
+    {
+      "question": "Claude 5 মডেলে thinking-এর লেখা খালি আসছে। কী করবেন?",
+      "options": [
+        "`display: \"summarized\"` সেট করবেন",
+        "`temperature` বাড়াবেন",
+        "`max_tokens` শূন্য করবেন"
+      ],
+      "answer": 0,
+      "explanation": "এসব মডেলে `display`-এর ডিফল্ট `\"omitted\"`। সারাংশ পেতে `\"summarized\"` দিতে হয়।"
+    },
+    {
+      "question": "Claude Opus 5.5-এ effort-এর ডিফল্ট লেভেল কোনটা?",
+      "options": [
+        "`low`",
+        "`medium`",
+        "`max`"
+      ],
+      "answer": 1,
+      "explanation": "বেশিরভাগ মডেলে ডিফল্ট `high`, কিন্তু Claude Opus 5.5 আর Claude Haiku 5.5-এ ডিফল্ট `medium`।"
+    },
+    {
+      "question": "thinking-এর টোকেন কীভাবে বিল হয়?",
+      "options": [
+        "একদম ফ্রি",
+        "output টোকেন হিসেবে, লেখা না দেখালেও",
+        "শুধু লেখা দেখালে input টোকেন হিসেবে"
+      ],
+      "answer": 1,
+      "explanation": "Thinking টোকেন output হিসেবে বিল হয় এবং `max_tokens`-এর মধ্যে গোনা হয়, `display` যাই হোক।"
+    },
+    {
+      "question": "thinking চালু অবস্থায় tool result পাঠানোর সময় কোনটা জরুরি?",
+      "options": [
+        "thinking block মুছে ফেলা",
+        "thinking block হুবহু অপরিবর্তিত ফেরত পাঠানো",
+        "thinking block-এর লেখা ছোট করে দেওয়া"
+      ],
+      "answer": 1,
+      "explanation": "Claude আগের ভাবনা থেকেই কাজ চালিয়ে যায়। পরিবর্তিত thinking block 400 error দেয়।"
+    }
+  ]
+}

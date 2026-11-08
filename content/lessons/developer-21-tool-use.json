@@ -1,0 +1,167 @@
+{
+  "id": "developer-21-tool-use",
+  "track": "developer",
+  "order": 21,
+  "title": "Tool Use (Function Calling)",
+  "summary": "Claude-কে নিজের function দেওয়া: tool definition, `tool_use` → `tool_result` চক্র, SDK tool runner, `tool_choice` আর server tools।",
+  "updatedAt": "2026-11-08",
+  "blocks": [
+    {
+      "type": "paragraph",
+      "text": "Claude নিজে আপনার ডাটাবেস দেখতে পারে না, আজকের আবহাওয়া জানে না, ইমেইলও পাঠাতে পারে না। কিন্তু আপনি যদি তাকে বলে দেন \"এই এই function আছে, দরকার হলে বলো\", তাহলে Claude ঠিক করে কখন কোন function ডাকতে হবে আর কী input দিতে হবে। এটাই tool use বা function calling। Agent বানানোর মূল ভিত্তি এটাই।"
+    },
+    {
+      "type": "heading",
+      "text": "Two kinds of tools"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "Client tools — আপনার নিজের অ্যাপে চলে। আপনার নিজের বানানো tool, আর Anthropic-এর schema দেওয়া কিছু tool (যেমন `bash`, text editor) এই দলে। Claude শুধু বলে \"এটা চালাও\", চালানোর কাজ আপনার কোডের।",
+        "Server tools — Anthropic-এর সার্ভারেই চলে, যেমন web search, web fetch, code execution। আপনাকে কিছু চালাতে হয় না, ফলাফল সরাসরি উত্তরে চলে আসে।"
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "Defining a tool"
+    },
+    {
+      "type": "paragraph",
+      "text": "প্রতিটা নিজস্ব tool-এর তিনটা অংশ: `name`, `description` (কখন আর কেন ব্যবহার করবে — যত পরিষ্কার, তত ভালো) আর `input_schema` (JSON Schema-তে input-এর গঠন)।"
+    },
+    {
+      "type": "heading",
+      "text": "The round trip"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "`tools` সহ রিকোয়েস্ট পাঠান।",
+        "Claude tool চালাতে চাইলে উত্তরে `stop_reason: \"tool_use\"` আর এক বা একাধিক `tool_use` block আসে — তাতে tool-এর `name`, `input` আর একটা `id` থাকে।",
+        "আপনার কোড tool-টা চালায়।",
+        "Claude-এর উত্তরটা `assistant` মেসেজ হিসেবে, আর ফলাফলটা `tool_result` block হিসেবে (একই `tool_use_id` দিয়ে) নতুন `user` মেসেজে পাঠান।",
+        "Claude ফলাফল পড়ে চূড়ান্ত উত্তর দেয়, অথবা আরেকটা tool চায় — তখন আবার ধাপ ৩।"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "ডকসের উদাহরণ অনুযায়ী পুরো চক্রটা এরকম:"
+    },
+    {
+      "type": "code",
+      "code": "import json\nimport anthropic\n\nclient = anthropic.Anthropic()\n\ntools = [\n    {\n        \"name\": \"get_weather\",\n        \"description\": \"Get the current weather for a given location.\",\n        \"input_schema\": {\n            \"type\": \"object\",\n            \"properties\": {\n                \"location\": {\n                    \"type\": \"string\",\n                    \"description\": \"City and country, e.g. Dhaka, Bangladesh\",\n                }\n            },\n            \"required\": [\"location\"],\n        },\n    }\n]\nmessages = [{\"role\": \"user\", \"content\": \"What's the weather in Dhaka?\"}]\n\nresponse = client.messages.create(\n    model=\"claude-opus-5-5\",\n    max_tokens=1024,\n    tools=tools,\n    messages=messages,\n)\n\nif response.stop_reason == \"tool_use\":\n    tool_use = next(b for b in response.content if b.type == \"tool_use\")\n    print(f\"Claude called {tool_use.name} with {json.dumps(tool_use.input)}\")\n\n    weather = \"31 degrees Celsius, humid\"  # এখানে আপনার আসল lookup\n    messages += [\n        {\"role\": \"assistant\", \"content\": response.content},\n        {\n            \"role\": \"user\",\n            \"content\": [\n                {\"type\": \"tool_result\", \"tool_use_id\": tool_use.id, \"content\": weather}\n            ],\n        },\n    ]\n    followup = client.messages.create(\n        model=\"claude-opus-5-5\",\n        max_tokens=1024,\n        tools=tools,\n        messages=messages,\n    )\n    print(next(b.text for b in followup.content if b.type == \"text\"))",
+      "language": "python"
+    },
+    {
+      "type": "tip",
+      "text": "Claude একই উত্তরে একাধিক `tool_use` block পাঠাতে পারে (parallel tool use)। তখন প্রতিটার জন্য একটা করে `tool_result` বানিয়ে সবগুলো একটাই `user` মেসেজে ফেরত দিন। tool চালাতে গিয়ে error হলে block বাদ দেবেন না — `\"is_error\": true` দিয়ে error মেসেজটা `content`-এ পাঠান, Claude বুঝে নিয়ে অন্যভাবে চেষ্টা করবে।"
+    },
+    {
+      "type": "heading",
+      "text": "Let the SDK run the loop: Tool Runner"
+    },
+    {
+      "type": "paragraph",
+      "text": "উপরের loop নিজে লিখতে না চাইলে SDK-র tool runner (এখন beta) ব্যবহার করুন। Python-এ `@beta_tool` decorator function-এর type hint আর docstring দেখে নিজেই schema বানিয়ে নেয়, আর runner tool চালিয়ে ফলাফল ফেরত পাঠানোর কাজটা নিজে করে:"
+    },
+    {
+      "type": "code",
+      "code": "import anthropic\nfrom anthropic import beta_tool\n\nclient = anthropic.Anthropic()\n\n\n@beta_tool\ndef calculate_sum(a: int, b: int) -> str:\n    \"\"\"Add two numbers together.\n\n    Args:\n        a: First number\n        b: Second number\n    \"\"\"\n    return str(a + b)\n\n\nrunner = client.beta.messages.tool_runner(\n    model=\"claude-opus-5-5\",\n    max_tokens=1024,\n    tools=[calculate_sum],\n    messages=[{\"role\": \"user\", \"content\": \"What's 15 + 27?\"}],\n)\nfinal_message = runner.until_done()\nprint(final_message.content)",
+      "language": "python"
+    },
+    {
+      "type": "heading",
+      "text": "Controlling when tools are used: tool_choice"
+    },
+    {
+      "type": "paragraph",
+      "text": "ডিফল্ট `tool_choice` হলো `{\"type\": \"auto\"}` — Claude নিজে ঠিক করে tool লাগবে কিনা। `{\"type\": \"none\"}` দিলে tool ব্যবহার বন্ধ। কিছু মডেলে `any` (কোনো একটা tool ব্যবহার করতেই হবে) আর `tool` (নির্দিষ্ট tool) দিয়ে জোর করা যায়।"
+    },
+    {
+      "type": "warning",
+      "text": "Claude Opus 5.5, Claude Sonnet 5.5 আর Claude Fable 5.1-এ `tool_choice`-এর `any` বা `tool` পাঠালে 400 error আসে। এসব মডেলে `auto` রাখুন আর prompt-এ বলে দিন কখন tool ব্যবহার করতে হবে (যেমন \"Use the tools to investigate before responding.\")। input যেন schema থেকে এক চুলও না সরে, তার জন্য tool definition-এ `\"strict\": true` যোগ করুন; আর শুধু নির্দিষ্ট JSON উত্তর দরকার হলে structured outputs ব্যবহার করুন (Lesson 25)।"
+    },
+    {
+      "type": "heading",
+      "text": "Server tools in one line"
+    },
+    {
+      "type": "paragraph",
+      "text": "Server tool যোগ করতে শুধু `tools`-এ তার `type` আর `name` লিখলেই হয়, আপনাকে কিছু চালাতে হয় না। যেমন web search:"
+    },
+    {
+      "type": "code",
+      "code": "response = client.messages.create(\n    model=\"claude-opus-5-5\",\n    max_tokens=4096,\n    tools=[{\"type\": \"web_search_20260209\", \"name\": \"web_search\"}],\n    messages=[{\"role\": \"user\", \"content\": \"What is the latest on the Mars rover?\"}],\n)",
+      "language": "python"
+    },
+    {
+      "type": "paragraph",
+      "text": "খরচের দিক থেকে মনে রাখুন: `tools`-এর নাম, বর্ণনা আর schema-ও input টোকেন হিসেবে গোনা হয়। Web search-এর মতো কিছু server tool-এ ব্যবহার অনুযায়ী আলাদা চার্জও আছে — বিস্তারিত pricing পেজে।"
+    },
+    {
+      "type": "heading",
+      "text": "Recap"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "Tool = `name` + পরিষ্কার `description` + `input_schema`।",
+        "`stop_reason == \"tool_use\"` হলে tool চালান, `tool_result` (একই `tool_use_id`) ফেরত দিন।",
+        "loop নিজে না লিখতে চাইলে `client.beta.messages.tool_runner`।",
+        "নতুন মডেলে forced `tool_choice` নেই — `auto` + prompt + `strict: true`।"
+      ]
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Claude একটা client tool চালাতে চাইলে উত্তরের `stop_reason` কী হয়?",
+      "options": [
+        "`end_turn`",
+        "`tool_use`",
+        "`max_tokens`"
+      ],
+      "answer": 1,
+      "explanation": "`stop_reason: \"tool_use\"` আর `tool_use` block দেখে বোঝা যায় আপনার কোডকে tool চালাতে হবে।"
+    },
+    {
+      "question": "tool-এর ফলাফল Claude-কে কীভাবে ফেরত দেবেন?",
+      "options": [
+        "নতুন `user` মেসেজে `tool_result` block, একই `tool_use_id` দিয়ে",
+        "`system` prompt-এ ফলাফল লিখে",
+        "নতুন API key দিয়ে আলাদা রিকোয়েস্টে"
+      ],
+      "answer": 0,
+      "explanation": "`tool_result`-এর `tool_use_id` মিলিয়ে দিলে Claude বোঝে কোন call-এর ফলাফল এটা।"
+    },
+    {
+      "question": "Claude Opus 5.5-এ `tool_choice: {\"type\": \"any\"}` পাঠালে কী হবে?",
+      "options": [
+        "Claude বাধ্য হয়ে tool ব্যবহার করবে",
+        "400 error আসবে",
+        "tool গুলো উপেক্ষা করবে"
+      ],
+      "answer": 1,
+      "explanation": "Opus 5.5, Sonnet 5.5 আর Fable 5.1 forced tool use সমর্থন করে না। `auto` + prompt + `strict: true` ব্যবহার করুন।"
+    },
+    {
+      "question": "web search-এর মতো server tool-এর জন্য আপনার কোডকে কী করতে হয়?",
+      "options": [
+        "tool-টা নিজের সার্ভারে চালাতে হয়",
+        "শুধু `tools`-এ ঘোষণা করলেই হয়, Anthropic চালায়",
+        "আলাদা SDK ইনস্টল করতে হয়"
+      ],
+      "answer": 1,
+      "explanation": "Server tool Anthropic-এর ইনফ্রাস্ট্রাকচারে চলে; ফলাফল সরাসরি উত্তরে আসে।"
+    },
+    {
+      "question": "tool চালাতে গিয়ে error হলে সবচেয়ে ভালো কী করা?",
+      "options": [
+        "ওই `tool_use` block-এর উত্তর না পাঠানো",
+        "`is_error: true` দিয়ে error মেসেজসহ `tool_result` পাঠানো",
+        "পুরো কথোপকথন নতুন করে শুরু করা"
+      ],
+      "answer": 1,
+      "explanation": "Error সহ `tool_result` পেলে Claude পরিস্থিতি বুঝে অন্যভাবে চেষ্টা করতে পারে।"
+    }
+  ]
+}

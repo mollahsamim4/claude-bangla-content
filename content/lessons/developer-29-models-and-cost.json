@@ -1,0 +1,180 @@
+{
+  "id": "developer-29-models-and-cost",
+  "track": "developer",
+  "order": 29,
+  "title": "Choosing Models & Controlling Cost",
+  "summary": "সঠিক মডেল বাছাই আর API খরচ নিয়ন্ত্রণ: model id, effort, prompt caching, batch, `max_tokens`, ছোট উত্তর আর token counting।",
+  "updatedAt": "2026-11-08",
+  "blocks": [
+    {
+      "type": "paragraph",
+      "text": "API-তে বিল আসে টোকেন হিসেবে — যত input পাঠাবেন আর যত output পাবেন। ছোট পরীক্ষায় খরচ চোখে পড়ে না, কিন্তু অ্যাপ বড় হলে মাস শেষে অঙ্কটা ভয় ধরিয়ে দিতে পারে। ভালো খবর হলো, Anthropic-এর নিজের cost guide বলছে বেশ কিছু লিভার আছে যেগুলো মান না কমিয়েই খরচ কমায়, আর কিছু লিভার আছে যেখানে খরচ আর বুদ্ধিমত্তার মধ্যে বেছে নিতে হয়। এই শেষ লেসনে সবগুলো এক জায়গায় দেখব।"
+    },
+    {
+      "type": "heading",
+      "text": "Lever 1: Choose the right model"
+    },
+    {
+      "type": "paragraph",
+      "text": "Models overview পেজের এখনকার চারটা মূল মডেল (model id হুবহু এভাবেই লিখতে হয়):"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "`claude-fable-5-1` — Claude Fable 5.1: কঠিনতম যুক্তি আর লম্বা agent কাজের জন্য; সবচেয়ে ধীর আর সবচেয়ে দামি।",
+        "`claude-opus-5-5` — Claude Opus 5.5: লম্বা agentic coding আর knowledge work; বেশিরভাগ কাজের জন্য ডকস এটা দিয়েই শুরু করতে বলে।",
+        "`claude-sonnet-5-5` — Claude Sonnet 5.5: গতি আর বুদ্ধিমত্তার সেরা মিশ্রণ।",
+        "`claude-haiku-5-5` — Claude Haiku 5.5: সবচেয়ে দ্রুত; classification, extraction, routing-এর মতো বিপুল পরিমাণ, latency-সংবেদনশীল কাজের জন্য।"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "দামের ধারণা দিতে pricing পেজ থেকে (২০২৬-১১-০৮ তারিখে দেখা, প্রতি মিলিয়ন টোকেন, input / output): Fable 5.1 $10 / $50, Opus 5.5 $4 / $20, Sonnet 5.5 $2 / $10, Haiku 5.5 $0.10 / $0.50 (100,000 টোকেন পর্যন্ত prompt-এ; এর বেশি হলে দাম বেশি)। দাম বদলাতে পারে, তাই হিসাব করার আগে সবসময় অফিসিয়াল পেজ দেখুন: platform.claude.com/docs/en/about-claude/pricing"
+    },
+    {
+      "type": "tip",
+      "text": "ডকসের মূল পরামর্শ: প্রতি টোকেনের দাম না দেখে প্রতিটা সম্পূর্ণ কাজের খরচ (cost per completed task) তুলনা করুন। শক্তিশালী মডেল কম চেষ্টায় কাজ শেষ করে ফেলতে পারে, আর সস্তা মডেল ব্যর্থ হলে সেই টোকেনের বিলও দিতে হয়, আবার চেষ্টার বিলও। যেখানে আউটপুট যাচাই করা যায় আর পরিমাণ অনেক, সেখানে আগে Claude Haiku 5.5 চেষ্টা করুন।"
+    },
+    {
+      "type": "heading",
+      "text": "Lever 2: Tune effort"
+    },
+    {
+      "type": "paragraph",
+      "text": "মডেল বদলানোর আগে একই মডেলে `output_config.effort` কমিয়ে দেখুন (Lesson 22)। `low` থেকে `max` পর্যন্ত লেভেল; Claude Opus 5.5 আর Haiku 5.5-এ ডিফল্ট `medium`, বাকিগুলোয় `high`। SWE-bench Pro-র একটা subset-এ Anthropic-এর নিজস্ব মাপে Claude Opus 5.5 `low` effort-এ প্রায় Claude Sonnet 5.5-এর ডিফল্টের সমান কাজ সমাধান করেছে, প্রতি সমাধানে মাত্র ~7% বেশি খরচে — এগুলো দিকনির্দেশক ফল, গ্যারান্টি না, তাই নিজের কাজের ওপর মেপে দেখুন।"
+    },
+    {
+      "type": "code",
+      "code": "import anthropic\n\nclient = anthropic.Anthropic()\n\nresponse = client.messages.create(\n    model=\"claude-opus-5-5\",\n    max_tokens=4096,\n    output_config={\"effort\": \"low\"},\n    messages=[{\"role\": \"user\", \"content\": \"Classify this review as positive or negative: 'Delivery was late but the food was great.'\"}],\n)\nprint(response.usage)",
+      "language": "python"
+    },
+    {
+      "type": "heading",
+      "text": "Lever 3: Prompt caching"
+    },
+    {
+      "type": "paragraph",
+      "text": "বারবার পাঠানো system prompt, tool আর ডকুমেন্ট cache করলে cache থেকে পড়া অংশের দাম base input দামের সাধারণত এক-দশমাংশ (Opus 5.5 আর Sonnet 5.5-এ এক-বিংশাংশ)। Agent loop-এ প্রতিটা টার্নে পুরো কথোপকথন আবার পাঠানো হয়, তাই এখানে লাভ সবচেয়ে বেশি। ডকস বলছে এটা সাধারণত সবচেয়ে বড় লিভার — সবার আগে চালু করুন (Lesson 23)।"
+    },
+    {
+      "type": "heading",
+      "text": "Lever 4: Batch what can wait"
+    },
+    {
+      "type": "paragraph",
+      "text": "যে রিকোয়েস্টের জন্য কেউ অপেক্ষা করছে না — eval, পুরনো ডেটা প্রসেসিং, রাতের কাজ — সেগুলো Message Batches API দিয়ে পাঠান: সব টোকেনে ৫০% ছাড়, ফলাফল ২৪ ঘণ্টার মধ্যে। Batch আর caching-এর ছাড় একসাথে পাওয়া যায় (Lesson 24)।"
+    },
+    {
+      "type": "heading",
+      "text": "Lever 5: max_tokens and shorter answers"
+    },
+    {
+      "type": "paragraph",
+      "text": "`max_tokens` হলো একটা উত্তরের কঠোর ছাদ। কিন্তু মডেল এই সীমা দেখতে পায় না, তাই এটা কমালে মডেল মিতব্যয়ী হয় না — উত্তর মাঝপথে কেটে যায়, আর কাটা অংশের বিলও দিতে হয়। ডকসের পরামর্শ: agent-এর কাজে `max_tokens` 64,000 রাখুন (এত বড় হলে streaming ব্যবহার করুন), খরচ কমান effort দিয়ে।"
+    },
+    {
+      "type": "paragraph",
+      "text": "খরচ কমানোর আরেকটা সহজ উপায়: ছোট উত্তর চাওয়া। এখনকার Haiku, Sonnet, Opus আর Fable মডেলে output টোকেনের দাম input-এর পাঁচ গুণ, আর agent loop-এ মডেলের লেখা প্রতিটা টোকেন পরের প্রতিটা টার্নে আবার input হয়ে ফেরত যায়। prompt-এ যেমন বলতে পারেন:"
+    },
+    {
+      "type": "prompt",
+      "text": "Answer in one line: the label and a short reason."
+    },
+    {
+      "type": "heading",
+      "text": "Lever 6: Count tokens before you send"
+    },
+    {
+      "type": "paragraph",
+      "text": "Token counting endpoint দিয়ে রিকোয়েস্ট পাঠানোর আগেই জানতে পারেন কত input টোকেন লাগবে। এটা ফ্রি (তবে আলাদা rate limit আছে), আর ফলাফল একটা আনুমানিক হিসাব। System prompt, tool, ছবি, PDF সবই গোনা যায়।"
+    },
+    {
+      "type": "code",
+      "code": "count = client.messages.count_tokens(\n    model=\"claude-opus-5-5\",\n    system=\"You are a scientist\",\n    messages=[{\"role\": \"user\", \"content\": \"Hello, Claude\"}],\n)\nprint(count.input_tokens)",
+      "language": "python"
+    },
+    {
+      "type": "code",
+      "code": "curl https://api.anthropic.com/v1/messages/count_tokens \\\n  -H \"x-api-key: $ANTHROPIC_API_KEY\" \\\n  -H \"anthropic-version: 2026-10-21\" \\\n  -H \"content-type: application/json\" \\\n  -d '{\n    \"model\": \"claude-opus-5-5\",\n    \"system\": \"You are a scientist\",\n    \"messages\": [{\"role\": \"user\", \"content\": \"Hello, Claude\"}]\n  }'",
+      "language": "bash"
+    },
+    {
+      "type": "warning",
+      "text": "একই লেখায় সব মডেলে টোকেন সমান হয় না। Claude Opus 4.7 ও পরের মডেলগুলো নতুন tokenizer ব্যবহার করে, যা একই লেখায় আগের মডেলের চেয়ে প্রায় ৩০% বেশি টোকেন বানায়। তাই পুরনো মডেলে মাপা হিসাব নতুন মডেলে চালাবেন না — যে মডেল ব্যবহার করবেন, সেই model id দিয়েই গুনুন। বাংলা লেখায় টোকেন সংখ্যা ইংরেজির চেয়ে আলাদা হতে পারে, তাই নিজের আসল ডেটা দিয়ে মাপুন।"
+    },
+    {
+      "type": "heading",
+      "text": "A safety net: spend limits"
+    },
+    {
+      "type": "paragraph",
+      "text": "শেষ ব্যাকআপ হিসেবে Claude Console-এ workspace-এর spend limit সেট করে রাখুন, যাতে কোনো বাগ বা লুপ হঠাৎ বিশাল বিল বানাতে না পারে। আর উত্তরের `usage` নিয়মিত লগ করুন — কোথায় টোকেন যাচ্ছে না দেখে খরচ কমানো যায় না।"
+    },
+    {
+      "type": "heading",
+      "text": "Recap"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "আগে বিনা-ক্ষতির লিভার: prompt caching, batch, অপ্রয়োজনীয় টোকেন ছাঁটা।",
+        "তারপর effort টিউন করুন, তারপর মডেল বদলের কথা ভাবুন।",
+        "তুলনা করুন প্রতিটা সম্পূর্ণ কাজের খরচে, প্রতি টোকেনে না।",
+        "`max_tokens` উদার রাখুন, ছোট উত্তর চান, পাঠানোর আগে `count_tokens` দিয়ে মাপুন।",
+        "দাম সবসময় অফিসিয়াল pricing পেজে মিলিয়ে নিন।"
+      ]
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Anthropic-এর cost guide অনুযায়ী সাধারণত সবচেয়ে বড় খরচ কমানোর লিভার কোনটা?",
+      "options": [
+        "Prompt caching",
+        "সবসময় সবচেয়ে ছোট মডেল ব্যবহার",
+        "`max_tokens` খুব কম রাখা"
+      ],
+      "answer": 0,
+      "explanation": "ডকস বলছে prompt caching সাধারণত সবচেয়ে বড় লিভার, আর মানও কমায় না — তাই আগে এটা চালু করুন।"
+    },
+    {
+      "question": "`max_tokens` খুব কমিয়ে দিলে কী হয়?",
+      "options": [
+        "মডেল ছোট করে উত্তর লিখতে শেখে",
+        "উত্তর মাঝপথে কেটে যায়, আর কাটা উত্তরেরও বিল হয়",
+        "খরচ শূন্য হয়ে যায়"
+      ],
+      "answer": 1,
+      "explanation": "মডেল `max_tokens` দেখতে পায় না, তাই মিতব্যয়ী হয় না। খরচ কমাতে effort আর prompt ব্যবহার করুন।"
+    },
+    {
+      "question": "মডেল তুলনার সময় ডকস কোন মাপকাঠি ব্যবহার করতে বলে?",
+      "options": [
+        "প্রতি টোকেনের দাম",
+        "প্রতিটা সম্পূর্ণ কাজের খরচ (cost per completed task)",
+        "মডেলের নামের দৈর্ঘ্য"
+      ],
+      "answer": 1,
+      "explanation": "শক্তিশালী মডেল কম চেষ্টায় কাজ শেষ করতে পারে; ব্যর্থ চেষ্টার বিলও দিতে হয়। তাই কাজ-প্রতি খরচ দেখুন।"
+    },
+    {
+      "question": "Token counting endpoint সম্পর্কে কোনটা ঠিক?",
+      "options": [
+        "এটা ফ্রি, আর একটা আনুমানিক হিসাব দেয়",
+        "প্রতি গণনায় পুরো রিকোয়েস্টের দাম লাগে",
+        "শুধু Haiku মডেলে চলে"
+      ],
+      "answer": 0,
+      "explanation": "Token counting ফ্রি (আলাদা rate limit আছে) এবং input টোকেনের আনুমানিক হিসাব দেয়।"
+    },
+    {
+      "question": "পুরনো মডেলে গোনা টোকেন সংখ্যা Claude Opus 5.5-এর বাজেটে সরাসরি ব্যবহার করা কেন ঠিক না?",
+      "options": [
+        "Opus 4.7 থেকে নতুন tokenizer একই লেখায় প্রায় ৩০% বেশি টোকেন বানায়",
+        "Opus 5.5 টোকেন গোনে না",
+        "টোকেন সংখ্যা সব মডেলে হুবহু এক"
+      ],
+      "answer": 0,
+      "explanation": "Pricing পেজ অনুযায়ী Claude 4.7 ও পরের মডেলের tokenizer একই লেখায় বেশি টোকেন দেয়; যে মডেল ব্যবহার করবেন সেটা দিয়েই গুনুন।"
+    }
+  ]
+}

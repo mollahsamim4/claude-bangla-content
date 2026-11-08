@@ -1,0 +1,182 @@
+{
+  "id": "developer-24-batch-and-files-api",
+  "track": "developer",
+  "order": 24,
+  "title": "Batch API & Files API",
+  "summary": "অপেক্ষা করা যায় এমন হাজারো রিকোয়েস্ট ৫০% কম খরচে চালানো (Message Batches API), আর একবার আপলোড করে বারবার ফাইল ব্যবহার (Files API)।",
+  "updatedAt": "2026-11-08",
+  "blocks": [
+    {
+      "type": "paragraph",
+      "text": "সব কাজের উত্তর সাথে সাথে লাগে না। হাজারটা product description লেখা, রাতভর পুরনো ডেটা থেকে সারাংশ বানানো, বা একটা eval চালানো — এসবে কেউ স্ক্রিনের সামনে বসে নেই। এই ধরনের কাজের জন্য Message Batches API সবচেয়ে সাশ্রয়ী। আর একই PDF বা ছবি বারবার পাঠানোর ঝামেলা কমাতে আছে Files API। এই লেসনে দুটোই দেখব।"
+    },
+    {
+      "type": "heading",
+      "text": "Message Batches API"
+    },
+    {
+      "type": "paragraph",
+      "text": "Batch API-তে একসাথে অনেকগুলো Messages রিকোয়েস্ট জমা দেন, Anthropic সেগুলো asynchronously প্রসেস করে। বদলে পান ৫০% ছাড় — input আর output দুটোতেই। ডকস অনুযায়ী মূল নিয়মগুলো:"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "বেশিরভাগ batch এক ঘণ্টার মধ্যে শেষ হয়। সব রিকোয়েস্ট শেষ হলে বা ২৪ ঘণ্টা পার হলে (যেটা আগে) ফলাফল পাওয়া যায়; ২৪ ঘণ্টায় শেষ না হলে বাকিগুলো expire হয়।",
+        "একটা batch-এ সর্বোচ্চ 100,000টা রিকোয়েস্ট বা 256 MB, যেটা আগে পূরণ হয়।",
+        "batch তৈরির পর থেকে 29 দিন পর্যন্ত ফলাফল ডাউনলোড করা যায়।",
+        "Vision, tool use, system prompt, multi-turn — প্রায় সব কিছুই batch-এ চলে। তবে `stream: true`, fast mode-এর `speed`, `fallbacks` আর `max_tokens: 0` চলে না।"
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "Step 1: Create a batch"
+    },
+    {
+      "type": "paragraph",
+      "text": "প্রতিটা রিকোয়েস্টের একটা নিজস্ব `custom_id` থাকে, আর `params`-এ থাকে সাধারণ Messages রিকোয়েস্টের body:"
+    },
+    {
+      "type": "code",
+      "code": "import anthropic\nfrom anthropic.types.message_create_params import MessageCreateParamsNonStreaming\nfrom anthropic.types.messages.batch_create_params import Request\n\nclient = anthropic.Anthropic()\n\nproducts = [\"clay water jug\", \"jamdani saree\", \"bamboo lamp\"]\n\nbatch = client.messages.batches.create(\n    requests=[\n        Request(\n            custom_id=f\"product-{i}\",\n            params=MessageCreateParamsNonStreaming(\n                model=\"claude-opus-5-5\",\n                max_tokens=1024,\n                messages=[{\"role\": \"user\", \"content\": f\"Write a 2-line product description for: {name}\"}],\n            ),\n        )\n        for i, name in enumerate(products)\n    ]\n)\nprint(batch.id)",
+      "language": "python"
+    },
+    {
+      "type": "heading",
+      "text": "Step 2: Poll until it ends"
+    },
+    {
+      "type": "code",
+      "code": "import time\n\nwhile True:\n    batch = client.messages.batches.retrieve(batch.id)\n    if batch.processing_status == \"ended\":\n        break\n    time.sleep(60)",
+      "language": "python"
+    },
+    {
+      "type": "heading",
+      "text": "Step 3: Read the results"
+    },
+    {
+      "type": "code",
+      "code": "for result in client.messages.batches.results(batch.id):\n    match result.result.type:\n        case \"succeeded\":\n            text = next(b.text for b in result.result.message.content if b.type == \"text\")\n            print(result.custom_id, \"->\", text)\n        case \"errored\":\n            print(result.custom_id, \"error:\", result.result.error)\n        case \"expired\":\n            print(result.custom_id, \"expired\")",
+      "language": "python"
+    },
+    {
+      "type": "warning",
+      "text": "ফলাফল যে ক্রমে পাঠিয়েছিলেন সেই ক্রমে নাও আসতে পারে। তাই কখনো অবস্থান (index) ধরে মেলাবেন না, সবসময় `custom_id` দিয়ে মেলান। এজন্যই `custom_id` অর্থবহ রাখা ভালো।"
+    },
+    {
+      "type": "tip",
+      "text": "Batch আর prompt caching একসাথে চলে, ছাড়ও একসাথে পাওয়া যায়। তবে batch প্রসেস হতে ৫ মিনিটের বেশি লাগতে পারে বলে ডকস শেয়ার করা context-এর জন্য ১ ঘণ্টার cache (`\"ttl\": \"1h\"`) নিতে বলে। Batch-এর cache hit অবশ্য best-effort, নিশ্চিত না।"
+    },
+    {
+      "type": "paragraph",
+      "text": "উপলভ্যতা: ডকস অনুযায়ী Message Batches API চলে Claude API, Claude Platform on AWS আর Claude Models on Google Cloud (Anthropic managed)-এ। Batch-গুলো Console-এর Workspace অনুযায়ী আলাদা থাকে।"
+    },
+    {
+      "type": "heading",
+      "text": "Files API"
+    },
+    {
+      "type": "paragraph",
+      "text": "Files API দিয়ে একটা ফাইল একবার আপলোড করেন, পান একটা `file_id`, তারপর যত রিকোয়েস্টে খুশি সেই id দিয়ে ফাইলটা ব্যবহার করেন — প্রতিবার পুরো ফাইল আবার পাঠাতে হয় না। Files API এখন stable, কোনো beta header লাগে না।"
+    },
+    {
+      "type": "code",
+      "code": "uploaded = client.files.upload(\n    file=(\"report.pdf\", open(\"report.pdf\", \"rb\"), \"application/pdf\"),\n)\nfile_id = uploaded.id\n\nresponse = client.messages.create(\n    model=\"claude-opus-5-5\",\n    max_tokens=1024,\n    messages=[\n        {\n            \"role\": \"user\",\n            \"content\": [\n                {\"type\": \"document\", \"source\": {\"type\": \"file\", \"file_id\": file_id}},\n                {\"type\": \"text\", \"text\": \"Please summarize this document for me.\"},\n            ],\n        }\n    ],\n)",
+      "language": "python"
+    },
+    {
+      "type": "paragraph",
+      "text": "curl দিয়ে আপলোড:"
+    },
+    {
+      "type": "code",
+      "code": "curl -X POST https://api.anthropic.com/v1/files \\\n  -H \"x-api-key: $ANTHROPIC_API_KEY\" \\\n  -H \"anthropic-version: 2026-10-21\" \\\n  -F \"file=@/path/to/report.pdf\"",
+      "language": "bash"
+    },
+    {
+      "type": "paragraph",
+      "text": "ফাইলের ধরন অনুযায়ী content block আলাদা: PDF আর plain text-এর জন্য `document`, ছবির (JPEG, PNG, GIF, WebP) জন্য `image`, আর code execution tool-এ ডেটাসেটের মতো অন্য ফাইলের জন্য `container_upload`।"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "প্রতিটা ফাইল সর্বোচ্চ 500 MB, প্রতি organization মোট 1 TB।",
+        "আপলোড, ডাউনলোড, লিস্ট, মুছে ফেলা — এসব অপারেশন ফ্রি। তবে ফাইলের কনটেন্ট Messages রিকোয়েস্টে ব্যবহার হলে input টোকেন হিসেবে বিল হয়।",
+        "ফাইল মুছে না ফেলা পর্যন্ত থেকে যায়। আপলোডের সময় `expires_in_seconds` (১ ঘণ্টা থেকে ৯০ দিন) দিলে নিজে থেকে expire হয়।",
+        "আপলোডের পর ফাইল বদলানো বা rename করা যায় না; নতুন ফাইল আপলোড করে পুরনোটা মুছুন।"
+      ]
+    },
+    {
+      "type": "warning",
+      "text": "আপলোড করা ফাইল পুরো workspace-এর — নির্দিষ্ট ইউজার বা কথোপকথনের না। ওই workspace-এর যেকোনো API key দিয়ে যেকোনো ফাইল পড়া যায়। তাই ইউজারের কাছ থেকে কখনো `file_id` নেবেন না; কোন ইউজারের কোন ফাইল সেই হিসাব নিজের অ্যাপে রাখুন। আলাদা ক্লায়েন্টের ডেটা আলাদা workspace-এ রাখার পরামর্শ ডকসের।"
+    },
+    {
+      "type": "paragraph",
+      "text": "ডকসে Files API-র তালিকাভুক্ত প্ল্যাটফর্ম: Claude API, Claude Platform on AWS, Claude Models on Google Cloud (Anthropic managed) আর Microsoft Foundry (hosted on Anthropic)। পুরনো কোডে `anthropic-beta: files-api-2025-04-14` থাকলে সেটা এখনো চলে, তবে নতুন কোডে `client.files` ব্যবহার করুন, beta header ছাড়া।"
+    },
+    {
+      "type": "heading",
+      "text": "Recap"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "অপেক্ষা করা যায় এমন কাজ → Batch API, ৫০% ছাড়।",
+        "`batches.create` → `retrieve` দিয়ে poll → `results`; মেলান `custom_id` দিয়ে।",
+        "একই ফাইল বারবার → Files API, `file_id` দিয়ে রেফারেন্স।",
+        "`file_id` কখনো untrusted ইউজারের কাছ থেকে নেবেন না।"
+      ]
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Message Batches API ব্যবহার করলে খরচে কী সুবিধা পাওয়া যায়?",
+      "options": [
+        "input আর output দুটোতেই ৫০% ছাড়",
+        "শুধু output-এ ১০% ছাড়",
+        "কোনো ছাড় নেই, শুধু গতি বাড়ে"
+      ],
+      "answer": 0,
+      "explanation": "Batch API-র সব ব্যবহার স্ট্যান্ডার্ড দামের ৫০%-এ চার্জ হয়।"
+    },
+    {
+      "question": "batch-এর ফলাফল কোন রিকোয়েস্টের তা কীভাবে মেলাবেন?",
+      "options": [
+        "ফলাফলের ক্রম দেখে",
+        "`custom_id` দিয়ে",
+        "উত্তরের দৈর্ঘ্য দেখে"
+      ],
+      "answer": 1,
+      "explanation": "ফলাফল যেকোনো ক্রমে আসতে পারে, তাই সবসময় `custom_id` দিয়ে মেলাতে হয়।"
+    },
+    {
+      "question": "কোনটা batch রিকোয়েস্টে চলে না?",
+      "options": [
+        "tool use",
+        "`stream: true`",
+        "system prompt"
+      ],
+      "answer": 1,
+      "explanation": "Batch ফলাফল একটা ফাইল হিসেবে আসে, stream হিসেবে না। তাই `stream: true` validation error দেয়।"
+    },
+    {
+      "question": "Files API-তে আপলোড করা PDF Messages রিকোয়েস্টে কীভাবে ব্যবহার করবেন?",
+      "options": [
+        "`document` block-এ `source: {\"type\": \"file\", \"file_id\": ...}`",
+        "`system`-এ ফাইলের নাম লিখে",
+        "`image` block-এ PDF-এর URL দিয়ে"
+      ],
+      "answer": 0,
+      "explanation": "PDF আর plain text-এর জন্য `document` block, `source`-এর `type` হবে `file` আর সাথে `file_id`।"
+    },
+    {
+      "question": "ইউজারের পাঠানো `file_id` সরাসরি ব্যবহার করা কেন বিপজ্জনক?",
+      "options": [
+        "ফাইলগুলো workspace-এর সবার, তাই এক ইউজার অন্যের ফাইল পড়ে ফেলতে পারে",
+        "এতে খরচ দ্বিগুণ হয়",
+        "file_id এক ঘণ্টা পরেই মুছে যায়"
+      ],
+      "answer": 0,
+      "explanation": "ফাইল workspace-scoped। ইউজার-ফাইলের ম্যাপিং নিজের অ্যাপে রাখুন, untrusted `file_id` গ্রহণ করবেন না।"
+    }
+  ]
+}

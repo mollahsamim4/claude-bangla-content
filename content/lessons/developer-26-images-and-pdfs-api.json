@@ -1,0 +1,194 @@
+{
+  "id": "developer-26-images-and-pdfs-api",
+  "track": "developer",
+  "order": 26,
+  "title": "Images & PDFs in the API",
+  "summary": "API দিয়ে Claude-কে ছবি আর PDF পাঠানো: `image` ও `document` block, base64/URL/file source, সীমা, টোকেন খরচ আর সীমাবদ্ধতা।",
+  "updatedAt": "2026-11-08",
+  "blocks": [
+    {
+      "type": "paragraph",
+      "text": "রসিদের ছবি থেকে টাকার অঙ্ক বের করা, হাতে আঁকা ডায়াগ্রাম বোঝা, ১০০ পাতার PDF রিপোর্টের চার্টসহ সারাংশ — এসব কাজ API দিয়েই করা যায়। সব current Claude মডেল ছবি আর PDF বুঝতে পারে। শুধু জানতে হবে কীভাবে পাঠাতে হয়, কত বড় পর্যন্ত পাঠানো যায় আর কত টোকেন খরচ হয়।"
+    },
+    {
+      "type": "heading",
+      "text": "Sending an image"
+    },
+    {
+      "type": "paragraph",
+      "text": "ছবি যায় `image` content block হিসেবে, তিন রকম `source` দিয়ে:"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "`base64` — ছবিটা base64-এ encode করে রিকোয়েস্টের ভেতরেই পাঠানো।",
+        "`url` — অনলাইনে থাকা ছবির লিংক।",
+        "`file` — Files API-তে আপলোড করা ছবির `file_id` (Lesson 24); একই ছবি বারবার ব্যবহার করতে ভালো।"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "লোকাল ফাইল থেকে base64 দিয়ে পাঠানোর উদাহরণ:"
+    },
+    {
+      "type": "code",
+      "code": "import base64\nimport anthropic\n\nclient = anthropic.Anthropic()\n\nwith open(\"receipt.jpg\", \"rb\") as f:\n    image_data = base64.standard_b64encode(f.read()).decode(\"utf-8\")\n\nmessage = client.messages.create(\n    model=\"claude-opus-5-5\",\n    max_tokens=1024,\n    messages=[\n        {\n            \"role\": \"user\",\n            \"content\": [\n                {\n                    \"type\": \"image\",\n                    \"source\": {\"type\": \"base64\", \"media_type\": \"image/jpeg\", \"data\": image_data},\n                },\n                {\"type\": \"text\", \"text\": \"What is the total amount on this receipt?\"},\n            ],\n        }\n    ],\n)\n\nfor block in message.content:\n    if block.type == \"text\":\n        print(block.text)",
+      "language": "python"
+    },
+    {
+      "type": "paragraph",
+      "text": "URL দিয়ে হলে `source` অংশটা শুধু এরকম হবে:"
+    },
+    {
+      "type": "code",
+      "code": "{\"type\": \"url\", \"url\": \"https://platform.claude.com/docs/images/vision-example.jpg\"}",
+      "language": "json"
+    },
+    {
+      "type": "tip",
+      "text": "ডকস বলছে ছবি টেক্সটের আগে রাখলে Claude সবচেয়ে ভালো কাজ করে — আগে `image` block, তারপর প্রশ্ন। লম্বা ডকুমেন্টের ক্ষেত্রেও একই কথা।"
+    },
+    {
+      "type": "heading",
+      "text": "Image limits"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "ফরম্যাট: JPEG, PNG, GIF, WebP। Animation চলে না, শুধু প্রথম frame নেওয়া হয়।",
+        "API-তে প্রতি রিকোয়েস্টে সর্বোচ্চ 600টা ছবি; 200k টোকেন context window-এর মডেলে 100টা।",
+        "প্রতিটা ছবি সর্বোচ্চ 8000x8000 px, আর Claude API-তে base64-encoded অবস্থায় সর্বোচ্চ 10 MB।",
+        "এক রিকোয়েস্টে 20টার বেশি ছবি থাকলে প্রতিটা ছবির মাপের সীমা কড়া হয়ে যায় — নিরাপদ থাকতে কোনো দিক 3,000 px-এর বেশি রাখবেন না।",
+        "পুরো রিকোয়েস্ট প্রথম-পক্ষের Claude API-তে 128 MB পর্যন্ত। অনেক ছবি হলে Files API ব্যবহার করুন।"
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "How many tokens does an image cost?"
+    },
+    {
+      "type": "paragraph",
+      "text": "Claude ছবিকে 28×28 pixel-এর টুকরো (visual token) হিসেবে দেখে। মোটামুটি হিসাব: টোকেন ≈ ⌈width / 28⌉ × ⌈height / 28⌉। খুব বড় ছবি আগেই ছোট করে নেওয়া হয়। Claude 4.7 ও পরের মডেলগুলো high-resolution tier-এ চলে: লম্বা দিক সর্বোচ্চ 2,576 px আর সর্বোচ্চ 4,784 visual token। যেমন ডকসের টেবিলে 1000x1000 px ছবি ≈ 1,296 টোকেন, আর 1920x1080 px ছবি high-resolution মডেলে ≈ 2,691 টোকেন।"
+    },
+    {
+      "type": "tip",
+      "text": "এত সূক্ষ্মতা না লাগলে ছবি পাঠানোর আগে নিজেই ছোট করে নিন — টোকেন, খরচ আর latency সব কমবে। তবে লেখাওয়ালা ছবি এত ছোট করবেন না যে লেখা পড়া না যায়।"
+    },
+    {
+      "type": "warning",
+      "text": "ডকসে বলা সীমাবদ্ধতাগুলো মাথায় রাখুন: Claude ছবিতে মানুষ শনাক্ত করে নাম বলবে না; খুব ঝাপসা, ঘোরানো বা 200 px-এর ছোট ছবিতে ভুল করতে পারে; বস্তু গোনা আর অবস্থান (coordinate) আনুমানিক; ছবি AI-তৈরি কিনা বলতে পারে না; আর CT/MRI-এর মতো ডায়াগনস্টিক স্ক্যান ব্যাখ্যার জন্য বানানো না। গুরুত্বপূর্ণ কাজে ফলাফল মানুষ দিয়ে যাচাই করুন।"
+    },
+    {
+      "type": "heading",
+      "text": "Sending a PDF"
+    },
+    {
+      "type": "paragraph",
+      "text": "PDF যায় `document` block হিসেবে, এখানেও তিন রকম source: `url`, `base64` (`media_type: \"application/pdf\"`) আর Files API-র `file`। সব active মডেল PDF পড়তে পারে।"
+    },
+    {
+      "type": "code",
+      "code": "message = client.messages.create(\n    model=\"claude-opus-5-5\",\n    max_tokens=1024,\n    messages=[\n        {\n            \"role\": \"user\",\n            \"content\": [\n                {\n                    \"type\": \"document\",\n                    \"source\": {\n                        \"type\": \"url\",\n                        \"url\": \"https://assets.anthropic.com/m/1cd9d098ac3e6467/original/Claude-3-Model-Card-October-Addendum.pdf\",\n                    },\n                },\n                {\"type\": \"text\", \"text\": \"What are the key findings in this document?\"},\n            ],\n        }\n    ],\n)",
+      "language": "python"
+    },
+    {
+      "type": "paragraph",
+      "text": "লোকাল PDF base64 করে পাঠাতে `source` হবে এরকম:"
+    },
+    {
+      "type": "code",
+      "code": "with open(\"document.pdf\", \"rb\") as f:\n    pdf_data = base64.standard_b64encode(f.read()).decode(\"utf-8\")\n\nsource = {\"type\": \"base64\", \"media_type\": \"application/pdf\", \"data\": pdf_data}",
+      "language": "python"
+    },
+    {
+      "type": "heading",
+      "text": "How PDF support works"
+    },
+    {
+      "type": "paragraph",
+      "text": "PDF-এর প্রতিটা পাতা একটা ছবিতে রূপান্তরিত হয়, আর সাথে ওই পাতার লেখাও আলাদা করে বের করে দেওয়া হয়। তাই Claude লেখার পাশাপাশি চার্ট, ডায়াগ্রাম, টেবিলও বোঝে। খরচও দুই ভাগে: প্রতি পাতার লেখায় সাধারণত 1,500–3,000 টোকেন, আর প্রতিটা পাতার ছবির জন্য ছবির নিয়মে টোকেন। আলাদা কোনো PDF ফি নেই।"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "প্রতি রিকোয়েস্টে সর্বোচ্চ 600 পাতা (রিকোয়েস্টের context window 1M টোকেনের কম হলে 100 পাতা)।",
+        "রিকোয়েস্ট সাইজ প্রথম-পক্ষের Claude API-তে 128 MB পর্যন্ত।",
+        "পাসওয়ার্ড বা এনক্রিপশনযুক্ত PDF চলে না।",
+        ".docx বা .xlsx সরাসরি `document` block-এ চলে না; আগে টেক্সট বা PDF-এ রূপান্তর করুন।"
+      ]
+    },
+    {
+      "type": "tip",
+      "text": "ঘন লেখা বা ভারী গ্রাফিক্সের PDF পাতার সীমার আগেই context ভরে ফেলতে পারে — তখন PDF ভাগ করে পাঠান। পাঠানোর আগে খরচ আন্দাজ করতে token counting endpoint ব্যবহার করুন (Lesson 29), আর একই PDF নিয়ে বারবার প্রশ্ন করলে prompt caching চালু করুন।"
+    },
+    {
+      "type": "paragraph",
+      "text": "প্ল্যাটফর্ম নোট: Amazon Bedrock আর Claude Models on Google Cloud (Google managed)-এ ছবি ও PDF শুধু base64 হিসেবে পাঠানো যায়।"
+    },
+    {
+      "type": "heading",
+      "text": "Recap"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "ছবি → `image` block; PDF → `document` block; source: `base64`, `url` বা `file`।",
+        "ছবি/PDF আগে, প্রশ্ন পরে।",
+        "ছবির টোকেন ≈ ⌈w/28⌉ × ⌈h/28⌉; দরকার না হলে ছোট করে পাঠান।",
+        "PDF: সর্বোচ্চ 600 পাতা, প্রতিটা পাতা ছবি + লেখা হিসেবে বিল হয়।"
+      ]
+    }
+  ],
+  "quiz": [
+    {
+      "question": "API-তে ছবি পাঠানোর তিনটা source type কী কী?",
+      "options": [
+        "`base64`, `url`, `file`",
+        "`jpeg`, `png`, `gif`",
+        "`text`, `json`, `xml`"
+      ],
+      "answer": 0,
+      "explanation": "ছবি base64-এ রিকোয়েস্টের ভেতরে, একটা URL দিয়ে, বা Files API-র `file_id` দিয়ে পাঠানো যায়।"
+    },
+    {
+      "question": "1000x1000 px একটা ছবিতে মোটামুটি কত visual token লাগে?",
+      "options": [
+        "প্রায় 130",
+        "প্রায় 1,296",
+        "প্রায় 100,000"
+      ],
+      "answer": 1,
+      "explanation": "⌈1000/28⌉ × ⌈1000/28⌉ = 36 × 36 = 1,296 টোকেন।"
+    },
+    {
+      "question": "ভালো ফলাফলের জন্য ছবি আর প্রশ্ন কোন ক্রমে রাখা উচিত?",
+      "options": [
+        "আগে ছবি, তারপর প্রশ্ন",
+        "আগে প্রশ্ন, তারপর ছবি",
+        "ক্রমে কিছু যায় আসে না, সবসময় একই"
+      ],
+      "answer": 0,
+      "explanation": "ডকস অনুযায়ী image-then-text কাঠামোতে Claude সবচেয়ে ভালো কাজ করে।"
+    },
+    {
+      "question": "PDF কীভাবে প্রসেস হয়?",
+      "options": [
+        "শুধু লেখা বের করা হয়, ছবি বাদ",
+        "প্রতিটা পাতা ছবি হিসেবে আর তার লেখা আলাদাভাবে — দুটোই Claude পায়",
+        "শুধু প্রথম পাতা পড়া হয়"
+      ],
+      "answer": 1,
+      "explanation": "প্রতিটা পাতা ছবিতে রূপান্তরিত হয় আর লেখাও বের করা হয়, তাই চার্ট-ডায়াগ্রামও বোঝা যায়।"
+    },
+    {
+      "question": "একটা .docx ফাইল Claude-কে পড়াতে চাইলে কী করবেন?",
+      "options": [
+        "সরাসরি `document` block-এ পাঠাবেন",
+        "আগে টেক্সট বা PDF-এ রূপান্তর করবেন",
+        "`image` block-এ পাঠাবেন"
+      ],
+      "answer": 1,
+      "explanation": ".docx-এর মতো binary ফরম্যাট `document` block-এ সমর্থিত না; টেক্সট বা PDF-এ রূপান্তর করতে হয়।"
+    }
+  ]
+}
