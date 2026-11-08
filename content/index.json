@@ -1,7 +1,7 @@
 {
   "formatVersion": 1,
-  "commit": "7772f27690129acdf6fae4949bebf5af7cce5680",
-  "generatedAt": "2026-11-08T15:53:00.804Z",
+  "commit": "84c04d3f5243d2a959439a165955b00f5af61c3a",
+  "generatedAt": "2026-11-08T15:53:40.331Z",
   "files": [
     {
       "path": "coming-soon/sample.json",
@@ -166,6 +166,51 @@
     {
       "path": "lessons/everyday-01-first-prompt.json",
       "hash": "52232a0f04311c6e",
+      "kind": "lesson"
+    },
+    {
+      "path": "lessons/everyday-02-xml-tags.json",
+      "hash": "18f3ad650239f12b",
+      "kind": "lesson"
+    },
+    {
+      "path": "lessons/everyday-03-few-shot-examples.json",
+      "hash": "4b8afe188823adc3",
+      "kind": "lesson"
+    },
+    {
+      "path": "lessons/everyday-04-thinking.json",
+      "hash": "18c6e070a966f16e",
+      "kind": "lesson"
+    },
+    {
+      "path": "lessons/everyday-05-prompt-chaining.json",
+      "hash": "63b677524b5685c0",
+      "kind": "lesson"
+    },
+    {
+      "path": "lessons/everyday-06-projects.json",
+      "hash": "3c0b2deaeff0428c",
+      "kind": "lesson"
+    },
+    {
+      "path": "lessons/everyday-07-artifacts.json",
+      "hash": "19940d0d599aec5d",
+      "kind": "lesson"
+    },
+    {
+      "path": "lessons/everyday-08-memory-chat-search.json",
+      "hash": "44724518523bfd7e",
+      "kind": "lesson"
+    },
+    {
+      "path": "lessons/everyday-09-web-search-research.json",
+      "hash": "67c154e91530d03a",
+      "kind": "lesson"
+    },
+    {
+      "path": "lessons/everyday-10-styles-custom-instructions.json",
+      "hash": "4da92745936f0949",
       "kind": "lesson"
     },
     {
