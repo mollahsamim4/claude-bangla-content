@@ -1,7 +1,7 @@
 {
   "formatVersion": 1,
-  "commit": "41338a3d2032a2ce96b0964ed0c732604d192f4a",
-  "generatedAt": "2026-11-08T15:50:12.594Z",
+  "commit": "76e45c27486773587eee5c8caac5ec06933081fc",
+  "generatedAt": "2026-11-08T15:50:38.753Z",
   "files": [
     {
       "path": "coming-soon/sample.json",
@@ -9,8 +9,148 @@
       "kind": "coming-soon"
     },
     {
+      "path": "errors/api-authentication-401.json",
+      "hash": "39ca4630099e21ba",
+      "kind": "error"
+    },
+    {
+      "path": "errors/api-billing-402.json",
+      "hash": "a0575bfa70c8076f",
+      "kind": "error"
+    },
+    {
+      "path": "errors/api-error-500.json",
+      "hash": "c5fa5966591a4781",
+      "kind": "error"
+    },
+    {
+      "path": "errors/api-invalid-request-400.json",
+      "hash": "d5d03c3cb337a795",
+      "kind": "error"
+    },
+    {
+      "path": "errors/api-not-found-404.json",
+      "hash": "4dd54ec5b3e76e52",
+      "kind": "error"
+    },
+    {
       "path": "errors/api-overloaded-529.json",
       "hash": "b5818076c315f60c",
+      "kind": "error"
+    },
+    {
+      "path": "errors/api-permission-403.json",
+      "hash": "f03495dde892ad94",
+      "kind": "error"
+    },
+    {
+      "path": "errors/api-prefill-not-supported.json",
+      "hash": "15bce769d122fb30",
+      "kind": "error"
+    },
+    {
+      "path": "errors/api-prompt-too-long.json",
+      "hash": "3e39a209f1b89667",
+      "kind": "error"
+    },
+    {
+      "path": "errors/api-rate-limit-429.json",
+      "hash": "5ce03d74fbfb9d26",
+      "kind": "error"
+    },
+    {
+      "path": "errors/api-request-too-large-413.json",
+      "hash": "d9b2ed6bd5341d5e",
+      "kind": "error"
+    },
+    {
+      "path": "errors/api-spend-cap-429.json",
+      "hash": "c8f2bf48fd129f0c",
+      "kind": "error"
+    },
+    {
+      "path": "errors/app-capacity-constraints.json",
+      "hash": "c1daf40ea137730a",
+      "kind": "error"
+    },
+    {
+      "path": "errors/app-length-limit.json",
+      "hash": "557555ead6d749ed",
+      "kind": "error"
+    },
+    {
+      "path": "errors/app-login-error.json",
+      "hash": "adae35d3217283dc",
+      "kind": "error"
+    },
+    {
+      "path": "errors/app-usage-limit-reached.json",
+      "hash": "93f940e2f7af3b1a",
+      "kind": "error"
+    },
+    {
+      "path": "errors/cc-api-403-request-not-allowed.json",
+      "hash": "bb6fde43423fa48a",
+      "kind": "error"
+    },
+    {
+      "path": "errors/cc-command-not-found.json",
+      "hash": "6f05ba489bef6183",
+      "kind": "error"
+    },
+    {
+      "path": "errors/cc-credit-balance-low.json",
+      "hash": "5a607333fcf795bd",
+      "kind": "error"
+    },
+    {
+      "path": "errors/cc-invalid-api-key.json",
+      "hash": "4a0b10951152cecb",
+      "kind": "error"
+    },
+    {
+      "path": "errors/cc-not-logged-in.json",
+      "hash": "9c8fe4b9639536bb",
+      "kind": "error"
+    },
+    {
+      "path": "errors/cc-oauth-invalid-code.json",
+      "hash": "be0f06295e791399",
+      "kind": "error"
+    },
+    {
+      "path": "errors/cc-oauth-revoked.json",
+      "hash": "9514a61cede132a1",
+      "kind": "error"
+    },
+    {
+      "path": "errors/cc-org-disabled.json",
+      "hash": "8206c392272eeec9",
+      "kind": "error"
+    },
+    {
+      "path": "errors/cc-prompt-too-long.json",
+      "hash": "96de211ec84f83b8",
+      "kind": "error"
+    },
+    {
+      "path": "errors/cc-repeated-529.json",
+      "hash": "8c3428c1bc9d6dfb",
+      "kind": "error"
+    },
+    {
+      "path": "errors/cc-request-rejected-429.json",
+      "hash": "9869179c75211f52",
+      "kind": "error"
+    },
+    {
+      "path": "errors/cc-selected-model-issue.json",
+      "hash": "6267e491c2ac665b",
+      "kind": "error"
+    },
+    {
+      "path": "errors/cc-session-limit.json",
+      "hash": "ef05d750e9b2d0b2",
       "kind": "error"
     },
     {
@@ -79,8 +219,143 @@
       "kind": "lesson"
     },
     {
+      "path": "prompts/bangla-application-letter.json",
+      "hash": "0e5d4b7d4203e8e2",
+      "kind": "prompt"
+    },
+    {
+      "path": "prompts/bangla-formal-email.json",
+      "hash": "b55909e703759a4b",
+      "kind": "prompt"
+    },
+    {
+      "path": "prompts/bangla-proofread.json",
+      "hash": "1d2096205e640827",
+      "kind": "prompt"
+    },
+    {
+      "path": "prompts/bangla-translate-natural.json",
+      "hash": "42f6fcb47934bbf8",
+      "kind": "prompt"
+    },
+    {
+      "path": "prompts/blog-outline.json",
+      "hash": "415d0b8361ca6816",
+      "kind": "prompt"
+    },
+    {
+      "path": "prompts/claude-code-explore-project.json",
+      "hash": "82e05b93e73f077b",
+      "kind": "prompt"
+    },
+    {
+      "path": "prompts/claude-code-fix-failing-tests.json",
+      "hash": "1c6ecac39c1d19a6",
+      "kind": "prompt"
+    },
+    {
+      "path": "prompts/claude-code-plan-first.json",
+      "hash": "bbd8412f87b1e818",
+      "kind": "prompt"
+    },
+    {
+      "path": "prompts/code-debug.json",
+      "hash": "c062e1a68582f14c",
+      "kind": "prompt"
+    },
+    {
+      "path": "prompts/code-explain.json",
+      "hash": "18a071c5b96d3c7a",
+      "kind": "prompt"
+    },
+    {
+      "path": "prompts/code-review.json",
+      "hash": "f0dfc9805aa7185f",
+      "kind": "prompt"
+    },
+    {
+      "path": "prompts/code-write-tests.json",
+      "hash": "6ff9b94361fa9781",
+      "kind": "prompt"
+    },
+    {
+      "path": "prompts/data-analyze-csv.json",
+      "hash": "a488d431331badb2",
+      "kind": "prompt"
+    },
+    {
+      "path": "prompts/data-chart-ideas.json",
+      "hash": "fd7f683092901f91",
+      "kind": "prompt"
+    },
+    {
+      "path": "prompts/data-excel-formula.json",
+      "hash": "73585e8e9345e7b8",
+      "kind": "prompt"
+    },
+    {
+      "path": "prompts/english-conversation-practice.json",
+      "hash": "26e82cf881acbe2e",
+      "kind": "prompt"
+    },
+    {
+      "path": "prompts/english-correct-writing.json",
+      "hash": "5c614b4def757156",
+      "kind": "prompt"
+    },
+    {
+      "path": "prompts/english-vocabulary-builder.json",
+      "hash": "7ae67987d37ec202",
+      "kind": "prompt"
+    },
+    {
+      "path": "prompts/rewrite-clearer.json",
+      "hash": "2afaec2dfc897232",
+      "kind": "prompt"
+    },
+    {
+      "path": "prompts/study-explain-simply.json",
+      "hash": "2bc4af9199185817",
+      "kind": "prompt"
+    },
+    {
+      "path": "prompts/study-quiz-me.json",
+      "hash": "b2be6d6e958de9c2",
+      "kind": "prompt"
+    },
+    {
+      "path": "prompts/study-summary-notes.json",
+      "hash": "74c7b5cdba49b094",
+      "kind": "prompt"
+    },
+    {
       "path": "prompts/summarize-document.json",
       "hash": "b7f43e6ad135068c",
+      "kind": "prompt"
+    },
+    {
+      "path": "prompts/work-compare-options.json",
+      "hash": "a680cdbfba1baac2",
+      "kind": "prompt"
+    },
+    {
+      "path": "prompts/work-job-interview-practice.json",
+      "hash": "c0ad0485d565f859",
+      "kind": "prompt"
+    },
+    {
+      "path": "prompts/work-meeting-minutes.json",
+      "hash": "c6f6389c18cb527a",
+      "kind": "prompt"
+    },
+    {
+      "path": "prompts/work-report-summary.json",
+      "hash": "24e151f9117564bd",
+      "kind": "prompt"
+    },
+    {
+      "path": "prompts/write-professional-email.json",
+      "hash": "612a39484fb8845d",
       "kind": "prompt"
     }
   ]
