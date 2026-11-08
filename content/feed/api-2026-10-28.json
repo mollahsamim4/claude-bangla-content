@@ -1,0 +1,9 @@
+{
+  "id": "api-2026-10-28",
+  "source": "claude-api",
+  "date": "2026-10-28",
+  "title": "Claude API — October 28, 2026",
+  "summary": "Claude API-তে Messages API এবং Token Counting API-এর জন্য সর্বোচ্চ request size আগে ছিল 32 MB, এখন তা বাড়িয়ে 128 MB করা হয়েছে। এই পরিবর্তনটি first-party Claude API-তে প্রযোজ্য। ফলে এখন আগের চেয়ে অনেক বড় আকারের request পাঠানো সম্ভব হবে।",
+  "originalEn": "* We’ve raised the [maximum request size](https://platform.claude.com/docs/en/api/overview#request-size-limits) for the Messages API and the Token Counting API from 32 MB to 128 MB on the first-party Claude API.",
+  "url": "https://platform.claude.com/docs/en/release-notes/overview"
+}
