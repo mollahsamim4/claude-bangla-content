@@ -1,0 +1,205 @@
+{
+  "id": "developer-12-hooks",
+  "track": "developer",
+  "order": 12,
+  "title": "Hooks",
+  "summary": "Claude Code-এর lifecycle event-এ নিজের shell command চালিয়ে ফরম্যাটিং, ফাইল সুরক্ষা আর নোটিফিকেশন স্বয়ংক্রিয় করা।",
+  "updatedAt": "2026-11-08",
+  "blocks": [
+    {
+      "type": "heading",
+      "text": "What hooks do"
+    },
+    {
+      "type": "paragraph",
+      "text": "CLAUDE.md-তে \"প্রতিবার এডিটের পর Prettier চালাবে\" লিখে দিলেও Claude মাঝে মাঝে ভুলে যেতে পারে — কারণ এটা একটা নির্দেশ, গ্যারান্টি না। Hook হলো আপনার লেখা shell command, যা Claude Code নিজেই তার lifecycle-এর নির্দিষ্ট মুহূর্তে চালায়। ফলে কাজটা প্রতিবার নিশ্চিতভাবে হয়: এডিটের পর ফরম্যাট করা, বিপজ্জনক কমান্ড আটকানো, Claude ইনপুটের জন্য অপেক্ষা করলে নোটিফিকেশন পাঠানো — এসব।"
+    },
+    {
+      "type": "warning",
+      "text": "Command hook আপনার নিজের user account-এর পূর্ণ অনুমতি নিয়ে shell command চালায়। আপনার অ্যাকাউন্ট যেসব ফাইল পড়তে, বদলাতে বা মুছতে পারে, hook-ও পারে। কোনো hook যোগ করার আগে কমান্ডটা পড়ে বুঝে নিন আর পরীক্ষা করে দেখুন। অন্য কারো রিপোজিটরিতে `claude -p` চালালে সাবধান: `-p` মোডে workspace trust dialog আসে না, তাই রিপোর `.claude/settings.json`-এর hook সরাসরি চলে যায়।"
+    },
+    {
+      "type": "heading",
+      "text": "Where hooks live"
+    },
+    {
+      "type": "paragraph",
+      "text": "Hook লেখা হয় settings ফাইলের `hooks` অংশে। কোন ফাইলে লিখছেন, তার উপর নির্ভর করে hook কোথায় চলবে:"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "`~/.claude/settings.json` — আপনার সব প্রজেক্টে, শুধু আপনার কম্পিউটারে।",
+        "`.claude/settings.json` — একটা প্রজেক্টে; commit করে টিমের সাথে শেয়ার করা যায়।",
+        "`.claude/settings.local.json` — একটা প্রজেক্টে, শুধু আপনার জন্য।",
+        "Plugin-এর `hooks/hooks.json`, আর skill বা subagent-এর frontmatter-এও hook রাখা যায়।"
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "Hook configuration structure"
+    },
+    {
+      "type": "paragraph",
+      "text": "গঠনটা তিন স্তরের: প্রথমে event-এর নাম (যেমন `PostToolUse`), তার ভেতরে একটা `matcher` (কোন ক্ষেত্রে চলবে), আর তার ভেতরে আসল `hooks` তালিকা। নিচের উদাহরণটা প্রতিবার Claude `Edit` বা `Write` tool ব্যবহার করার পর এডিট হওয়া ফাইলে Prettier চালায়। প্রজেক্টের `.claude/settings.json`-এ যোগ করুন:"
+    },
+    {
+      "type": "code",
+      "code": "{\n  \"hooks\": {\n    \"PostToolUse\": [\n      {\n        \"matcher\": \"Edit|Write\",\n        \"hooks\": [\n          {\n            \"type\": \"command\",\n            \"command\": \"jq -r '.tool_input.file_path' | xargs npx prettier --write\"\n          }\n        ]\n      }\n    ]\n  }\n}",
+      "language": "json"
+    },
+    {
+      "type": "paragraph",
+      "text": "Hook চলার সময় Claude Code event-এর তথ্য JSON আকারে stdin-এ পাঠায় — যেমন `tool_name`, `tool_input`, `session_id`, `cwd`। উপরের কমান্ড `jq` দিয়ে সেখান থেকে `tool_input.file_path` বের করছে। (`jq` আলাদাভাবে ইনস্টল করতে হতে পারে।)"
+    },
+    {
+      "type": "heading",
+      "text": "Common hook events"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "`SessionStart` — session শুরু বা resume হলে।",
+        "`UserPromptSubmit` — আপনার prompt Claude-এর কাছে যাওয়ার ঠিক আগে।",
+        "`PreToolUse` — কোনো tool চলার আগে; এটা tool call আটকাতে পারে।",
+        "`PermissionRequest` — কোনো tool call-এ permission সিদ্ধান্ত লাগলে।",
+        "`PostToolUse` — tool সফলভাবে চলার পরে।",
+        "`Notification` — Claude Code নোটিফিকেশন পাঠালে, যেমন permission বা ইনপুটের অপেক্ষায় থাকলে।",
+        "`Stop` — Claude উত্তর দেওয়া শেষ করলে; `SubagentStop` — subagent শেষ হলে।",
+        "`PreCompact` — context compaction-এর আগে; `SessionEnd` — session শেষ হলে।"
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "Block edits to protected files"
+    },
+    {
+      "type": "paragraph",
+      "text": "এবার একটা guardrail বানাই: Claude যেন `.env`, `package-lock.json` বা `.git/`-এর ভেতরের কিছু এডিট করতে না পারে। প্রথমে এই script-টা `.claude/hooks/protect-files.sh` নামে সেভ করুন:"
+    },
+    {
+      "type": "code",
+      "code": "#!/bin/bash\n# protect-files.sh\n\nINPUT=$(cat)\nFILE_PATH=$(echo \"$INPUT\" | jq -r '.tool_input.file_path // empty')\n\n# Normalize Windows backslash separators so the patterns below match\nFILE_PATH=\"${FILE_PATH//\\\\//}\"\n\nPROTECTED_PATTERNS=(\".env\" \"package-lock.json\" \".git/\")\n\nfor pattern in \"${PROTECTED_PATTERNS[@]}\"; do\n  if [[ \"$FILE_PATH\" == *\"$pattern\"* ]]; then\n    echo \"Blocked: $FILE_PATH matches protected pattern '$pattern'\" >&2\n    exit 2\n  fi\ndone\n\nexit 0",
+      "language": "bash"
+    },
+    {
+      "type": "paragraph",
+      "text": "macOS বা Linux-এ script-টাকে executable করুন:"
+    },
+    {
+      "type": "code",
+      "code": "chmod +x .claude/hooks/protect-files.sh",
+      "language": "bash"
+    },
+    {
+      "type": "paragraph",
+      "text": "তারপর `.claude/settings.json`-এ একটা `PreToolUse` hook যোগ করুন, যা প্রতিটা `Edit` বা `Write`-এর আগে script-টা চালাবে:"
+    },
+    {
+      "type": "code",
+      "code": "{\n  \"hooks\": {\n    \"PreToolUse\": [\n      {\n        \"matcher\": \"Edit|Write\",\n        \"hooks\": [\n          {\n            \"type\": \"command\",\n            \"command\": \"\\\"$CLAUDE_PROJECT_DIR\\\"/.claude/hooks/protect-files.sh\"\n          }\n        ]\n      }\n    ]\n  }\n}",
+      "language": "json"
+    },
+    {
+      "type": "paragraph",
+      "text": "পরীক্ষা করতে Claude-কে `.env` ফাইলে একটা কমেন্ট যোগ করতে বলুন। এডিটটা আটকে যাবে, আর script-এর `Blocked:` মেসেজটা Claude ফিডব্যাক হিসেবে পাবে।"
+    },
+    {
+      "type": "heading",
+      "text": "Exit codes"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "`exit 0` — কোনো আপত্তি নেই। খেয়াল করুন, `PreToolUse`-এ exit 0 মানে অনুমোদন না; স্বাভাবিক permission নিয়মই চলবে।",
+        "`exit 2` — কাজটা আটকাও। stderr-এ যা লিখবেন, সেটা কারণ হিসেবে যায় (event অনুযায়ী Claude বা আপনি দেখবেন)।",
+        "অন্য কোনো exit code — বেশিরভাগ event-এ কাজটা চলতেই থাকে, শুধু non-blocking error দেখায়।"
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "Matchers"
+    },
+    {
+      "type": "paragraph",
+      "text": "`matcher` খালি (`\"\"`), `\"*\"` বা না দিলে hook প্রতিবার চলে। শুধু অক্ষর, সংখ্যা, `_`, `-`, স্পেস, `,` আর `|` থাকলে এটা হুবহু নামের সাথে মেলে — যেমন `Edit|Write`। অন্য কোনো চিহ্ন থাকলে এটা JavaScript regular expression হিসেবে ধরা হয়। MCP tool-এর নাম `mcp__<server>__<tool>` ধাঁচের হয়, তাই কোনো server-এর সব tool ধরতে `mcp__memory__.*` লিখুন — শেষের `.*` বাদ দিলে কিছুই মিলবে না।"
+    },
+    {
+      "type": "tip",
+      "text": "Claude Code-এর ভেতরে `/hooks` লিখলে সব কনফিগার করা hook event অনুযায়ী দেখা যায় — নতুন hook ঠিকমতো যোগ হয়েছে কিনা যাচাইয়ের সহজ উপায়। সব hook সাময়িকভাবে বন্ধ করতে settings-এ `\"disableAllHooks\": true` দিন।"
+    },
+    {
+      "type": "paragraph",
+      "text": "`\"type\": \"command\"` ছাড়াও আরও কয়েক ধরনের hook আছে: `http` (একটা URL-এ event ডেটা POST করে), `mcp_tool` (MCP server-এর tool ডাকে), `prompt` (Claude মডেল দিয়ে এক ধাপে সিদ্ধান্ত নেয়) আর `agent` (tool ব্যবহার করে যাচাই করে; এটা এখনো experimental)।"
+    },
+    {
+      "type": "warning",
+      "text": "Hook script লেখার সময় ডকসের নিরাপত্তা পরামর্শ মানুন: ইনপুট অন্ধভাবে বিশ্বাস করবেন না, shell variable সবসময় কোটেশনে রাখুন (`\"$VAR\"`), ফাইল পাথে `..` আছে কিনা দেখুন, script-এর পুরো পাথ দিন, আর `.env`, `.git/` বা key ফাইলের মতো সংবেদনশীল জিনিস এড়িয়ে চলুন।"
+    },
+    {
+      "type": "heading",
+      "text": "Recap"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "Hook = নির্দিষ্ট event-এ Claude Code-এর নিজে চালানো shell command; নির্দেশ না, নিশ্চিত কাজ।",
+        "গঠন: event → `matcher` → `hooks` তালিকা (`type`, `command`)।",
+        "`PreToolUse` + `exit 2` দিয়ে কাজ আটকানো যায়; `PostToolUse` দিয়ে কাজের পরে কিছু করা যায়।",
+        "Hook আপনার পূর্ণ অনুমতিতে চলে — যোগ করার আগে সবসময় পড়ে দেখুন।"
+      ]
+    }
+  ],
+  "quiz": [
+    {
+      "question": "CLAUDE.md-এর নির্দেশের সাথে hook-এর মূল পার্থক্য কী?",
+      "options": [
+        "Hook শুধু Windows-এ চলে",
+        "Hook Claude Code নিজেই নির্দিষ্ট মুহূর্তে চালায়, তাই কাজটা প্রতিবার নিশ্চিতভাবে হয়",
+        "Hook Claude-কে নতুন মডেলে বদলে দেয়"
+      ],
+      "answer": 1,
+      "explanation": "CLAUDE.md হলো Claude-এর জন্য নির্দেশ, যা সে ভুলে যেতে পারে। Hook lifecycle event-এ Claude Code নিজে চালায়, তাই এটা deterministic।"
+    },
+    {
+      "question": "কোনো tool call চলার আগেই আটকাতে কোন event ব্যবহার করবেন?",
+      "options": [
+        "`PostToolUse`",
+        "`PreToolUse`",
+        "`SessionEnd`"
+      ],
+      "answer": 1,
+      "explanation": "`PreToolUse` tool চলার আগে fire হয় আর এটা tool call আটকাতে পারে। `PostToolUse` চলে কাজ হয়ে যাওয়ার পরে, তাই আগের কাজ ফেরাতে পারে না।"
+    },
+    {
+      "question": "Hook script কোন exit code দিলে কাজটা আটকে যায়?",
+      "options": [
+        "`0`",
+        "`1`",
+        "`2`"
+      ],
+      "answer": 2,
+      "explanation": "`exit 2` মানে আটকাও, আর stderr-এর লেখা কারণ হিসেবে যায়। `exit 0` মানে আপত্তি নেই।"
+    },
+    {
+      "question": "`memory` নামের MCP server-এর সব tool ধরতে matcher কী হবে?",
+      "options": [
+        "`mcp__memory`",
+        "`mcp__memory__.*`",
+        "`memory`"
+      ],
+      "answer": 1,
+      "explanation": "`.*` থাকায় এটা regular expression হিসেবে মেলে। শুধু `mcp__memory` লিখলে সেটা হুবহু নাম হিসেবে তুলনা হয়, তাই কোনো tool মেলে না।"
+    },
+    {
+      "question": "Command hook কোন অনুমতিতে চলে?",
+      "options": [
+        "একটা আলাদা sandbox-এ, কোনো ফাইল ছুঁতে পারে না",
+        "আপনার user account-এর পূর্ণ অনুমতিতে",
+        "শুধু read-only অনুমতিতে"
+      ],
+      "answer": 1,
+      "explanation": "Command hook আপনার পূর্ণ user permission নিয়ে চলে, তাই যোগ করার আগে কমান্ডটা পড়ে ও পরীক্ষা করে নেওয়া জরুরি।"
+    }
+  ]
+}

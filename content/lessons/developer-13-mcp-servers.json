@@ -1,0 +1,199 @@
+{
+  "id": "developer-13-mcp-servers",
+  "track": "developer",
+  "order": 13,
+  "title": "MCP servers",
+  "summary": "MCP server যুক্ত করে Claude Code-কে বাইরের টুল, ডেটাবেস আর API-র সাথে কাজ করানো — scope, লগইন আর নিরাপত্তাসহ।",
+  "updatedAt": "2026-11-08",
+  "blocks": [
+    {
+      "type": "heading",
+      "text": "What MCP gives you"
+    },
+    {
+      "type": "paragraph",
+      "text": "MCP (Model Context Protocol) হলো AI আর বাইরের টুলের মধ্যে সংযোগের একটা open source স্ট্যান্ডার্ড। একটা MCP server যুক্ত করলে Claude Code সরাসরি আপনার issue tracker, ডেটাবেস, ডিজাইন টুল বা মনিটরিং ড্যাশবোর্ড থেকে তথ্য পড়তে আর কাজ করতে পারে। যখনই দেখবেন অন্য কোনো টুল থেকে বারবার ডেটা কপি করে চ্যাটে পেস্ট করছেন, বুঝবেন একটা MCP server যুক্ত করার সময় এসেছে।"
+    },
+    {
+      "type": "warning",
+      "text": "কোনো server যুক্ত করার আগে নিশ্চিত হোন যে সেটাকে আপনি বিশ্বাস করেন। বাইরের কনটেন্ট আনে এমন server আপনাকে prompt injection-এর ঝুঁকিতে ফেলতে পারে — অর্থাৎ কোনো ওয়েবপেজ বা ডকুমেন্টে লুকানো নির্দেশ Claude-কে ভুল দিকে চালাতে পারে। Local (stdio) server আপনার কম্পিউটারে একটা প্রোগ্রাম হিসেবে চলে, তাই অচেনা উৎসের server চালাবেন না।"
+    },
+    {
+      "type": "heading",
+      "text": "Add a remote HTTP server"
+    },
+    {
+      "type": "paragraph",
+      "text": "ক্লাউডে চলা server-এর জন্য HTTP transport-ই সুপারিশ করা হয়। আপনার shell-এ (Claude Code-এর বাইরে) কমান্ড চালান:"
+    },
+    {
+      "type": "code",
+      "code": "# Basic syntax\nclaude mcp add --transport http <name> <url>\n\n# Real example: Connect to Notion\nclaude mcp add --transport http notion https://mcp.notion.com/mcp\n\n# Example with Bearer token\nclaude mcp add --transport http secure-api https://api.example.com/mcp \\\n  --header \"Authorization: Bearer your-token\"",
+      "language": "bash"
+    },
+    {
+      "type": "paragraph",
+      "text": "SSE transport এখন deprecated; যেখানে সম্ভব HTTP ব্যবহার করুন।"
+    },
+    {
+      "type": "heading",
+      "text": "Add a local stdio server"
+    },
+    {
+      "type": "paragraph",
+      "text": "Stdio server আপনার কম্পিউটারে একটা লোকাল প্রসেস হিসেবে চলে। এখানে `--` (দুটো হাইফেন) খুব গুরুত্বপূর্ণ: এর আগের অংশ Claude-এর নিজের অপশন (`--transport`, `--env`, `--scope`), আর পরের অংশ হুবহু server চালানোর কমান্ড।"
+    },
+    {
+      "type": "code",
+      "code": "# Basic syntax\nclaude mcp add [options] <name> -- <command> [args...]\n\n# Real example: Add Airtable server\nclaude mcp add --env AIRTABLE_API_KEY=YOUR_KEY --transport stdio airtable \\\n  -- npx -y airtable-mcp-server",
+      "language": "bash"
+    },
+    {
+      "type": "tip",
+      "text": "`--env`-এর ঠিক পরেই server-এর নাম দিলে CLI সেটাকে আরেকটা `KEY=value` ভেবে বাতিল করে দেয়। তাই `--env` আর নামের মাঝে অন্তত একটা অপশন (যেমন `--transport stdio`) রাখুন — উপরের উদাহরণের মতো।"
+    },
+    {
+      "type": "heading",
+      "text": "Choose a scope"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "`local` (ডিফল্ট) — শুধু এই প্রজেক্টে, শুধু আপনার জন্য; `~/.claude.json`-এ সেভ হয়।",
+        "`project` — প্রজেক্টের রুটে `.mcp.json` ফাইলে সেভ হয়; git-এ commit করলে পুরো টিম পায়।",
+        "`user` — আপনার সব প্রজেক্টে, শুধু আপনার জন্য; এটাও `~/.claude.json`-এ।"
+      ]
+    },
+    {
+      "type": "code",
+      "code": "claude mcp add --transport http shared-server --scope project https://example.com/mcp",
+      "language": "bash"
+    },
+    {
+      "type": "paragraph",
+      "text": "এতে প্রজেক্টের `.mcp.json` ফাইলটা এমন হয়। টিমের সাথে শেয়ার করলেও API key সরাসরি না লিখে environment variable ব্যবহার করুন — `${VAR}` বা ডিফল্টসহ `${VAR:-default}`:"
+    },
+    {
+      "type": "code",
+      "code": "{\n  \"mcpServers\": {\n    \"api-server\": {\n      \"type\": \"http\",\n      \"url\": \"${API_BASE_URL:-https://api.example.com}/mcp\",\n      \"headers\": {\n        \"Authorization\": \"Bearer ${API_KEY}\"\n      }\n    }\n  }\n}",
+      "language": "json"
+    },
+    {
+      "type": "warning",
+      "text": "`.mcp.json` থেকে আসা project-scoped server ব্যবহারের আগে interactive session-এ Claude Code আপনার অনুমতি চায়। কিন্তু `claude -p` বা Agent SDK-তে এই প্রশ্ন দেখানো যায় না, তাই সেখানে এগুলো জিজ্ঞেস না করেই লোড হয়। অচেনা রিপোজিটরিতে স্ক্রিপ্ট চালানোর আগে তার `.mcp.json` দেখে নিন।"
+    },
+    {
+      "type": "heading",
+      "text": "Manage your servers"
+    },
+    {
+      "type": "code",
+      "code": "# List all configured servers\nclaude mcp list\n\n# Get details for a specific server\nclaude mcp get notion\n\n# Remove a server\nclaude mcp remove notion",
+      "language": "bash"
+    },
+    {
+      "type": "paragraph",
+      "text": "Claude Code-এর ভেতরে `/mcp` লিখলে প্রতিটা server-এর অবস্থা দেখা যায়। `claude mcp list`-এ প্রতিটা server-এর পাশে `✔ Connected`, `! Needs authentication` বা `✘ Failed to connect`-এর মতো স্ট্যাটাস দেখায়।"
+    },
+    {
+      "type": "heading",
+      "text": "Sign in with OAuth"
+    },
+    {
+      "type": "paragraph",
+      "text": "অনেক ক্লাউড server-এ লগইন লাগে। Claude Code OAuth 2.0 সাপোর্ট করে। উদাহরণ হিসেবে Sentry যোগ করুন:"
+    },
+    {
+      "type": "code",
+      "code": "claude mcp add --transport http sentry https://mcp.sentry.dev/mcp",
+      "language": "bash"
+    },
+    {
+      "type": "paragraph",
+      "text": "তারপর Claude Code-এর ভেতরে `/mcp` চালিয়ে ব্রাউজারে লগইনের ধাপগুলো সম্পন্ন করুন। টোকেন নিরাপদে সংরক্ষিত থাকে আর নিজে থেকেই রিফ্রেশ হয়।"
+    },
+    {
+      "type": "heading",
+      "text": "Use MCP in your prompts"
+    },
+    {
+      "type": "paragraph",
+      "text": "Server যুক্ত হয়ে গেলে সাধারণ ভাষাতেই কাজ বলুন। যেমন GitHub server যুক্ত থাকলে:"
+    },
+    {
+      "type": "prompt",
+      "text": "Review PR #456 and suggest improvements"
+    },
+    {
+      "type": "paragraph",
+      "text": "কিছু server resource দেয়, যেগুলো ফাইলের মতোই `@` দিয়ে উল্লেখ করা যায় — ফরম্যাট `@server:protocol://resource/path`:"
+    },
+    {
+      "type": "prompt",
+      "text": "Can you analyze @github:issue://123 and suggest a fix?"
+    },
+    {
+      "type": "paragraph",
+      "text": "আর কিছু server prompt দেয়, যা command হয়ে যায়। `/` লিখলে এগুলো `/servername:promptname (MCP)` আকারে তালিকায় আসে।"
+    },
+    {
+      "type": "tip",
+      "text": "ডেটাবেসের সাথে MCP যুক্ত করলে connection string-এ একটা read-only ডেটাবেস user ব্যবহার করুন, যাতে Claude-এর চালানো কোয়েরি কোনো ডেটা বদলাতে না পারে।"
+    },
+    {
+      "type": "heading",
+      "text": "Recap"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "Remote server: `claude mcp add --transport http <name> <url>`।",
+        "Local server: `claude mcp add [options] <name> -- <command>`; `--` ভুলবেন না।",
+        "Scope: `local` (ডিফল্ট), `project` (`.mcp.json`), `user`।",
+        "`/mcp` দিয়ে স্ট্যাটাস দেখুন ও লগইন করুন; শুধু বিশ্বস্ত server যুক্ত করুন।"
+      ]
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Remote MCP server যুক্ত করার জন্য কোন transport সুপারিশ করা হয়?",
+      "options": [
+        "`sse`",
+        "`http`",
+        "`ftp`"
+      ],
+      "answer": 1,
+      "explanation": "ক্লাউড server-এর জন্য HTTP transport সুপারিশ করা হয়। SSE এখন deprecated।"
+    },
+    {
+      "question": "Stdio server যুক্ত করার কমান্ডে `--` কেন দেওয়া হয়?",
+      "options": [
+        "কমান্ড দ্রুত চালানোর জন্য",
+        "Claude-এর নিজের অপশন আর server চালানোর কমান্ড আলাদা করতে",
+        "server-কে read-only করতে"
+      ],
+      "answer": 1,
+      "explanation": "`--`-এর পরের সবকিছু হুবহু server-এর কমান্ড হিসেবে যায়। না দিলে Claude Code server-এর flag-কেও নিজের অপশন ভেবে পার্স করতে চাইবে।"
+    },
+    {
+      "question": "টিমের সবার সাথে MCP server শেয়ার করতে কোন scope ব্যবহার করবেন?",
+      "options": [
+        "`local`",
+        "`user`",
+        "`project`"
+      ],
+      "answer": 2,
+      "explanation": "`project` scope প্রজেক্টের রুটে `.mcp.json` বানায়, যা git-এ commit করে টিমের সাথে শেয়ার করা যায়।"
+    },
+    {
+      "question": "`.mcp.json`-এ API key রাখার নিরাপদ উপায় কোনটা?",
+      "options": [
+        "সরাসরি key লিখে commit করা",
+        "`${API_KEY}`-এর মতো environment variable ব্যবহার করা",
+        "key-টা ফাইলের নামে লেখা"
+      ],
+      "answer": 1,
+      "explanation": "`.mcp.json` environment variable expansion সাপোর্ট করে, তাই আসল key রিপোতে না রেখেও কনফিগ শেয়ার করা যায়।"
+    }
+  ]
+}

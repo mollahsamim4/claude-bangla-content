@@ -1,0 +1,194 @@
+{
+  "id": "developer-18-claude-code-github-actions",
+  "track": "developer",
+  "order": 18,
+  "title": "Claude Code in GitHub Actions",
+  "summary": "GitHub-এ `@claude` দিয়ে কাজ করানো, নির্দিষ্ট সময়ে স্বয়ংক্রিয় কাজ চালানো আর credential নিরাপদ রাখার নিয়ম।",
+  "updatedAt": "2026-11-08",
+  "blocks": [
+    {
+      "type": "heading",
+      "text": "Claude in your GitHub workflow"
+    },
+    {
+      "type": "paragraph",
+      "text": "ভাবুন, GitHub-এ একটা issue-তে শুধু `@claude` লিখে অনুরোধ করলেন, আর Claude কোড বিশ্লেষণ করে পরিবর্তন করে commit push করে দিল। Claude Code GitHub Actions ঠিক এটাই করে — এটা একটা GitHub Action (`anthropics/claude-code-action`), যা আপনার রিপোজিটরির workflow-এর ভেতরে Claude Code চালায়। Issue থেকে pull request বানানো, কমেন্ট থেকে bug ঠিক করা, বা নিয়মিত রিপোর্ট তৈরির মতো কাজ স্বয়ংক্রিয় করা যায়। এটা Agent SDK-এর উপর তৈরি।"
+    },
+    {
+      "type": "heading",
+      "text": "Quick setup"
+    },
+    {
+      "type": "paragraph",
+      "text": "রিপোজিটরিতে admin access লাগবে। আগে GitHub CLI ইনস্টল করে `gh auth login` দিয়ে লগইন করুন। তারপর রিপোর ফোল্ডারে `claude` চালিয়ে এই কমান্ড দিন:"
+    },
+    {
+      "type": "code",
+      "code": "/install-github-app",
+      "language": "text"
+    },
+    {
+      "type": "paragraph",
+      "text": "Claude Code নিজেই Claude GitHub App ইনস্টল করবে, authentication secret সেট করবে, workflow ফাইলসহ একটা branch push করে pull request তৈরির জন্য ব্রাউজার খুলে দেবে। সেই PR merge করলেই রিপোতে `@claude` কাজ শুরু করে। এই কমান্ড শুধু github.com রিপোজিটরিতে কাজ করে।"
+    },
+    {
+      "type": "heading",
+      "text": "Manual setup"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "রিপোজিটরিতে Claude GitHub App ইনস্টল করুন: https://github.com/apps/claude",
+        "রিপোর secret-এ যেকোনো একটা যোগ করুন: Claude Console-এর API key হলে `ANTHROPIC_API_KEY`, আর Claude subscription দিয়ে চালাতে চাইলে `CLAUDE_CODE_OAUTH_TOKEN`।",
+        "নিচের workflow ফাইলটা `.github/workflows/claude.yml` নামে রিপোতে যোগ করুন।",
+        "কোনো issue বা PR কমেন্টে `@claude` লিখে পরীক্ষা করুন।"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Subscription token বানাতে নিজের কম্পিউটারে এই কমান্ড চালান। ডকস অনুযায়ী এটা Pro, Max, Ultra, Team আর Enterprise প্ল্যানে পাওয়া যায়:"
+    },
+    {
+      "type": "code",
+      "code": "claude setup-token",
+      "language": "bash"
+    },
+    {
+      "type": "heading",
+      "text": "Respond to @claude mentions"
+    },
+    {
+      "type": "paragraph",
+      "text": "এই workflow interactive মোডে চলে — কেউ issue বা PR কমেন্টে `@claude` লিখলে Claude উত্তর দেয়:"
+    },
+    {
+      "type": "code",
+      "code": "name: Claude Code\non:\n  issue_comment:\n    types: [created]\n  pull_request_review_comment:\n    types: [created]\njobs:\n  claude:\n    if: contains(github.event.comment.body, '@claude')\n    runs-on: ubuntu-latest\n    permissions:\n      contents: write\n      pull-requests: write\n      issues: write\n      id-token: write\n      actions: read\n    steps:\n      - uses: actions/checkout@v6\n        with:\n          fetch-depth: 1\n      - uses: anthropics/claude-code-action@v1\n        with:\n          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}",
+      "language": "yaml"
+    },
+    {
+      "type": "paragraph",
+      "text": "`id-token: write` Action-এর ডিফল্ট GitHub App authentication-এর জন্য দরকার, `actions: read` দিয়ে Claude PR-এর CI ফলাফল পড়তে পারে, আর `if` লাইনটা `@claude` নেই এমন কমেন্টে runner চালু হওয়া আটকায়। Subscription token ব্যবহার করলে `anthropic_api_key` লাইনটা বদলে দিন:"
+    },
+    {
+      "type": "code",
+      "code": "claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}",
+      "language": "yaml"
+    },
+    {
+      "type": "paragraph",
+      "text": "এরপর কমেন্টে এভাবে অনুরোধ করুন:"
+    },
+    {
+      "type": "prompt",
+      "text": "@claude fix the TypeError in the user dashboard component"
+    },
+    {
+      "type": "heading",
+      "text": "Interactive and automation modes"
+    },
+    {
+      "type": "paragraph",
+      "text": "Workflow-এ `prompt` input না দিলে Action interactive মোডে চলে — trigger phrase (ডিফল্ট `@claude`)-এর জন্য অপেক্ষা করে আর ফলাফল কমেন্টে দেয়। `prompt` দিলে automation মোডে চলে — কারো mention ছাড়াই যেকোনো GitHub event-এ, এমনকি নির্দিষ্ট সময়সূচিতেও। নিচের workflow প্রতিদিন 09:00 UTC-তে একটা রিপোর্ট বানিয়ে workflow run log-এ রাখে:"
+    },
+    {
+      "type": "code",
+      "code": "name: Daily Report\non:\n  schedule:\n    - cron: \"0 9 * * *\"\njobs:\n  report:\n    runs-on: ubuntu-latest\n    permissions:\n      contents: read\n      issues: read\n      id-token: write\n    steps:\n      - uses: anthropics/claude-code-action@v1\n        with:\n          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}\n          prompt: \"Generate a summary of yesterday's commits and open issues\"\n          claude_args: |\n            --model claude-opus-5-5\n            --allowedTools \"mcp__github__list_commits,mcp__github__list_issues\"",
+      "language": "yaml"
+    },
+    {
+      "type": "paragraph",
+      "text": "Plain-text prompt-এ Claude-এর shell বা GitHub API access থাকে না, যতক্ষণ না `claude_args`-এ `--allowedTools` দিয়ে দরকারি tool-এর অনুমতি দেন — উপরে যেমন দুটো GitHub MCP tool দেওয়া হয়েছে।"
+    },
+    {
+      "type": "heading",
+      "text": "Common action inputs"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "`prompt` — Claude-এর নির্দেশ (সাধারণ লেখা বা `/skill-name`)। না দিলে trigger phrase-এর জন্য অপেক্ষা করে।",
+        "`claude_args` — Claude Code-এর CLI argument, যেমন `--max-turns`, `--model`, `--allowedTools`, `--mcp-config`।",
+        "`anthropic_api_key` বা `claude_code_oauth_token` — authentication।",
+        "`github_token` — GitHub কাজের টোকেন; না দিলে Claude GitHub App হিসেবে authenticate করে।",
+        "`trigger_phrase` — ডিফল্ট `@claude`।",
+        "`settings`, `plugin_marketplaces`, `plugins` — settings আর plugin ইনস্টলের জন্য।"
+      ]
+    },
+    {
+      "type": "warning",
+      "text": "API key বা OAuth token কখনো সরাসরি রিপোতে commit করবেন না — সবসময় GitHub Secrets-এ রেখে `${{ secrets.ANTHROPIC_API_KEY }}`-এর মতো রেফারেন্স দিন। Workflow-কে শুধু দরকারি permission দিন, আর merge করার আগে Claude-এর পরিবর্তন নিজে রিভিউ করুন। ডিফল্টভাবে issue/PR event-এ শুধু রিপোতে write access থাকা user-রাই Claude চালাতে পারে, আর bot actor বাতিল হয় (যদি না `allowed_bots`-এ রাখেন) — এই সুরক্ষাগুলো বুঝে-শুনে বদলাবেন।"
+    },
+    {
+      "type": "tip",
+      "text": "খরচ নিয়ন্ত্রণে: প্রতিটা রান GitHub Actions minutes আর API token দুটোই খরচ করে। নির্দিষ্ট করে `@claude` অনুরোধ লিখুন, `claude_args`-এ `--max-turns` দিন, workflow-এ timeout রাখুন, আর CLAUDE.md সংক্ষিপ্ত রাখুন — কারণ Claude প্রতিটা রানে এটা পড়ে।"
+    },
+    {
+      "type": "heading",
+      "text": "Troubleshooting"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "`@claude`-তে সাড়া না দিলে: GitHub App ইনস্টল আছে কিনা, workflow চালু কিনা, secret সেট আছে কিনা, আর কমেন্টে `@claude` পুরো শব্দ হিসেবে আছে কিনা দেখুন (`/claude` বা `@claude-bot` না)।",
+        "Claude-এর commit-এ CI না চললে: ডিফল্ট `GITHUB_TOKEN`-এর commit-এ GitHub workflow চালায় না। `github_token: ${{ secrets.GITHUB_TOKEN }}` দিয়ে থাকলে সরিয়ে দিন।",
+        "পুরনো `anthropics/claude-code-action@beta` থাকলে `@v1`-এ বদলান, `mode` input সরান, `direct_prompt`-এর বদলে `prompt` দিন, আর `max_turns`/`model`-এর মতো অপশন `claude_args`-এ নিন।"
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "Recap"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "দ্রুত সেটআপ: Claude Code-এ `/install-github-app`।",
+        "Manual: GitHub App + secret (`ANTHROPIC_API_KEY` বা `CLAUDE_CODE_OAUTH_TOKEN`) + `.github/workflows/claude.yml`।",
+        "`prompt` না দিলে interactive (`@claude`), দিলে automation মোড।",
+        "Secret সবসময় GitHub Secrets-এ; permission ন্যূনতম; merge-এর আগে রিভিউ।"
+      ]
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Claude Code থেকে GitHub Actions দ্রুত সেটআপ করতে কোন কমান্ড চালাবেন?",
+      "options": [
+        "`/github-setup`",
+        "`/install-github-app`",
+        "`claude mcp add github`"
+      ],
+      "answer": 1,
+      "explanation": "`/install-github-app` GitHub App ইনস্টল, secret সেট আর workflow PR তৈরি — সব করে দেয়।"
+    },
+    {
+      "question": "Workflow-এ `prompt` input না দিলে Action কীভাবে চলে?",
+      "options": [
+        "চলেই না",
+        "Interactive মোডে — `@claude` mention-এর জন্য অপেক্ষা করে",
+        "প্রতি ঘণ্টায় নিজে থেকে চলে"
+      ],
+      "answer": 1,
+      "explanation": "`prompt` না থাকলে Action trigger phrase-এর জন্য অপেক্ষা করে। `prompt` দিলে automation মোডে চলে।"
+    },
+    {
+      "question": "Claude subscription দিয়ে Action চালাতে কোন secret লাগবে?",
+      "options": [
+        "`CLAUDE_CODE_OAUTH_TOKEN`",
+        "`GITHUB_TOKEN`",
+        "`CLAUDE_PASSWORD`"
+      ],
+      "answer": 0,
+      "explanation": "`claude setup-token` দিয়ে বানানো OAuth token `CLAUDE_CODE_OAUTH_TOKEN` নামে রেখে `claude_code_oauth_token` input-এ দিন।"
+    },
+    {
+      "question": "API key রাখার সঠিক উপায় কোনটা?",
+      "options": [
+        "workflow ফাইলে সরাসরি লেখা",
+        "GitHub Secrets-এ রেখে `${{ secrets.ANTHROPIC_API_KEY }}` দিয়ে রেফারেন্স করা",
+        "README-তে লেখা"
+      ],
+      "answer": 1,
+      "explanation": "Key কখনো রিপোতে commit করবেন না; GitHub Secrets ব্যবহার করুন।"
+    }
+  ]
+}

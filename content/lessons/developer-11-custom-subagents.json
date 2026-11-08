@@ -1,0 +1,198 @@
+{
+  "id": "developer-11-custom-subagents",
+  "track": "developer",
+  "order": 11,
+  "title": "Custom subagents",
+  "summary": "নিজের subagent বানিয়ে আলাদা context-এ নির্দিষ্ট কাজ করানো, tool সীমিত করা আর ডেকে ব্যবহার করার নিয়ম।",
+  "updatedAt": "2026-11-08",
+  "blocks": [
+    {
+      "type": "heading",
+      "text": "Why subagents?"
+    },
+    {
+      "type": "paragraph",
+      "text": "ধরুন আপনি Claude Code-কে বললেন পুরো প্রজেক্টে একটা ফাংশন কোথায় কোথায় ব্যবহার হয়েছে খুঁজে দিতে। খোঁজার সময় যত ফাইল, সার্চ রেজাল্ট আর লগ আসে, সব আপনার মূল কথোপকথনের context-এ জমা হয় — অথচ পরে এগুলোর বেশিরভাগ আর লাগে না। Subagent এই সমস্যার সমাধান। এটা একটা আলাদা, বিশেষ কাজের সহকারী: নিজের context window-এ কাজ করে, আর শেষে শুধু সারাংশটা মূল কথোপকথনে ফেরত দেয়।"
+    },
+    {
+      "type": "paragraph",
+      "text": "প্রতিটা subagent-এর নিজস্ব system prompt, নিজস্ব tool access আর আলাদা permission থাকে। একই ধরনের কাজের জন্য বারবার একই নির্দেশ লিখতে হলে সেটাকে একটা custom subagent বানিয়ে ফেলাই বুদ্ধিমানের কাজ। মনে রাখবেন, subagent নিজেও Claude-কে request পাঠায়, তাই এর ব্যবহার আপনার মূল কথোপকথনের মতোই একই usage limit-এ গোনা হয়।"
+    },
+    {
+      "type": "heading",
+      "text": "Built-in subagents"
+    },
+    {
+      "type": "paragraph",
+      "text": "Claude Code-এ কয়েকটা subagent আগে থেকেই দেওয়া আছে, Claude দরকার মনে করলে নিজেই এগুলো ব্যবহার করে:"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "`Explore` — দ্রুত, read-only agent; কোডবেস খোঁজা আর বোঝার জন্য। Write আর Edit ব্যবহার করতে পারে না।",
+        "`Plan` — plan mode-এ পরিকল্পনা বানানোর আগে কোডবেস রিসার্চ করে। এটাও read-only।",
+        "`general-purpose` — জটিল, একাধিক ধাপের কাজ, যেখানে খোঁজা আর কোড বদলানো দুটোই লাগে।"
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "Where subagent files live"
+    },
+    {
+      "type": "paragraph",
+      "text": "Subagent আসলে YAML frontmatter-সহ একটা Markdown ফাইল। ফাইলটা কোথায় রাখছেন, তার উপর নির্ভর করে কে এটা ব্যবহার করতে পারবে। একই নামের দুটো subagent থাকলে বেশি priority-র জায়গারটা জেতে:"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "Managed settings — পুরো organization-এর জন্য (সবচেয়ে বেশি priority)।",
+        "`--agents` CLI flag — শুধু চলতি session-এর জন্য, ডিস্কে সেভ হয় না।",
+        "`.claude/agents/` — শুধু এই প্রজেক্টে; git-এ commit করলে পুরো টিম পায়।",
+        "`~/.claude/agents/` — আপনার সব প্রজেক্টে।",
+        "Plugin-এর `agents/` ফোল্ডার — যেখানে plugin চালু আছে (সবচেয়ে কম priority)।"
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "Create your first subagent"
+    },
+    {
+      "type": "paragraph",
+      "text": "সবচেয়ে সহজ উপায় হলো Claude-কেই বলা ফাইলটা লিখে দিতে। Claude Code-এ এই prompt-টা দিন:"
+    },
+    {
+      "type": "prompt",
+      "text": "Create a personal code-improver subagent in ~/.claude/agents/ that scans\nfiles and suggests improvements for readability, performance, and best\npractices. It should explain each issue, show the current code, and\nprovide an improved version. Make it read-only and have it use Sonnet."
+    },
+    {
+      "type": "paragraph",
+      "text": "অথবা নিজেই ফাইল লিখুন। প্রজেক্টের ভেতরে `.claude/agents/code-reviewer.md` নামে এই ফাইলটা সেভ করুন — এটা একটা সম্পূর্ণ, কাজ করা subagent:"
+    },
+    {
+      "type": "code",
+      "code": "---\nname: code-reviewer\ndescription: Reviews code for quality and best practices\ntools: Read, Glob, Grep\nmodel: sonnet\n---\n\nYou are a code reviewer. When invoked, analyze the code and provide\nspecific, actionable feedback on quality, security, and best practices.",
+      "language": "markdown"
+    },
+    {
+      "type": "paragraph",
+      "text": "উপরের `---` চিহ্নের মাঝের অংশটা frontmatter (কনফিগারেশন), আর নিচের লেখাটাই subagent-এর system prompt। Subagent শুধু এই prompt আর working directory-র মতো কিছু মৌলিক তথ্য পায়, পুরো Claude Code system prompt পায় না।"
+    },
+    {
+      "type": "tip",
+      "text": "Claude Code `~/.claude/agents/` আর `.claude/agents/` ফোল্ডার নজরে রাখে, তাই ফাইল বদলালে সাধারণত restart লাগে না। তবে session শুরুর সময় `agents` ফোল্ডারটাই না থাকলে, প্রথম ফাইল বানানোর পর একবার restart করতে হবে।"
+    },
+    {
+      "type": "heading",
+      "text": "Frontmatter fields"
+    },
+    {
+      "type": "paragraph",
+      "text": "শুধু `name` আর `description` বাধ্যতামূলক। বাকিগুলো দরকার মতো যোগ করুন। একাধিক শব্দের ফিল্ডের নাম camelCase-এ লিখতে হয় (যেমন `maxTurns`, `disallowedTools`); বানান ভুল হলে Claude Code কোনো error না দেখিয়েই ফিল্ডটা উপেক্ষা করে।"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "`tools` — কোন কোন tool ব্যবহার করতে পারবে (allowlist)। না দিলে উপলব্ধ সব tool পায়।",
+        "`disallowedTools` — কোন tool বাদ যাবে (denylist)।",
+        "`model` — `sonnet`, `opus`, `haiku`, `fable`, পুরো model ID (যেমন `claude-opus-5-5`), অথবা `inherit`।",
+        "`permissionMode` — যেমন `default`, `acceptEdits`, `plan` ইত্যাদি।",
+        "`maxTurns` — সর্বোচ্চ কতগুলো agentic turn চলবে।",
+        "`skills`, `mcpServers`, `hooks` — এই subagent-এর জন্য আলাদা skill, MCP server আর hook।",
+        "`memory` — `user`, `project` বা `local`; session পেরিয়েও শেখা জিনিস মনে রাখার জন্য।",
+        "`isolation: worktree` — আলাদা git worktree-তে চালায়, যাতে মূল কোডে হাত না পড়ে।"
+      ]
+    },
+    {
+      "type": "tip",
+      "text": "`description`-এ \"use proactively\" জাতীয় কথা লিখলে Claude নিজে থেকেই ওই subagent-কে কাজ দিতে বেশি আগ্রহী হয়। তবে description ছোট রাখুন — সব description context-এ জায়গা নেয়; বিস্তারিত নির্দেশ system prompt-এ লিখুন।"
+    },
+    {
+      "type": "heading",
+      "text": "Invoke a subagent"
+    },
+    {
+      "type": "paragraph",
+      "text": "Claude নিজেই description দেখে ঠিক করে কখন কোন subagent-কে কাজ দেবে। তবে আপনি নিজেও বলে দিতে পারেন। সাধারণ ভাষায় নাম ধরে বলুন:"
+    },
+    {
+      "type": "prompt",
+      "text": "Use the code-reviewer subagent to look at my recent changes"
+    },
+    {
+      "type": "paragraph",
+      "text": "নিশ্চিতভাবে নির্দিষ্ট subagent চালাতে চাইলে `@` লিখে typeahead থেকে বেছে নিন (@-mention):"
+    },
+    {
+      "type": "prompt",
+      "text": "@\"code-reviewer (agent)\" look at the auth changes"
+    },
+    {
+      "type": "paragraph",
+      "text": "পুরো session-টাই কোনো subagent হিসেবে চালাতে চাইলে `--agent` flag দিন। তখন মূল কথোপকথনেই ওই subagent-এর tool সীমা, model আর system prompt চলে:"
+    },
+    {
+      "type": "code",
+      "code": "claude --agent code-reviewer",
+      "language": "bash"
+    },
+    {
+      "type": "warning",
+      "text": "Subagent-কে `Bash` বা `Edit`-এর মতো tool দিলে সে কমান্ড চালাতে বা ফাইল বদলাতে পারবে। শুধু রিভিউ বা রিসার্চের কাজ হলে `tools: Read, Grep, Glob`-এর মতো read-only তালিকা দিন। আর নিরাপত্তার কারণে plugin থেকে আসা subagent-এর `hooks`, `mcpServers` ও `permissionMode` ফিল্ড উপেক্ষা করা হয়।"
+    },
+    {
+      "type": "heading",
+      "text": "Recap"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "Subagent আলাদা context-এ কাজ করে শুধু সারাংশ ফেরত দেয়, তাই মূল কথোপকথন পরিষ্কার থাকে।",
+        "ফাইল রাখুন `.claude/agents/` (প্রজেক্ট) বা `~/.claude/agents/` (সব প্রজেক্ট)-এ।",
+        "`name` আর `description` বাধ্যতামূলক; `tools` দিয়ে ক্ষমতা সীমিত করুন।",
+        "নাম ধরে বলুন, @-mention করুন, অথবা `claude --agent <name>` দিয়ে পুরো session চালান।"
+      ]
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Subagent ব্যবহারের প্রধান সুবিধা কোনটা?",
+      "options": [
+        "এটা usage limit-এ গোনা হয় না",
+        "নিজের context-এ কাজ করে শুধু সারাংশ ফেরত দেয়, ফলে মূল context পরিষ্কার থাকে",
+        "এটা সবসময় Claude Code-এর চেয়ে দ্রুত মডেল চালায়"
+      ],
+      "answer": 1,
+      "explanation": "Subagent আলাদা context window-এ কাজ করে আর শুধু ফলাফলটা ফেরত দেয়। তবে এর request-ও একই usage limit-এ গোনা হয়।"
+    },
+    {
+      "question": "কোন জায়গায় রাখা subagent আপনার সব প্রজেক্টে পাওয়া যাবে?",
+      "options": [
+        "`.claude/agents/`",
+        "`~/.claude/agents/`",
+        "`.claude/skills/`"
+      ],
+      "answer": 1,
+      "explanation": "`~/.claude/agents/` হলো user-level ফোল্ডার, তাই এখানকার subagent সব প্রজেক্টে কাজ করে। `.claude/agents/` শুধু ওই প্রজেক্টের জন্য।"
+    },
+    {
+      "question": "Subagent ফাইলের frontmatter-এ কোন দুটো ফিল্ড বাধ্যতামূলক?",
+      "options": [
+        "`name` আর `description`",
+        "`tools` আর `model`",
+        "`name` আর `model`"
+      ],
+      "answer": 0,
+      "explanation": "শুধু `name` আর `description` লাগবেই। `description` দেখেই Claude ঠিক করে কখন subagent-কে কাজ দেবে।"
+    },
+    {
+      "question": "একটা রিভিউ subagent যেন কোনো ফাইল বদলাতে না পারে, তার জন্য কী করবেন?",
+      "options": [
+        "`model: haiku` দেবেন",
+        "`tools: Read, Grep, Glob` দিয়ে read-only tool দেবেন",
+        "`color: red` দেবেন"
+      ],
+      "answer": 1,
+      "explanation": "`tools` ফিল্ড allowlist হিসেবে কাজ করে। Edit/Write না দিলে subagent ফাইল বদলাতে পারবে না।"
+    }
+  ]
+}

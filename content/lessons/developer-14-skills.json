@@ -1,0 +1,201 @@
+{
+  "id": "developer-14-skills",
+  "track": "developer",
+  "order": 14,
+  "title": "Skills",
+  "summary": "SKILL.md দিয়ে নিজের skill বানানো, argument নেওয়া, supporting file যোগ করা আর কে skill চালাবে তা নিয়ন্ত্রণ করা।",
+  "updatedAt": "2026-11-08",
+  "blocks": [
+    {
+      "type": "heading",
+      "text": "Why skills?"
+    },
+    {
+      "type": "paragraph",
+      "text": "একই checklist, একই রিভিউ পদ্ধতি বা একই ধাপের নির্দেশ যদি বারবার চ্যাটে পেস্ট করতে হয়, তাহলে সেটাকে একটা skill বানিয়ে ফেলুন। Skill হলো একটা ফোল্ডার, যার ভেতরে `SKILL.md` নামে একটা ফাইল থাকে। Claude প্রাসঙ্গিক মনে করলে নিজেই skill ব্যবহার করে, আবার আপনি `/skill-name` লিখে সরাসরিও চালাতে পারেন।"
+    },
+    {
+      "type": "paragraph",
+      "text": "CLAUDE.md-এর সাথে বড় পার্থক্য হলো: CLAUDE.md প্রতিটা session-এ পুরোটা লোড হয়, কিন্তু skill-এর শুধু description সবসময় context-এ থাকে; পুরো লেখাটা লোড হয় কেবল ব্যবহারের সময়। তাই লম্বা রেফারেন্স রাখলেও প্রায় খরচ হয় না। আর আগের custom command (`.claude/commands/deploy.md`) এখন skill-এরই অংশ — পুরনো ফাইলগুলো আগের মতোই কাজ করে।"
+    },
+    {
+      "type": "heading",
+      "text": "Create your first skill"
+    },
+    {
+      "type": "paragraph",
+      "text": "এই উদাহরণটা git রিপোর uncommitted পরিবর্তনের সারাংশ বানায় আর ঝুঁকিপূর্ণ কিছু থাকলে জানায়। প্রথমে আপনার personal skills ফোল্ডারে একটা ডিরেক্টরি বানান:"
+    },
+    {
+      "type": "code",
+      "code": "mkdir -p ~/.claude/skills/summarize-changes",
+      "language": "bash"
+    },
+    {
+      "type": "paragraph",
+      "text": "তারপর `~/.claude/skills/summarize-changes/SKILL.md` ফাইলে এটা সেভ করুন:"
+    },
+    {
+      "type": "code",
+      "code": "---\ndescription: Summarizes uncommitted changes and flags anything risky. Use when the user asks what changed, wants a commit message, or asks to review their diff.\n---\n\n## Current changes\n\n!`git diff HEAD`\n\n## Instructions\n\nSummarize the changes above in two or three bullet points, then list any risks you notice such as missing error handling, hardcoded values, or tests that need updating. If the diff is empty, say there are no uncommitted changes.",
+      "language": "markdown"
+    },
+    {
+      "type": "paragraph",
+      "text": "`` !`git diff HEAD` `` লাইনটার নাম dynamic context injection: skill-এর লেখা Claude-এর কাছে যাওয়ার আগেই Claude Code কমান্ডটা চালায় আর লাইনটার জায়গায় আসল output বসিয়ে দেয়। ফলে Claude অনুমান না করে আপনার আসল diff দেখে কাজ করে। এই কমান্ডগুলো আপনার permission rule দিয়ে যাচাই হয়।"
+    },
+    {
+      "type": "paragraph",
+      "text": "এবার কোনো git প্রজেক্টে একটা ছোট এডিট করে `claude` চালান। দুইভাবে পরীক্ষা করতে পারেন — description-এর সাথে মেলে এমন প্রশ্ন করে:"
+    },
+    {
+      "type": "prompt",
+      "text": "What did I change?"
+    },
+    {
+      "type": "paragraph",
+      "text": "অথবা সরাসরি skill-এর নাম লিখে:"
+    },
+    {
+      "type": "prompt",
+      "text": "/summarize-changes"
+    },
+    {
+      "type": "heading",
+      "text": "Where skills live"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "Personal: `~/.claude/skills/<skill-name>/SKILL.md` — এই কম্পিউটারে আপনার সব প্রজেক্টে।",
+        "Project: `.claude/skills/<skill-name>/SKILL.md` — এই রিপোজিটরিতে; commit করলে টিম পায়।",
+        "Plugin: `<plugin>/skills/<skill-name>/SKILL.md` — plugin চালু থাকলে, `/plugin-name:skill-name` নামে।",
+        "Enterprise: organization-এর managed settings ডিরেক্টরি থেকে সব user-এর জন্য।"
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "Frontmatter fields"
+    },
+    {
+      "type": "paragraph",
+      "text": "সব ফিল্ড ঐচ্ছিক, তবে `description` দেওয়া জোরালোভাবে সুপারিশ করা হয় — এটা দেখেই Claude ঠিক করে কখন skill লোড করবে। ফিল্ডের নাম ছোট হাতের অক্ষরে, হাইফেন দিয়ে লেখা হয় (ব্যতিক্রম `when_to_use`)।"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "`name` — `/` মেনুতে দেখানো নাম; না দিলে ফোল্ডারের নাম।",
+        "`description` — skill কী করে আর কখন ব্যবহার করতে হবে।",
+        "`disable-model-invocation: true` — Claude নিজে থেকে চালাতে পারবে না, শুধু আপনি `/name` দিয়ে চালাবেন।",
+        "`user-invocable: false` — শুধু Claude ব্যবহার করবে; `/` মেনুতে দেখাবে না।",
+        "`allowed-tools` — skill চালু থাকা turn-এ কোন tool অনুমতি ছাড়াই চলবে।",
+        "`argument-hint` — autocomplete-এ কী argument লাগবে তার ইঙ্গিত, যেমন `[issue-number]`।",
+        "`context: fork` আর `agent` — skill-টা একটা আলাদা subagent-এ চালাতে।",
+        "`paths` — নির্দিষ্ট glob pattern-এর ফাইলে কাজ করলেই শুধু স্বয়ংক্রিয়ভাবে লোড হবে।"
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "Pass arguments"
+    },
+    {
+      "type": "paragraph",
+      "text": "`$ARGUMENTS` placeholder-এর জায়গায় skill-এর নামের পরে আপনি যা লেখেন সেটা বসে। নিচের skill-টা `.claude/skills/fix-issue/SKILL.md`-এ রাখুন:"
+    },
+    {
+      "type": "code",
+      "code": "---\nname: fix-issue\ndescription: Fix a GitHub issue\ndisable-model-invocation: true\n---\n\nFix GitHub issue $ARGUMENTS following our coding standards.\n\n1. Read the issue description\n2. Understand the requirements\n3. Implement the fix\n4. Write tests\n5. Create a commit",
+      "language": "markdown"
+    },
+    {
+      "type": "paragraph",
+      "text": "এখন `/fix-issue 123` লিখলে Claude পায় \"Fix GitHub issue 123 following our coding standards...\"। আলাদা আলাদা argument দরকার হলে `$0`, `$1` (বা `$ARGUMENTS[0]`, `$ARGUMENTS[1]`) ব্যবহার করুন।"
+    },
+    {
+      "type": "heading",
+      "text": "Add supporting files"
+    },
+    {
+      "type": "paragraph",
+      "text": "বড় রেফারেন্স ডকুমেন্ট, উদাহরণ বা script আলাদা ফাইলে রাখুন, আর `SKILL.md` থেকে সেগুলোর কথা উল্লেখ করুন। Claude দরকার হলেই সেগুলো পড়বে:"
+    },
+    {
+      "type": "code",
+      "code": "my-skill/\n├── SKILL.md (required - overview and navigation)\n├── reference.md (detailed API docs - loaded when needed)\n├── examples.md (usage examples - loaded when needed)\n└── scripts/\n    └── helper.py (utility script - executed, not loaded)",
+      "language": "text"
+    },
+    {
+      "type": "tip",
+      "text": "`SKILL.md` ৫০০ লাইনের নিচে রাখুন; বিস্তারিত অংশ আলাদা ফাইলে সরিয়ে দিন। যেসব কাজে বাস্তব প্রভাব পড়ে — যেমন deploy বা commit — সেগুলোতে `disable-model-invocation: true` দিন, যাতে কোড \"তৈরি মনে হচ্ছে\" বলে Claude নিজে থেকে deploy না করে ফেলে।"
+    },
+    {
+      "type": "warning",
+      "text": "অন্যের রিপোজিটরির skill অন্ধভাবে বিশ্বাস করবেন না। একটা skill `allowed-tools` দিয়ে নিজেকে বিস্তৃত tool অনুমতি দিতে পারে, আর এই ফিল্ড workspace trust-এর উপর নির্ভর করে না — অচেনা ফোল্ডারে `-p` রানেও প্রয়োগ হয়। তাই কোনো রিপোতে Claude Code চালানোর আগে তার `.claude/skills/`-এর skill-গুলোর `allowed-tools` আর `!` কমান্ড দেখে নিন।"
+    },
+    {
+      "type": "heading",
+      "text": "Recap"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "Skill = `SKILL.md` ফাইলসহ একটা ফোল্ডার; description সবসময় context-এ, পুরো লেখা লাগলে তবেই।",
+        "Personal skill `~/.claude/skills/`-এ, project skill `.claude/skills/`-এ রাখুন।",
+        "`/skill-name` দিয়ে চালান; `$ARGUMENTS` দিয়ে input নিন।",
+        "Side effect আছে এমন skill-এ `disable-model-invocation: true` দিন, আর রিপোর skill রিভিউ করুন।"
+      ]
+    }
+  ],
+  "quiz": [
+    {
+      "question": "একটা skill-এর জন্য কোন ফাইলটা অবশ্যই লাগবে?",
+      "options": [
+        "`skill.json`",
+        "`SKILL.md`",
+        "`CLAUDE.md`"
+      ],
+      "answer": 1,
+      "explanation": "প্রতিটা skill ফোল্ডারে একটা `SKILL.md` থাকতে হয় — frontmatter আর নির্দেশসহ।"
+    },
+    {
+      "question": "CLAUDE.md-এর তুলনায় skill-এর একটা সুবিধা কী?",
+      "options": [
+        "Skill-এর পুরো লেখা শুধু ব্যবহারের সময় লোড হয়, তাই লম্বা রেফারেন্সেও context খরচ কম",
+        "Skill কখনো context-এ জায়গা নেয় না",
+        "Skill শুধু ক্লাউডে চলে"
+      ],
+      "answer": 0,
+      "explanation": "সাধারণ session-এ skill-এর শুধু description context-এ থাকে; পুরো লেখা লোড হয় invoke করার সময়।"
+    },
+    {
+      "question": "কোনো deploy skill যেন Claude নিজে থেকে না চালায়, তার জন্য কোন ফিল্ড দেবেন?",
+      "options": [
+        "`user-invocable: false`",
+        "`disable-model-invocation: true`",
+        "`context: fork`"
+      ],
+      "answer": 1,
+      "explanation": "`disable-model-invocation: true` দিলে শুধু আপনি `/deploy` লিখে চালাতে পারবেন। `user-invocable: false` উল্টো কাজ করে — শুধু Claude চালাতে পারে।"
+    },
+    {
+      "question": "`/fix-issue 123` চালালে skill-এর লেখায় `$ARGUMENTS`-এর জায়গায় কী বসবে?",
+      "options": [
+        "`fix-issue`",
+        "`123`",
+        "কিছুই না"
+      ],
+      "answer": 1,
+      "explanation": "`$ARGUMENTS` হলো skill-এর নামের পরে যা লেখা হয় তার পুরোটা — এখানে `123`।"
+    },
+    {
+      "question": "`` !`git diff HEAD` `` লাইনটা কী করে?",
+      "options": [
+        "Claude-কে কমান্ডটা চালাতে নিষেধ করে",
+        "Skill-এর লেখা Claude-এর কাছে যাওয়ার আগে কমান্ড চালিয়ে তার output বসিয়ে দেয়",
+        "git ইতিহাস মুছে দেয়"
+      ],
+      "answer": 1,
+      "explanation": "এটা dynamic context injection: Claude Code আগে কমান্ড চালায়, তারপর output সহ skill-এর লেখা Claude-কে পাঠায়।"
+    }
+  ]
+}
