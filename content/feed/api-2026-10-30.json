@@ -1,0 +1,9 @@
+{
+  "id": "api-2026-10-30",
+  "source": "claude-api",
+  "date": "2026-10-30",
+  "title": "Claude API — October 30, 2026",
+  "summary": "Claude Opus 4.8-এর জন্য fast mode এখন deprecated করা হয়েছে এবং ৩০ নভেম্বর, ২০২৬ তারিখে এটি সম্পূর্ণ সরিয়ে দেওয়া হবে। এরপর `claude-opus-4-8` মডেলে `speed: \"fast\"` দিয়ে request পাঠালে error আসবে। fast mode ব্যবহার চালিয়ে যেতে চাইলে আপনাকে Claude Opus 5.5-এ migrate করতে হবে।",
+  "originalEn": "* We’ve deprecated [fast mode](https://platform.claude.com/docs/en/build-with-claude/fast-mode) for Claude Opus 4.8, with removal on November 30, 2026. After removal, requests to `claude-opus-4-8` with `speed: \"fast\"` will return an error. To continue using fast mode, migrate to [Claude Opus 5.5](https://platform.claude.com/docs/en/models/opus-5-5/migration-guide#migrating-from-claude-opus-4-8). Read more in [Fast mode model availability](https://platform.claude.com/docs/en/build-with-claude/fast-mode#supported-models).",
+  "url": "https://platform.claude.com/docs/en/release-notes/overview"
+}
