@@ -9,7 +9,7 @@ import { runPipeline, type PipelineDeps } from '../scripts/release-notes/run';
 import { fetchSourceText, REGISTRY, SOURCES, type RawItem } from '../scripts/release-notes/sources';
 import { buildPrompt, MAX_ENGLISH_CHARS, summarize, TRUNCATION_MARKER } from '../scripts/release-notes/summarize';
 
-const BN = 'এটি একটি বাংলা সারাংশ।';
+const BN = 'এটি একটি বাংলা সারাংশ। এই আপডেটে নতুন সুবিধা যোগ হয়েছে এবং কয়েকটি সমস্যা ঠিক করা হয়েছে।';
 const claudeOut = (summary: string) => JSON.stringify({ type: 'result', is_error: false, result: JSON.stringify({ summary }) });
 const raw = (over: Partial<RawItem> = {}): RawItem => ({
   id: 'api-2026-11-05',

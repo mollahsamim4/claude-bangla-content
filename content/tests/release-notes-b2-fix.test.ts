@@ -16,7 +16,7 @@ import { envWithout } from '../scripts/release-notes/runner';
 import { MAX_SUMMARY_CHARS, summarize } from '../scripts/release-notes/summarize';
 import type { RawItem } from '../scripts/release-notes/sources';
 
-const BN = 'এটি একটি বাংলা সারাংশ।';
+const BN = 'এটি একটি বাংলা সারাংশ। এই আপডেটে নতুন সুবিধা যোগ হয়েছে এবং কয়েকটি সমস্যা ঠিক করা হয়েছে।';
 const claudeOut = (summary: string) => JSON.stringify({ is_error: false, result: JSON.stringify({ summary }) });
 const raw = (over: Partial<RawItem> = {}): RawItem => ({
   id: 'api-2026-11-05',
@@ -147,9 +147,19 @@ describe('6. PR body hardening', () => {
 
 describe('7. Bengali check', () => {
   const ok = async (s: string) => (await summarize(raw(), async () => ({ code: 0, stdout: claudeOut(s), stderr: '' }))).ok;
-  test('needs >= 40% Bengali letters', async () => {
+  test('needs mostly-Bengali prose (by script, vowel signs included)', async () => {
     expect(await ok('ক ' + 'English words only here for the rest of this sentence')).toBe(false);
     expect(await ok('Claude Console-এ নতুন সুবিধা যোগ হয়েছে, যা আপনি এখন ব্যবহার করতে পারবেন।')).toBe(true);
+    expect(await ok('This release adds MCP tasks, a new permissions setting and many bug fixes for Claude Code users. এটি ভালো।')).toBe(false);
+  });
+  test('accepts a real tech-heavy Bengali summary (failed the old letter-only 40% check on CI)', async () => {
+    const real =
+      'Messages API-তে এখন beta হিসেবে message threads এসেছে, যা `message-threads-2026-08-12` beta header দিয়ে ব্যবহার করা যায়। এতে API পুরো কথোপকথন server-এ রেখে দেয়, তাই পরের প্রতিটি request-এ শুধু নতুন messages পাঠালেই হয়। এর ফলে লম্বা কথোপকথন ও agent loop-এ request ছোট হয় এবং time to first token কম লাগে। শেষ request-এর ৫ মিনিট পরে thread-এর মেয়াদ শেষ হয়ে যায় এবং শেষবার ব্যবহারের পর বড়জোর ১ ঘণ্টার মধ্যে সেটি মুছে ফেলা হয়। এটি Claude API, Claude Platform on AWS, Claude Models on Google Cloud (Anthropic managed) এবং Claude in Microsoft Foundry-তে পাওয়া যাচ্ছে।';
+    expect(await ok(real)).toBe(true);
+    // Command-heavy but genuinely Bengali: old letter-only ratio 0.19, script ratio (code spans ignored) 0.40.
+    const heavy =
+      'Claude Code-এ নতুন `permissions.denyInsteadOfPrompting` setting, `/claude-api latency-optimize` command, MCP tasks আর LLM gateway-এর auto mode এসেছে, যা `CLAUDE_CODE_AUTO_MODE_SERVER` দিয়ে নিয়ন্ত্রণ করা যায়; Bash permission bypass ও worktree sandbox escape-সহ কয়েকটি security সমস্যাও ঠিক করা হয়েছে।';
+    expect(await ok(heavy)).toBe(true);
   });
   test('rejects overlong summaries', async () => {
     expect(await ok('ক'.repeat(MAX_SUMMARY_CHARS + 1))).toBe(false);

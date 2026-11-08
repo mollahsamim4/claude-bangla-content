@@ -8,7 +8,21 @@ export const MAX_ENGLISH_CHARS = 20_000;
 export const TRUNCATION_MARKER = '[…truncated — see original]';
 export const CLAUDE_TIMEOUT_MS = 120_000;
 export const MAX_SUMMARY_CHARS = 1500;
-const MIN_BENGALI_RATIO = 0.4;
+/** Share of Bengali-script characters among Bengali + Latin letters, inline `code` ignored. */
+const MIN_BENGALI_RATIO = 0.3;
+const MIN_BENGALI_CHARS = 30;
+
+/**
+ * Counts by script: Bengali vowel signs (া ি ী …) are Unicode marks, not letters, so a letter-only
+ * count undercounts Bengali badly. Inline code (commands, flags, headers) is kept in English by design
+ * and is excluded.
+ */
+export function bengaliShare(summary: string): { share: number; bengali: number } {
+  const prose = summary.replace(/`[^`]*`/g, ' ');
+  const bengali = (prose.match(/[ঀ-৿]/g) ?? []).length;
+  const latin = (prose.match(/[A-Za-z]/g) ?? []).length;
+  return { share: bengali + latin === 0 ? 0 : bengali / (bengali + latin), bengali };
+}
 
 export type SummarizeResult = { ok: true; summary: string } | { ok: false; reason: string };
 
@@ -54,9 +68,10 @@ function extractSummary(stdout: string): string {
   const summary = inner.summary.normalize('NFC').trim();
   if (!summary) throw new Error('summary empty');
   if (summary.length > MAX_SUMMARY_CHARS) throw new Error('summary too long');
-  const letters = summary.match(/\p{L}/gu) ?? [];
-  const bengali = letters.filter((c) => /[ঀ-৿]/.test(c)).length;
-  if (bengali === 0 || bengali / letters.length < MIN_BENGALI_RATIO) throw new Error('summary is not mostly Bengali');
+  const { share, bengali } = bengaliShare(summary);
+  if (bengali < MIN_BENGALI_CHARS || share < MIN_BENGALI_RATIO) {
+    throw new Error(`summary is not mostly Bengali (share ${share.toFixed(2)}, ${bengali} Bengali chars)`);
+  }
   return summary;
 }
 
