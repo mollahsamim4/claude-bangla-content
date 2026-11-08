@@ -1,7 +1,7 @@
 {
   "formatVersion": 1,
-  "commit": "597f549c3a7b3c0168d8bda6443c9484a0096a48",
-  "generatedAt": "2026-11-08T16:52:57.563Z",
+  "commit": "e013c941d681dd62f27b26750d5f5569d0c46ee4",
+  "generatedAt": "2026-11-08T17:01:08.192Z",
   "files": [
     {
       "path": "coming-soon/sample.json",
@@ -156,6 +156,11 @@
     {
       "path": "feed/2026-11-08-welcome.json",
       "hash": "b5341aaa53053ac9",
+      "kind": "feed"
+    },
+    {
+      "path": "feed/api-2026-10-28.json",
+      "hash": "48aea1c22568a4f0",
       "kind": "feed"
     },
     {
