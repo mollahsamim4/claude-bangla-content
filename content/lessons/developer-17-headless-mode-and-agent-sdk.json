@@ -1,0 +1,254 @@
+{
+  "id": "developer-17-headless-mode-and-agent-sdk",
+  "track": "developer",
+  "order": 17,
+  "title": "Headless mode & the Agent SDK",
+  "summary": "`claude -p` দিয়ে script ও CI-তে Claude Code চালানো, আর Agent SDK দিয়ে Python/TypeScript-এ নিজের agent বানানো।",
+  "updatedAt": "2026-11-08",
+  "blocks": [
+    {
+      "type": "heading",
+      "text": "Run Claude Code without the chat"
+    },
+    {
+      "type": "paragraph",
+      "text": "এতক্ষণ আমরা Claude Code ব্যবহার করেছি কথোপকথনের মতো করে। কিন্তু ধরুন আপনি চান কোনো build script, cron job বা CI pipeline নিজে থেকেই Claude-কে দিয়ে কাজ করাক — কেউ বসে টাইপ করবে না। এর জন্য আছে non-interactive বা headless মোড: `claude -p`। আর নিজের Python বা TypeScript অ্যাপের ভেতরে Claude Code-এর একই agent loop, tool আর context management চাইলে আছে Agent SDK।"
+    },
+    {
+      "type": "heading",
+      "text": "The -p flag"
+    },
+    {
+      "type": "paragraph",
+      "text": "যেকোনো `claude` কমান্ডে `-p` (বা `--print`) দিলে এটা একবার চলে, উত্তর print করে, তারপর বেরিয়ে যায়:"
+    },
+    {
+      "type": "code",
+      "code": "claude -p \"What does the auth module do?\"",
+      "language": "bash"
+    },
+    {
+      "type": "paragraph",
+      "text": "সফল হলে exit code `0`, ব্যর্থ হলে non-zero — তাই script-এ সহজেই শর্ত বসানো যায়। এটা stdin-ও পড়ে, তাই অন্য কমান্ডের output pipe করে দিতে পারেন:"
+    },
+    {
+      "type": "code",
+      "code": "cat build-error.txt | claude -p 'concisely explain the root cause of this build error' > output.txt",
+      "language": "bash"
+    },
+    {
+      "type": "heading",
+      "text": "Auto-approve tools"
+    },
+    {
+      "type": "paragraph",
+      "text": "Headless মোডে কেউ permission prompt-এ \"হ্যাঁ\" বলার নেই। তাই `--allowedTools` দিয়ে আগেই বলে দিন কোন tool অনুমতি ছাড়া চলবে:"
+    },
+    {
+      "type": "code",
+      "code": "claude -p \"Run the test suite and fix any failures\" \\\n  --allowedTools \"Bash,Read,Edit\"",
+      "language": "bash"
+    },
+    {
+      "type": "paragraph",
+      "text": "আরও সূক্ষ্ম নিয়ন্ত্রণের জন্য permission rule syntax ব্যবহার করা যায়। যেমন নিচের কমান্ড শুধু নির্দিষ্ট git কমান্ড চালাতে দেয়। ` *`-এর আগের স্পেসটা জরুরি: `Bash(git diff *)` মানে `git diff` দিয়ে শুরু হওয়া কমান্ড।"
+    },
+    {
+      "type": "code",
+      "code": "claude -p \"Look at my staged changes and create an appropriate commit\" \\\n  --allowedTools \"Bash(git diff *),Bash(git log *),Bash(git status *),Bash(git commit *)\"",
+      "language": "bash"
+    },
+    {
+      "type": "paragraph",
+      "text": "পুরো session-এর জন্য একটা baseline দিতে `--permission-mode` দিন, যেমন `acceptEdits` (ফাইল এডিট অনুমতি ছাড়াই) বা `dontAsk` (যা prompt চাইত তা বাতিল — locked-down CI-এর জন্য উপযোগী)।"
+    },
+    {
+      "type": "heading",
+      "text": "Structured output"
+    },
+    {
+      "type": "paragraph",
+      "text": "`--output-format` দিয়ে উত্তরের ফরম্যাট ঠিক করুন: `text` (ডিফল্ট), `json` (ফলাফল, session ID আর metadata সহ), বা `stream-json` (রিয়েল-টাইম স্ট্রিমিং)। নির্দিষ্ট JSON Schema মেনে উত্তর চাইলে `--json-schema` দিন; ফলাফল আসবে `structured_output` ফিল্ডে:"
+    },
+    {
+      "type": "code",
+      "code": "claude -p \"Extract the main function names from auth.py\" \\\n  --output-format json \\\n  --json-schema '{\"type\":\"object\",\"properties\":{\"functions\":{\"type\":\"array\",\"items\":{\"type\":\"string\"}}},\"required\":[\"functions\"]}' \\\n  | jq '.structured_output'",
+      "language": "bash"
+    },
+    {
+      "type": "paragraph",
+      "text": "আগের কথোপকথন চালিয়ে যেতে `--continue` (সবশেষ কথোপকথন) বা `--resume <session-id>` ব্যবহার করুন:"
+    },
+    {
+      "type": "code",
+      "code": "claude -p \"Review this codebase for performance issues\"\nclaude -p \"Now focus on the database queries\" --continue",
+      "language": "bash"
+    },
+    {
+      "type": "heading",
+      "text": "Bare mode for CI"
+    },
+    {
+      "type": "paragraph",
+      "text": "`--bare` দিলে Claude Code hook, skill, subagent, plugin, MCP server, auto memory আর CLAUDE.md খুঁজে লোড করে না — তাই দ্রুত চালু হয় আর প্রতিটা মেশিনে একই ফল দেয়। Bare মোড আপনার subscription login ব্যবহার করে না, তাই আগে `ANTHROPIC_API_KEY` সেট করতে হয়:"
+    },
+    {
+      "type": "code",
+      "code": "claude --bare -p \"Summarize README.md\" --allowedTools \"Read\"",
+      "language": "bash"
+    },
+    {
+      "type": "warning",
+      "text": "`--bare` ছাড়া `claude -p` চালালে প্রজেক্টের `.claude/settings.json`-এর hook চলে আর `.mcp.json`-এর server যুক্ত হয় — এমনকি এমন ফোল্ডারেও যেটাকে আপনি কখনো trust করেননি, কারণ `-p` মোডে workspace trust dialog বা server approval prompt দেখানো হয় না। অন্যের লেখা রিপোজিটরিতে script চালানোর আগে তার `.claude/` ফাইলগুলো দেখে নিন, অথবা `--bare` ব্যবহার করুন।"
+    },
+    {
+      "type": "heading",
+      "text": "Build an agent with the Agent SDK"
+    },
+    {
+      "type": "paragraph",
+      "text": "Agent SDK হলো Claude Code-কে লাইব্রেরি হিসেবে ব্যবহার করার উপায় — Python আর TypeScript-এ। এতে built-in tool, hook, subagent, MCP, permission আর session — সবই পাওয়া যায়। লাগবে Node.js 18.14+ অথবা Python 3.10+, আর Claude Console থেকে একটা API key। চলুন একটা agent বানাই যেটা কোডের bug খুঁজে ঠিক করে।"
+    },
+    {
+      "type": "paragraph",
+      "text": "Python (pip) দিয়ে সেটআপ — macOS/Linux-এ:"
+    },
+    {
+      "type": "code",
+      "code": "mkdir my-agent\ncd my-agent\npython3 -m venv .venv\nsource .venv/bin/activate\npip install claude-agent-sdk\nexport ANTHROPIC_API_KEY=your-api-key",
+      "language": "bash"
+    },
+    {
+      "type": "paragraph",
+      "text": "Windows PowerShell-এ:"
+    },
+    {
+      "type": "code",
+      "code": "mkdir my-agent\ncd my-agent\npy -m venv .venv\n.venv\\Scripts\\Activate.ps1\npip install claude-agent-sdk\n$env:ANTHROPIC_API_KEY = \"your-api-key\"",
+      "language": "powershell"
+    },
+    {
+      "type": "paragraph",
+      "text": "একই ফোল্ডারে ইচ্ছা করে bug রাখা একটা `utils.py` বানান:"
+    },
+    {
+      "type": "code",
+      "code": "def calculate_average(numbers):\n    total = 0\n    for num in numbers:\n        total += num\n    return total / len(numbers)\n\n\ndef get_user_name(user):\n    return user[\"name\"].upper()",
+      "language": "python"
+    },
+    {
+      "type": "paragraph",
+      "text": "এবার `agent.py` লিখুন:"
+    },
+    {
+      "type": "code",
+      "code": "import asyncio\nfrom claude_agent_sdk import query, ClaudeAgentOptions, AssistantMessage, ResultMessage\n\n\nasync def main():\n    # Agentic loop: streams messages as Claude works\n    async for message in query(\n        prompt=\"Review utils.py for bugs that would cause crashes. Fix any issues you find.\",\n        options=ClaudeAgentOptions(\n            allowed_tools=[\"Read\", \"Edit\", \"Glob\"],  # Auto-approve these tools\n            permission_mode=\"acceptEdits\",  # Auto-approve file edits\n        ),\n    ):\n        # Print human-readable output\n        if isinstance(message, AssistantMessage):\n            for block in message.content:\n                if hasattr(block, \"text\"):\n                    print(block.text)  # Claude's reasoning\n                elif hasattr(block, \"name\"):\n                    print(f\"Tool: {block.name}\")  # Tool being called\n        elif isinstance(message, ResultMessage):\n            print(f\"Done: {message.subtype}\")  # Final result\n\n\nasyncio.run(main())",
+      "language": "python"
+    },
+    {
+      "type": "code",
+      "code": "python agent.py",
+      "language": "bash"
+    },
+    {
+      "type": "paragraph",
+      "text": "Agent নিজেই `utils.py` পড়বে, কোথায় crash হতে পারে বুঝবে, ফাইল এডিট করে error handling যোগ করবে, আর শেষে `Done: success` print করবে। এখানে `query` হলো মূল entry point, যা agentic loop চালায় আর কাজের সাথে সাথে message stream করে।"
+    },
+    {
+      "type": "paragraph",
+      "text": "TypeScript পছন্দ হলে — নতুন প্রজেক্টে:"
+    },
+    {
+      "type": "code",
+      "code": "npm init -y\nnpm pkg set type=module\nnpm install @anthropic-ai/claude-agent-sdk\nnpm install --save-dev tsx",
+      "language": "bash"
+    },
+    {
+      "type": "paragraph",
+      "text": "`agent.ts` ফাইলে:"
+    },
+    {
+      "type": "code",
+      "code": "import { query } from \"@anthropic-ai/claude-agent-sdk\";\n\n// Agentic loop: streams messages as Claude works\nfor await (const message of query({\n  prompt: \"Review utils.py for bugs that would cause crashes. Fix any issues you find.\",\n  options: {\n    allowedTools: [\"Read\", \"Edit\", \"Glob\"], // Auto-approve these tools\n    permissionMode: \"acceptEdits\" // Auto-approve file edits\n  }\n})) {\n  // Print human-readable output\n  if (message.type === \"assistant\" && message.message?.content) {\n    for (const block of message.message.content) {\n      if (\"text\" in block) {\n        console.log(block.text); // Claude's reasoning\n      } else if (\"name\" in block) {\n        console.log(`Tool: ${block.name}`); // Tool being called\n      }\n    }\n  } else if (message.type === \"result\") {\n    console.log(`Done: ${message.subtype}`); // Final result\n  }\n}",
+      "language": "typescript"
+    },
+    {
+      "type": "code",
+      "code": "npx tsx agent.ts",
+      "language": "bash"
+    },
+    {
+      "type": "tip",
+      "text": "SDK `.env` ফাইল নিজে থেকে পড়ে না। `Not logged in` বা `Invalid API key` দেখলে নিশ্চিত হোন যে যে shell-এ agent চালাচ্ছেন সেখানেই `ANTHROPIC_API_KEY` সেট করা আছে। Bash চালানোর ক্ষমতা দিতে `allowed_tools`-এ `\"Bash\"` যোগ করুন — তবে বুঝে-শুনে।"
+    },
+    {
+      "type": "warning",
+      "text": "আগে থেকে অনুমোদন না থাকলে Anthropic third-party ডেভেলপারদের নিজেদের প্রোডাক্টে (Agent SDK দিয়ে বানানো agent সহ) claude.ai login বা claude.ai-এর rate limit দেওয়ার অনুমতি দেয় না। নিজের অ্যাপে API key দিয়ে authentication ব্যবহার করুন।"
+    },
+    {
+      "type": "heading",
+      "text": "Recap"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "`claude -p \"<prompt>\"` — একবার চালিয়ে উত্তর দিয়ে বেরিয়ে যায়; script ও CI-এর জন্য।",
+        "`--allowedTools`, `--permission-mode` দিয়ে অনুমতি, `--output-format json` আর `--json-schema` দিয়ে structured output।",
+        "CI-তে `--bare` দিন; অচেনা রিপোতে `-p`-এর আগে `.claude/` রিভিউ করুন।",
+        "Agent SDK: `pip install claude-agent-sdk` বা `npm install @anthropic-ai/claude-agent-sdk`, তারপর `query()`।"
+      ]
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Claude Code non-interactive মোডে চালাতে কোন flag লাগে?",
+      "options": [
+        "`-i`",
+        "`-p`",
+        "`--chat`"
+      ],
+      "answer": 1,
+      "explanation": "`-p` (বা `--print`) দিলে Claude Code একবার চলে, উত্তর print করে বেরিয়ে যায়।"
+    },
+    {
+      "question": "নির্দিষ্ট JSON Schema মেনে উত্তর পেতে কী দেবেন?",
+      "options": [
+        "`--output-format text`",
+        "`--output-format json` আর `--json-schema`",
+        "`--bare`"
+      ],
+      "answer": 1,
+      "explanation": "`--json-schema` দিলে ফলাফল আসে `structured_output` ফিল্ডে, `--output-format json`-এর সাথে।"
+    },
+    {
+      "question": "`--bare` মোডের ব্যাপারে কোনটা সঠিক?",
+      "options": [
+        "এটা hook, plugin, MCP server আর CLAUDE.md লোড করে না, তাই CI-তে সব মেশিনে একই ফল দেয়",
+        "এটা আপনার claude.ai subscription login ব্যবহার করে",
+        "এটা সব tool নিষ্ক্রিয় করে দেয়"
+      ],
+      "answer": 0,
+      "explanation": "Bare মোড auto-discovery বাদ দেয় আর OAuth/keychain পড়ে না — তাই `ANTHROPIC_API_KEY` সেট করতে হয়।"
+    },
+    {
+      "question": "Agent SDK-এর Python প্যাকেজের নাম কী?",
+      "options": [
+        "`anthropic-claude-code`",
+        "`claude-agent-sdk`",
+        "`claude-code-sdk-py`"
+      ],
+      "answer": 1,
+      "explanation": "Python-এ `pip install claude-agent-sdk`, আর TypeScript-এ `@anthropic-ai/claude-agent-sdk`।"
+    },
+    {
+      "question": "অচেনা রিপোজিটরিতে `claude -p` চালানোর আগে কেন সাবধান হওয়া দরকার?",
+      "options": [
+        "`-p` মোডে trust dialog আসে না, তাই রিপোর hook আর `.mcp.json` server সরাসরি চলতে পারে",
+        "`-p` মোড রিপো মুছে দেয়",
+        "`-p` মোডে ইন্টারনেট লাগে না"
+      ],
+      "answer": 0,
+      "explanation": "`-p` সেশন workspace trust dialog দেখায় না। তাই রিপোর `.claude/` ফাইল রিভিউ করুন বা `--bare` ব্যবহার করুন।"
+    }
+  ]
+}

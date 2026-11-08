@@ -1,0 +1,194 @@
+{
+  "id": "developer-16-output-styles-and-status-line",
+  "track": "developer",
+  "order": 16,
+  "title": "Output styles & status line",
+  "summary": "Output style দিয়ে Claude-এর উত্তরের ধরন বদলানো আর কাস্টম status line-এ মডেল, context ও ফোল্ডারের তথ্য দেখানো।",
+  "updatedAt": "2026-11-08",
+  "blocks": [
+    {
+      "type": "heading",
+      "text": "Two ways to personalize Claude Code"
+    },
+    {
+      "type": "paragraph",
+      "text": "এই লেসনে দুটো ছোট কিন্তু কাজের ফিচার: output style ঠিক করে Claude কীভাবে কথা বলবে — কতটা লম্বা, কতটা ব্যাখ্যা, কোন ভূমিকায়। আর status line হলো Claude Code-এর নিচের দিকে একটা কাস্টম বার, যেখানে আপনার পছন্দের তথ্য সবসময় চোখের সামনে থাকে — যেমন কোন মডেল চলছে, context কতটা ভরেছে, কোন git branch-এ আছেন।"
+    },
+    {
+      "type": "heading",
+      "text": "Built-in output styles"
+    },
+    {
+      "type": "paragraph",
+      "text": "Claude Code ডিফল্টভাবে `Default` স্টাইলে চলে, যা সফটওয়্যার ইঞ্জিনিয়ারিং কাজের জন্য লেখা। এর বাইরে আরও চারটা built-in স্টাইল আছে, প্রতিটা Default-এর নির্দেশ রেখে নিজের কিছু যোগ করে:"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "`Proactive` — রুটিন সিদ্ধান্তে প্রশ্ন না করে যুক্তিসংগত অনুমান করে সাথে সাথে কাজ শুরু করে। এটা আপনার permission mode বদলায় না।",
+        "`Concise` — উত্তরের শুরুতেই ফলাফল; ভূমিকা, ধাপে ধাপে বর্ণনা আর শেষের সারাংশ বাদ।",
+        "`Explanatory` — কোড লেখার পাশাপাশি ছোট `Insight` ব্লকে ব্যাখ্যা করে কেন ওই সিদ্ধান্ত নিল।",
+        "`Learning` — ব্যাখ্যার সাথে কিছু কোড আপনাকে লিখতে দেয়; ফাইলে `TODO(human)` চিহ্ন দিয়ে অপেক্ষা করে।"
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "Change your output style"
+    },
+    {
+      "type": "paragraph",
+      "text": "Claude Code-এ এই কমান্ড চালান (argument ছাড়া চালালে সব স্টাইলের তালিকা দেখায়):"
+    },
+    {
+      "type": "code",
+      "code": "/output-style concise",
+      "language": "text"
+    },
+    {
+      "type": "paragraph",
+      "text": "অথবা `/config` চালিয়ে Output style বেছে নিন। দুটো উপায়েই পছন্দটা `.claude/settings.local.json`-এ সেভ হয়। চাইলে settings ফাইলে সরাসরি লিখতে পারেন — সব প্রজেক্টে ডিফল্ট করতে `~/.claude/settings.json`-এ:"
+    },
+    {
+      "type": "code",
+      "code": "{\n  \"outputStyle\": \"Explanatory\"\n}",
+      "language": "json"
+    },
+    {
+      "type": "warning",
+      "text": "Settings ফাইলে `outputStyle`-এর মান case-sensitive: `Proactive`, `Concise`, `Explanatory`, `Learning` — ঠিক এভাবে লিখতে হবে। `explanatory` লিখলে মিলবে না, আর আপনি Default স্টাইল পাবেন। (`/output-style` কমান্ড অবশ্য case মানে না।)"
+    },
+    {
+      "type": "heading",
+      "text": "Create a custom output style"
+    },
+    {
+      "type": "paragraph",
+      "text": "নিজের স্টাইল হলো একটা Markdown ফাইল। User-level-এর জন্য `~/.claude/output-styles/` আর প্রজেক্টের জন্য `.claude/output-styles/` ফোল্ডারে রাখুন। ফাইলের নামই স্টাইলের নাম, যদি না frontmatter-এ `name` দেন। উদাহরণ — প্রতিটা ব্যাখ্যা একটা ডায়াগ্রাম দিয়ে শুরু হবে:"
+    },
+    {
+      "type": "code",
+      "code": "---\nname: Diagrams first\ndescription: Lead every explanation with a diagram\nkeep-coding-instructions: true\n---\n\nWhen explaining code, architecture, or data flow, start with a Mermaid diagram showing the structure, then explain in prose.\n\n## Diagram conventions\n\nUse `flowchart TD` for control flow and `sequenceDiagram` for request paths. Keep diagrams under 15 nodes.",
+      "language": "markdown"
+    },
+    {
+      "type": "paragraph",
+      "text": "`keep-coding-instructions: true` দিলে Claude Code-এর built-in সফটওয়্যার ইঞ্জিনিয়ারিং নির্দেশগুলো থেকে যায় — শুধু কথা বলার ধরন বদলায়। Claude যদি কোডিং-ই না করে (যেমন লেখালেখির সহকারী বা ডেটা অ্যানালিস্ট), তাহলে এটা বাদ দিন। নতুন ফাইল বানানো বা এডিট করার পর টার্মিনালে Claude Code restart করুন, তারপর `/output-style` দিয়ে বেছে নিন।"
+    },
+    {
+      "type": "tip",
+      "text": "Output style একটা নির্দেশ, গ্যারান্টি না। প্রজেক্টের তথ্য রাখুন CLAUDE.md-তে, প্রতিবার নিশ্চিতভাবে কিছু ঘটাতে hook ব্যবহার করুন, আর নির্দিষ্ট ধরনের কাজের নির্দেশ রাখুন skill-এ। আরও মনে রাখবেন, সাধারণ subagent-রা নিজের system prompt-এ চলে, তাই output style তাদের উত্তরে প্রভাব ফেলে না।"
+    },
+    {
+      "type": "heading",
+      "text": "Set up a status line"
+    },
+    {
+      "type": "paragraph",
+      "text": "সবচেয়ে সহজ উপায়: `/statusline`-এর পরে সাধারণ ভাষায় লিখুন কী দেখতে চান। Claude Code নিজেই `~/.claude/`-এ একটা script বানিয়ে settings আপডেট করে দেবে:"
+    },
+    {
+      "type": "prompt",
+      "text": "/statusline show model name and context percentage with a progress bar"
+    },
+    {
+      "type": "paragraph",
+      "text": "হাতে বানাতে চাইলে — Status line একটা shell command চালায়, যা stdin-এ JSON আকারে session-এর তথ্য পায় আর যা print করে সেটাই বারে দেখায়। macOS বা Linux-এ `~/.claude/statusline.sh` নামে এই script সেভ করুন (`jq` লাগবে):"
+    },
+    {
+      "type": "code",
+      "code": "#!/bin/bash\n# Read JSON data that Claude Code sends to stdin\ninput=$(cat)\n\n# Extract fields using jq\nMODEL=$(echo \"$input\" | jq -r '.model.display_name')\nDIR=$(echo \"$input\" | jq -r '.workspace.current_dir')\n# The \"// 0\" provides a fallback if the field is null\nPCT=$(echo \"$input\" | jq -r '.context_window.used_percentage // 0' | cut -d. -f1)\n\n# Output the status line - ${DIR##*/} extracts just the folder name\necho \"[$MODEL] 📁 ${DIR##*/} | ${PCT}% context\"",
+      "language": "bash"
+    },
+    {
+      "type": "code",
+      "code": "chmod +x ~/.claude/statusline.sh",
+      "language": "bash"
+    },
+    {
+      "type": "paragraph",
+      "text": "তারপর `~/.claude/settings.json`-এ `statusLine` যোগ করুন। সেভ করলেই Claude Code settings আবার পড়ে script চালায়:"
+    },
+    {
+      "type": "code",
+      "code": "{\n  \"statusLine\": {\n    \"type\": \"command\",\n    \"command\": \"~/.claude/statusline.sh\"\n  }\n}",
+      "language": "json"
+    },
+    {
+      "type": "paragraph",
+      "text": "Windows-এ Git Bash থাকলে Claude Code status line কমান্ড Git Bash দিয়ে চালায়, না থাকলে PowerShell দিয়ে। PowerShell script ব্যবহার করতে `command`-এ এভাবে লিখুন — পাথে ব্যাকস্ল্যাশ না দিয়ে ফরোয়ার্ড স্ল্যাশ (`/`) দিন:"
+    },
+    {
+      "type": "code",
+      "code": "{\n  \"statusLine\": {\n    \"type\": \"command\",\n    \"command\": \"powershell -NoProfile -File C:/Users/username/.claude/statusline.ps1\"\n  }\n}",
+      "language": "json"
+    },
+    {
+      "type": "code",
+      "code": "$input_json = $input | Out-String | ConvertFrom-Json\n$cwd = $input_json.cwd\n$model = $input_json.model.display_name\n$used = $input_json.context_window.used_percentage\n$dirname = Split-Path $cwd -Leaf\n\nif ($used) {\n    Write-Host \"$dirname [$model] ctx: $used%\"\n} else {\n    Write-Host \"$dirname [$model]\"\n}",
+      "language": "powershell"
+    },
+    {
+      "type": "tip",
+      "text": "Status line লোকালি চলে, কোনো API token খরচ করে না। নতুন assistant message এলে, `/compact` শেষ হলে বা permission mode বদলালে এটা আপডেট হয়। ঘড়ির মতো সময়নির্ভর কিছু দেখাতে চাইলে `statusLine`-এ `refreshInterval` (সেকেন্ডে) দিন। বন্ধ করতে `/statusline delete` লিখুন বা settings থেকে `statusLine` মুছে দিন।"
+    },
+    {
+      "type": "warning",
+      "text": "Status line একটা shell command চালায়, তাই hook-এর মতোই সাবধান থাকুন — অন্যের দেওয়া script চালানোর আগে পড়ে নিন। একই কারণে workspace trust dialog গ্রহণ না করা পর্যন্ত status line ফাঁকা থাকে।"
+    },
+    {
+      "type": "heading",
+      "text": "Recap"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "`/output-style <style>` বা `/config` দিয়ে স্টাইল বদলান; settings-এ `outputStyle` case-sensitive।",
+        "কাস্টম স্টাইল রাখুন `~/.claude/output-styles/` বা `.claude/output-styles/`-এ।",
+        "`/statusline`-এ সাধারণ ভাষায় বলুন, অথবা settings-এ `statusLine` দিয়ে নিজের script দিন।",
+        "Script stdin-এ JSON পায় (`model.display_name`, `context_window.used_percentage` ইত্যাদি) আর যা print করে তা-ই দেখায়।"
+      ]
+    }
+  ],
+  "quiz": [
+    {
+      "question": "কোন built-in output style শুরুতেই ফলাফল বলে আর ভূমিকা-সারাংশ বাদ দেয়?",
+      "options": [
+        "`Explanatory`",
+        "`Concise`",
+        "`Learning`"
+      ],
+      "answer": 1,
+      "explanation": "`Concise` স্টাইলে প্রথম বাক্যেই ফলাফল থাকে, অপ্রয়োজনীয় বর্ণনা বাদ যায়।"
+    },
+    {
+      "question": "Settings ফাইলে `\"outputStyle\": \"explanatory\"` (ছোট হাতের) লিখলে কী হবে?",
+      "options": [
+        "Explanatory স্টাইল চালু হবে",
+        "মান মিলবে না, তাই Default স্টাইল চলবে",
+        "Claude Code চালুই হবে না"
+      ],
+      "answer": 1,
+      "explanation": "Settings-এ মানটা case-sensitive। সঠিক বানান `Explanatory`; না মিললে Default স্টাইল পাবেন।"
+    },
+    {
+      "question": "কাস্টম output style-এ `keep-coding-instructions: true` দিলে কী হয়?",
+      "options": [
+        "Claude কোড লেখা বন্ধ করে দেয়",
+        "Claude Code-এর built-in সফটওয়্যার ইঞ্জিনিয়ারিং নির্দেশ রেখে শুধু কথা বলার ধরন বদলায়",
+        "স্টাইলটা সব subagent-এ চাপানো হয়"
+      ],
+      "answer": 1,
+      "explanation": "এই ফিল্ড built-in কোডিং নির্দেশগুলো রেখে দেয়। Claude কোডিং না করলে এটা বাদ দেওয়া উচিত।"
+    },
+    {
+      "question": "Status line script তথ্য কীভাবে পায়?",
+      "options": [
+        "stdin-এ JSON আকারে",
+        "ইন্টারনেট থেকে ডাউনলোড করে",
+        "CLAUDE.md পড়ে"
+      ],
+      "answer": 0,
+      "explanation": "Claude Code session-এর তথ্য JSON আকারে script-এর stdin-এ পাঠায়, আর script stdout-এ যা print করে সেটাই দেখায়।"
+    }
+  ]
+}

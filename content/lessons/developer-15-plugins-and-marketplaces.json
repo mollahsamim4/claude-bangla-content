@@ -1,0 +1,221 @@
+{
+  "id": "developer-15-plugins-and-marketplaces",
+  "track": "developer",
+  "order": 15,
+  "title": "Plugins & marketplaces",
+  "summary": "Plugin ইনস্টল ও রিভিউ করা, নিজের plugin বানানো আর টিমের জন্য marketplace তৈরি করা।",
+  "updatedAt": "2026-11-08",
+  "blocks": [
+    {
+      "type": "heading",
+      "text": "Plugins and marketplaces"
+    },
+    {
+      "type": "paragraph",
+      "text": "আগের লেসনগুলোতে আমরা subagent, hook, MCP server আর skill আলাদা আলাদা বানিয়েছি। কিন্তু টিমের সবাইকে একই সেটআপ দিতে চাইলে প্রতিটা ফাইল আলাদা করে কপি করা ঝামেলা। Plugin হলো এগুলোর একটা প্যাকেজ — skill, agent, hook, MCP server ইত্যাদি একসাথে একটা ফোল্ডারে, যা Claude Code এক ইউনিট হিসেবে ইনস্টল ও লোড করে।"
+    },
+    {
+      "type": "paragraph",
+      "text": "Marketplace হলো plugin-এর একটা ক্যাটালগ: একটা রিপোজিটরি বা ফোল্ডার, যেখানে `.claude-plugin/marketplace.json` ফাইলে plugin-গুলোর তালিকা আর প্রতিটা কোথা থেকে আনতে হবে তা লেখা থাকে। এটা কোনো হোস্ট করা দোকান না, শুধু একটা তালিকা। প্রথমবার interactive terminal session চালু করলে Claude Code নিজেই Anthropic-এর official marketplace (`claude-plugins-official`) যোগ করে নেয়।"
+    },
+    {
+      "type": "warning",
+      "text": "একটা plugin আপনার কম্পিউটারে আপনার user অনুমতি নিয়ে যেকোনো কোড চালাতে পারে — এর hook shell command চালায়, MCP server প্রসেস হিসেবে চলে। Marketplace-এর নাম শুধু বলে কে ক্যাটালগটা প্রকাশ করেছে, প্রতিটা plugin কী করে তা না। তাই ইনস্টলের আগে যেকোনো plugin রিভিউ করুন, বিশেষ করে third-party marketplace থেকে। Auto-update চালু থাকলে রিভিউ করা ফাইল পরে বদলেও যেতে পারে।"
+    },
+    {
+      "type": "heading",
+      "text": "Install a plugin"
+    },
+    {
+      "type": "paragraph",
+      "text": "Claude Code-এ `/plugin` লিখলে Discover ট্যাব খোলে, যেখানে আপনার marketplace-গুলোর plugin দেখা যায়। নির্দিষ্ট plugin সরাসরি খুলতে নাম আর marketplace দিন:"
+    },
+    {
+      "type": "code",
+      "code": "/plugin install commit-commands@claude-plugins-official",
+      "language": "text"
+    },
+    {
+      "type": "paragraph",
+      "text": "Session-এর ভেতরে এই কমান্ড সাথে সাথে ইনস্টল করে না; আগে plugin-এর details দেখায়। সেখানে Will install অংশে দেখবেন plugin কোন command, agent, skill, hook আর MCP server যোগ করবে। তারপর scope বেছে নিন:"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "User scope — এই কম্পিউটারে আপনার সব প্রজেক্টে।",
+        "Project scope — এই রিপোজিটরিতে কাজ করা সবার জন্য (commit করা `.claude/settings.json`-এর মাধ্যমে)।",
+        "Local scope — শুধু আপনার জন্য, শুধু এই রিপোতে।"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "অন্য marketplace থেকে plugin নিতে আগে marketplace-টা যোগ করুন — GitHub রিপো (`owner/repo`), git URL, লোকাল ফোল্ডার বা `marketplace.json`-এর URL দিয়ে:"
+    },
+    {
+      "type": "code",
+      "code": "/plugin marketplace add anthropics/claude-plugins-official",
+      "language": "text"
+    },
+    {
+      "type": "paragraph",
+      "text": "Session না খুলে shell থেকেও plugin ম্যানেজ করা যায়:"
+    },
+    {
+      "type": "code",
+      "code": "claude plugin install formatter@your-org --scope project\nclaude plugin disable formatter@your-org\nclaude plugin enable formatter@your-org\nclaude plugin uninstall formatter@your-org --scope project",
+      "language": "bash"
+    },
+    {
+      "type": "tip",
+      "text": "মনে রাখবেন, চালু থাকা plugin প্রতিটা session-এর অংশ — Claude নিজে যেসব skill বা agent চালাতে পারে, তাদের নাম আর description প্রতি turn-এ context-এ থাকে, ফলে usage-এ গোনা হয়। যে plugin ব্যবহার করছেন না, `/plugin` বা `claude plugin disable` দিয়ে বন্ধ রাখুন।"
+    },
+    {
+      "type": "heading",
+      "text": "Create your first plugin"
+    },
+    {
+      "type": "paragraph",
+      "text": "এবার এক skill-এর একটা ছোট plugin বানাই। যেখানে plugin রাখতে চান সেখানে টার্মিনাল খুলে ফোল্ডার বানান:"
+    },
+    {
+      "type": "code",
+      "code": "mkdir -p my-first-plugin/.claude-plugin",
+      "language": "bash"
+    },
+    {
+      "type": "paragraph",
+      "text": "Manifest ফাইল `my-first-plugin/.claude-plugin/plugin.json` বানান। শুধু `name` বাধ্যতামূলক, আর এটাই plugin-এর প্রতিটা skill ও agent-এর আগে prefix হয়ে বসে (নামে স্পেস দেবেন না):"
+    },
+    {
+      "type": "code",
+      "code": "{\n  \"name\": \"my-first-plugin\",\n  \"description\": \"A greeting plugin to learn the basics\",\n  \"version\": \"1.0.0\",\n  \"author\": {\n    \"name\": \"Your Name\"\n  }\n}",
+      "language": "json"
+    },
+    {
+      "type": "paragraph",
+      "text": "এবার skill যোগ করুন:"
+    },
+    {
+      "type": "code",
+      "code": "mkdir -p my-first-plugin/skills/hello",
+      "language": "bash"
+    },
+    {
+      "type": "paragraph",
+      "text": "আর `my-first-plugin/skills/hello/SKILL.md` ফাইলে লিখুন:"
+    },
+    {
+      "type": "code",
+      "code": "---\nname: hello\ndescription: Greet the user with a friendly message\ndisable-model-invocation: true\n---\n\nGreet the user warmly and ask how you can help them today.",
+      "language": "markdown"
+    },
+    {
+      "type": "paragraph",
+      "text": "চালানোর আগে যাচাই করুন, তারপর `--plugin-dir` দিয়ে শুধু এই session-এ plugin লোড করুন:"
+    },
+    {
+      "type": "code",
+      "code": "claude plugin validate ./my-first-plugin\nclaude --plugin-dir ./my-first-plugin",
+      "language": "bash"
+    },
+    {
+      "type": "paragraph",
+      "text": "Validation ঠিক থাকলে `✔ Validation passed` দেখাবে। Session চালু হলে `/my-first-plugin:hello` লিখুন — Claude আপনাকে শুভেচ্ছা জানাবে। Session চলাকালীন plugin-এর ফাইল বদলালে `/reload-plugins` চালান।"
+    },
+    {
+      "type": "warning",
+      "text": "`.claude-plugin/` ফোল্ডারের ভেতরে শুধু `plugin.json` থাকবে। `skills/`, `agents/`, `hooks/hooks.json`, `.mcp.json` — এগুলো plugin-এর রুট ফোল্ডারে রাখতে হয়; `.claude-plugin/`-এর ভেতরে রাখলে লোড হবে না।"
+    },
+    {
+      "type": "heading",
+      "text": "Create a marketplace"
+    },
+    {
+      "type": "paragraph",
+      "text": "টিমকে plugin দিতে নিজের marketplace বানান। Marketplace ফোল্ডার বানিয়ে plugin-টা `plugins/`-এ কপি করুন:"
+    },
+    {
+      "type": "code",
+      "code": "mkdir -p my-marketplace/.claude-plugin my-marketplace/plugins\ncp -r my-first-plugin my-marketplace/plugins/",
+      "language": "bash"
+    },
+    {
+      "type": "paragraph",
+      "text": "`my-marketplace/.claude-plugin/marketplace.json` ফাইলে `name`, `owner` আর `plugins` তালিকা বাধ্যতামূলক। প্রতিটা plugin entry-তে `name` আর `source` লাগে; `source` লিখতে হয় marketplace-এর রুট থেকে relative path হিসেবে:"
+    },
+    {
+      "type": "code",
+      "code": "{\n  \"name\": \"my-marketplace\",\n  \"description\": \"Plugins for my team\",\n  \"owner\": {\n    \"name\": \"Your Name\"\n  },\n  \"plugins\": [\n    {\n      \"name\": \"my-first-plugin\",\n      \"source\": \"./plugins/my-first-plugin\",\n      \"description\": \"A greeting plugin to learn the basics\"\n    }\n  ]\n}",
+      "language": "json"
+    },
+    {
+      "type": "paragraph",
+      "text": "যাচাই করে marketplace যোগ করুন, তারপর `<plugin>@<marketplace>` আকারে ইনস্টল করুন:"
+    },
+    {
+      "type": "code",
+      "code": "claude plugin validate ./my-marketplace\nclaude plugin marketplace add ./my-marketplace\nclaude plugin install my-first-plugin@my-marketplace\nclaude plugin list",
+      "language": "bash"
+    },
+    {
+      "type": "paragraph",
+      "text": "এরপর ফোল্ডারটা GitHub-এর মতো কোনো git হোস্টে push করলে টিমের সদস্যরা `/plugin marketplace add owner/repo` দিয়ে যোগ করে আপনার plugin ইনস্টল করতে পারবে।"
+    },
+    {
+      "type": "heading",
+      "text": "Recap"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "Plugin = skill, agent, hook, MCP server-এর প্যাকেজ; manifest থাকে `.claude-plugin/plugin.json`-এ।",
+        "Marketplace = `.claude-plugin/marketplace.json`-এ plugin-এর তালিকা।",
+        "`/plugin` দিয়ে ব্রাউজ, `/plugin install name@marketplace` দিয়ে ইনস্টল।",
+        "নিজের plugin পরীক্ষা করুন `claude --plugin-dir`, যাচাই করুন `claude plugin validate` দিয়ে।",
+        "Plugin আপনার অনুমতিতে কোড চালায় — ইনস্টলের আগে রিভিউ করুন।"
+      ]
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Plugin-এর manifest ফাইল কোথায় থাকে?",
+      "options": [
+        "`plugin.json` প্রজেক্টের রুটে",
+        "`.claude-plugin/plugin.json`",
+        "`skills/plugin.json`"
+      ],
+      "answer": 1,
+      "explanation": "Manifest থাকে plugin ফোল্ডারের `.claude-plugin/plugin.json`-এ। ওই ফোল্ডারে শুধু এই ফাইলটাই থাকবে।"
+    },
+    {
+      "question": "`my-first-plugin`-এর `hello` skill চালাতে কী লিখবেন?",
+      "options": [
+        "`/hello`",
+        "`/my-first-plugin:hello`",
+        "`/plugin hello`"
+      ],
+      "answer": 1,
+      "explanation": "Plugin skill-এর নামের আগে plugin-এর নাম prefix হিসেবে বসে, তাই কমান্ড হয় `/my-first-plugin:hello`।"
+    },
+    {
+      "question": "Marketplace আসলে কী?",
+      "options": [
+        "Anthropic-এর হোস্ট করা একটা পেইড দোকান",
+        "একটা ক্যাটালগ — `.claude-plugin/marketplace.json`-এ plugin-এর তালিকা আর কোথা থেকে আনতে হবে",
+        "Claude Code-এর একটা built-in skill"
+      ],
+      "answer": 1,
+      "explanation": "Marketplace একটা রিপো বা ফোল্ডার, যার `marketplace.json`-এ plugin-গুলোর তালিকা থাকে। এটা হোস্ট করা দোকান না।"
+    },
+    {
+      "question": "Third-party plugin ইনস্টলের আগে কেন রিভিউ করা দরকার?",
+      "options": [
+        "Plugin আপনার user অনুমতিতে hook ও MCP server-এর মাধ্যমে কোড চালাতে পারে",
+        "Plugin ইনস্টল করলে Claude Code মুছে যায়",
+        "রিভিউ না করলে plugin লোডই হয় না"
+      ],
+      "answer": 0,
+      "explanation": "Plugin-এর hook shell command চালায় আর stdio MCP server আপনার কম্পিউটারে প্রসেস হিসেবে চলে — সবই আপনার অনুমতিতে।"
+    }
+  ]
+}
