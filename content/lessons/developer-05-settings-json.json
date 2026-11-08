@@ -1,0 +1,182 @@
+{
+  "id": "developer-05-settings-json",
+  "track": "developer",
+  "order": 5,
+  "title": "Settings & settings.json",
+  "summary": "Claude Code-এর settings ফাইলগুলো কোথায় থাকে, কোনটা কার জন্য খাটে, আর একই key কয়েক জায়গায় থাকলে কোনটা জেতে।",
+  "updatedAt": "2026-11-08",
+  "blocks": [
+    {
+      "type": "heading",
+      "text": "What settings control"
+    },
+    {
+      "type": "paragraph",
+      "text": "Settings হলো কিছু JSON key, যেগুলো দিয়ে Claude Code-এর আচরণ বদলানো যায়: কোন মডেল দিয়ে শুরু হবে, কী অনুমতি ছাড়া চলবে, কোন ফাইল পড়া যাবে না, টার্মিনালে দেখতে কেমন হবে, আর অফিস কী বাধ্যতামূলক করেছে। আগের লেসনের permission rule-ও আসলে settings-এর অংশ। CLI, VS Code আর JetBrains extension, আর Desktop অ্যাপ সবাই একই settings ফাইল পড়ে।"
+    },
+    {
+      "type": "heading",
+      "text": "The four settings files"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "User: `~/.claude/settings.json`। আপনার জন্য, এই কম্পিউটারের সব প্রজেক্টে। থিম, ডিফল্ট মডেল, নিজের permission rule এখানে রাখুন।",
+        "Shared project: প্রজেক্টের ভেতরে `.claude/settings.json`। git-এ commit করলে পুরো টিম পায়। টিমের permission, hook, plugin এখানে।",
+        "Project local: `.claude/settings.local.json`। শুধু আপনার, শুধু এই প্রজেক্টে। Claude Code নিজে ফাইলটা বানালে git থেকে বাদ রাখে। হাতে বানালে নিজে `.gitignore`-এ যোগ করুন।",
+        "Managed: অফিস বা প্রতিষ্ঠান যেটা বসায় (যেমন `managed-settings.json`)। আপনি এটা বদলাতে পারবেন না।"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "macOS আর Linux-এ `~/.claude` মানে home ফোল্ডারের `.claude`। Windows-এ এটা `%USERPROFILE%\\.claude`, অর্থাৎ user settings থাকে `%USERPROFILE%\\.claude\\settings.json`-এ। Claude Code ইনস্টল করলে কোনো settings ফাইল আপনাআপনি তৈরি হয় না। `/config` থেকে কোনো অপশন বদলালে বা permission prompt-এ \"Yes, and don't ask again\" দিলে Claude Code নিজে ফাইল বানায়।"
+    },
+    {
+      "type": "tip",
+      "text": "`~/.claude.json` নামে আরেকটা ফাইল আছে (ফোল্ডারের ভেতরে না, home-এ)। এতে আপনার অ্যাকাউন্টের তথ্য, MCP server কনফিগ আর প্রজেক্টের trust সিদ্ধান্ত থাকে। Claude Code এটা নিজের জন্য লেখে, আপনার হাত দেওয়ার দরকার নেই।"
+    },
+    {
+      "type": "heading",
+      "text": "Change a setting with /config"
+    },
+    {
+      "type": "paragraph",
+      "text": "সবচেয়ে সহজ উপায় হলো সেশনের ভেতরে `/config` চালানো। এখানে থিম, editor mode, verbose output-এর মতো ব্যক্তিগত অপশন পাবেন। বেছে নিলে Claude Code নিজেই সেভ করে। মেনু না খুলে সরাসরি একটা মান বসাতে `key=value` দিন:"
+    },
+    {
+      "type": "code",
+      "language": "text",
+      "code": "/config theme=dark"
+    },
+    {
+      "type": "paragraph",
+      "text": "`/config` টার্মিনাল ইন্টারফেসের অংশ। VS Code চ্যাট প্যানেল আর Desktop অ্যাপে এটা খোলে না। সেখানে settings ফাইল এডিট করুন বা ওই অ্যাপের নিজস্ব settings ব্যবহার করুন।"
+    },
+    {
+      "type": "heading",
+      "text": "Edit a settings file"
+    },
+    {
+      "type": "paragraph",
+      "text": "যে scope চান তার ফাইল editor-এ খুলে key যোগ করুন। ডকসের এই উদাহরণে lint আর test কমান্ড অনুমতি ছাড়া চলবে, আর `.env` ফাইল পড়া যাবে না:"
+    },
+    {
+      "type": "code",
+      "language": "json",
+      "code": "{\n  \"$schema\": \"https://json.schemastore.org/claude-code-settings.json\",\n  \"permissions\": {\n    \"allow\": [\n      \"Bash(npm run lint)\",\n      \"Bash(npm run test *)\"\n    ],\n    \"deny\": [\n      \"Read(./.env)\",\n      \"Read(./.env.*)\"\n    ]\n  }\n}"
+    },
+    {
+      "type": "paragraph",
+      "text": "`$schema` লাইনটা দিলে VS Code, Cursor-এর মতো editor-এ autocomplete আর ভুল ধরার সুবিধা পাবেন। ফাইল সেভ করলে Claude Code বেশিরভাগ পরিবর্তন চলমান সেশনেই নিয়ে নেয়, restart লাগে না। তবে `model` আর `effortLevel`-এর মতো কিছু key শুধু সেশন শুরুর সময় পড়া হয়। চলমান সেশনে এগুলো বদলাতে `/model` আর `/effort` ব্যবহার করুন।"
+    },
+    {
+      "type": "warning",
+      "text": "Settings ফাইল একদম কড়া JSON। `//` দিয়ে কমেন্ট বা শেষ আইটেমের পরে বাড়তি কমা দিলে syntax error হবে, আর পরের বার চালু করলে Claude Code সেটাকে Settings Error হিসেবে দেখাবে।"
+    },
+    {
+      "type": "heading",
+      "text": "Settings precedence"
+    },
+    {
+      "type": "paragraph",
+      "text": "একই key কয়েকটা ফাইলে থাকলে সবচেয়ে উপরের স্তরেরটা জেতে। ক্রম, সবচেয়ে শক্তিশালী আগে:"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "Managed settings: কেউ ওভাররাইড করতে পারে না।",
+        "Command line: `claude` চালু করার সময় `--settings` দিয়ে দেওয়া JSON, শুধু ওই সেশনের জন্য।",
+        "Project local: `.claude/settings.local.json`",
+        "Shared project: `.claude/settings.json`",
+        "User: `~/.claude/settings.json`"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "একটা উদাহরণ: আপনি `~/.claude/settings.json`-এ `spinnerTipsEnabled`-এর মান `false` দিলেন, কিন্তু টিমের `.claude/settings.json`-এ সেটা `true`। তখন ওই প্রজেক্টে টিপস দেখা যাবে, কারণ shared project user-এর উপরে। নিজের মান ফেরাতে ওই প্রজেক্টের `.claude/settings.local.json`-এ `\"spinnerTipsEnabled\": false` দিন। এতে টিমমেটদের কিছু বদলাবে না।"
+    },
+    {
+      "type": "tip",
+      "text": "`permissions.allow`-এর মতো তালিকা-ধরনের key কয়েক ফাইলে থাকলে একটা আরেকটাকে বাদ দেয় না, সব তালিকা জুড়ে যায়। তাই টিমের allow rule-এর পাশাপাশি আপনার নিজের rule-ও খাটবে।"
+    },
+    {
+      "type": "heading",
+      "text": "Check what loaded"
+    },
+    {
+      "type": "paragraph",
+      "text": "সেশনের ভেতরে `/status` চালান। Status ট্যাবের `Setting sources` লাইনে দেখাবে কোন কোন settings ফাইল লোড হয়েছে, যেমন `User settings` বা `Project local settings`। প্রতিষ্ঠান managed settings দিলে সেটাও এখানে দেখা যায়। কোনো entry বাতিল হয়ে থাকলে বিস্তারিত দেখতে টার্মিনালে `claude doctor` চালান।"
+    },
+    {
+      "type": "code",
+      "language": "bash",
+      "code": "claude doctor"
+    },
+    {
+      "type": "heading",
+      "text": "Recap"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "চারটা scope: user, shared project, project local, managed।",
+        "সহজ পরিবর্তনে `/config`, বাকিগুলোর জন্য settings ফাইল এডিট করুন (কমেন্ট বা বাড়তি কমা ছাড়া)।",
+        "ক্রম: managed, তারপর command line, তারপর local, তারপর project, তারপর user।",
+        "`/status`-এর `Setting sources` দিয়ে যাচাই করুন কী লোড হলো।"
+      ]
+    }
+  ],
+  "quiz": [
+    {
+      "question": "শুধু নিজের জন্য, শুধু একটা প্রজেক্টে একটা setting বদলাতে চান, টিমমেটদের প্রভাবিত না করে। কোন ফাইল?",
+      "options": [
+        "`.claude/settings.json`",
+        "`.claude/settings.local.json`",
+        "`~/.claude.json`",
+        "`managed-settings.json`"
+      ],
+      "answer": 1,
+      "explanation": "`.claude/settings.local.json` শুধু আপনার, শুধু ওই প্রজেক্টে খাটে, আর shared project ফাইলের উপরে বসে।"
+    },
+    {
+      "question": "Windows-এ user settings ফাইল কোথায় থাকে?",
+      "options": [
+        "`C:\\Windows\\claude.json`",
+        "`%USERPROFILE%\\.claude\\settings.json`",
+        "প্রজেক্ট ফোল্ডারের `settings.ini`"
+      ],
+      "answer": 1,
+      "explanation": "Windows-এ `~/.claude` মানে `%USERPROFILE%\\.claude`, তাই user settings থাকে `%USERPROFILE%\\.claude\\settings.json`-এ।"
+    },
+    {
+      "question": "Managed settings আর আপনার user settings-এ একই key আলাদা মানে আছে। কোনটা খাটবে?",
+      "options": [
+        "User settings",
+        "Managed settings",
+        "যেটা পরে সেভ হয়েছে"
+      ],
+      "answer": 1,
+      "explanation": "Managed settings সবার উপরে। আপনার নিজের কোনো ফাইল বা `--settings` দিয়ে এটা ওভাররাইড করা যায় না।"
+    },
+    {
+      "question": "Settings ফাইলে `// my note` লিখে কমেন্ট দিলে কী হবে?",
+      "options": [
+        "কিছু হবে না, কমেন্ট চলে",
+        "JSON syntax error হবে, Claude Code Settings Error দেখাবে",
+        "Claude কমেন্টটা নির্দেশ হিসেবে পড়বে"
+      ],
+      "answer": 1,
+      "explanation": "Settings ফাইল কড়া JSON। কমেন্ট বা শেষে বাড়তি কমা দিলে syntax error হয়।"
+    },
+    {
+      "question": "কোন কোন settings ফাইল লোড হয়েছে, কীভাবে দেখবেন?",
+      "options": [
+        "`/status` চালিয়ে `Setting sources` লাইন দেখে",
+        "`/clear` চালিয়ে",
+        "কম্পিউটার restart করে"
+      ],
+      "answer": 0,
+      "explanation": "`/status`-এর Status ট্যাবে `Setting sources` লাইনে লোড হওয়া সব settings ফাইলের তালিকা থাকে।"
+    }
+  ]
+}

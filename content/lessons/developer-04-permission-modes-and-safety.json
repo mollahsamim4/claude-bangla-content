@@ -1,0 +1,163 @@
+{
+  "id": "developer-04-permission-modes-and-safety",
+  "track": "developer",
+  "order": 4,
+  "title": "Permission Modes & Safety",
+  "summary": "Claude Code কখন আপনাকে জিজ্ঞেস করবে আর কখন নিজে কাজ চালাবে, সেটা permission mode আর allow/ask/deny rule দিয়ে নিয়ন্ত্রণ করা।",
+  "updatedAt": "2026-11-08",
+  "blocks": [
+    {
+      "type": "heading",
+      "text": "Why permissions matter"
+    },
+    {
+      "type": "paragraph",
+      "text": "Claude Code আপনার কম্পিউটারে ফাইল এডিট করতে পারে, shell কমান্ড চালাতে পারে, ইন্টারনেটেও যেতে পারে। তাই কোন কাজ অনুমতি ছাড়া চলবে আর কোনটায় আপনাকে জিজ্ঞেস করবে, সেটা ঠিক করা জরুরি। এর জন্য দুটো জিনিস আছে: permission mode, যেটা সাধারণ আচরণ ঠিক করে, আর permission rule, যেটা দিয়ে নির্দিষ্ট টুল বা কমান্ড আগে থেকে অনুমোদন বা ব্লক করা যায়।"
+    },
+    {
+      "type": "heading",
+      "text": "The permission modes"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "`default` (CLI-তে নাম Manual): শুধু ফাইল পড়া অনুমতি ছাড়া চলে। এডিট আর বেশিরভাগ কমান্ডে জিজ্ঞেস করে। স্পর্শকাতর কাজের জন্য ভালো।",
+        "`acceptEdits`: ফাইল এডিট আর `mkdir`, `touch`, `mv`, `cp`-এর মতো সাধারণ ফাইল কমান্ড আপনার working directory-র ভেতরে অনুমতি ছাড়াই চলে।",
+        "`plan`: Claude শুধু পড়ে আর প্ল্যান করে, এডিট করে না (আগের লেসন দেখুন)।",
+        "`auto`: রুটিন অনুমতি চাওয়া ছাড়াই কাজ চলে। প্রতিটা কাজ চালানোর আগে আলাদা একটা classifier মডেল দেখে নেয় সেটা আপনার অনুরোধের সাথে মেলে কিনা।",
+        "`dontAsk`: যেটায় সাধারণত জিজ্ঞেস করত, সেটা সরাসরি বাতিল হয়। শুধু আগে থেকে অনুমোদিত টুল চলে। CI আর স্ক্রিপ্টের জন্য।",
+        "`bypassPermissions`: প্রায় সব চেক বাদ। শুধু আলাদা container বা VM-এর জন্য।"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "নতুন ভার্সনে (v2.1.283 বা পরের) টার্মিনাল আর VS Code-এর ইন্টারঅ্যাকটিভ সেশন ডিফল্টভাবে auto mode-এ শুরু হয়, যদি আপনার সেশনে auto mode পাওয়া যায়। Auto mode সব প্ল্যানে আছে, তবে সমর্থিত মডেল লাগে, আর Team ও Enterprise-এ অ্যাডমিন এটা বন্ধ করে দিতে পারেন। না পাওয়া গেলে সেশন Manual-এ শুরু হয়।"
+    },
+    {
+      "type": "heading",
+      "text": "Switch modes"
+    },
+    {
+      "type": "paragraph",
+      "text": "সেশন চলার সময় `Shift+Tab` চাপলে মোড ঘুরতে থাকে। Windows-এ কিছু ক্ষেত্রে (Node বা Bun runtime VT input mode চালু না করলে) `Alt+M` লাগে। স্ট্যাটাস বারে বর্তমান মোড দেখায়, যেমন `⏸ manual mode on`, `⏵⏵ accept edits on`, `⏸ plan mode on` বা `⏵⏵ auto mode on`। শুরুতেই কোনো মোডে চালু করতে `--permission-mode` ফ্ল্যাগে মোডের নাম দিন (`default`, `acceptEdits`, `plan`, `auto` ইত্যাদি)। যেমন এডিট আপনাআপনি অনুমোদনের মোডে শুরু করতে:"
+    },
+    {
+      "type": "code",
+      "language": "bash",
+      "code": "claude --permission-mode acceptEdits"
+    },
+    {
+      "type": "paragraph",
+      "text": "VS Code-এ প্রম্পট বক্সের নিচের mode indicator-এ ক্লিক করুন। সেখানে নামগুলো এরকম: Manual, Edit automatically, Plan, Auto, Bypass permissions। Desktop অ্যাপে প্রম্পট বক্সের নিচের mode selector ব্যবহার করুন।"
+    },
+    {
+      "type": "heading",
+      "text": "Answering a permission prompt"
+    },
+    {
+      "type": "paragraph",
+      "text": "Claude কিছু করার অনুমতি চাইলে আপনি Yes, No বা \"Yes, and don't ask again\" বেছে নিতে পারেন। Bash কমান্ডে \"don't ask again\" দিলে নিয়মটা রিপোজিটরির `.claude/settings.local.json`-এ সেভ হয় আর পরের সেশনেও খাটে। ফাইল এডিটের অনুমোদন শুধু সেশন শেষ হওয়া পর্যন্ত থাকে। Yes বা No-তে গিয়ে `Tab` চাপলে Claude-কে একটা মন্তব্য লিখে পাঠানো যায়, যেমন কেন না বললেন। প্রম্পটে `Esc` চাপলে কাজটা বাতিল হয়।"
+    },
+    {
+      "type": "heading",
+      "text": "Allow, ask and deny rules"
+    },
+    {
+      "type": "paragraph",
+      "text": "`/permissions` কমান্ড সব rule আর কোন settings ফাইল থেকে কোনটা এসেছে তা দেখায়। এখান থেকে rule যোগ করা বা মোছা যায়। Rule তিন ধরনের:"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "allow: এই টুল অনুমতি ছাড়াই চলবে।",
+        "ask: প্রতিবার জিজ্ঞেস করবে।",
+        "deny: কখনো চলবে না।"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Rule-এর ফরম্যাট `Tool` বা `Tool(specifier)`। যাচাইয়ের ক্রম হলো আগে deny, তারপর ask, তারপর allow। তাই কোনো কিছু deny হলে কোনো allow rule সেটা খুলতে পারে না। নিচের উদাহরণে npm স্ক্রিপ্ট আর git commit অনুমতি ছাড়া চলবে, `git push` আটকে যাবে, আর `.env` ফাইল পড়া যাবে না:"
+    },
+    {
+      "type": "code",
+      "language": "json",
+      "code": "{\n  \"permissions\": {\n    \"allow\": [\n      \"Bash(npm run *)\",\n      \"Bash(git commit *)\"\n    ],\n    \"deny\": [\n      \"Bash(git push *)\",\n      \"Read(./.env)\",\n      \"Read(./.env.*)\"\n    ]\n  }\n}"
+    },
+    {
+      "type": "tip",
+      "text": "`*` বসান subcommand-এর পরে। `Bash(git log *)` শুধু `git log` কমান্ডকে অনুমতি দেয়, কিন্তু `Bash(git *)` সব git কমান্ডকে, এমনকি `git push`-কেও। আর `Bash(ls *)`-এ space আছে বলে `lsof` মেলে না, কিন্তু `Bash(ls*)` মেলে।"
+    },
+    {
+      "type": "paragraph",
+      "text": "মনে রাখবেন, permission rule প্রয়োগ করে Claude Code নিজে, মডেল না। CLAUDE.md বা প্রম্পটে \"push করো না\" লিখলে Claude সেটা মানার চেষ্টা করে, কিন্তু কী অনুমোদিত সেটা বদলায় না। নিশ্চিতভাবে আটকাতে deny rule ব্যবহার করুন।"
+    },
+    {
+      "type": "heading",
+      "text": "Safety nets that always apply"
+    },
+    {
+      "type": "paragraph",
+      "text": "কিছু জিনিস কোনো মোডেই এমনিতে অনুমোদিত হয় না। যেমন `.git`, `.vscode`, `.idea`, `.husky`, `.devcontainer`-এর মতো protected path-এ লেখা `bypassPermissions` ছাড়া কোনো মোডে আপনাআপনি অনুমোদন পায় না। `rm -rf /` বা `rm -rf ~`-এর মতো critical-path মুছে ফেলার কমান্ডও কোনো allow rule দিয়ে অনুমোদন করা যায় না।"
+    },
+    {
+      "type": "warning",
+      "text": "Auto mode অনুমতি চাওয়া কমায়, কিন্তু নিরাপত্তার নিশ্চয়তা দেয় না। স্পর্শকাতর কাজে নিজে রিভিউ করুন। আর `bypassPermissions` (বা `--dangerously-skip-permissions`) prompt injection বা অনাকাঙ্ক্ষিত কাজ থেকে কোনো সুরক্ষা দেয় না। এটা শুধু ইন্টারনেট ছাড়া container, VM বা dev container-এ চালান। Linux আর macOS-এ root বা `sudo` দিয়ে এই মোড চালু করা যায় না।"
+    },
+    {
+      "type": "heading",
+      "text": "Recap"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "Permission mode ঠিক করে Claude কতটা নিজে থেকে চালাবে। `Shift+Tab` দিয়ে বদলান।",
+        "`/permissions`-এ allow, ask, deny rule দিন। ক্রম: deny, তারপর ask, তারপর allow।",
+        "যা কখনো চলবে না, সেটা deny rule-এ রাখুন, শুধু CLAUDE.md-তে না।",
+        "`bypassPermissions` শুধু আলাদা container বা VM-এ।"
+      ]
+    }
+  ],
+  "quiz": [
+    {
+      "question": "সেশন চলার সময় permission mode বদলানোর শর্টকাট কোনটা?",
+      "options": [
+        "`Ctrl+C`",
+        "`Shift+Tab`",
+        "`Ctrl+O`",
+        "`Esc`"
+      ],
+      "answer": 1,
+      "explanation": "`Shift+Tab` চাপলে মোডগুলো একটার পর একটা ঘোরে। Windows-এ কিছু ক্ষেত্রে `Alt+M` লাগে।"
+    },
+    {
+      "question": "একটা কমান্ড allow আর deny দুটো rule-এর সাথেই মেলে। কী হবে?",
+      "options": [
+        "Allow জিতবে, কারণ সেটা বেশি নির্দিষ্ট",
+        "Deny জিতবে, কারণ deny আগে যাচাই হয়",
+        "Claude নিজে ঠিক করবে"
+      ],
+      "answer": 1,
+      "explanation": "Rule যাচাই হয় deny, তারপর ask, তারপর allow ক্রমে। প্রথম মিল যেটা, সেটাই ফল। তাই deny-কে কোনো allow rule খুলতে পারে না।"
+    },
+    {
+      "question": "`bypassPermissions` মোড কোথায় চালানো উচিত?",
+      "options": [
+        "নিজের মূল ল্যাপটপে প্রতিদিনের কাজে",
+        "শুধু আলাদা container বা VM-এ",
+        "প্রোডাকশন সার্ভারে"
+      ],
+      "answer": 1,
+      "explanation": "এই মোড প্রায় সব চেক বাদ দেয় আর prompt injection থেকে কোনো সুরক্ষা দেয় না। তাই এটা শুধু আলাদা, বিচ্ছিন্ন পরিবেশে চালানো উচিত।"
+    },
+    {
+      "question": "CLAUDE.md-তে \"never push\" লেখা আর deny rule-এ `Bash(git push *)` দেওয়ার পার্থক্য কী?",
+      "options": [
+        "কোনো পার্থক্য নেই",
+        "Deny rule Claude Code নিজে প্রয়োগ করে, CLAUDE.md শুধু Claude-এর আচরণে প্রভাব ফেলে",
+        "CLAUDE.md বেশি কড়া"
+      ],
+      "answer": 1,
+      "explanation": "Permission rule Claude Code প্রয়োগ করে, মডেল না। CLAUDE.md শুধু context, এতে কী অনুমোদিত সেটা বদলায় না।"
+    }
+  ]
+}

@@ -1,0 +1,173 @@
+{
+  "id": "developer-07-checkpoints-and-rewind",
+  "track": "developer",
+  "order": 7,
+  "title": "Checkpoints & Rewind",
+  "summary": "Claude-এর করা এডিট ভুল দিকে গেলে `/rewind` দিয়ে কোড আর কথোপকথন আগের অবস্থায় ফেরানো, আর এর সীমাবদ্ধতা জানা।",
+  "updatedAt": "2026-11-08",
+  "blocks": [
+    {
+      "type": "heading",
+      "text": "Your undo button for Claude"
+    },
+    {
+      "type": "paragraph",
+      "text": "Claude একটা কাজ করতে গিয়ে অনেক ফাইল বদলে ফেলল, কিন্তু ফলটা আপনার পছন্দ হলো না। এখন হাতে হাতে সব ফেরাবেন? দরকার নেই। Claude Code প্রতিবার আপনি নতুন প্রম্পট পাঠানোর আগে কোডের অবস্থা আপনাআপনি সেভ করে রাখে। একে বলে checkpoint। এর ফলে সাহসী কোনো approach আগে চেষ্টা করে দেখা ঝুঁকিহীন হয়ে যায়: কাজ না হলে ফিরে যান।"
+    },
+    {
+      "type": "heading",
+      "text": "How checkpoints work"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "নতুন কাজ শুরু করা প্রতিটা প্রম্পট একটা নতুন checkpoint তৈরি করে।",
+        "একটা সেশনে সবচেয়ে সাম্প্রতিক ১০০টা checkpoint-এর ফাইল snapshot রাখা হয়।",
+        "Checkpoint কথোপকথনের সাথে সেভ হয়, তাই সেশন resume করার পরেও `/rewind` কাজ করে।",
+        "ডিফল্টভাবে সেশনের শেষ snapshot-এর মোটামুটি ৩০ দিন পরে পুরোনো snapshot মুছে যায়। বেশিদিন রাখতে `cleanupPeriodDays` setting বাড়ান।"
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "Open the rewind menu"
+    },
+    {
+      "type": "paragraph",
+      "text": "দুইভাবে rewind মেনু খোলা যায়: `/rewind` লিখুন, অথবা প্রম্পট খালি থাকা অবস্থায় `Esc` দুবার চাপুন। শর্টকাট macOS, Linux আর Windows-এ একই। `/checkpoint` আর `/undo`-ও একই কাজ করে।"
+    },
+    {
+      "type": "code",
+      "language": "text",
+      "code": "/rewind"
+    },
+    {
+      "type": "tip",
+      "text": "প্রম্পটে কিছু লেখা থাকলে `Esc` দুবার চাপলে মেনু খোলে না, লেখাটা মুছে যায়। চিন্তা নেই, মোছা লেখা history-তে থাকে। পরে `Up` চাপলে ফিরে আসবে।"
+    },
+    {
+      "type": "heading",
+      "text": "Choose what to restore"
+    },
+    {
+      "type": "paragraph",
+      "text": "মেনুতে এই সেশনে পাঠানো আপনার প্রম্পটগুলোর তালিকা থাকে। যে জায়গায় ফিরতে চান সেটা বেছে নিয়ে একটা কাজ বাছুন:"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "Restore code and conversation: কোড আর কথোপকথন দুটোই ওই জায়গায় ফেরে।",
+        "Restore conversation: কথোপকথন ফেরে, কিন্তু কোড এখন যেমন আছে তেমনই থাকে।",
+        "Restore code: ফাইলের পরিবর্তন ফেরে, কথোপকথন থেকে যায়।",
+        "Summarize from here: এই জায়গা থেকে পরের অংশ সংক্ষেপ করে context-এ জায়গা খালি করে।",
+        "Summarize up to here: এই জায়গার আগের অংশ সংক্ষেপ করে, পরের মেসেজ অক্ষত রাখে।",
+        "Never mind: কিছু না বদলে তালিকায় ফেরা।"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "কোড ফেরানোর অপশন দুটো শুধু তখনই আসে, যখন বাছাই করা checkpoint-এর পরে ফাইলে পরিবর্তন হয়েছে। কথোপকথন ফেরালে ওই মেসেজের মূল প্রম্পটটা ইনপুট বক্সে ফিরে আসে, যাতে একটু বদলে আবার পাঠাতে পারেন।"
+    },
+    {
+      "type": "paragraph",
+      "text": "Summarize অপশনে arrow key দিয়ে গিয়ে, যেখানে add context (optional) লেখা, সেখানে নির্দেশ লিখে `Enter` চাপলে সংক্ষেপটা কোন দিকে মনোযোগ দেবে তা ঠিক করে দিতে পারেন। Summarize ডিস্কের কোনো ফাইল বদলায় না।"
+    },
+    {
+      "type": "heading",
+      "text": "A typical rescue"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "Claude-কে একটা বড় refactor করতে বললেন, টেস্ট ভেঙে গেল।",
+        "প্রম্পট খালি রেখে `Esc` দুবার চাপুন।",
+        "Refactor-এর প্রম্পটটা বেছে নিন, তারপর Restore code and conversation।",
+        "ফিরে আসা প্রম্পটে আরও পরিষ্কার নির্দেশ যোগ করে আবার পাঠান।"
+      ]
+    },
+    {
+      "type": "prompt",
+      "text": "Refactor the payment module into smaller functions, but keep the public API unchanged and run the tests after each step."
+    },
+    {
+      "type": "tip",
+      "text": "আগের `/clear` করা কথোপকথনেও ফেরা যায়। একই Claude Code প্রক্রিয়ায় আগে `/clear` চালিয়ে থাকলে rewind মেনুর একদম উপরে `/resume <session-id> (previous session)` নামে একটা entry থাকে।"
+    },
+    {
+      "type": "heading",
+      "text": "Limitations"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "Bash কমান্ডের পরিবর্তন: যে ফাইল শুধু Bash কমান্ড বদলেছে (Claude-এর file edit টুল না), সেটা track হয় না, rewind করলেও ফেরে না।",
+        "Subagent-এর এডিট: সাধারণত আপনার সেশনের checkpoint-এ ধরা পড়ে না। Claude আগে যে ফাইল এডিট করেছিল শুধু সেগুলো ফেরে।",
+        "বাইরের পরিবর্তন: আপনি নিজে editor-এ যা বদলেছেন বা অন্য সেশন যা বদলেছে, সাধারণত track হয় না।",
+        "Symlink আর hard link করা ফাইল restore হয় না।"
+      ]
+    },
+    {
+      "type": "warning",
+      "text": "Checkpoint হলো সেশনের ভেতরে দ্রুত undo করার ব্যবস্থা, Git-এর বিকল্প না। স্থায়ী ইতিহাস, branch আর টিমের সাথে কাজের জন্য নিয়মিত Git commit করতে থাকুন।"
+    },
+    {
+      "type": "paragraph",
+      "text": "মূল কথোপকথন অক্ষত রেখে অন্য দিকে চেষ্টা করতে চাইলে rewind না করে `/branch` ব্যবহার করুন। এটা কথোপকথনের একটা শাখা বানায়, আর পরে `/resume` দিয়ে মূলটায় ফেরা যায়।"
+    },
+    {
+      "type": "heading",
+      "text": "Recap"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "প্রতিটা প্রম্পটের আগে Claude Code আপনাআপনি checkpoint নেয়।",
+        "`/rewind` অথবা খালি প্রম্পটে `Esc` দুবার চাপলে মেনু খোলে।",
+        "কোড, কথোপকথন বা দুটোই ফেরান, অথবা পুরোনো অংশ summarize করুন।",
+        "Bash কমান্ডের পরিবর্তন track হয় না। Git ব্যবহার চালিয়ে যান।"
+      ]
+    }
+  ],
+  "quiz": [
+    {
+      "question": "প্রম্পট খালি থাকলে কোন শর্টকাট rewind মেনু খোলে?",
+      "options": [
+        "`Ctrl+Z`",
+        "`Esc` দুবার",
+        "`Shift+Tab`",
+        "`Ctrl+R`"
+      ],
+      "answer": 1,
+      "explanation": "খালি প্রম্পটে `Esc` দুবার চাপলে rewind মেনু খোলে। লেখা থাকলে লেখাটা মুছে যায়।"
+    },
+    {
+      "question": "কোডের পরিবর্তন রেখে শুধু কথোপকথন আগের জায়গায় ফেরাতে চান। কোন অপশন?",
+      "options": [
+        "Restore code",
+        "Restore conversation",
+        "Restore code and conversation"
+      ],
+      "answer": 1,
+      "explanation": "Restore conversation শুধু কথোপকথন ফেরায়, কোড এখন যেমন আছে তেমনই রাখে।"
+    },
+    {
+      "question": "Claude একটা ফাইল শুধু `sed` বা অন্য Bash কমান্ড দিয়ে বদলেছে, file edit টুল দিয়ে কখনো না। Rewind করলে কী হবে?",
+      "options": [
+        "ফাইলটা আগের অবস্থায় ফিরবে",
+        "ফাইলটা track হয় না, যেমন আছে তেমনই থাকবে",
+        "ফাইলটা মুছে যাবে"
+      ],
+      "answer": 1,
+      "explanation": "যে ফাইল শুধু Bash কমান্ড বদলেছে, সেটা checkpoint-এ track হয় না। এমন ক্ষেত্রে Git দিয়ে ফেরাতে হবে।"
+    },
+    {
+      "question": "Checkpoint কি Git-এর বিকল্প?",
+      "options": [
+        "হ্যাঁ, Git আর লাগবে না",
+        "না, এটা সেশনের ভেতরে দ্রুত undo-র জন্য। স্থায়ী ইতিহাসের জন্য Git লাগবে",
+        "শুধু Windows-এ বিকল্প"
+      ],
+      "answer": 1,
+      "explanation": "ডকস স্পষ্ট বলে, checkpoint সেশন-পর্যায়ের দ্রুত recovery-র জন্য। Commit, branch আর দীর্ঘমেয়াদি ইতিহাসের জন্য Git ব্যবহার করতে হবে।"
+    }
+  ]
+}

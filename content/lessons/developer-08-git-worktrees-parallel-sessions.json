@@ -1,0 +1,193 @@
+{
+  "id": "developer-08-git-worktrees-parallel-sessions",
+  "track": "developer",
+  "order": 8,
+  "title": "Git Worktrees & Parallel Sessions",
+  "summary": "Git worktree ব্যবহার করে একই রিপোতে একসাথে কয়েকটা Claude Code সেশন চালানো, যাতে একটার এডিট আরেকটার সাথে না জড়ায়।",
+  "updatedAt": "2026-11-08",
+  "blocks": [
+    {
+      "type": "heading",
+      "text": "Why run sessions in parallel"
+    },
+    {
+      "type": "paragraph",
+      "text": "ধরুন একটা টার্মিনালে Claude নতুন feature বানাচ্ছে, আর আপনি চান আরেকটা টার্মিনালে অন্য একটা Claude একটা bug ঠিক করুক। দুজনেই একই ফোল্ডারে কাজ করলে একজনের এডিট আরেকজনের উপর পড়বে। সমাধান হলো git worktree। Worktree হলো একই রিপোজিটরির আলাদা একটা working directory, যার নিজের ফাইল আর নিজের branch আছে, কিন্তু history আর remote মূল checkout-এর সাথে শেয়ার করা। প্রতিটা সেশন নিজের worktree-তে চললে কারও এডিট কারও সাথে ধাক্কা খায় না।"
+    },
+    {
+      "type": "heading",
+      "text": "Start Claude in a worktree"
+    },
+    {
+      "type": "paragraph",
+      "text": "`--worktree` বা ছোট করে `-w` ফ্ল্যাগের সাথে একটা নাম দিন। এই কমান্ড macOS, Linux আর Windows-এ একই:"
+    },
+    {
+      "type": "code",
+      "language": "bash",
+      "code": "claude --worktree feature-auth"
+    },
+    {
+      "type": "paragraph",
+      "text": "ডিফল্টভাবে worktree তৈরি হয় রিপোর root-এ `.claude/worktrees/<name>/` ফোল্ডারে, `worktree-<name>` নামের নতুন branch-এ। দ্বিতীয় সেশনের জন্য আরেকটা টার্মিনালে অন্য নাম দিয়ে একই কমান্ড চালান:"
+    },
+    {
+      "type": "code",
+      "language": "bash",
+      "code": "claude --worktree bugfix-123"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "নাম না দিলে Claude নিজেই একটা নাম বানিয়ে নেয়, যেমন `bright-running-fox`।",
+        "রিপোতে অন্তত একটা commit থাকতে হবে। একটাও commit না থাকলে কমান্ডটা `Failed to resolve base branch \"HEAD\": git rev-parse failed` দেখিয়ে ব্যর্থ হয়।",
+        "ওই ফোল্ডারে আগে কখনো Claude না চালালে একবার শুধু `claude` চালিয়ে trust dialog মেনে নিন, নইলে `--worktree` error দেবে।",
+        "সেশন চলার মাঝেও Claude-কে বলতে পারেন \"work in a worktree\", তখন সে নিজে একটা worktree বানিয়ে নেয়।"
+      ]
+    },
+    {
+      "type": "tip",
+      "text": "`.claude/worktrees/` ফোল্ডারটা `.gitignore`-এ যোগ করুন। নইলে worktree-র ফাইলগুলো মূল checkout-এ untracked file হিসেবে দেখাবে।"
+    },
+    {
+      "type": "heading",
+      "text": "Set up the worktree environment"
+    },
+    {
+      "type": "paragraph",
+      "text": "Worktree একদম নতুন checkout। তাই dependency ইনস্টল থাকে না, আর `.env`-এর মতো gitignore করা ফাইলও থাকে না। Dependency-র জন্য Claude-কে ইনস্টল করতে বলুন, বা install কমান্ড CLAUDE.md-তে লিখে রাখুন। আর gitignore করা ফাইল প্রতিটা নতুন worktree-তে আপনাআপনি কপি করতে রিপোর root-এ একটা `.worktreeinclude` ফাইল বানান। এর syntax `.gitignore`-এর মতো:"
+    },
+    {
+      "type": "code",
+      "language": "text",
+      "code": ".env\n.env.local\nconfig/secrets.json"
+    },
+    {
+      "type": "paragraph",
+      "text": "শুধু সেই ফাইলগুলো কপি হয় যেগুলো pattern-এ মেলে আর gitignore করা আছে। `node_modules`-এর মতো বড় ফোল্ডার এখানে দেবেন না, কারণ এটা প্রতিটা worktree-তে পুরোটা কপি করে।"
+    },
+    {
+      "type": "heading",
+      "text": "Clean up when you exit"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "Worktree পরিষ্কার থাকলে (কোনো পরিবর্তন নেই) আর সেশনের নাম না দেওয়া থাকলে, বের হওয়ার সময় Claude worktree আর তার branch নিজেই মুছে দেয়।",
+        "Worktree-তে কাজ থাকলে Claude জিজ্ঞেস করে রাখবেন না মুছবেন। রাখলে ফোল্ডার আর branch থেকে যায়।",
+        "পরে ফিরতে বের হওয়ার সময় Claude Code যে `claude --worktree <name> --resume` কমান্ডটা দেখায়, সেটা চালান।"
+      ]
+    },
+    {
+      "type": "warning",
+      "text": "`claude -p --worktree` দিয়ে চালানো non-interactive রান বের হওয়ার সময় কিছু জিজ্ঞেস করে না, তাই worktree নিজে মুছতে হবে: `git worktree remove <path>`। Git লক থাকার কারণে না মানলে আগে `git worktree unlock <path>` চালান।"
+    },
+    {
+      "type": "heading",
+      "text": "Useful options"
+    },
+    {
+      "type": "paragraph",
+      "text": "নতুন worktree ডিফল্টভাবে রিপোর default branch (সাধারণত `main`) থেকে শুরু হয়। আপনার বর্তমান কাজ, মানে না-push করা commit থেকে শুরু করতে চাইলে settings-এ `worktree.baseRef`-এর মান `\"head\"` দিন:"
+    },
+    {
+      "type": "code",
+      "language": "json",
+      "code": "{\n  \"worktree\": {\n    \"baseRef\": \"head\"\n  }\n}"
+    },
+    {
+      "type": "paragraph",
+      "text": "কোনো pull request রিভিউ বা ঠিক করতে চাইলে নম্বরের আগে `#` দিন। Shell যেন `#`-কে comment না ভাবে, তাই quote করুন:"
+    },
+    {
+      "type": "code",
+      "language": "bash",
+      "code": "claude --worktree \"#1234\""
+    },
+    {
+      "type": "heading",
+      "text": "Manage worktrees with git yourself"
+    },
+    {
+      "type": "paragraph",
+      "text": "নির্দিষ্ট কোনো বিদ্যমান branch চেকআউট করতে বা রিপোর বাইরে worktree রাখতে চাইলে সরাসরি git ব্যবহার করুন। এই কমান্ডগুলো bash আর PowerShell দুটোতেই চলে:"
+    },
+    {
+      "type": "code",
+      "language": "bash",
+      "code": "git worktree add ../project-feature-a -b feature-a\ncd ../project-feature-a\nclaude"
+    },
+    {
+      "type": "code",
+      "language": "bash",
+      "code": "git worktree list\ngit worktree remove ../project-feature-a"
+    },
+    {
+      "type": "heading",
+      "text": "Parallel sessions in the desktop app"
+    },
+    {
+      "type": "paragraph",
+      "text": "Desktop অ্যাপের Code ট্যাবে sidebar-এর + New ক্লিক করুন, বা macOS-এ `Cmd+N`, Windows-এ `Ctrl+N` চাপুন। প্রতিটা সেশন আলাদা চলে। Git রিপোতে সেশন শুরুর আগে প্রম্পট বক্সের নিচের সারিতে Worktree চালু করলে সেশনটা নিজের worktree-তে চলে। এটাও ডিফল্টভাবে `<project-root>/.claude/worktrees/`-এ থাকে।"
+    },
+    {
+      "type": "paragraph",
+      "text": "Claude-এর subagent-ও নিজের worktree-তে চলতে পারে। Claude-কে বলুন \"use worktrees for your agents\"। Subagent নিয়ে বিস্তারিত পরের একটা লেসনে।"
+    },
+    {
+      "type": "heading",
+      "text": "Recap"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "প্রতিটা সমান্তরাল কাজের জন্য `claude --worktree <name>` দিয়ে আলাদা worktree।",
+        "Worktree থাকে `.claude/worktrees/<name>/`-এ, branch `worktree-<name>`।",
+        "`.env`-এর মতো ফাইল কপি করতে `.worktreeinclude` ব্যবহার করুন।",
+        "পরিষ্কার worktree বের হওয়ার সময় আপনাআপনি মুছে যায়। `-p` রানেরটা নিজে মুছুন।"
+      ]
+    }
+  ],
+  "quiz": [
+    {
+      "question": "`claude --worktree feature-auth` চালালে worktree ডিফল্টভাবে কোথায় তৈরি হয়?",
+      "options": [
+        "`~/worktrees/feature-auth`",
+        "রিপোর root-এ `.claude/worktrees/feature-auth/`",
+        "সিস্টেমের temp ফোল্ডারে"
+      ],
+      "answer": 1,
+      "explanation": "ডিফল্ট জায়গা হলো রিপোর root-এ `.claude/worktrees/<name>/`, আর branch হয় `worktree-<name>`।"
+    },
+    {
+      "question": "নতুন worktree-তে `.env` ফাইল আপনাআপনি কপি করাতে কী করবেন?",
+      "options": [
+        "`.env` git-এ commit করে দেবেন",
+        "রিপোর root-এ `.worktreeinclude` ফাইলে `.env` লিখবেন",
+        "কিছু করার নেই, প্রতিবার হাতে কপি করতে হবে"
+      ],
+      "answer": 1,
+      "explanation": "`.worktreeinclude` ফাইলে `.gitignore`-এর মতো pattern লিখলে মিলে যাওয়া gitignore করা ফাইল প্রতিটা নতুন worktree-তে কপি হয়। Secret কখনো commit করবেন না।"
+    },
+    {
+      "question": "একটা নতুন রিপো, এখনো একটাও commit নেই। `claude --worktree test` চালালে কী হবে?",
+      "options": [
+        "ঠিকঠাক worktree তৈরি হবে",
+        "ব্যর্থ হবে, কারণ worktree-র জন্য অন্তত একটা commit লাগে",
+        "Claude নিজে commit করে দেবে"
+      ],
+      "answer": 1,
+      "explanation": "Worktree একটা বিদ্যমান commit থেকে তৈরি হয়। commit না থাকলে `Failed to resolve base branch \"HEAD\"` error আসে।"
+    },
+    {
+      "question": "`claude -p --worktree` দিয়ে চালানো রানের worktree কীভাবে মুছবেন?",
+      "options": [
+        "বের হওয়ার সময় Claude জিজ্ঞেস করবে",
+        "নিজে `git worktree remove <path>` চালিয়ে",
+        "এটা কখনো মোছা যায় না"
+      ],
+      "answer": 1,
+      "explanation": "Non-interactive `-p` রানে বের হওয়ার সময় কোনো প্রশ্ন আসে না, তাই `git worktree remove` দিয়ে নিজে মুছতে হয়।"
+    }
+  ]
+}
