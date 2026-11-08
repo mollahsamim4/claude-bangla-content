@@ -1,7 +1,7 @@
 {
   "formatVersion": 1,
-  "commit": "84c04d3f5243d2a959439a165955b00f5af61c3a",
-  "generatedAt": "2026-11-08T15:53:40.331Z",
+  "commit": "22974636a365a5dd05ed2cd97df27386ebaaa4de",
+  "generatedAt": "2026-11-08T15:54:13.521Z",
   "files": [
     {
       "path": "coming-soon/sample.json",
@@ -161,6 +161,51 @@
     {
       "path": "lessons/developer-01-install-claude-code.json",
       "hash": "07c961cf0f516da9",
+      "kind": "lesson"
+    },
+    {
+      "path": "lessons/developer-02-claude-md-and-memory.json",
+      "hash": "e29d46bc025c3925",
+      "kind": "lesson"
+    },
+    {
+      "path": "lessons/developer-03-plan-mode.json",
+      "hash": "09ab915a0ed71363",
+      "kind": "lesson"
+    },
+    {
+      "path": "lessons/developer-04-permission-modes-and-safety.json",
+      "hash": "12419246ecb3f9bf",
+      "kind": "lesson"
+    },
+    {
+      "path": "lessons/developer-05-settings-json.json",
+      "hash": "cd339964a02e0ea2",
+      "kind": "lesson"
+    },
+    {
+      "path": "lessons/developer-06-slash-commands.json",
+      "hash": "403a4682790e6bf1",
+      "kind": "lesson"
+    },
+    {
+      "path": "lessons/developer-07-checkpoints-and-rewind.json",
+      "hash": "f84fbd55c363e33a",
+      "kind": "lesson"
+    },
+    {
+      "path": "lessons/developer-08-git-worktrees-parallel-sessions.json",
+      "hash": "a76aed33a5f3041f",
+      "kind": "lesson"
+    },
+    {
+      "path": "lessons/developer-09-claude-code-web-desktop-ide.json",
+      "hash": "f3a05985ee5ba665",
+      "kind": "lesson"
+    },
+    {
+      "path": "lessons/developer-10-context-management.json",
+      "hash": "88479d90604c85fe",
       "kind": "lesson"
     },
     {
