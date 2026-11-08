@@ -1,0 +1,7 @@
+{
+  "id": "english-conversation-practice",
+  "category": "Learning English",
+  "title": "Practice spoken English",
+  "prompt": "Let us practice English conversation. Topic: [topic, e.g. ordering food / a job interview / a visa interview]. My level: [beginner / intermediate].\n\nYou play the other person. Keep your replies short (1-3 sentences) so I can practice. After every 3 of my replies, pause and give me corrections on my grammar and a better way to say what I said.",
+  "when": "কথোপকথন অনুশীলনের জন্য। Claude একজন অংশীদারের ভূমিকা নেয় আর নির্দিষ্ট বিরতিতে ভুল ধরিয়ে দেয়। বিষয় আর আপনার স্তর বদলে নিন। উত্তর ছোট রাখতে বলায় আপনি বেশি কথা বলার সুযোগ পান।"
+}

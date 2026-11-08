@@ -1,0 +1,13 @@
+{
+  "id": "cc-invalid-api-key",
+  "errorText": "Invalid API key · Fix external API key",
+  "appearsIn": "claude-code",
+  "meaning": "`ANTHROPIC_API_KEY` environment variable বা `apiKeyHelper` যে key দিয়েছে, API সেটি গ্রহণ করেনি।",
+  "fixSteps": [
+    "Key-তে টাইপ ভুল আছে কিনা এবং Console-এ (`platform.claude.com/settings/keys`) key revoke হয়েছে কিনা দেখুন।",
+    "পুরনো key shell profile বা `.env` ফাইল থেকে লোড হচ্ছে কিনা দেখুন: `env | grep ANTHROPIC` (PowerShell: `Get-ChildItem Env:ANTHROPIC*`)।",
+    "Key মুছে ফেলে `/login` করুন: `unset ANTHROPIC_API_KEY`",
+    "`apiKeyHelper` ব্যবহার করলে স্ক্রিপ্টটি সরাসরি চালিয়ে দেখুন সঠিক key ছাপছে কিনা।"
+  ],
+  "sourceRef": "https://code.claude.com/docs/en/errors"
+}

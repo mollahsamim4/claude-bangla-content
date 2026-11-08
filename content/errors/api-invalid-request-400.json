@@ -1,0 +1,13 @@
+{
+  "id": "api-invalid-request-400",
+  "errorText": "invalid_request_error",
+  "appearsIn": "api",
+  "meaning": "HTTP 400 মানে আপনার request-এর ফরম্যাট বা বিষয়বস্তুতে সমস্যা আছে (ভুল field, ভুল মান, অসমর্থিত parameter ইত্যাদি)। Docs বলছে অন্য কিছু 4XX স্ট্যাটাসের ক্ষেত্রেও এই type আসতে পারে। আসল কারণ `error.message`-এ লেখা থাকে।",
+  "fixSteps": [
+    "Response body-র `error.message` মন দিয়ে পড়ুন, ওখানেই বলা থাকে কোন field-এ সমস্যা।",
+    "Request-এর JSON ঠিক আছে কিনা এবং model-এর নাম ঠিক আছে কিনা দেখুন।",
+    "Model আপনার পাঠানো parameter সমর্থন করে কিনা API reference-এ মিলিয়ে নিন (যেমন কিছু model-এ prefill বা `thinking.type` সমর্থিত নয়)।",
+    "`request_id` (যেমন `req_...`) টুকে রাখুন। Support-এ জানাতে লাগবে।"
+  ],
+  "sourceRef": "https://platform.claude.com/docs/en/api/errors"
+}

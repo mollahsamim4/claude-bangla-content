@@ -1,0 +1,12 @@
+{
+  "id": "api-billing-402",
+  "errorText": "billing_error",
+  "appearsIn": "api",
+  "meaning": "HTTP 402 মানে আপনার billing বা payment তথ্যে সমস্যা আছে।",
+  "fixSteps": [
+    "Claude Console-এ গিয়ে payment তথ্য ও billing পাতা (`platform.claude.com/settings/billing`) ঠিক আছে কিনা দেখুন।",
+    "Credit শেষ হয়ে থাকলে credit কিনুন বা payment method হালনাগাদ করুন।",
+    "সমস্যা না মিটলে Console-এর সাপোর্টে জানান।"
+  ],
+  "sourceRef": "https://platform.claude.com/docs/en/api/errors"
+}

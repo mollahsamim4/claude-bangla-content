@@ -1,0 +1,12 @@
+{
+  "id": "app-usage-limit-reached",
+  "errorText": "You've reached your weekly limit. It resets [day] at [time].",
+  "appearsIn": "claude-app",
+  "meaning": "আপনি আপনার প্ল্যানের ব্যবহার-সীমায় পৌঁছে গেছেন। Help Center অনুযায়ী এর আরেকটি রূপ \"5-hour limit reached - resets [time]\"। `[day]` ও `[time]` জায়গায় আপনার আসল দিন ও সময় দেখাবে।",
+  "fixSteps": [
+    "মেসেজে দেখানো reset সময় পর্যন্ত অপেক্ষা করুন।",
+    "Paid প্ল্যানে Usage settings থেকে usage credits চালু করতে পারেন, তখন কাজ pay-as-you-go ভিত্তিতে চলতে থাকবে।",
+    "Settings > Usage-এ গিয়ে আপনার বাকি ব্যবহার ও reset সময় দেখুন।"
+  ],
+  "sourceRef": "https://support.claude.com/en/articles/12466728-troubleshoot-claude-error-messages"
+}

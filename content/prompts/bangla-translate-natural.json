@@ -1,0 +1,7 @@
+{
+  "id": "bangla-translate-natural",
+  "category": "Bengali tasks",
+  "title": "Translate English to natural Bengali",
+  "prompt": "Translate the English text below into natural, spoken-style Bengali (cholit bhasha), the way a Bengali speaker would say it to a friend. Do not translate word for word. Keep technical terms like [terms to keep, e.g. prompt, API] in English.\n\n<text>\n[paste English text]\n</text>\n\nAfter the translation, mention any phrase where you had to choose between two meanings.",
+  "when": "ইংরেজি থেকে স্বাভাবিক বাংলায় অনুবাদ করতে। \"word for word করো না\" আর \"চলিত ভাষা\" বলে দিলে অনুবাদ কেতাবি হয় না। যেসব ইংরেজি শব্দ রাখতে চান তার তালিকা দিন। ঔপচারিক টোন চাইলে সেটি লিখে দিন। গুরুত্বপূর্ণ লেখা কোনো বাংলাভাষীকে দিয়ে একবার দেখিয়ে নিন।"
+}

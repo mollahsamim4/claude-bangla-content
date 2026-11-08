@@ -1,0 +1,15 @@
+{
+  "id": "cc-command-not-found",
+  "errorText": "zsh: command not found: claude",
+  "appearsIn": "claude-code",
+  "meaning": "Claude Code ইনস্টল হয়েছে কিন্তু টার্মিনাল `claude` কমান্ডটি খুঁজে পাচ্ছে না, কারণ ইনস্টল ফোল্ডার (`~/.local/bin`) আপনার PATH-এ নেই। Linux-এ মেসেজ `bash: claude: command not found`, Windows CMD-তে `'claude' is not recognized as an internal or external command`।",
+  "fixSteps": [
+    "প্রথমে দেখুন ফাইলটি আছে কিনা: `ls -la ~/.local/bin/claude`",
+    "PATH-এ আছে কিনা দেখুন: `echo $PATH | tr ':' '\\n' | grep -Fx \"$HOME/.local/bin\"`",
+    "না থাকলে Zsh-এ (macOS ডিফল্ট) এই দুই কমান্ড চালান: `echo 'export PATH=\"$HOME/.local/bin:$PATH\"' >> ~/.zshrc` তারপর `source ~/.zshrc`",
+    "Linux Bash-এ একই কমান্ড `~/.bashrc`-এর জন্য চালান।",
+    "Windows PowerShell-এ: `[Environment]::SetEnvironmentVariable('PATH', \"$([Environment]::GetEnvironmentVariable('PATH', 'User'));$env:USERPROFILE\\.local\\bin\", 'User')` চালিয়ে টার্মিনাল রিস্টার্ট করুন।",
+    "ঠিক হয়েছে কিনা দেখুন: `claude --version`। এডিটরের ভেতরের টার্মিনালে এডিটর বন্ধ করে আবার খুলতে হতে পারে।"
+  ],
+  "sourceRef": "https://code.claude.com/docs/en/troubleshoot-install"
+}

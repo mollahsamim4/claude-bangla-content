@@ -1,0 +1,12 @@
+{
+  "id": "api-permission-403",
+  "errorText": "permission_error",
+  "appearsIn": "api",
+  "meaning": "HTTP 403 মানে আপনার API key নির্দিষ্ট resource ব্যবহারের অনুমতি পায়নি।",
+  "fixSteps": [
+    "Claude Console-এ আপনার organization-এর access ও workspace সেটিংস দেখুন।",
+    "যে model বা feature চাইছেন তা আপনার account/workspace-এ চালু আছে কিনা মিলিয়ে নিন।",
+    "আলাদা workspace-এর key ব্যবহার করে থাকলে সঠিক workspace-এর key দিয়ে চেষ্টা করুন।"
+  ],
+  "sourceRef": "https://platform.claude.com/docs/en/api/errors"
+}

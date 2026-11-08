@@ -1,0 +1,13 @@
+{
+  "id": "app-login-error",
+  "errorText": "There was an error logging you in.",
+  "appearsIn": "claude-app",
+  "meaning": "Claude অ্যাপ বা ওয়েবে লগইন করতে গিয়ে সমস্যা হয়েছে।",
+  "fixSteps": [
+    "VPN চালু থাকলে বন্ধ করে দেখুন।",
+    "ব্রাউজারের এক্সটেনশনগুলো সাময়িকভাবে বন্ধ করুন।",
+    "ব্রাউজারের cache ও cookies মুছে আবার চেষ্টা করুন।",
+    "তারপরও না হলে `status.claude.com`-এ কোনো ঘটনা চলছে কিনা দেখুন।"
+  ],
+  "sourceRef": "https://support.claude.com/en/articles/12466728-troubleshoot-claude-error-messages"
+}

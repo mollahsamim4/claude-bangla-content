@@ -1,0 +1,7 @@
+{
+  "id": "write-professional-email",
+  "category": "Writing",
+  "title": "Write a professional email",
+  "prompt": "Write a professional email to [recipient, e.g. my manager] about [topic].\n\nContext: [2-3 sentences of background]\nGoal of the email: [what you want them to do or decide]\nTone: [polite and concise / warm / formal]\nLength: under [120] words.\n\nGive me one subject line and the email body.",
+  "when": "কাউকে ইংরেজিতে অফিসের ইমেইল লিখতে হলে এটি ব্যবহার করুন। Claude-কে প্রাপক, উদ্দেশ্য আর টোন জানালে সে অনেক বেশি কাজে লাগার মতো ড্রাফট দেয়। [ ] বন্ধনীর জায়গাগুলো আপনার তথ্য দিয়ে বদলান। টোন বা শব্দসংখ্যা বদলে নিজের মতো করুন। ড্রাফট পছন্দ না হলে পরের মেসেজে বলুন \"আরেকটু ছোট করো\" বা \"আরও বিনয়ী করো\"।"
+}

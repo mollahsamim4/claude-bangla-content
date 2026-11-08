@@ -1,0 +1,13 @@
+{
+  "id": "cc-prompt-too-long",
+  "errorText": "Prompt is too long",
+  "appearsIn": "claude-code",
+  "meaning": "কথোপকথন ও সংযুক্ত ফাইল মিলিয়ে model-এর context window ছাড়িয়ে গেছে। Interactive সেশনে এটি `Context limit reached · /compact or /clear to continue` হিসেবেও দেখা দিতে পারে।",
+  "fixSteps": [
+    "`/compact` চালিয়ে আগের কথোপকথনের সারাংশ বানান, অথবা `/clear` চালিয়ে নতুন করে শুরু করুন।",
+    "`/context` চালিয়ে দেখুন কী কী জায়গা নিচ্ছে।",
+    "অপ্রয়োজনীয় MCP server বন্ধ করুন: `/mcp disable <name>`",
+    "বড় `CLAUDE.md` ছোট করুন। Auto-compact চালু রাখুন।"
+  ],
+  "sourceRef": "https://code.claude.com/docs/en/errors"
+}

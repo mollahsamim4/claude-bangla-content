@@ -1,0 +1,12 @@
+{
+  "id": "cc-request-rejected-429",
+  "errorText": "API Error: Request rejected (429) · this may be a temporary capacity issue. If it persists, check https://status.claude.com.",
+  "appearsIn": "claude-code",
+  "meaning": "আপনার API key, Amazon Bedrock প্রজেক্ট বা Google Cloud প্রজেক্টের জন্য নির্ধারিত rate limit ছুঁয়ে ফেলেছেন। (শেষের লিংক provider অনুযায়ী আলাদা হতে পারে।)",
+  "fixSteps": [
+    "`/status` চালিয়ে দেখুন কোন credential সক্রিয়। ভুলে থাকা `ANTHROPIC_API_KEY` আপনার request কম limit-এর key-তে পাঠিয়ে দিতে পারে।",
+    "Provider console-এ limit দেখুন এবং দরকার হলে উচ্চতর tier চান।",
+    "একসাথে চলা কাজ কমান, বা বেশি কাজের জন্য `/model` দিয়ে ছোট model বেছে নিন।"
+  ],
+  "sourceRef": "https://code.claude.com/docs/en/errors"
+}

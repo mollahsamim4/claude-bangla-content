@@ -1,0 +1,13 @@
+{
+  "id": "cc-selected-model-issue",
+  "errorText": "There's an issue with the selected model (claude-...). It may not exist or you may not have access to it. Run /model to pick a different model.",
+  "appearsIn": "claude-code",
+  "meaning": "যে model-এর নাম সেট করা আছে সেটি চেনা যায়নি, অথবা আপনার account সেটিতে access পায়নি। (মেসেজে `claude-...`-এর জায়গায় আপনার সেট করা model ID দেখাবে।)",
+  "fixSteps": [
+    "Interactive CLI-তে `/model` চালিয়ে আপনার account-এ চলে এমন model বেছে নিন।",
+    "Non-interactive (`-p`) মোডে `--model` দিয়ে সঠিক alias বা ID দিন, অথবা `ANTHROPIC_MODEL` সেট করুন।",
+    "পুরো version-সহ ID-র বদলে `sonnet` বা `opus`-এর মতো alias ব্যবহার করা ভালো।",
+    "পুরনো model ID বারবার ফিরে এলে settings ফাইল ও environment variable-এ পুরনো মান খুঁজে সরান।"
+  ],
+  "sourceRef": "https://code.claude.com/docs/en/errors"
+}

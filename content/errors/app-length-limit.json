@@ -1,0 +1,13 @@
+{
+  "id": "app-length-limit",
+  "errorText": "Your message will exceed the length limit for this chat. Try attaching fewer or smaller files or starting a new conversation.",
+  "appearsIn": "claude-app",
+  "meaning": "আপনার মেসেজ (লেখা ও সংযুক্ত ফাইল মিলিয়ে) এই চ্যাটের দৈর্ঘ্যের সীমা ছাড়িয়ে যাবে। এটি usage limit নয়, context window-এর সীমা। Help Center বলছে code execution সহ paid প্ল্যানে লম্বা কথোপকথন সাধারণত স্বয়ংক্রিয়ভাবে সারাংশ হয়, তাই এটি তুলনামূলক বিরল।",
+  "fixSteps": [
+    "কম বা ছোট ফাইল সংযুক্ত করুন।",
+    "লেখা ছোট ছোট অংশে ভাগ করে পাঠান, বা আগে Claude-কে সবচেয়ে প্রাসঙ্গিক অংশ বেছে নিতে বলুন।",
+    "নতুন কথোপকথন শুরু করুন। প্রয়োজনে আগের চ্যাটের সারাংশ Claude-কে দিয়ে লিখিয়ে নতুন চ্যাটে পেস্ট করুন।",
+    "বেশি তথ্য নিয়ে কাজ করতে Projects ব্যবহার করে দেখুন।"
+  ],
+  "sourceRef": "https://support.claude.com/en/articles/12466728-troubleshoot-claude-error-messages"
+}

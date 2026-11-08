@@ -1,0 +1,7 @@
+{
+  "id": "data-excel-formula",
+  "category": "Data analysis",
+  "title": "Get an Excel / Google Sheets formula",
+  "prompt": "I use [Excel / Google Sheets]. My data is in columns: [A = name, B = marks, C = class].\n\nI want to: [describe the result you want, e.g. count students in class 10 with marks above 80].\n\nGive me the exact formula, explain each part, and show an example with sample values.",
+  "when": "স্প্রেডশিটে ফর্মুলা মনে না পড়লে ব্যবহার করুন। কলামে কী আছে তা বলে দিলে Claude ঠিক কলামের নামসহ ফর্মুলা দেয়। কী ফলাফল চান তা সাধারণ ভাষায় লিখুন। সত্যিকারের ডেটায় লাগানোর আগে ছোট নমুনায় পরীক্ষা করুন।"
+}

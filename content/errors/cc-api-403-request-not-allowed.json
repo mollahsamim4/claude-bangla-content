@@ -1,0 +1,12 @@
+{
+  "id": "cc-api-403-request-not-allowed",
+  "errorText": "API Error: 403 Request not allowed",
+  "appearsIn": "claude-code",
+  "meaning": "লগইনের পর এই ত্রুটি এলে সাধারণত আপনার subscription সক্রিয় নেই, Console account-এর role ঠিক নেই, বা প্রক্সি request আটকে দিচ্ছে।",
+  "fixSteps": [
+    "Claude Pro/Max/Ultra ব্যবহারকারী হলে `claude.ai/settings`-এ subscription সক্রিয় কিনা দেখুন।",
+    "Anthropic Console ব্যবহারকারী হলে account-এ \"Claude Code\" বা \"Developer\" role আছে কিনা দেখুন। অ্যাডমিন এটি `platform.claude.com/settings/members` পাতা থেকে দেন।",
+    "কর্পোরেট প্রক্সির পেছনে থাকলে network configuration দেখুন বা IT টিমকে জানান।"
+  ],
+  "sourceRef": "https://code.claude.com/docs/en/troubleshoot-install"
+}

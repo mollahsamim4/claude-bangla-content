@@ -1,0 +1,7 @@
+{
+  "id": "code-write-tests",
+  "category": "Coding",
+  "title": "Write unit tests",
+  "prompt": "Write unit tests for the function below using [testing framework, e.g. pytest / Jest].\n\n<code>\n[paste function]\n</code>\n\nCover normal cases, edge cases (empty input, very large values, wrong types), and error cases. Add a one-line comment above each test saying what it checks.",
+  "when": "ফাংশনের জন্য টেস্ট লিখতে। edge case আলাদা করে চাওয়ায় Claude শুধু সহজ কেস নয়, কঠিন কেসও ধরে। আপনার প্রকল্পের টেস্ট ফ্রেমওয়ার্কের নাম বসিয়ে নিন। লেখা টেস্ট নিজে চালিয়ে দেখুন।"
+}

@@ -1,0 +1,7 @@
+{
+  "id": "data-chart-ideas",
+  "category": "Data analysis",
+  "title": "Choose the right chart",
+  "prompt": "I have data about [describe data, e.g. monthly sales for 3 products over 2 years]. My audience is [audience] and the message I want to show is [message].\n\nRecommend the best 2 chart types, explain why, and say what to put on each axis. Also mention one chart type I should avoid for this data and why.",
+  "when": "রিপোর্ট বা প্রেজেন্টেশনের জন্য কোন চার্ট ভালো হবে বুঝতে না পারলে। কী বার্তা দেখাতে চান সেটি আগে ঠিক করে নিলে সঠিক চার্ট বেছে নেওয়া সহজ। \"কোনটি এড়াবে\" প্রশ্নটি ভুল চার্ট থেকে বাঁচায়।"
+}

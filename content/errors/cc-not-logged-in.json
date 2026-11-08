@@ -1,0 +1,12 @@
+{
+  "id": "cc-not-logged-in",
+  "errorText": "Not logged in · Please run /login",
+  "appearsIn": "claude-code",
+  "meaning": "Claude Code-এ এই সেশনের জন্য কোনো বৈধ লগইন বা credential নেই।",
+  "fixSteps": [
+    "Claude Code-এর ভেতরে `/login` চালান।",
+    "`ANTHROPIC_API_KEY` দিয়ে লগইন করতে চাইলে সেটি যে shell থেকে `claude` চালাচ্ছেন সেখানে set ও export করা আছে কিনা দেখুন।",
+    "`/status` চালিয়ে দেখুন কোন credential সক্রিয়।"
+  ],
+  "sourceRef": "https://code.claude.com/docs/en/errors"
+}

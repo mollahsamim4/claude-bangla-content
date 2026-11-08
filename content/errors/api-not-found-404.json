@@ -1,0 +1,12 @@
+{
+  "id": "api-not-found-404",
+  "errorText": "The requested resource could not be found.",
+  "appearsIn": "api",
+  "meaning": "HTTP 404 (`not_found_error`) মানে আপনি যে resource চেয়েছেন তা পাওয়া যায়নি। সাধারণত endpoint-এর path বা URL-এর কোনো ID ভুল থাকলে এটি আসে।",
+  "fixSteps": [
+    "Request URL-এর endpoint path (যেমন `/v1/messages`) ঠিক আছে কিনা দেখুন।",
+    "URL-এ থাকা ID (যেমন batch বা file ID) সঠিক কিনা দেখুন।",
+    "Model-এর নাম ভুল লিখেছেন কিনা models পাতার সাথে মিলিয়ে নিন।"
+  ],
+  "sourceRef": "https://platform.claude.com/docs/en/api/errors"
+}

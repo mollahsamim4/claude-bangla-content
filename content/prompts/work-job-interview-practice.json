@@ -1,0 +1,7 @@
+{
+  "id": "work-job-interview-practice",
+  "category": "Work",
+  "title": "Practice a job interview",
+  "prompt": "Act as an interviewer for the position of [job title] at a [type of company]. Ask me one interview question at a time. After each answer, give me honest feedback in 2-3 lines (what was good, what to improve) and a stronger sample answer. Start with the first question.",
+  "when": "ইন্টারভিউয়ের অনুশীলনের জন্য। এখানে Claude-কে একটি ভূমিকা (role) দেওয়া হয়েছে, যা Anthropic-এর prompt engineering গাইডের পরিচিত কৌশল। পদ আর কোম্পানির ধরন বদলে নিন। ইংরেজি ইন্টারভিউ হলে ইংরেজিতেই উত্তর দিয়ে অনুশীলন করুন।"
+}

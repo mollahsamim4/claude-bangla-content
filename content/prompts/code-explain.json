@@ -1,0 +1,7 @@
+{
+  "id": "code-explain",
+  "category": "Coding",
+  "title": "Explain code step by step",
+  "prompt": "Explain what the following code does. I am a [beginner / intermediate] programmer.\n\n<code language=\"[language]\">\n[paste code]\n</code>\n\nFirst give a 2-sentence overview, then explain it step by step, and point out anything that looks risky or unusual.",
+  "when": "অন্যের লেখা বা পুরনো কোড বুঝতে চাইলে ব্যবহার করুন। নিজের অভিজ্ঞতার স্তর জানালে ব্যাখ্যা সেই মাপের হয়। ভাষার নাম ট্যাগে লিখে দিন। বড় ফাইল হলে একবারে একটি ফাংশন দিন।"
+}

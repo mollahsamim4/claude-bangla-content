@@ -1,0 +1,12 @@
+{
+  "id": "cc-oauth-invalid-code",
+  "errorText": "OAuth error: Invalid code. Please make sure the full code was copied",
+  "appearsIn": "claude-code",
+  "meaning": "লগইনের কোডটির মেয়াদ শেষ হয়ে গেছে, অথবা কপি-পেস্টের সময় অসম্পূর্ণ কপি হয়েছে।",
+  "fixSteps": [
+    "Enter চেপে আবার চেষ্টা করুন এবং ব্রাউজার খোলার পর দ্রুত লগইন সম্পূর্ণ করুন।",
+    "ব্রাউজার নিজে না খুললে `c` চেপে পুরো URL কপি করে ব্রাউজারে পেস্ট করুন।",
+    "Remote বা SSH সেশনে ব্রাউজার ভুল মেশিনে খুলতে পারে। টার্মিনালে দেখানো URL কপি করে নিজের কম্পিউটারের ব্রাউজারে খুলুন।"
+  ],
+  "sourceRef": "https://code.claude.com/docs/en/troubleshoot-install"
+}

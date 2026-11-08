@@ -1,0 +1,7 @@
+{
+  "id": "code-debug",
+  "category": "Coding",
+  "title": "Debug an error",
+  "prompt": "I am getting an error in my [language / framework] project.\n\n<error>\n[paste the full error message]\n</error>\n\n<code>\n[paste the relevant code]\n</code>\n\nWhat I expected: [expected behaviour]\nWhat happens instead: [actual behaviour]\n\nExplain the most likely cause first, then give the fix. If you are unsure, list what extra information you need.",
+  "when": "এরর পেলে সম্পূর্ণ এরর মেসেজ, সংশ্লিষ্ট কোড, আপনি কী আশা করেছিলেন আর কী হয়েছে, সব একসাথে দিন। যত বেশি প্রসঙ্গ, তত ভালো উত্তর। \"অনিশ্চিত হলে জানাও\" বলায় Claude আন্দাজে ভুল উত্তর দেওয়ার সম্ভাবনা কমে। পরিবর্তন প্রয়োগের আগে নিজে একবার চালিয়ে দেখুন।"
+}
