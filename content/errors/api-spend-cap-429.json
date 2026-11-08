@@ -1,0 +1,13 @@
+{
+  "id": "api-spend-cap-429",
+  "errorText": "You have reached your API usage limits: your organization has crossed its monthly API usage threshold, set based on your organization's API tier. You will regain access on 2026-09-01 at 00:00 UTC.",
+  "appearsIn": "api",
+  "meaning": "এটিও HTTP 429 এবং `rate_limit_error`, কিন্তু সাধারণ rate limit নয়। আপনার tier-এর মাসিক spend cap শেষ। এই ক্ষেত্রে `retry-after` header থাকে না, তাই retry করলে access ফিরে না আসা পর্যন্ত ব্যর্থই হবে। (মেসেজের তারিখ আলাদা হতে পারে। Response-এর `error.details.error_code` হয় `enforced_spend_limit_reached`।)",
+  "fixSteps": [
+    "Error message-এ যে তারিখ ও সময় (UTC) দেওয়া আছে, সেই সময়ে access ফিরে আসবে।",
+    "তার আগে দরকার হলে Claude Console-এ Rate limits পাতা থেকে tier বাড়ানোর অনুরোধ করুন।",
+    "Retry loop বন্ধ করুন, কারণ SDK-র স্বয়ংক্রিয় retry-ও এই ক্ষেত্রে কাজ করে না।",
+    "Billing পাতায় (`platform.claude.com/settings/billing`) আপনার মাসিক spend cap দেখুন।"
+  ],
+  "sourceRef": "https://platform.claude.com/docs/en/api/rate-limits"
+}

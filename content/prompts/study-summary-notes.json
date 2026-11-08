@@ -1,0 +1,7 @@
+{
+  "id": "study-summary-notes",
+  "category": "Study",
+  "title": "Turn a chapter into study notes",
+  "prompt": "Turn the following chapter into study notes.\n\n<chapter>\n[paste the chapter text]\n</chapter>\n\nFormat: key terms with one-line definitions, the 5 most important ideas, and a list of things likely to be asked in an exam. Keep it under one page.",
+  "when": "লম্বা অধ্যায় থেকে দ্রুত রিভিশন নোট বানাতে চাইলে ব্যবহার করুন। আউটপুটের ফরম্যাট (key terms, important ideas, exam list) নিজে ঠিক করে দিলে Claude-এর উত্তর গোছানো হয়। পরীক্ষার ধরন অনুযায়ী শেষ লাইনটা বদলান।"
+}

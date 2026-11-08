@@ -1,0 +1,13 @@
+{
+  "id": "cc-session-limit",
+  "errorText": "You've hit your session limit · resets 3:45pm",
+  "appearsIn": "claude-code",
+  "meaning": "আপনার subscription-এর ব্যবহারের সীমা শেষ। Session ও weekly limit সব model মিলিয়ে গোনা হয়। Opus বা Sonnet-এর জন্য আলাদা limit মেসেজও আসতে পারে (\"You've hit your weekly limit\", \"You've hit your Opus limit\")। মেসেজের সময় আপনার ক্ষেত্রে আলাদা হবে।",
+  "fixSteps": [
+    "মেসেজে দেখানো reset সময় পর্যন্ত অপেক্ষা করুন।",
+    "`/usage` চালিয়ে limit আর reset সময় দেখুন।",
+    "Opus বা Sonnet limit হলে `/model` চালিয়ে ওই model ফ্যামিলির বাইরের কোনো model বেছে নিন।",
+    "Pro, Max বা Ultra হলে `/usage-credits` চালিয়ে বাড়তি ব্যবহার কিনতে পারেন। Team/Enterprise-এ অ্যাডমিনের কাছে চাইতে হবে।"
+  ],
+  "sourceRef": "https://code.claude.com/docs/en/errors"
+}

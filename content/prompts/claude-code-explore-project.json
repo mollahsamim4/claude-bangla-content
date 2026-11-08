@@ -1,0 +1,7 @@
+{
+  "id": "claude-code-explore-project",
+  "category": "Claude Code",
+  "title": "Understand a new codebase",
+  "prompt": "Give me an overview of this project: what it does, the main folders and what each one is for, how the app starts, and where the most important logic lives. Then suggest the 3 files I should read first to understand it.",
+  "when": "Claude Code দিয়ে অচেনা প্রজেক্টে ঢুকলে প্রথমে এই প্রম্পট দিন। প্রজেক্ট ফোল্ডারে `claude` চালিয়ে এটি পেস্ট করুন। Claude ফাইল পড়ে কাঠামো বুঝিয়ে দেয়। প্রশ্ন আরও নির্দিষ্ট করতে পারেন, যেমন \"where is login handled?\"।"
+}

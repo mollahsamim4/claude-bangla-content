@@ -1,0 +1,14 @@
+{
+  "id": "api-authentication-401",
+  "errorText": "authentication_error",
+  "appearsIn": "api",
+  "meaning": "HTTP 401 মানে আপনার API key-তে সমস্যা আছে, যেমন key ভুল, revoke করা বা মেয়াদ শেষ।",
+  "fixSteps": [
+    "Claude Console-এর API keys পাতায় (`platform.claude.com/settings/keys`) key-টি এখনো সক্রিয় কিনা দেখুন।",
+    "Key কপি করার সময় অতিরিক্ত space বা অক্ষর যোগ হয়েছে কিনা দেখুন।",
+    "Environment variable ঠিকভাবে set আছে কিনা দেখুন: `echo $ANTHROPIC_API_KEY` (PowerShell-এ `echo $env:ANTHROPIC_API_KEY`)।",
+    "দরকার হলে নতুন key বানান এবং পুরনোটি বদলে দিন।",
+    "Browser থেকে সরাসরি API ডাকলে `CORS requests are not allowed for this Organization` দিয়ে শুরু হওয়া 401 আসতে পারে। তখন key-র দোষ নয়, request আপনার নিজের back end থেকে পাঠাতে হবে।"
+  ],
+  "sourceRef": "https://platform.claude.com/docs/en/api/errors"
+}

@@ -1,0 +1,12 @@
+{
+  "id": "cc-repeated-529",
+  "errorText": "API Error: Repeated 529 Overloaded errors. The API is at capacity — this is usually temporary. Try again in a moment. If it persists, check https://status.claude.com.",
+  "appearsIn": "claude-code",
+  "meaning": "API সাময়িকভাবে ক্ষমতার সীমায় আছে। Claude Code আগেই বেশ কয়েকবার স্বয়ংক্রিয় retry করেছে। Docs অনুযায়ী 529 আপনার ব্যবহারের কোটায় গোনা হয় না।",
+  "fixSteps": [
+    "`status.claude.com` দেখুন কোনো capacity সংক্রান্ত নোটিশ আছে কিনা।",
+    "কয়েক মিনিট পর আবার চেষ্টা করুন।",
+    "`/model` চালিয়ে অন্য model বেছে নিন, কারণ capacity প্রতি model-এর আলাদাভাবে হিসাব হয়।"
+  ],
+  "sourceRef": "https://code.claude.com/docs/en/errors"
+}

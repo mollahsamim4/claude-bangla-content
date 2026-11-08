@@ -1,0 +1,7 @@
+{
+  "id": "claude-code-fix-failing-tests",
+  "category": "Claude Code",
+  "title": "Fix failing tests",
+  "prompt": "Run the tests with [test command, e.g. npm test / pytest]. For each failing test, find the root cause in the code (do not just change the test to pass), fix it, and run the tests again. When all pass, summarize what you changed and why.",
+  "when": "টেস্ট ফেল করলে এই প্রম্পট দিন। \"root cause খোঁজো, টেস্ট বদলে পাস করিও না\" নির্দেশটি জরুরি, নইলে কখনো টেস্টই বদলে ফেলার প্রবণতা দেখা দিতে পারে। আপনার প্রজেক্টের টেস্ট কমান্ড বসান। পরিবর্তন commit করার আগে `git diff` দিয়ে দেখে নিন।"
+}

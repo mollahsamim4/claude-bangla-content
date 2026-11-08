@@ -1,0 +1,7 @@
+{
+  "id": "rewrite-clearer",
+  "category": "Writing",
+  "title": "Rewrite text to be clearer",
+  "prompt": "Rewrite the text below so it is clearer and easier to read. Keep my meaning and my voice. Do not add new facts.\n\n<text>\n[paste your text here]\n</text>\n\nAfter the rewrite, list the 3 most important changes you made.",
+  "when": "নিজের লেখা ঝরঝরে করতে চাইলে ব্যবহার করুন। <text> ট্যাগ দিয়ে লেখাটা আলাদা করে দিলে Claude বুঝতে পারে কোনটা আপনার লেখা আর কোনটা নির্দেশ (Anthropic-এর prompt engineering গাইডে XML ট্যাগ ব্যবহারের পরামর্শ আছে)। শেষে \"কী কী বদলালো\" জানতে চাওয়ায় আপনি নিজেও শিখতে পারেন। চাইলে \"Keep my voice\" বাদ দিয়ে \"make it more formal\" লিখতে পারেন।"
+}

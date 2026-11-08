@@ -1,0 +1,12 @@
+{
+  "id": "cc-org-disabled",
+  "errorText": "API Error: 400 ... This organization has been disabled.",
+  "appearsIn": "claude-code",
+  "meaning": "Subscription থাকা সত্ত্বেও এই ত্রুটি এলে সাধারণত shell-এ পুরনো `ANTHROPIC_API_KEY` set আছে (আগের চাকরি বা প্রকল্পের), যা আপনার subscription-এর লগইনকে ঢেকে দিচ্ছে। (মেসেজের মাঝের `...` অংশ বিভিন্ন হতে পারে।)",
+  "fixSteps": [
+    "পুরনো key মুছুন: `unset ANTHROPIC_API_KEY` এবং shell profile (`~/.zshrc` বা `~/.bashrc`) থেকেও লাইনটি সরান।",
+    "Claude Code আবার চালিয়ে `/login` করুন।",
+    "`/status` চালিয়ে দেখুন কোন credential সক্রিয়।"
+  ],
+  "sourceRef": "https://code.claude.com/docs/en/troubleshoot-install"
+}

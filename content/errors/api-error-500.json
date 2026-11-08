@@ -1,0 +1,12 @@
+{
+  "id": "api-error-500",
+  "errorText": "api_error",
+  "appearsIn": "api",
+  "meaning": "HTTP 500 মানে Anthropic-এর সিস্টেমের ভেতরে অপ্রত্যাশিত সমস্যা হয়েছে। এটি আপনার ভুল নয়।",
+  "fixSteps": [
+    "কিছুক্ষণ পর exponential backoff দিয়ে আবার চেষ্টা করুন।",
+    "সমস্যা চলতে থাকলে Response-এর `request_id` সহ Anthropic support-এ জানান।",
+    "`timeout_error` টাইপ এলে বড় output-এর জন্য streaming Messages API বা Message Batches API ব্যবহার করুন।"
+  ],
+  "sourceRef": "https://platform.claude.com/docs/en/api/errors"
+}

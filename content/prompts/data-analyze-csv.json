@@ -1,0 +1,7 @@
+{
+  "id": "data-analyze-csv",
+  "category": "Data analysis",
+  "title": "Analyze data you paste",
+  "prompt": "Here is a dataset in CSV format:\n\n<data>\n[paste CSV rows, including the header]\n</data>\n\nQuestion: [what you want to find out]\n\nFirst describe the columns you see and any data quality problems. Then answer the question, showing the calculation steps. State clearly which conclusions are certain and which are only suggestions.",
+  "when": "ছোট ডেটাসেট (কয়েক শ সারি) বিশ্লেষণ করাতে। আগে কলাম আর ডেটার সমস্যা চিহ্নিত করতে বলায় ভুলের ঝুঁকি কমে। হিসাবের ধাপ দেখাতে বলুন যাতে আপনি যাচাই করতে পারেন। গুরুত্বপূর্ণ সংখ্যা সবসময় নিজে মিলিয়ে নিন।"
+}

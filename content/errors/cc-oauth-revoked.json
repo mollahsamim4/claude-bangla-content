@@ -1,0 +1,13 @@
+{
+  "id": "cc-oauth-revoked",
+  "errorText": "OAuth token revoked · Please run /login",
+  "appearsIn": "claude-code",
+  "meaning": "আপনার সংরক্ষিত লগইন আর বৈধ নেই। হয় আপনি সব জায়গা থেকে sign out করেছেন বা অ্যাডমিন access তুলে নিয়েছেন (revoked), অথবা স্বয়ংক্রিয় refresh ব্যর্থ হয়েছে (expired)।",
+  "fixSteps": [
+    "Claude Code-এ `/login` চালিয়ে আবার লগইন করুন।",
+    "লগইন করার পরও সমস্যা হলে `/logout` চালান, Claude Code বন্ধ করুন, আবার `claude` চালিয়ে লগইন সম্পূর্ণ করুন।",
+    "Token মেয়াদোত্তীর্ণ হওয়া বারবার ঘটলে কম্পিউটারের ঘড়ি ঠিক আছে কিনা দেখুন।",
+    "CI বা automation-এর জন্য `ANTHROPIC_API_KEY` ব্যবহার করুন বা `claude setup-token` দিয়ে দীর্ঘস্থায়ী token বানান।"
+  ],
+  "sourceRef": "https://code.claude.com/docs/en/errors"
+}

@@ -1,0 +1,7 @@
+{
+  "id": "english-correct-writing",
+  "category": "Learning English",
+  "title": "Correct my English and teach me",
+  "prompt": "Correct my English below. Show the corrected version first. Then list each mistake in a table with columns: My version, Correct version, Rule (explained simply). Finish with one practice sentence for my most common mistake.\n\n<text>\n[write your English text]\n</text>",
+  "when": "ইংরেজি লেখা অনুশীলনের জন্য সেরা প্রম্পটগুলোর একটি। শুধু শুদ্ধ করে দেওয়া নয়, কেন ভুল হলো তাও শেখায়। নিয়মিত অনুশীলন করলে একই ভুল কমে। চাইলে \"explain the rules in Bengali\" যোগ করুন, তাহলে নিয়মগুলো বাংলায় বুঝবেন।"
+}

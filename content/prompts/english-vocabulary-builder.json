@@ -1,0 +1,7 @@
+{
+  "id": "english-vocabulary-builder",
+  "category": "Learning English",
+  "title": "Build vocabulary from a word",
+  "prompt": "Teach me the English word \"[word]\". Give: meaning in simple English, Bengali meaning, part of speech, 3 example sentences from everyday life, 2 synonyms, 1 antonym, and a common mistake people make with this word.",
+  "when": "নতুন শব্দ শেখার জন্য। এক শব্দের পেছনে একসাথে অর্থ, উদাহরণ, সমার্থক ও সাধারণ ভুল জানা যায়। [word] জায়গায় যেকোনো শব্দ বসান। একসাথে ৫টি শব্দও দিতে পারেন।"
+}

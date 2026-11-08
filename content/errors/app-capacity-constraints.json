@@ -1,0 +1,12 @@
+{
+  "id": "app-capacity-constraints",
+  "errorText": "Due to unexpected capacity constraints, Claude is unable to respond to your message. Please try again soon.",
+  "appearsIn": "claude-app",
+  "meaning": "এটি সাময়িক অতিরিক্ত চাপের ফল, বিভ্রাট (outage) নয়। Help Center জানায় এ ধরনের capacity সমস্যা status পাতায় নাও দেখা যেতে পারে।",
+  "fixSteps": [
+    "কয়েক মিনিট অপেক্ষা করে আবার পাঠান।",
+    "একই মেসেজ বারবার দ্রুত পাঠাবেন না।",
+    "দীর্ঘ সময় ঠিক না হলে `status.claude.com` দেখুন।"
+  ],
+  "sourceRef": "https://support.claude.com/en/articles/12466728-troubleshoot-claude-error-messages"
+}

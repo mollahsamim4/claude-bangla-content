@@ -1,0 +1,13 @@
+{
+  "id": "api-prompt-too-long",
+  "errorText": "prompt is too long",
+  "appearsIn": "api",
+  "meaning": "Input (system prompt, সব message, tool definition, ছবি/ডকুমেন্ট মিলিয়ে) model-এর context window-এর চেয়ে বড় হয়ে গেলে API 400 `invalid_request_error` ফেরত দেয় যার message শুরু হয় \"prompt is too long\" দিয়ে। (Docs-এ message-এর এই অংশটুকুই উদ্ধৃত আছে, বাকিটা আলাদা হতে পারে।)",
+  "fixSteps": [
+    "পুরনো message বাদ দিন বা সারসংক্ষেপ বানিয়ে conversation ছোট করুন।",
+    "Request পাঠানোর আগে token counting API দিয়ে আন্দাজ করে নিন।",
+    "Long conversation-এর জন্য server-side compaction বা context editing (docs-এ beta হিসেবে আছে) দেখুন।",
+    "বড় ডকুমেন্ট একবারে না দিয়ে অংশে ভাগ করে পাঠান।"
+  ],
+  "sourceRef": "https://platform.claude.com/docs/en/build-with-claude/context-windows"
+}

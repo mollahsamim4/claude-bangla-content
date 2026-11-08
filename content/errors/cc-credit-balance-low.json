@@ -1,0 +1,11 @@
+{
+  "id": "cc-credit-balance-low",
+  "errorText": "Credit balance is too low",
+  "appearsIn": "claude-code",
+  "meaning": "আপনার Console organization-এর prepaid credit শেষ, অথবা Console API key ব্যবহার হচ্ছে যদিও আপনি subscription ব্যবহার করতে চাইছেন।",
+  "fixSteps": [
+    "Pro, Max, Ultra, Team বা Enterprise প্ল্যান থাকলে `/status` চালিয়ে `API key` সারি দেখুন। দরকার হলে `unset ANTHROPIC_API_KEY` দিয়ে `/login` করুন।",
+    "Console ব্যবহার করলে `platform.claude.com/settings/billing` পাতায় credit যোগ করুন।"
+  ],
+  "sourceRef": "https://code.claude.com/docs/en/errors"
+}

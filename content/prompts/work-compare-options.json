@@ -1,0 +1,7 @@
+{
+  "id": "work-compare-options",
+  "category": "Work",
+  "title": "Compare options and recommend",
+  "prompt": "I need to decide between [option A] and [option B] for [situation].\n\nMy priorities, in order: [priority 1], [priority 2], [priority 3].\n\nCompare them in a table against my priorities, then give a recommendation and explain your reasoning step by step. Mention what extra information would change your recommendation.",
+  "when": "দুটি বিকল্পের মধ্যে সিদ্ধান্ত নিতে (যেমন দুটি ফোন, দুটি চাকরির অফার) ব্যবহার করুন। নিজের অগ্রাধিকার সাজিয়ে দিলে Claude আপনার জন্য মানানসই পরামর্শ দেয়। \"step by step\" বলায় সে যুক্তি দেখিয়ে উত্তর দেয়। শেষ সিদ্ধান্ত আপনার, Claude শুধু সাহায্য করে।"
+}

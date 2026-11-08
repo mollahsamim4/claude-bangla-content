@@ -1,0 +1,7 @@
+{
+  "id": "study-quiz-me",
+  "category": "Study",
+  "title": "Quiz me on my notes",
+  "prompt": "Here are my study notes:\n\n<notes>\n[paste your notes]\n</notes>\n\nQuiz me one question at a time using only these notes. Start easy and get harder. After each of my answers, tell me if I was right, explain briefly, then ask the next question. Stop after [10] questions and give me a summary of what I should revise.",
+  "when": "পরীক্ষার আগে নিজেকে যাচাই করতে এটি দারুণ। নোট <notes> ট্যাগে দিন; \"one question at a time\" বললে Claude একসাথে সব প্রশ্ন ঢেলে দেয় না। প্রশ্নের সংখ্যা বদলাতে পারেন। MCQ চাইলে \"multiple-choice\" যোগ করুন।"
+}

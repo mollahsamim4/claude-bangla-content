@@ -1,0 +1,7 @@
+{
+  "id": "work-meeting-minutes",
+  "category": "Work",
+  "title": "Meeting notes to action items",
+  "prompt": "Below are my rough notes from a meeting.\n\n<notes>\n[paste notes]\n</notes>\n\nTurn them into: (1) a 3-line summary, (2) decisions made, (3) a table of action items with columns Owner, Task, Deadline. If an owner or deadline is missing, write \"Not stated\" instead of guessing.",
+  "when": "মিটিং-এর এলোমেলো নোট গুছিয়ে action item বানাতে এটি কাজে লাগে। শেষ বাক্যটি গুরুত্বপূর্ণ: তথ্য না থাকলে আন্দাজ না করে \"Not stated\" লিখতে বলায় Claude ভুল তথ্য বানায় না। কলামের নাম নিজের মতো বদলাতে পারেন।"
+}

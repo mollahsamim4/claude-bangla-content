@@ -1,0 +1,12 @@
+{
+  "id": "api-prefill-not-supported",
+  "errorText": "This model does not support assistant message prefill. The conversation must end with a user message.",
+  "appearsIn": "api",
+  "meaning": "Claude 4.6 এবং পরের model-এ শেষ assistant message আগে থেকে ভরে (prefill) দেওয়া যায় না। পাঠালে 400 `invalid_request_error` আসে।",
+  "fixSteps": [
+    "Messages array-এর শেষ message-টি অবশ্যই `user` role-এর রাখুন।",
+    "নির্দিষ্ট ফরম্যাটে (যেমন JSON) উত্তর চাইলে structured outputs বা `output_config.format` ব্যবহার করুন।",
+    "অথবা system prompt-এ ফরম্যাটের নির্দেশ লিখে দিন।"
+  ],
+  "sourceRef": "https://platform.claude.com/docs/en/api/errors"
+}

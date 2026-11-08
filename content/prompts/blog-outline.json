@@ -1,0 +1,7 @@
+{
+  "id": "blog-outline",
+  "category": "Writing",
+  "title": "Blog post outline",
+  "prompt": "I want to write a blog post about [topic] for [target readers].\n\nFirst, ask me up to 5 questions that would help you write a better outline. Wait for my answers. Then create an outline with a working title, an intro hook, 4-6 sections with one-line summaries, and a closing call to action.",
+  "when": "ব্লগ বা ফেসবুক পোস্টের রূপরেখা বানাতে চাইলে এটি ভালো। এখানে কৌশল হলো আগে Claude-কে প্রশ্ন করতে বলা, যাতে আন্দাজে না লিখে আপনার প্রয়োজন বুঝে লেখে। প্রশ্নের উত্তর দিন, তারপর আউটলাইন পাবেন। [topic] আর [target readers] বদলে নিন।"
+}

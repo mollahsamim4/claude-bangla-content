@@ -1,0 +1,12 @@
+{
+  "id": "api-request-too-large-413",
+  "errorText": "request_too_large",
+  "appearsIn": "api",
+  "meaning": "HTTP 413 মানে আপনার request-এর বাইট সংখ্যা সর্বোচ্চ সীমার চেয়ে বেশি। Docs অনুযায়ী Messages API-র সীমা 128 MB, Batch API 256 MB, Files API 500 MB।",
+  "fixSteps": [
+    "ছবি, PDF বা বড় ফাইল ছোট করুন বা অংশে ভাগ করুন।",
+    "বড় ফাইল বারবার পাঠানোর বদলে Files API ব্যবহার করুন।",
+    "Request-এ অপ্রয়োজনীয় ডেটা বাদ দিন।"
+  ],
+  "sourceRef": "https://platform.claude.com/docs/en/api/errors"
+}

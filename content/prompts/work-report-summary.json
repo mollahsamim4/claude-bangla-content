@@ -1,0 +1,7 @@
+{
+  "id": "work-report-summary",
+  "category": "Work",
+  "title": "Summarize a report for a busy reader",
+  "prompt": "Summarize the report below for [audience, e.g. a busy director] who has 2 minutes.\n\n<report>\n[paste report]\n</report>\n\nGive: the main conclusion in one sentence, 3 key numbers or facts, risks, and a recommended next step. Quote exact figures from the report; do not round or invent numbers.",
+  "when": "লম্বা রিপোর্ট থেকে ব্যস্ত কর্তাব্যক্তির জন্য সারসংক্ষেপ বানাতে ব্যবহার করুন। পাঠক কে (audience) বলে দিলে সারসংক্ষেপের ধরন বদলে যায়। \"invent করো না\" নির্দেশটি সংখ্যার ভুল কমায়, তবু গুরুত্বপূর্ণ সংখ্যা মূল রিপোর্টের সাথে মিলিয়ে দেখুন।"
+}

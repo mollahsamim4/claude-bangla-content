@@ -1,0 +1,7 @@
+{
+  "id": "claude-code-plan-first",
+  "category": "Claude Code",
+  "title": "Ask for a plan before changes",
+  "prompt": "I want to [describe the change or feature]. Before changing any files, explore the relevant code and write a step-by-step plan: which files you will change, what you will change in each, and any risks. Wait for my approval before you start.",
+  "when": "বড় পরিবর্তনের আগে পরিকল্পনা চাওয়া ভালো অভ্যাস। এতে Claude Code ভুল দিকে কোড বদলে ফেলার আগে আপনি দিক ঠিক করে দিতে পারেন। \"Wait for my approval\" বাক্যটি রাখুন। পরিকল্পনা ঠিক হলে \"Go ahead\" বলুন।"
+}

@@ -1,0 +1,14 @@
+{
+  "id": "api-rate-limit-429",
+  "errorText": "rate_limit_error",
+  "appearsIn": "api",
+  "meaning": "HTTP 429 মানে আপনার organization কোনো rate limit ছুঁয়ে ফেলেছে (প্রতি মিনিটে request বা token-এর সীমা), অথবা acceleration limit-এ আটকেছে। Response-এ `retry-after` header থাকলে সেটাই বলে কত সেকেন্ড পর আবার চেষ্টা করবেন।",
+  "fixSteps": [
+    "`retry-after` header থাকলে ততক্ষণ অপেক্ষা করুন, তার আগে আবার পাঠালে আবার ব্যর্থ হবে।",
+    "Official SDK নিজে থেকেই exponential backoff দিয়ে ডিফল্টে দুইবার retry করে। `max_retries` দিয়ে এটি বদলাতে পারবেন।",
+    "হঠাৎ করে traffic বাড়াবেন না, ধীরে ধীরে বাড়ান। না হলে acceleration limit-এ আটকাতে পারেন।",
+    "Claude Console-এর Rate limits পাতায় (`platform.claude.com/usage/limits`) আপনার tier আর limit দেখুন। বেশি দরকার হলে সেখানে \"Request tier increase\" ব্যবহার করুন।",
+    "বারবার একই বড় prompt পাঠালে prompt caching চালু করুন। Cache থেকে পড়া token ITPM limit-এ গোনা হয় না।"
+  ],
+  "sourceRef": "https://platform.claude.com/docs/en/api/rate-limits"
+}

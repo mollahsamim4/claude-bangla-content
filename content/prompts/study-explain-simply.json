@@ -1,0 +1,7 @@
+{
+  "id": "study-explain-simply",
+  "category": "Study",
+  "title": "Explain a concept simply",
+  "prompt": "Explain [concept, e.g. photosynthesis / supply and demand] to me as if I am a [class 9 student / complete beginner].\n\nUse a simple everyday analogy, then give a short step-by-step explanation, and finish with 3 quick questions so I can check my understanding. Do not show the answers until I reply.",
+  "when": "কোনো কঠিন বিষয় প্রথমবার বুঝতে চাইলে ব্যবহার করুন। পাঠকের স্তর (class 9, beginner ইত্যাদি) বলে দিলে ব্যাখ্যার ভাষা সেই মাপের হয়। শেষের প্রশ্নগুলো আপনার বোঝা যাচাই করে। বিষয় আর স্তর বদলে নিন, তারপর উত্তর দিয়ে দেখুন Claude কী বলে।"
+}

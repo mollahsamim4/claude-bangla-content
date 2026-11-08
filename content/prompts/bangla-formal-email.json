@@ -1,0 +1,7 @@
+{
+  "id": "bangla-formal-email",
+  "category": "Bengali tasks",
+  "title": "Write a formal English email from Bengali notes",
+  "prompt": "I will give you my points in Bengali. Write a formal email in English from them.\n\nMy points:\n[write your points in Bengali]\n\nRecipient: [name / position]\nPurpose: [purpose]\nKeep the tone polite and professional, and keep it under [150] words. Give me a subject line too.",
+  "when": "আপনি বাংলায় ভাবেন কিন্তু ইংরেজিতে ইমেইল লিখতে হবে, এ ক্ষেত্রে সুবিধাজনক। বাংলায় পয়েন্ট লিখুন, Claude ইংরেজি ইমেইল বানাবে। পাঠানোর আগে নাম, তারিখ ও তথ্য নিজে মিলিয়ে নিন।"
+}

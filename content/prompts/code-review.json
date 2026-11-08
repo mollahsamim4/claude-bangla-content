@@ -1,0 +1,7 @@
+{
+  "id": "code-review",
+  "category": "Coding",
+  "title": "Code review",
+  "prompt": "Review the following code as a senior [language] developer.\n\n<code>\n[paste code]\n</code>\n\nCheck for: bugs, security problems, readability, and performance. Return a list ordered by importance. For each item give the problem, why it matters, and a corrected snippet.",
+  "when": "নিজের কোড পুল রিকোয়েস্ট দেওয়ার আগে একবার রিভিউ করাতে চাইলে। কোন কোন দিক দেখতে হবে তা বলে দেওয়ায় রিভিউ গোছানো হয়। অতিরিক্ত দিক (যেমন accessibility, tests) যোগ করতে পারেন। মনে রাখবেন, Claude-এর রিভিউ মানুষের রিভিউয়ের বিকল্প নয়, সহায়ক।"
+}
