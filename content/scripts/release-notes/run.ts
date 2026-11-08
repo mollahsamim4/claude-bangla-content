@@ -4,7 +4,7 @@ import { fileURLToPath } from 'node:url';
 import { validateRepo } from '../validate';
 import { detect } from './detect';
 import { fromFeedId, knownIdFromFeedFile, openPr } from './open-prs';
-import { spawnRunner } from './runner';
+import { envWithout, spawnRunner } from './runner';
 import { fetchSourceText, REGISTRY, type RawItem, type SourceId } from './sources';
 import { summarize, type SummarizeResult } from './summarize';
 
@@ -98,7 +98,7 @@ async function main() {
       ids.push(knownIdFromFeedFile(n.replace(/\.json$/, ''), source));
     }
     // A failure here must abort the run: without the PR list we could propose duplicates.
-    const res = await spawnRunner('gh', ['pr', 'list', '--state', 'all', '--limit', '1000', '--json', 'headRefName'], { cwd: repoRoot });
+    const res = await spawnRunner('gh', ['pr', 'list', '--state', 'all', '--limit', '1000', '--json', 'headRefName'], { cwd: repoRoot, env: envWithout(process.env, [/^CLAUDE_CODE_OAUTH_TOKEN$/, /^ANTHROPIC_/]) });
     if (res.code !== 0) throw new Error(`gh pr list failed: ${res.stderr.trim()}`);
     const prefix = 'release-notes/';
     for (const pr of JSON.parse(res.stdout) as { headRefName: string }[]) {
