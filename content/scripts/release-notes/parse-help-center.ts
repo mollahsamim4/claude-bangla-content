@@ -10,10 +10,13 @@ export function parseHelpCenter(markdown: string): RawItem[] {
   const usedIds = new Set<string>();
   let date: string | null = null;
   let cur: { title: string; body: string[] } | null = null;
+  let sectionText = 0;
+  let sectionEntries = 0;
   const flush = () => {
     if (cur && date) {
       const englishText = cur.body.join('\n').replace(/\n-{3,}\s*$/, '').trim();
       if (englishText) {
+        sectionEntries++;
         const base = `help-${date}-${slugify(cur.title)}`;
         let id = base;
         for (let n = 2; usedIds.has(id); n++) id = `${base}-${n}`;
@@ -30,19 +33,28 @@ export function parseHelpCenter(markdown: string): RawItem[] {
     }
     cur = null;
   };
+  const endSection = () => {
+    flush();
+    if (date && sectionText > 0 && sectionEntries === 0) {
+      console.warn(`help-center: section ${date} has text but no recognizable entry (bold title line); skipped`);
+    }
+    sectionText = 0;
+    sectionEntries = 0;
+  };
   for (const line of lines) {
     const h3 = /^### (.+?)\s*$/.exec(line);
     if (h3) {
-      flush();
+      endSection();
       date = parseLongDate(h3[1]);
       continue;
     }
     if (/^#{1,2} /.test(line)) {
-      flush();
+      endSection();
       date = null;
       continue;
     }
     if (!date) continue;
+    if (line.trim() && !/^-{3,}\s*$/.test(line.trim())) sectionText++;
     const t = /^\*\*([^*[].*?)\*\*\s*$/.exec(line);
     if (t) {
       flush();
@@ -51,7 +63,7 @@ export function parseHelpCenter(markdown: string): RawItem[] {
       cur.body.push(line);
     }
   }
-  flush();
+  endSection();
   if (items.length === 0) throw new Error('help-center: parsed zero entries (release-notes format changed?)');
   return items;
 }

@@ -1,3 +1,7 @@
+import { parseApi } from './parse-api';
+import { parseClaudeCode } from './parse-claude-code';
+import { parseHelpCenter } from './parse-help-center';
+
 export type SourceId = 'claude-code' | 'claude-api' | 'help-center';
 
 export interface RawItem {
@@ -38,11 +42,44 @@ export const SOURCES = {
   },
 } as const satisfies Record<string, Source>;
 
-export async function fetchSourceText(source: Source, fetchImpl: typeof fetch = fetch): Promise<string> {
-  const res = await fetchImpl(source.fetchUrl, { headers: { 'user-agent': 'claude-bangla-content-bot' } });
+export const FETCH_TIMEOUT_MS = 30_000;
+/** Sanity limit: the largest source (Claude Code changelog) is well under 2 MB. */
+export const MAX_SOURCE_BYTES = 8 * 1024 * 1024;
+
+export async function fetchSourceText(
+  source: Source,
+  fetchImpl: typeof fetch = fetch,
+  opts: { timeoutMs?: number; maxBytes?: number } = {},
+): Promise<string> {
+  const maxBytes = opts.maxBytes ?? MAX_SOURCE_BYTES;
+  const res = await fetchImpl(source.fetchUrl, {
+    headers: { 'user-agent': 'claude-bangla-content-bot' },
+    signal: AbortSignal.timeout(opts.timeoutMs ?? FETCH_TIMEOUT_MS),
+  });
   if (!res.ok) throw new Error(`${source.id}: fetching ${source.fetchUrl} failed with HTTP ${res.status}`);
-  return (await res.text()).replace(/\r\n/g, '\n');
+  const tooLarge = () => new Error(`${source.id}: response too large (limit ${maxBytes} bytes)`);
+  const declared = Number(res.headers.get('content-length'));
+  if (Number.isFinite(declared) && declared > maxBytes) throw tooLarge();
+  const text = await res.text();
+  if (Buffer.byteLength(text, 'utf8') > maxBytes) throw tooLarge();
+  return text.replace(/\r\n/g, '\n');
 }
+
+export type FeedSource = 'claude-code' | 'claude-api' | 'help-center';
+
+export interface SourceEntry {
+  source: Source;
+  parse: (markdown: string) => RawItem[];
+  /** Value of FeedItem.source for items from this source. */
+  feedSource: FeedSource;
+}
+
+/** SourceId -> everything the runner needs. (Parsers are wrapped so the import cycle is harmless.) */
+export const REGISTRY: Record<SourceId, SourceEntry> = {
+  'claude-code': { source: SOURCES.claudeCode, parse: (md) => parseClaudeCode(md), feedSource: 'claude-code' },
+  'claude-api': { source: SOURCES.api, parse: (md) => parseApi(md), feedSource: 'claude-api' },
+  'help-center': { source: SOURCES.helpCenter, parse: (md) => parseHelpCenter(md), feedSource: 'help-center' },
+};
 
 const MONTHS = [
   'january', 'february', 'march', 'april', 'may', 'june',

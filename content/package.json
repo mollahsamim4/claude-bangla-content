@@ -5,7 +5,8 @@
   "scripts": {
     "validate": "tsx scripts/validate.ts",
     "build-index": "tsx scripts/build-index.ts",
-    "test": "vitest run"
+    "test": "vitest run",
+    "release-notes": "tsx scripts/release-notes/run.ts"
   },
   "devDependencies": {
     "@types/node": "^26.6.6",
