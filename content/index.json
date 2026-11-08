@@ -1,7 +1,7 @@
 {
   "formatVersion": 1,
-  "commit": "32ebc108ed67d5db0a3693f8697debee3dd231b6",
-  "generatedAt": "2026-11-08T16:51:57.693Z",
+  "commit": "7e37748a00695447ee8e04f6d51cd534b68f3ccd",
+  "generatedAt": "2026-11-08T16:52:18.667Z",
   "files": [
     {
       "path": "coming-soon/sample.json",
@@ -171,6 +171,11 @@
     {
       "path": "feed/help-2026-11-05-new-security-and-admin-controls-for-enterprise-plans.json",
       "hash": "b5643b9849ffbd57",
+      "kind": "feed"
+    },
+    {
+      "path": "feed/help-2026-11-06-track-spend-by-cost-code-with-project-tags-beta.json",
+      "hash": "14781dae8661cc4f",
       "kind": "feed"
     },
     {
