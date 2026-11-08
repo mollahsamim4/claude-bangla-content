@@ -1,7 +1,7 @@
 {
   "formatVersion": 1,
-  "commit": "8f1479b68809b183f028447b48567f1765d2c904",
-  "generatedAt": "2026-11-08T16:46:51.387Z",
+  "commit": "0e7108e1bf26e961713ebfb933265695483641a8",
+  "generatedAt": "2026-11-08T16:50:50.548Z",
   "files": [
     {
       "path": "coming-soon/sample.json",
@@ -156,6 +156,11 @@
     {
       "path": "feed/2026-11-08-welcome.json",
       "hash": "b5341aaa53053ac9",
+      "kind": "feed"
+    },
+    {
+      "path": "feed/help-2026-11-05-new-security-and-admin-controls-for-enterprise-plans.json",
+      "hash": "b5643b9849ffbd57",
       "kind": "feed"
     },
     {
