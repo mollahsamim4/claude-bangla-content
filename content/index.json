@@ -1,7 +1,7 @@
 {
   "formatVersion": 1,
-  "commit": "2ad669c0f5288389935d9991896f9e3cdf2430e0",
-  "generatedAt": "2026-11-08T15:37:29.612Z",
+  "commit": "41338a3d2032a2ce96b0964ed0c732604d192f4a",
+  "generatedAt": "2026-11-08T15:50:12.594Z",
   "files": [
     {
       "path": "coming-soon/sample.json",
@@ -26,6 +26,51 @@
     {
       "path": "lessons/everyday-01-first-prompt.json",
       "hash": "52232a0f04311c6e",
+      "kind": "lesson"
+    },
+    {
+      "path": "lessons/everyday-11-connectors.json",
+      "hash": "7a41c1e6fa7aeb7b",
+      "kind": "lesson"
+    },
+    {
+      "path": "lessons/everyday-12-create-office-files.json",
+      "hash": "329365ba37d7cb15",
+      "kind": "lesson"
+    },
+    {
+      "path": "lessons/everyday-13-skills.json",
+      "hash": "2dda799a79e4fde4",
+      "kind": "lesson"
+    },
+    {
+      "path": "lessons/everyday-14-claude-in-chrome.json",
+      "hash": "700cf12638a74654",
+      "kind": "lesson"
+    },
+    {
+      "path": "lessons/everyday-15-long-pdfs-and-data.json",
+      "hash": "910c4f20e7276858",
+      "kind": "lesson"
+    },
+    {
+      "path": "lessons/everyday-16-images-and-screenshots.json",
+      "hash": "1eb8c6c56c75612e",
+      "kind": "lesson"
+    },
+    {
+      "path": "lessons/everyday-17-voice-mode.json",
+      "hash": "c007bbc3a0736c8d",
+      "kind": "lesson"
+    },
+    {
+      "path": "lessons/everyday-18-cowork.json",
+      "hash": "f3d758f030348215",
+      "kind": "lesson"
+    },
+    {
+      "path": "lessons/everyday-19-incognito-sharing-export.json",
+      "hash": "fd76ce3f5e375e16",
       "kind": "lesson"
     },
     {
