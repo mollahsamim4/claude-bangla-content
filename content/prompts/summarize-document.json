@@ -1,0 +1,7 @@
+{
+  "id": "summarize-document",
+  "category": "Writing",
+  "title": "Summarize a document",
+  "prompt": "Summarize the following document in 5 bullet points. Highlight any deadlines or action items.\n\n[paste document here]",
+  "when": "লম্বা কোনো লেখা, রিপোর্ট বা ইমেইলের মূল কথা দ্রুত বুঝে নিতে চাইলে এটি ব্যবহার করুন।"
+}

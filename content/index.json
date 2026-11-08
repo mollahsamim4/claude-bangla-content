@@ -1,0 +1,42 @@
+{
+  "formatVersion": 1,
+  "commit": "36d15f60b16ed21142f3194d3229308bef527f3b",
+  "generatedAt": "2026-11-08T14:15:30.537Z",
+  "files": [
+    {
+      "path": "coming-soon/sample.json",
+      "hash": "ee97f832ad821ff5",
+      "kind": "coming-soon"
+    },
+    {
+      "path": "errors/api-overloaded-529.json",
+      "hash": "b5818076c315f60c",
+      "kind": "error"
+    },
+    {
+      "path": "feed/2026-11-08-welcome.json",
+      "hash": "b5341aaa53053ac9",
+      "kind": "feed"
+    },
+    {
+      "path": "lessons/developer-01-install-claude-code.json",
+      "hash": "07c961cf0f516da9",
+      "kind": "lesson"
+    },
+    {
+      "path": "lessons/everyday-01-first-prompt.json",
+      "hash": "52232a0f04311c6e",
+      "kind": "lesson"
+    },
+    {
+      "path": "lessons/start-01-what-is-claude.json",
+      "hash": "eeca040fe1e8356b",
+      "kind": "lesson"
+    },
+    {
+      "path": "prompts/summarize-document.json",
+      "hash": "b7f43e6ad135068c",
+      "kind": "prompt"
+    }
+  ]
+}

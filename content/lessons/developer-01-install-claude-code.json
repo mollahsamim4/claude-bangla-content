@@ -1,0 +1,91 @@
+{
+  "id": "developer-01-install-claude-code",
+  "track": "developer",
+  "order": 1,
+  "title": "Install Claude Code",
+  "summary": "আপনার কম্পিউটারে Claude Code ইনস্টল করে প্রথমবার চালু করার ধাপগুলো।",
+  "updatedAt": "2026-11-08",
+  "blocks": [
+    {
+      "type": "heading",
+      "text": "Installing Claude Code"
+    },
+    {
+      "type": "paragraph",
+      "text": "Claude Code হলো টার্মিনালে চলা একটি কোডিং সহকারী। এটি আপনার প্রজেক্টের ফাইল পড়ে কোড লিখতে ও ঠিক করতে সাহায্য করে।"
+    },
+    {
+      "type": "paragraph",
+      "text": "macOS, Linux বা WSL-এ টার্মিনালে এই কমান্ড চালান (Anthropic-এর সুপারিশ করা নেটিভ ইনস্টলার):"
+    },
+    {
+      "type": "code",
+      "language": "bash",
+      "code": "curl -fsSL https://claude.ai/install.sh | bash"
+    },
+    {
+      "type": "paragraph",
+      "text": "Windows PowerShell-এ:"
+    },
+    {
+      "type": "code",
+      "language": "powershell",
+      "code": "irm https://claude.ai/install.ps1 | iex"
+    },
+    {
+      "type": "paragraph",
+      "text": "Windows CMD-তে:"
+    },
+    {
+      "type": "code",
+      "language": "bash",
+      "code": "curl -fsSL https://claude.ai/install.cmd -o install.cmd && install.cmd && del install.cmd"
+    },
+    {
+      "type": "tip",
+      "text": "নেটিভ ইনস্টলারের জন্য Node.js লাগে না, আর এটি নিজে থেকেই ব্যাকগ্রাউন্ডে আপডেট হয়ে যায়।"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "টার্মিনাল খুলে আপনার প্রজেক্ট ফোল্ডারে যান।",
+        "আপনার সিস্টেমের জন্য উপরের ইনস্টল কমান্ডটি চালান, তারপর নতুন টার্মিনাল খুলুন।",
+        "`claude` লিখে এন্টার চাপুন এবং লগ ইন সম্পন্ন করুন।"
+      ]
+    },
+    {
+      "type": "warning",
+      "text": "Claude Code আপনার ফাইল পরিবর্তন করতে পারে। অনুমতি দেওয়ার আগে প্রস্তাবিত পরিবর্তন ভালো করে দেখে নিন।"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Claude Code কোথায় চলে?",
+      "options": [
+        "টার্মিনালে",
+        "শুধু ফোনের গ্যালারিতে"
+      ],
+      "answer": 0,
+      "explanation": "Claude Code একটি টার্মিনালভিত্তিক সহকারী।"
+    },
+    {
+      "question": "ইনস্টলের পর Claude Code চালু করতে কী লিখবেন?",
+      "options": [
+        "`claude`",
+        "`start-ai`",
+        "`run`"
+      ],
+      "answer": 0,
+      "explanation": "প্রজেক্ট ফোল্ডারে `claude` কমান্ড লিখলে এটি চালু হয়।"
+    },
+    {
+      "question": "অনুমতি দেওয়ার আগে কী করা উচিত?",
+      "options": [
+        "না দেখেই সম্মতি দেওয়া",
+        "প্রস্তাবিত পরিবর্তন দেখে নেওয়া"
+      ],
+      "answer": 1,
+      "explanation": "Claude Code ফাইল বদলাতে পারে, তাই পরিবর্তন যাচাই করা নিরাপদ।"
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "id": "api-overloaded-529",
+  "errorText": "overloaded_error",
+  "appearsIn": "api",
+  "meaning": "HTTP 529 মানে Anthropic-এর সার্ভারে এই মুহূর্তে অতিরিক্ত চাপ রয়েছে। এটি আপনার ভুল নয়।",
+  "fixSteps": [
+    "কিছুক্ষণ অপেক্ষা করে আবার চেষ্টা করুন।",
+    "প্রতিবার অপেক্ষার সময় বাড়িয়ে (exponential backoff) পুনরায় অনুরোধ পাঠান।",
+    "সমস্যা চলতে থাকলে Anthropic-এর স্ট্যাটাস পেজ দেখুন।"
+  ],
+  "sourceRef": "https://platform.claude.com/docs/en/api/errors"
+}

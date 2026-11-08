@@ -1,0 +1,43 @@
+{
+  "id": "a-one",
+  "track": "start",
+  "order": 1,
+  "title": "Title",
+  "summary": "সারসংক্ষেপ",
+  "updatedAt": "2026-11-08",
+  "blocks": [
+    {
+      "type": "paragraph",
+      "text": "পাঠ"
+    }
+  ],
+  "quiz": [
+    {
+      "question": "প্রশ্ন 1",
+      "options": [
+        "ক",
+        "খ"
+      ],
+      "answer": 5,
+      "explanation": "ব্যাখ্যা"
+    },
+    {
+      "question": "প্রশ্ন 2",
+      "options": [
+        "ক",
+        "খ"
+      ],
+      "answer": 0,
+      "explanation": "ব্যাখ্যা"
+    },
+    {
+      "question": "প্রশ্ন 3",
+      "options": [
+        "ক",
+        "খ"
+      ],
+      "answer": 0,
+      "explanation": "ব্যাখ্যা"
+    }
+  ]
+}
