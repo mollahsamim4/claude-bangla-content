@@ -3,7 +3,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { validateRepo } from '../validate';
 import { detect } from './detect';
-import { fromFeedId, openPr } from './open-prs';
+import { fromFeedId, knownIdFromFeedFile, openPr } from './open-prs';
 import { spawnRunner } from './runner';
 import { fetchSourceText, REGISTRY, type RawItem, type SourceId } from './sources';
 import { summarize, type SummarizeResult } from './summarize';
@@ -87,7 +87,16 @@ async function main() {
 
   const knownIds = async () => {
     const names = (await fs.readdir(path.join(contentDir, 'feed'))).filter((n) => n.endsWith('.json'));
-    const ids = names.map((n) => fromFeedId(n.replace(/\.json$/, '')));
+    const ids: string[] = [];
+    for (const n of names) {
+      let source: unknown;
+      try {
+        source = JSON.parse(await fs.readFile(path.join(contentDir, 'feed', n), 'utf8')).source;
+      } catch {
+        // unreadable file: still counts as a known id by name
+      }
+      ids.push(knownIdFromFeedFile(n.replace(/\.json$/, ''), source));
+    }
     // A failure here must abort the run: without the PR list we could propose duplicates.
     const res = await spawnRunner('gh', ['pr', 'list', '--state', 'all', '--limit', '1000', '--json', 'headRefName'], { cwd: repoRoot });
     if (res.code !== 0) throw new Error(`gh pr list failed: ${res.stderr.trim()}`);

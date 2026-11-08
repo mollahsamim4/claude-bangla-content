@@ -12,7 +12,7 @@ permissions:
 jobs:
   release-notes:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 60
     defaults:
       run:
         working-directory: content
@@ -29,7 +29,7 @@ jobs:
       - run: npm ci
       - name: Install Claude Code
         run: |
-          curl -fsSL https://claude.ai/install.sh | bash
+          curl -fsSL https://claude.ai/install.sh | bash -s 2.1.319
           echo "$HOME/.local/bin" >> "$GITHUB_PATH"
       - name: Git identity
         run: |

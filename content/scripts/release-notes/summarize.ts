@@ -1,10 +1,14 @@
-import { spawnRunner, type Runner } from './runner';
+import fs from 'node:fs/promises';
+import os from 'node:os';
+import path from 'node:path';
+import { envWithout, spawnRunner, type Runner } from './runner';
 import type { RawItem } from './sources';
 
 export const MAX_ENGLISH_CHARS = 20_000;
 export const TRUNCATION_MARKER = '[…truncated — see original]';
-const CLAUDE_TIMEOUT_MS = 5 * 60_000;
-const BENGALI = /[ঀ-৿]/;
+export const CLAUDE_TIMEOUT_MS = 120_000;
+export const MAX_SUMMARY_CHARS = 1500;
+const MIN_BENGALI_RATIO = 0.4;
 
 export type SummarizeResult = { ok: true; summary: string } | { ok: false; reason: string };
 
@@ -49,27 +53,38 @@ function extractSummary(stdout: string): string {
   if (typeof inner.summary !== 'string') throw new Error('summary missing');
   const summary = inner.summary.normalize('NFC').trim();
   if (!summary) throw new Error('summary empty');
-  if (!BENGALI.test(summary)) throw new Error('summary has no Bengali text');
+  if (summary.length > MAX_SUMMARY_CHARS) throw new Error('summary too long');
+  const letters = summary.match(/\p{L}/gu) ?? [];
+  const bengali = letters.filter((c) => /[ঀ-৿]/.test(c)).length;
+  if (bengali === 0 || bengali / letters.length < MIN_BENGALI_RATIO) throw new Error('summary is not mostly Bengali');
   return summary;
 }
 
 /**
- * Headless Claude with every tool disabled (`--tools ""`, documented in the CLI reference), no slash
- * commands, no saved session; prompt on stdin. One retry, then give up (caller skips the item).
+ * Headless Claude with every built-in tool disabled (`--tools ""`) and MCP/connector tools disabled
+ * (`--strict-mcp-config` with no config; `--tools ""` alone leaves MCP tools loaded), no slash commands, no saved session; prompt on stdin. One retry, then give up (caller skips the item).
  */
 export async function summarize(item: RawItem, run: Runner = spawnRunner): Promise<SummarizeResult> {
   const prompt = buildPrompt(item);
-  const args = ['-p', '--output-format', 'json', '--tools', '', '--disable-slash-commands', '--no-session-persistence', '--max-turns', '1'];
+  const args = ['-p', '--output-format', 'json', '--tools', '', '--strict-mcp-config', '--disable-slash-commands', '--no-session-persistence', '--max-turns', '1'];
   let reason = 'unknown';
-  for (let attempt = 1; attempt <= 2; attempt++) {
-    try {
-      const res = await run('claude', args, { input: prompt, timeoutMs: CLAUDE_TIMEOUT_MS });
-      if (res.code !== 0) throw new Error(`claude exited with code ${res.code}: ${res.stderr.slice(0, 200)}`);
-      return { ok: true, summary: extractSummary(res.stdout) };
-    } catch (e) {
-      reason = (e as Error).message;
-      console.warn(`summarize ${item.id}: attempt ${attempt} failed: ${reason}`);
+  // Fresh empty cwd: no CLAUDE.md, .claude/settings.json hooks or .mcp.json from any repo can load.
+  // No GitHub tokens in the child's environment.
+  const cwd = await fs.mkdtemp(path.join(os.tmpdir(), 'claude-bangla-summarize-'));
+  const env = envWithout(process.env, [/^GH_TOKEN$/, /^GITHUB_TOKEN$/]);
+  try {
+    for (let attempt = 1; attempt <= 2; attempt++) {
+      try {
+        const res = await run('claude', args, { input: prompt, timeoutMs: CLAUDE_TIMEOUT_MS, cwd, env });
+        if (res.code !== 0) throw new Error(`claude exited with code ${res.code}: ${res.stderr.slice(0, 200)}`);
+        return { ok: true, summary: extractSummary(res.stdout) };
+      } catch (e) {
+        reason = (e as Error).message;
+        console.warn(`summarize ${item.id}: attempt ${attempt} failed: ${reason}`);
+      }
     }
+    return { ok: false, reason };
+  } finally {
+    await fs.rm(cwd, { recursive: true, force: true });
   }
-  return { ok: false, reason };
 }

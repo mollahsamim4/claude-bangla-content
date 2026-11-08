@@ -12,10 +12,13 @@ export function parseHelpCenter(markdown: string): RawItem[] {
   let cur: { title: string; body: string[] } | null = null;
   let sectionText = 0;
   let sectionEntries = 0;
+  let orphanLines = 0;
   const flush = () => {
     if (cur && date) {
       const englishText = cur.body.join('\n').replace(/\n-{3,}\s*$/, '').trim();
-      if (englishText) {
+      if (!englishText) {
+        console.warn(`help-center: entry "${cur.title}" in section ${date} has a title but no body; skipped`);
+      } else {
         sectionEntries++;
         const base = `help-${date}-${slugify(cur.title)}`;
         let id = base;
@@ -37,9 +40,12 @@ export function parseHelpCenter(markdown: string): RawItem[] {
     flush();
     if (date && sectionText > 0 && sectionEntries === 0) {
       console.warn(`help-center: section ${date} has text but no recognizable entry (bold title line); skipped`);
+    } else if (date && orphanLines > 0) {
+      console.warn(`help-center: section ${date} has ${orphanLines} text line(s) outside any entry (before the first title); ignored`);
     }
     sectionText = 0;
     sectionEntries = 0;
+    orphanLines = 0;
   };
   for (const line of lines) {
     const h3 = /^### (.+?)\s*$/.exec(line);
@@ -61,6 +67,8 @@ export function parseHelpCenter(markdown: string): RawItem[] {
       cur = { title: t[1].trim(), body: [] };
     } else if (cur) {
       cur.body.push(line);
+    } else if (line.trim() && !/^-{3,}\s*$/.test(line.trim())) {
+      orphanLines++;
     }
   }
   endSection();

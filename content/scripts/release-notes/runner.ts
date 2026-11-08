@@ -8,10 +8,17 @@ export interface RunResult {
 export interface RunOptions {
   input?: string;
   cwd?: string;
+  /** Full child environment (replaces the inherited one). Omit to inherit. */
+  env?: NodeJS.ProcessEnv;
   timeoutMs?: number;
 }
 /** Runs an external command. Injected everywhere so tests never touch a real CLI. */
 export type Runner = (cmd: string, args: string[], opts?: RunOptions) => Promise<RunResult>;
+
+/** Copy of `base` without variables whose name matches any pattern. */
+export function envWithout(base: NodeJS.ProcessEnv, patterns: RegExp[]): NodeJS.ProcessEnv {
+  return Object.fromEntries(Object.entries(base).filter(([k]) => !patterns.some((p) => p.test(k))));
+}
 
 /** Real runner. Arguments are passed as an array (no shell), so item text can never be interpreted by a shell. */
 export const spawnRunner: Runner = (cmd, args, opts = {}) =>
@@ -19,6 +26,7 @@ export const spawnRunner: Runner = (cmd, args, opts = {}) =>
     // On Windows `claude`/`gh`/`git` may be .cmd/.exe shims; shell stays off on Linux (CI), which is what matters.
     const child = spawn(cmd, args, {
       cwd: opts.cwd,
+      env: opts.env,
       stdio: ['pipe', 'pipe', 'pipe'],
       shell: false,
       timeout: opts.timeoutMs,
