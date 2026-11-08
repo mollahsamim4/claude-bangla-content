@@ -1,0 +1,9 @@
+{
+  "id": "help-2026-11-06-track-spend-by-cost-code-with-project-tags-beta",
+  "source": "help-center",
+  "date": "2026-11-06",
+  "title": "Track spend by cost code with project tags (beta)",
+  "summary": "এখন যোগ্য Enterprise organization-গুলো তাদের project-এ নিজেদের ব্যবহৃত কোড, যেমন charge code বা client-matter number, দিয়ে tag করতে পারে। এর ফলে এসব project-এর বেশিরভাগ খরচ tag অনুযায়ী আলাদাভাবে দেখা যায়, তাই কোন কাজে কত খরচ হচ্ছে তা সহজে বোঝা যায়। এই feature এখন beta অবস্থায় আছে।",
+  "originalEn": "Eligible Enterprise organizations can now tag projects with the codes they already use, like a charge code or client-matter number, and see most spend in those projects by tag. This feature is available in beta. For more information, see **[Track spend by cost code with project tags](https://support.claude.com/en/articles/18251257-track-spend-by-project-with-tags)**.",
+  "url": "https://support.claude.com/en/articles/12138966-release-notes"
+}
