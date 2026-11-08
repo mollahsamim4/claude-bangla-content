@@ -1,0 +1,192 @@
+{
+  "id": "developer-09-claude-code-web-desktop-ide",
+  "track": "developer",
+  "order": 9,
+  "title": "Claude Code on the Web, Desktop & IDEs",
+  "summary": "টার্মিনালের বাইরে Claude Code কোথায় কোথায় চলে: Desktop অ্যাপ, VS Code, JetBrains, ব্রাউজারে claude.ai/code আর মোবাইল অ্যাপ, আর কোনটা কখন বেছে নেবেন।",
+  "updatedAt": "2026-11-08",
+  "blocks": [
+    {
+      "type": "heading",
+      "text": "One engine, many surfaces"
+    },
+    {
+      "type": "paragraph",
+      "text": "Claude Code সব জায়গায় একই ইঞ্জিনে চলে, শুধু একেক জায়গা একেক ধরনের কাজের জন্য সাজানো। টার্মিনাল (CLI) সবচেয়ে পূর্ণাঙ্গ। স্ক্রিপ্টিং আর Agent SDK শুধু CLI-তেই আছে। তবে যারা টার্মিনাল পছন্দ করেন না, বা editor ছেড়ে যেতে চান না, তাদের জন্য আরও কয়েকটা জায়গা আছে। CLI, Desktop আর IDE extension-এর মতো লোকাল জায়গাগুলো একই কনফিগারেশন, project memory আর MCP server শেয়ার করে, তাই একই প্রজেক্টে মিশিয়ে ব্যবহার করা যায়।"
+    },
+    {
+      "type": "heading",
+      "text": "Desktop app"
+    },
+    {
+      "type": "paragraph",
+      "text": "Claude Desktop অ্যাপে Claude Code হলো Code ট্যাব। টার্মিনাল ছাড়াই আপনার কম্পিউটারের কোনো ফোল্ডারে Claude-কে কাজ করাতে পারেন, তারপর diff দেখে পরিবর্তন রিভিউ করতে পারেন। Node.js বা CLI আলাদা করে ইনস্টল লাগে না। macOS (Intel ও Apple Silicon) আর Windows (x64 ও ARM64)-এর জন্য ইনস্টলার আছে, Linux-এ beta। এর জন্য Pro, Max, Ultra, Team বা Enterprise সাবস্ক্রিপশন লাগে।"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "অ্যাপ ইনস্টল করে সাইন ইন করুন, তারপর sidebar-এর উপরে Code ট্যাবে ক্লিক করুন।",
+        "প্রম্পট বক্সের নিচের সারিতে environment selector থেকে Local গ্রুপের প্রথমটা বেছে নিন।",
+        "পাশের project folder কন্ট্রোলে Open folder… দিয়ে প্রজেক্ট ফোল্ডার বেছে নিন।",
+        "কাজটা লিখে Enter চাপুন।"
+      ]
+    },
+    {
+      "type": "tip",
+      "text": "টার্মিনালে চলা সেশন Desktop-এ নিয়ে যেতে `/desktop` কমান্ড চালান। এর জন্য macOS বা x64 Windows আর একটা Claude সাবস্ক্রিপশন লাগে।"
+    },
+    {
+      "type": "heading",
+      "text": "VS Code extension"
+    },
+    {
+      "type": "paragraph",
+      "text": "VS Code-এ Claude Code ব্যবহারের সুপারিশকৃত উপায় হলো extension। এতে inline diff দেখা, প্ল্যান অনুমোদনের আগে রিভিউ ও এডিট, আর একাধিক কথোপকথন আলাদা ট্যাবে খোলা যায়। VS Code 1.94.0 বা পরের ভার্সন লাগে। Cursor-এর মতো VS Code fork-এও চলে।"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "Extensions view খুলুন: macOS-এ `Cmd+Shift+X`, Windows আর Linux-এ `Ctrl+Shift+X`।",
+        "\"Claude Code\" লিখে সার্চ করে Install ক্লিক করুন।",
+        "কোনো ফাইল খোলা থাকলে editor-এর উপরে ডান কোণে Spark আইকনে ক্লিক করুন, অথবা নিচের ডান কোণে ✻ Claude Code-এ।",
+        "প্রথমবার Sign in ক্লিক করে ব্রাউজারে লগইন শেষ করুন।"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Editor-এ কোড সিলেক্ট করলে Claude সেটা আপনাআপনি দেখে। প্রম্পটে `@file.ts#5-10`-এর মতো রেফারেন্স ঢোকাতে macOS-এ `Option+K`, Windows আর Linux-এ `Alt+K` চাপুন।"
+    },
+    {
+      "type": "paragraph",
+      "text": "Extension চ্যাট প্যানেলের জন্য CLI-এর নিজস্ব একটা কপি সাথে নিয়ে আসে। কিন্তু VS Code-এর integrated terminal-এ `claude` কমান্ড চালাতে চাইলে CLI আলাদা করে ইনস্টল করতে হবে (Install Claude Code লেসন দেখুন)।"
+    },
+    {
+      "type": "heading",
+      "text": "JetBrains IDEs"
+    },
+    {
+      "type": "paragraph",
+      "text": "IntelliJ IDEA, PyCharm, Android Studio, WebStorm, PhpStorm, GoLand-এর মতো JetBrains IDE-তে JetBrains Marketplace থেকে Claude Code plugin ইনস্টল করুন। এই plugin নিজের CLI নিয়ে আসে না। এটা IDE-র integrated terminal-এ `claude` চালিয়ে তার সাথে যুক্ত হয়, তাই আগে CLI ইনস্টল থাকতে হবে।"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "Editor থেকে সরাসরি খুলতে macOS-এ `Cmd+Esc`, Windows আর Linux-এ `Ctrl+Esc`।",
+        "কোডের পরিবর্তন IDE-র নিজস্ব diff viewer-এ দেখায়।",
+        "বাইরের কোনো টার্মিনাল থেকে চালালে `/ide` কমান্ড দিয়ে IDE-র সাথে যুক্ত করুন।"
+      ]
+    },
+    {
+      "type": "code",
+      "language": "text",
+      "code": "/ide"
+    },
+    {
+      "type": "heading",
+      "text": "Claude Code on the web"
+    },
+    {
+      "type": "paragraph",
+      "text": "ব্রাউজারে claude.ai/code-এ cloud session চালানো যায়। এখানে Claude আপনার কম্পিউটারে না, Anthropic-এর পরিচালিত cloud-এ চলে। তাই ল্যাপটপ বন্ধ করলেও কাজ চলতে থাকে, আর যেকোনো ডিভাইস থেকে খোঁজ নেওয়া যায়। লম্বা কাজ, যেখানে খুব বেশি নির্দেশনা লাগে না, তার জন্য ভালো। Cloud session পাওয়া যায় Pro, Max, Ultra আর Team প্ল্যানে, আর Enterprise-এ premium seat বা Chat + Claude Code seat থাকলে। কোড clone আর branch push করার জন্য GitHub যুক্ত করতে হয়।"
+    },
+    {
+      "type": "paragraph",
+      "text": "টার্মিনাল থেকেও নতুন cloud session শুরু করা যায়। Cloud VM আপনার লোকাল checkout না, GitHub remote-এর বর্তমান branch clone করে, তাই লোকাল commit থাকলে আগে push করে নিন:"
+    },
+    {
+      "type": "code",
+      "language": "bash",
+      "code": "claude --cloud \"Fix the authentication bug in src/auth/login.ts\""
+    },
+    {
+      "type": "paragraph",
+      "text": "উল্টো দিকে, cloud session টার্মিনালে টেনে আনতে `claude --teleport` চালান, অথবা চলমান সেশনের ভেতরে `/teleport`। আপনার working directory-তে uncommitted পরিবর্তন থাকা চলবে না, আর একই রিপো ও একই claude.ai অ্যাকাউন্ট লাগবে।"
+    },
+    {
+      "type": "code",
+      "language": "bash",
+      "code": "claude --teleport"
+    },
+    {
+      "type": "heading",
+      "text": "Mobile"
+    },
+    {
+      "type": "paragraph",
+      "text": "iOS আর Android-এর Claude অ্যাপে Code ট্যাব থেকে cloud session শুরু করা আর খোঁজ রাখা যায়। কম্পিউটার থেকে দূরে থাকলে কাজ শুরু করা বা চলমান কাজ দেখার জন্য এটা কাজের।"
+    },
+    {
+      "type": "warning",
+      "text": "Cloud session আপনার প্ল্যানের usage limit-এর মধ্যেই গোনা হয়। আর এর কিছু আচরণ লোকাল সেশন থেকে আলাদা। যেমন cloud session-এ Bypass permissions মোড পাওয়া যায় না, আর রিপোর settings ফাইলে `bypassPermissions` থাকলেও সেটা মানা হয় না।"
+    },
+    {
+      "type": "heading",
+      "text": "Which one should you pick?"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "টার্মিনাল, স্ক্রিপ্ট আর সার্ভারে কাজ: CLI।",
+        "টার্মিনাল ছাড়া, ভিজ্যুয়াল diff আর পাশাপাশি অনেক সেশন: Desktop।",
+        "Editor ছেড়ে যেতে চান না: VS Code বা JetBrains।",
+        "লম্বা কাজ যেটা আপনি অফলাইন থাকলেও চলবে: Web (claude.ai/code)।",
+        "বাইরে থেকে কাজ শুরু করা বা দেখা: মোবাইল অ্যাপ।"
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "Recap"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "সব জায়গায় একই ইঞ্জিন। লোকাল জায়গাগুলো একই কনফিগ আর memory শেয়ার করে।",
+        "Desktop-এ Code ট্যাব, VS Code-এ extension, JetBrains-এ plugin (CLI লাগে)।",
+        "Web-এ cloud session চলে, `claude --cloud` দিয়ে পাঠান, `claude --teleport` দিয়ে ফেরান।",
+        "সুবিধা অনুযায়ী মিশিয়ে ব্যবহার করুন।"
+      ]
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Claude Desktop অ্যাপে Claude Code কোথায় পাবেন?",
+      "options": [
+        "Settings মেনুতে",
+        "Code ট্যাবে",
+        "আলাদা অ্যাপ হিসেবে"
+      ],
+      "answer": 1,
+      "explanation": "Desktop অ্যাপে Claude Code হলো sidebar-এর উপরের Code ট্যাব।"
+    },
+    {
+      "question": "JetBrains plugin ব্যবহারের আগে কী ইনস্টল থাকতে হবে?",
+      "options": [
+        "Claude Code CLI",
+        "শুধু Node.js",
+        "কিছুই না, plugin সব নিয়ে আসে"
+      ],
+      "answer": 0,
+      "explanation": "JetBrains plugin নিজের CLI নিয়ে আসে না। এটা IDE-র terminal-এ `claude` চালিয়ে যুক্ত হয়, তাই CLI আগে ইনস্টল থাকতে হবে।"
+    },
+    {
+      "question": "Cloud session-এর বড় সুবিধা কী?",
+      "options": [
+        "এটা সম্পূর্ণ ফ্রি, কোনো লিমিট নেই",
+        "ল্যাপটপ বন্ধ করলেও কাজ চলতে থাকে",
+        "এতে GitHub লাগে না"
+      ],
+      "answer": 1,
+      "explanation": "Cloud session cloud-এ চলে, তাই আপনি বিচ্ছিন্ন হলেও চলে। তবে এটা প্ল্যানের usage limit-এর মধ্যে গোনা হয় আর সাধারণত GitHub যুক্ত করতে হয়।"
+    },
+    {
+      "question": "একটা cloud session নিজের টার্মিনালে টেনে আনার কমান্ড কোনটা?",
+      "options": [
+        "`claude --cloud`",
+        "`claude --teleport`",
+        "`claude --resume`"
+      ],
+      "answer": 1,
+      "explanation": "`claude --teleport` cloud session-এর branch আর কথোপকথন টার্মিনালে আনে। `--cloud` নতুন cloud session শুরু করে, আর `--resume` শুধু এই মেশিনের লোকাল ইতিহাস দেখায়।"
+    }
+  ]
+}

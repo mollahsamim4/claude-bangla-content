@@ -1,0 +1,168 @@
+{
+  "id": "developer-10-context-management",
+  "track": "developer",
+  "order": 10,
+  "title": "Context Management: /compact, /clear & the Context Window",
+  "summary": "Context window-এ কী জায়গা নেয় তা বোঝা, আর `/context`, `/compact`, `/clear` দিয়ে লম্বা সেশন পরিষ্কার ও সস্তা রাখা।",
+  "updatedAt": "2026-11-08",
+  "blocks": [
+    {
+      "type": "heading",
+      "text": "What is the context window?"
+    },
+    {
+      "type": "paragraph",
+      "text": "Context window হলো এই সেশনের ব্যাপারে Claude যা যা জানে তার পুরোটা: আপনার নির্দেশ, Claude যেসব ফাইল পড়েছে, তার নিজের উত্তর, আর এমন অনেক কিছু যা টার্মিনালে দেখা যায় না। আপনি কিছু লেখার আগেই CLAUDE.md, auto memory, MCP টুলের নাম আর skill-এর বর্ণনা লোড হয়ে যায়। তারপর Claude প্রতিটা ফাইল পড়লে context আরও ভরে।"
+    },
+    {
+      "type": "paragraph",
+      "text": "দুটো কারণে এটা গুরুত্বপূর্ণ। এক, প্রতিটা অনুরোধে পুরো কথোপকথন পাঠানো হয়। তাই তিনটা আলাদা কাজ জমে থাকা সেশনে চতুর্থ কাজের প্রতিটা ধাপে আগের তিনটাও আবার পড়া হয়, খরচও হয়। দুই, অপ্রাসঙ্গিক পুরোনো কথা নতুন কাজের দরকারি ফাইলকে ভিড়ে আড়াল করে দেয়। মনোযোগী context মানে ভালো উত্তর আর কম খরচ।"
+    },
+    {
+      "type": "heading",
+      "text": "See what's using space with /context"
+    },
+    {
+      "type": "paragraph",
+      "text": "`/context` চালালে context-এর ব্যবহার একটা রঙিন গ্রিডে দেখায়: কোন ধরনের জিনিস কতটা জায়গা নিচ্ছে, কোন CLAUDE.md আর memory ফাইল লোড হয়েছে, আর জায়গা বাঁচানোর পরামর্শ। বিস্তারিত তালিকা দেখতে `all` যোগ করুন:"
+    },
+    {
+      "type": "code",
+      "language": "text",
+      "code": "/context all"
+    },
+    {
+      "type": "heading",
+      "text": "Start fresh with /clear"
+    },
+    {
+      "type": "paragraph",
+      "text": "একটা কাজ শেষ করে সম্পর্কহীন আরেকটা কাজে যাচ্ছেন? `/clear` চালান। এটা খালি context দিয়ে নতুন কথোপকথন শুরু করে, কিন্তু project memory (CLAUDE.md) থেকে যায়। এর কোনো খরচ নেই। চাইলে একটা নাম দিন, তাহলে পরে `/resume` পিকারে পুরোনো কথোপকথনটা সহজে খুঁজে পাবেন:"
+    },
+    {
+      "type": "code",
+      "language": "text",
+      "code": "/clear oauth-migration"
+    },
+    {
+      "type": "tip",
+      "text": "একই জিনিস দুবার শুধরে দেওয়ার পরও ভুল হচ্ছে? তৃতীয়বার শোধরানোর বদলে `/clear` করে, যা শিখলেন সেটা মিলিয়ে একটা ভালো প্রম্পট লিখুন। পুরোনো কথোপকথনে দুটো ব্যর্থ চেষ্টা থেকে যায়, আর Claude সেগুলো বারবার পড়তে থাকে। `/reset` আর `/new`-ও `/clear`-এর মতোই কাজ করে।"
+    },
+    {
+      "type": "heading",
+      "text": "Summarize with /compact"
+    },
+    {
+      "type": "paragraph",
+      "text": "একই কাজ চালিয়ে যেতে চান কিন্তু context ভারী হয়ে গেছে? তখন `/clear` না, `/compact`। এটা এ পর্যন্ত কথোপকথনটা একটা সংক্ষেপে বদলে জায়গা খালি করে। পরে কী লাগবে, সেটা বলে দিলে সংক্ষেপ সেদিকে মনোযোগ দেয়:"
+    },
+    {
+      "type": "code",
+      "language": "text",
+      "code": "/compact focus on the auth bug fix"
+    },
+    {
+      "type": "paragraph",
+      "text": "Context প্রায় ভরে গেলে Claude Code নিজেও আপনাআপনি compact করে, তাই context ভরে গেলেও সেশন শেষ হয় না। নিজে আগে থেকে `/compact` করলে লাভ হলো, কী রাখা হবে সেটা আপনি ঠিক করে দেন, অনুমানের উপর ছেড়ে দেন না। লম্বা নতুন কাজ শুরুর আগে এটা ভালো অভ্যাস।"
+    },
+    {
+      "type": "heading",
+      "text": "What survives compaction"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "প্রজেক্টের root-এর CLAUDE.md আর auto memory ডিস্ক থেকে আবার context-এ ঢোকে।",
+        "Plan mode-এ লেখা প্ল্যানও ডিস্ক থেকে ফিরে আসে।",
+        "Claude সম্প্রতি যেসব ফাইল পড়েছে বা এডিট করেছে, তার মধ্যে সর্বশেষ বদলানো পাঁচটা পর্যন্ত আবার পড়া হয়।",
+        "সাব-ফোল্ডারের CLAUDE.md আর `paths:` দেওয়া rule দরকার পড়লে আবার লোড হয়।",
+        "শুধু কথোপকথনে মুখে বলা নির্দেশ সংক্ষেপের ভেতরে চলে যায়। খুঁটিনাটি হারাতে পারে।"
+      ]
+    },
+    {
+      "type": "warning",
+      "text": "সেশনের শুরুতে মুখে বলা কোনো জরুরি নিয়ম compaction-এর পর হারিয়ে যেতে পারে। যে নিয়ম সবসময় থাকা দরকার, সেটা কথোপকথনে না বলে CLAUDE.md-তে লিখুন। Compaction-এ কী রাখতে হবে সেটা ঠিক করতে CLAUDE.md-তে একটা \"Compact Instructions\" অংশও যোগ করা যায়।"
+    },
+    {
+      "type": "heading",
+      "text": "More ways to keep context lean"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "আংশিক সংক্ষেপ: `/rewind` খুলে একটা মেসেজ বেছে Summarize from here বা Summarize up to here দিন।",
+        "পাশের প্রশ্ন: `/btw` দিয়ে ছোট প্রশ্ন করুন। উত্তর আসে, কিন্তু কথোপকথনের ইতিহাসে যোগ হয় না।",
+        "বড় খোঁজাখুঁজি অন্যকে দিন: subagent নিজের আলাদা context-এ ফাইল পড়ে শুধু সারাংশ ফেরত দেয়।",
+        "আগে compact করান: `/autocompact 500k`-এর মতো মান দিলে context কতটা ভরলে auto-compact চলবে সেটা ঠিক হয়। `auto` দিলে মডেলের ডিফল্টে ফেরে।"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Subagent-কে দিয়ে খোঁজাখুঁজি করাতে এভাবে বলুন:"
+    },
+    {
+      "type": "prompt",
+      "text": "use a subagent to investigate how our auth system handles token refresh"
+    },
+    {
+      "type": "tip",
+      "text": "সেশনটা বন্ধ করলেও পরে ফেরা যায়। `claude --continue` এই ফোল্ডারের সবচেয়ে সাম্প্রতিক সেশন খোলে, আর `claude --resume` একটা তালিকা থেকে বেছে নিতে দেয়। দুটোই macOS, Linux আর Windows-এ একইভাবে চলে।"
+    },
+    {
+      "type": "heading",
+      "text": "Recap"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "`/context` দিয়ে দেখুন কী জায়গা নিচ্ছে।",
+        "নতুন, সম্পর্কহীন কাজে `/clear`। একই কাজে context ভারী হলে `/compact <focus>`।",
+        "জরুরি নিয়ম CLAUDE.md-তে রাখুন, শুধু কথোপকথনে না।",
+        "ছোট প্রশ্নে `/btw`, বড় খোঁজাখুঁজিতে subagent।"
+      ]
+    }
+  ],
+  "quiz": [
+    {
+      "question": "এক কাজ শেষ, এখন সম্পূর্ণ আলাদা একটা কাজ শুরু করবেন। কোন কমান্ড সবচেয়ে উপযুক্ত?",
+      "options": [
+        "`/compact`",
+        "`/clear`",
+        "`/context`",
+        "`/btw`"
+      ],
+      "answer": 1,
+      "explanation": "সম্পর্কহীন কাজে যাওয়ার আগে `/clear` খালি context দিয়ে নতুন কথোপকথন শুরু করে। CLAUDE.md তবুও থেকে যায়।"
+    },
+    {
+      "question": "একই কাজ চালিয়ে যেতে চান, কিন্তু context ভারী। কী করবেন?",
+      "options": [
+        "`/compact` দিয়ে কথোপকথন সংক্ষেপ করবেন, দরকার হলে focus বলে দেবেন",
+        "Claude Code আনইনস্টল করবেন",
+        "`/exit` করে সব ভুলে যাবেন"
+      ],
+      "answer": 0,
+      "explanation": "`/compact` কথোপকথনটা সংক্ষেপে বদলে জায়গা খালি করে, আর `/compact focus on ...` দিয়ে কী রাখতে হবে সেটা বলে দেওয়া যায়।"
+    },
+    {
+      "question": "Compaction-এর পর কোনটা ডিস্ক থেকে আবার context-এ ফিরে আসে?",
+      "options": [
+        "প্রজেক্ট root-এর CLAUDE.md",
+        "শুরুতে মুখে বলা প্রতিটা নির্দেশ হুবহু",
+        "কিছুই না"
+      ],
+      "answer": 0,
+      "explanation": "প্রজেক্ট root-এর CLAUDE.md আর auto memory ডিস্ক থেকে আবার ঢোকে। কথোপকথনে বলা নির্দেশ সংক্ষেপে চলে যায়, তাই জরুরি নিয়ম CLAUDE.md-তে রাখুন।"
+    },
+    {
+      "question": "`/btw` কেন কাজের?",
+      "options": [
+        "এটা পুরো সেশন মুছে দেয়",
+        "পাশ থেকে প্রশ্ন করা যায়, উত্তর কথোপকথনের ইতিহাসে যোগ হয় না",
+        "এটা মডেল বদলায়"
+      ],
+      "answer": 1,
+      "explanation": "`/btw` বর্তমান সেশনের ব্যাপারে একটা পাশের প্রশ্নের উত্তর দেয়, কিন্তু কথোপকথনে কিছু যোগ করে না। ফলে context পরিষ্কার থাকে।"
+    }
+  ]
+}

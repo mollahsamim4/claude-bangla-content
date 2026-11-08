@@ -1,0 +1,181 @@
+{
+  "id": "developer-03-plan-mode",
+  "track": "developer",
+  "order": 3,
+  "title": "Plan Mode",
+  "summary": "কোড বদলানোর আগে Claude-কে দিয়ে কোডবেস পড়িয়ে একটা পরিকল্পনা বানানো, সেটা রিভিউ করে তারপর কাজ শুরু করা।",
+  "updatedAt": "2026-11-08",
+  "blocks": [
+    {
+      "type": "heading",
+      "text": "What plan mode does"
+    },
+    {
+      "type": "paragraph",
+      "text": "বড় কোনো পরিবর্তনের আগে ভালো ডেভেলপার আগে কোড পড়ে, তারপর ঠিক করে কী কী বদলাতে হবে। Plan mode Claude Code-কে ঠিক এই কাজটা করায়। এই মোডে Claude ফাইল পড়ে, খোঁজার জন্য shell কমান্ড চালায়, তারপর একটা প্ল্যান লেখে। কিন্তু আপনার সোর্স কোড এডিট করে না। প্ল্যান আপনি অনুমোদন না করা পর্যন্ত এডিট বন্ধ থাকে।"
+    },
+    {
+      "type": "paragraph",
+      "text": "কখন কাজে লাগে: অচেনা কোডবেসে কাজ, অনেক ফাইল জুড়ে refactor, বা এমন কাজ যেটা ডিস্কে লেখার আগে আপনি নিজে রিভিউ করতে চান।"
+    },
+    {
+      "type": "heading",
+      "text": "Enter plan mode"
+    },
+    {
+      "type": "paragraph",
+      "text": "তিনভাবে plan mode-এ যাওয়া যায়। প্রথমত, সেশন চলার সময় `Shift+Tab` চাপুন। প্রতিবার চাপলে permission mode বদলায়। স্ট্যাটাস বারে `⏸ plan mode on` দেখা না যাওয়া পর্যন্ত চাপতে থাকুন। Windows-এ কিছু ক্ষেত্রে (Node বা Bun runtime VT input mode চালু না করলে) `Shift+Tab`-এর বদলে `Alt+M` লাগে।"
+    },
+    {
+      "type": "paragraph",
+      "text": "দ্বিতীয়ত, প্রম্পটের শুরুতে `/plan` লিখুন। সাথে কাজের বর্ণনা দিলে plan mode-এ ঢুকেই কাজটা শুরু হয়ে যায়:"
+    },
+    {
+      "type": "code",
+      "language": "text",
+      "code": "/plan fix the auth bug"
+    },
+    {
+      "type": "paragraph",
+      "text": "তৃতীয়ত, টার্মিনাল থেকে শুরুতেই plan mode-এ চালু করুন। এই কমান্ড macOS, Linux আর Windows-এ একই:"
+    },
+    {
+      "type": "code",
+      "language": "bash",
+      "code": "claude --permission-mode plan"
+    },
+    {
+      "type": "tip",
+      "text": "প্ল্যান অনুমোদন না করেই plan mode থেকে বেরোতে চাইলে আবার `Shift+Tab` চাপুন।"
+    },
+    {
+      "type": "heading",
+      "text": "Write a good planning prompt"
+    },
+    {
+      "type": "paragraph",
+      "text": "Plan mode-এ প্রম্পট যত পরিষ্কার হবে, প্ল্যান তত কাজের হবে। লক্ষ্য, সীমা আর কী জানতে চান, সব বলে দিন। যেমন:"
+    },
+    {
+      "type": "prompt",
+      "text": "I want to add rate limiting to the public API. Read the existing middleware and routes first, then propose a plan: which files change, what the new code does, and how we will test it. Don't edit anything yet."
+    },
+    {
+      "type": "paragraph",
+      "text": "কী চান সেটা নিজেই পুরোপুরি জানেন না? তাহলে Claude-কে বলুন আপনাকে প্রশ্ন করতে। ডকসের এই উদাহরণটা দেখুন:"
+    },
+    {
+      "type": "prompt",
+      "text": "I want to add rate limiting to the public API but haven't thought it through yet. Interview me until you could write the spec, then write it to SPEC.md."
+    },
+    {
+      "type": "heading",
+      "text": "Review and approve a plan"
+    },
+    {
+      "type": "paragraph",
+      "text": "প্ল্যান তৈরি হলে Claude সেটা দেখিয়ে জানতে চায় কীভাবে এগোবে। অপশনগুলো এরকম:"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "Yes, and use auto mode: প্ল্যান অনুমোদন করে auto mode-এ কাজ শুরু। আপনার সেশনে auto mode না থাকলে এই অপশনের নাম হয় Yes, auto-accept edits।",
+        "Yes, manually approve edits: প্ল্যান অনুমোদন, তবে প্রতিটা এডিট আপনি আলাদা করে দেখে অনুমতি দেবেন।",
+        "No, keep planning: plan mode-এই থাকুন আর Claude-কে বলুন প্ল্যানে কী বদলাতে হবে।"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "প্ল্যান অনুমোদন করলে plan mode শেষ হয়ে যায় আর Claude এডিট শুরু করে। প্ল্যানটা নিজে হাতে বদলাতে চাইলে `Ctrl+G` চাপুন। প্ল্যান আপনার ডিফল্ট text editor-এ খুলবে, সেখানে এডিট করে নিতে পারবেন। আবার প্ল্যান করতে চাইলে `Shift+Tab` দিয়ে plan mode-এ ফিরুন, অথবা পরের প্রম্পটের শুরুতে `/plan` লিখুন।"
+    },
+    {
+      "type": "tip",
+      "text": "লম্বা সেশনে context compact হয়ে গেলেও plan mode-এ লেখা প্ল্যান হারায় না। Claude Code সেটা ডিস্ক থেকে আবার context-এ ঢুকিয়ে দেয়।"
+    },
+    {
+      "type": "heading",
+      "text": "Plan mode in VS Code and Desktop"
+    },
+    {
+      "type": "paragraph",
+      "text": "VS Code extension-এ প্রম্পট বক্সের নিচের mode indicator-এ ক্লিক করে Plan বেছে নিন। এখানে প্ল্যান অনুমোদনের আগে রিভিউ আর এডিট করা যায়। Desktop অ্যাপের Code ট্যাবে প্রম্পট বক্সের নিচের mode selector থেকে Plan বেছে নিন। Desktop-এ Plan বাছলে সেটা শুধু ওই সেশনের জন্য খাটে।"
+    },
+    {
+      "type": "heading",
+      "text": "Make plan mode the default"
+    },
+    {
+      "type": "paragraph",
+      "text": "কোনো প্রজেক্টে টার্মিনাল সেশন সবসময় plan mode-এ শুরু করতে চাইলে প্রজেক্টের `.claude/settings.json`-এ `defaultMode` সেট করুন:"
+    },
+    {
+      "type": "code",
+      "language": "json",
+      "code": "{\n  \"permissions\": {\n    \"defaultMode\": \"plan\"\n  }\n}"
+    },
+    {
+      "type": "paragraph",
+      "text": "VS Code extension প্রজেক্টের settings ফাইল থেকে শুরুর মোড পড়ে না। সেখানে VS Code-এর user settings-এ `claudeCode.initialPermissionMode`-এর মান `plan` দিন।"
+    },
+    {
+      "type": "warning",
+      "text": "সেশন যদি bypass permissions চালু রেখে শুরু করা হয় (যেমন `--dangerously-skip-permissions` দিয়ে), তাহলে ইন্টারঅ্যাকটিভ টার্মিনালে plan mode এডিট আটকায় না। Claude-কে তখনও বলা থাকে শুধু প্ল্যান করতে, কিন্তু সে কোনো এডিট করতে গেলে সেটা অনুমতি ছাড়াই চলে যাবে। নিরাপদে প্ল্যান করতে চাইলে সাধারণভাবে সেশন শুরু করুন।"
+    },
+    {
+      "type": "heading",
+      "text": "Recap"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "Plan mode-এ Claude কোড পড়ে আর প্ল্যান লেখে, কিন্তু আপনি অনুমোদন না করা পর্যন্ত এডিট করে না।",
+        "`Shift+Tab`, `/plan` অথবা `claude --permission-mode plan` দিয়ে plan mode-এ ঢুকুন।",
+        "প্ল্যান হাতে এডিট করতে `Ctrl+G`, আর প্ল্যান বদলাতে বললে No, keep planning বেছে নিন।",
+        "ডিফল্ট করতে `.claude/settings.json`-এ `\"defaultMode\": \"plan\"` দিন।"
+      ]
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Plan mode-এ Claude কী করে?",
+      "options": [
+        "সরাসরি সব ফাইল এডিট করে ফেলে",
+        "কোড পড়ে আর প্ল্যান লেখে, অনুমোদনের আগে সোর্স এডিট করে না",
+        "শুধু git commit করে",
+        "কিছুই করে না, শুধু অপেক্ষা করে"
+      ],
+      "answer": 1,
+      "explanation": "Plan mode-এ Claude ফাইল পড়ে আর খোঁজার জন্য কমান্ড চালায়, কিন্তু আপনি প্ল্যান অনুমোদন না করা পর্যন্ত সোর্স কোড এডিট বন্ধ থাকে।"
+    },
+    {
+      "question": "শুরু থেকেই plan mode-এ Claude Code চালু করার কমান্ড কোনটা?",
+      "options": [
+        "`claude --plan-only`",
+        "`claude --permission-mode plan`",
+        "`claude plan start`"
+      ],
+      "answer": 1,
+      "explanation": "`--permission-mode plan` ফ্ল্যাগ দিয়ে সেশন শুরু থেকেই plan mode-এ থাকে।"
+    },
+    {
+      "question": "Claude-এর লেখা প্ল্যান নিজের text editor-এ খুলে এডিট করতে কোন শর্টকাট?",
+      "options": [
+        "`Ctrl+G`",
+        "`Ctrl+Z`",
+        "`Esc` দুবার"
+      ],
+      "answer": 0,
+      "explanation": "প্ল্যান দেখানোর সময় `Ctrl+G` চাপলে সেটা ডিফল্ট text editor-এ খোলে। এডিট করে নেওয়ার পর Claude এগোয়।"
+    },
+    {
+      "question": "প্ল্যান পছন্দ হয়নি, আরও বদলাতে চান। কোন অপশন বেছে নেবেন?",
+      "options": [
+        "Yes, manually approve edits",
+        "No, keep planning",
+        "Yes, and use auto mode"
+      ],
+      "answer": 1,
+      "explanation": "No, keep planning বাছলে plan mode-এই থাকবেন আর Claude-কে বলতে পারবেন প্ল্যানে কী বদলাতে হবে।"
+    }
+  ]
+}

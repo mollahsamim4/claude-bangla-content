@@ -1,0 +1,201 @@
+{
+  "id": "developer-02-claude-md-and-memory",
+  "track": "developer",
+  "order": 2,
+  "title": "CLAUDE.md & Memory",
+  "summary": "CLAUDE.md ফাইলে প্রজেক্টের নিয়ম লিখে রাখা আর auto memory দিয়ে Claude Code-কে সেশন থেকে সেশনে মনে রাখানো।",
+  "updatedAt": "2026-11-08",
+  "blocks": [
+    {
+      "type": "heading",
+      "text": "Why memory matters"
+    },
+    {
+      "type": "paragraph",
+      "text": "Claude Code-এর প্রতিটা সেশন শুরু হয় একদম নতুন context window দিয়ে। মানে গতকাল আপনি যা বুঝিয়েছিলেন, আজ সেটা Claude নিজে থেকে জানে না। এই সমস্যা মেটাতে দুটো ব্যবস্থা আছে: CLAUDE.md ফাইল, যেটা আপনি নিজে লেখেন, আর auto memory, যেখানে Claude নিজেই নোট রাখে। দুটোই প্রতিটা সেশনের শুরুতে লোড হয়।"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "CLAUDE.md: আপনি লেখেন। এতে থাকে নিয়ম আর নির্দেশ, যেমন build কমান্ড, কোডিং স্টাইল, প্রজেক্টের গঠন।",
+        "Auto memory: Claude লেখে। এতে থাকে আপনার সংশোধন আর পছন্দ থেকে শেখা জিনিস, যেমন \"এই প্রজেক্টে npm না, pnpm ব্যবহার হয়\"।"
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "Create a CLAUDE.md with /init"
+    },
+    {
+      "type": "paragraph",
+      "text": "সবচেয়ে সহজ শুরু হলো প্রজেক্ট ফোল্ডারে Claude Code চালু করে `/init` লেখা। Claude আপনার কোডবেস ঘেঁটে build কমান্ড, টেস্ট চালানোর নিয়ম আর প্রজেক্টের convention খুঁজে একটা শুরুর CLAUDE.md বানিয়ে দেয়। আগে থেকেই CLAUDE.md থাকলে সেটা মুছে না দিয়ে উন্নতির পরামর্শ দেয়।"
+    },
+    {
+      "type": "code",
+      "language": "text",
+      "code": "/init"
+    },
+    {
+      "type": "paragraph",
+      "text": "এরপর ফাইলটা নিজে ছেঁটে-কেটে ঠিক করে নিন। ভালো CLAUDE.md ছোট আর নির্দিষ্ট হয়। ডকসের উদাহরণ অনুযায়ী এরকম:"
+    },
+    {
+      "type": "code",
+      "language": "markdown",
+      "code": "# Commands\n- Install: pnpm install\n- Run one test file: pnpm vitest run path/to/file.test.ts\n- Typecheck: pnpm tsc --noEmit\n\n# Conventions\n- Use the error helpers in src/lib/errors.ts, never throw raw strings\n- src/legacy/ is still live but don't copy its patterns into new code\n\n# Gotchas\n- Integration tests need DATABASE_URL set, see .env.example"
+    },
+    {
+      "type": "tip",
+      "text": "নির্দেশ এমনভাবে লিখুন যাতে যাচাই করা যায়। \"Format code properly\" না লিখে লিখুন \"Use 2-space indentation\"। \"Test your changes\" না লিখে লিখুন \"Run `npm test` before committing\"। প্রতিটা CLAUDE.md ২০০ লাইনের নিচে রাখার চেষ্টা করুন। ফাইল যত লম্বা হয়, context তত বেশি খরচ হয় আর Claude নিয়ম মানে তত কম।"
+    },
+    {
+      "type": "heading",
+      "text": "Where CLAUDE.md files live"
+    },
+    {
+      "type": "paragraph",
+      "text": "কোন জায়গায় ফাইল রাখছেন, তার উপর নির্ভর করে নিয়মটা কার জন্য খাটবে:"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "Project instructions: `./CLAUDE.md` বা `./.claude/CLAUDE.md`। পুরো টিমের জন্য, git-এ commit করুন।",
+        "Local instructions: `./CLAUDE.local.md`। শুধু আপনার নিজের, এই প্রজেক্টের জন্য (যেমন আপনার sandbox URL)। এটা `.gitignore`-এ যোগ করে দিন।",
+        "User instructions: `~/.claude/CLAUDE.md`। আপনার সব প্রজেক্টে খাটে। Windows-এ `~` মানে `%USERPROFILE%`।",
+        "Managed policy: অফিসের IT টিম বসায়। macOS-এ `/Library/Application Support/ClaudeCode/CLAUDE.md`, Linux ও WSL-এ `/etc/claude-code/CLAUDE.md`, Windows-এ `C:\\Program Files\\ClaudeCode\\CLAUDE.md`।"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "সব ফাইল একসাথে জুড়ে context-এ যায়, একটা আরেকটাকে বাদ দেয় না। আপনি যে ফোল্ডারে `claude` চালু করেন, সেটা আর তার উপরের সব ফোল্ডারের CLAUDE.md শুরুতেই লোড হয়। সাব-ফোল্ডারের CLAUDE.md লোড হয় পরে, যখন Claude ওই ফোল্ডারের কোনো ফাইল নিয়ে কাজ করে।"
+    },
+    {
+      "type": "heading",
+      "text": "Import other files with @"
+    },
+    {
+      "type": "paragraph",
+      "text": "CLAUDE.md-এর ভেতরে `@path/to/file` লিখে অন্য ফাইল যোগ করা যায়। Relative path ধরা হয় CLAUDE.md ফাইলের অবস্থান থেকে। মনে রাখবেন, import করলে লেখা গোছানো থাকে, কিন্তু context খরচ কমে না, কারণ import করা ফাইলও একসাথে লোড হয়।"
+    },
+    {
+      "type": "code",
+      "language": "markdown",
+      "code": "See @README for project overview and @package.json for available npm commands for this project.\n\n# Additional Instructions\n- git workflow @docs/git-instructions.md"
+    },
+    {
+      "type": "heading",
+      "text": "Path-specific rules in .claude/rules/"
+    },
+    {
+      "type": "paragraph",
+      "text": "বড় প্রজেক্টে সব নিয়ম এক ফাইলে না রেখে `.claude/rules/` ফোল্ডারে বিষয়ভিত্তিক `.md` ফাইলে ভাগ করা যায়, যেমন `testing.md`, `api-design.md`। চাইলে YAML frontmatter-এ `paths` দিয়ে নিয়মটাকে নির্দিষ্ট ফাইলের মধ্যে আটকে রাখা যায়। তখন সেটা শুধু ওই ধরনের ফাইল নিয়ে কাজের সময় লোড হয়:"
+    },
+    {
+      "type": "code",
+      "language": "markdown",
+      "code": "---\npaths:\n  - \"src/api/**/*.ts\"\n---\n\n# API Development Rules"
+    },
+    {
+      "type": "heading",
+      "text": "Auto memory"
+    },
+    {
+      "type": "paragraph",
+      "text": "লোকাল সেশনে auto memory ডিফল্টভাবে চালু থাকে। আপনি কোনো ভুল শুধরে দিলে বা কোনো পছন্দের কথা বললে Claude দরকারি মনে করলে সেটা নোট করে রাখে। নোটগুলো থাকে `~/.claude/projects/<project>/memory/` ফোল্ডারে। সেখানে একটা `MEMORY.md` সূচি থাকে, আর প্রতিটা মেমোরির জন্য আলাদা ফাইল। প্রতিটা সেশনের শুরুতে `MEMORY.md`-এর প্রথম ২০০ লাইন বা প্রথম 25KB (যেটা আগে আসে) লোড হয়। একই git রিপোর সব worktree একটাই memory ফোল্ডার শেয়ার করে। তবে memory শুধু ওই কম্পিউটারেই থাকে, অন্য মেশিনে যায় না।"
+    },
+    {
+      "type": "paragraph",
+      "text": "Claude-কে সরাসরি মনে রাখতে বলতে পারেন। এভাবে বললে সেটা auto memory-তে যায়:"
+    },
+    {
+      "type": "prompt",
+      "text": "remember that the API tests require a local Redis instance"
+    },
+    {
+      "type": "paragraph",
+      "text": "আর নিয়মটা CLAUDE.md-তে রাখতে চাইলে স্পষ্ট করে বলুন, \"add this to CLAUDE.md\"।"
+    },
+    {
+      "type": "heading",
+      "text": "View and edit with /memory"
+    },
+    {
+      "type": "paragraph",
+      "text": "`/memory` কমান্ড আপনার সব CLAUDE.md, CLAUDE.local.md আর memory ফাইলের তালিকা দেখায়। যেকোনো একটা বেছে নিলে সেটা আপনার editor-এ খোলে। এখান থেকেই auto memory চালু বা বন্ধ করা যায়, আর auto memory ফোল্ডারও খোলা যায়। কোনো ফাইল ঠিকমতো লোড হয়েছে কিনা দেখতে `/context all` চালিয়ে Memory files তালিকাটা দেখুন।"
+    },
+    {
+      "type": "code",
+      "language": "text",
+      "code": "/memory"
+    },
+    {
+      "type": "paragraph",
+      "text": "কোনো একটা প্রজেক্টে auto memory বন্ধ রাখতে চাইলে প্রজেক্টের settings ফাইলে এটা লিখুন:"
+    },
+    {
+      "type": "code",
+      "language": "json",
+      "code": "{\n  \"autoMemoryEnabled\": false\n}"
+    },
+    {
+      "type": "warning",
+      "text": "CLAUDE.md হলো context, জোর করে মানানোর কনফিগারেশন না। Claude সাধারণত মেনে চলে, কিন্তু সবসময় মানবে এমন নিশ্চয়তা নেই, বিশেষ করে নির্দেশ অস্পষ্ট বা পরস্পরবিরোধী হলে। যে নিয়মের কোনো ব্যতিক্রম চলবে না (যেমন কোনো ফাইল কখনো পড়া যাবে না), সেটা hook বা permission-এর deny rule দিয়ে আটকান।"
+    },
+    {
+      "type": "heading",
+      "text": "Recap"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "`/init` দিয়ে শুরুর CLAUDE.md বানান, তারপর ছোট আর নির্দিষ্ট করে নিন।",
+        "টিমের নিয়ম `./CLAUDE.md`-এ, নিজের ব্যক্তিগত নিয়ম `CLAUDE.local.md` বা `~/.claude/CLAUDE.md`-এ রাখুন।",
+        "Auto memory-তে Claude নিজেই শেখে। `/memory` দিয়ে দেখুন, এডিট করুন বা বন্ধ করুন।",
+        "অবশ্যই মানতে হবে এমন নিয়মের জন্য hook বা permission rule ব্যবহার করুন।"
+      ]
+    }
+  ],
+  "quiz": [
+    {
+      "question": "কোন কমান্ড আপনার কোডবেস দেখে শুরুর একটা CLAUDE.md বানিয়ে দেয়?",
+      "options": [
+        "`/memory`",
+        "`/init`",
+        "`/context`",
+        "`/config`"
+      ],
+      "answer": 1,
+      "explanation": "`/init` কোডবেস বিশ্লেষণ করে build কমান্ড আর convention দিয়ে শুরুর CLAUDE.md তৈরি করে। `/memory` দিয়ে পরে সেটা এডিট করা যায়।"
+    },
+    {
+      "question": "যে ব্যক্তিগত নির্দেশ শুধু আপনার জন্য, শুধু এই প্রজেক্টে, আর git-এ যাবে না, সেটা কোথায় রাখবেন?",
+      "options": [
+        "`./CLAUDE.md`",
+        "`./CLAUDE.local.md`",
+        "Managed policy ফাইলে",
+        "`package.json`-এ"
+      ],
+      "answer": 1,
+      "explanation": "`CLAUDE.local.md` শুধু আপনার, এই প্রজেক্টের জন্য। এটা `.gitignore`-এ যোগ করে রাখতে হয় যাতে commit না হয়ে যায়।"
+    },
+    {
+      "question": "প্রতিটা সেশনের শুরুতে auto memory-র `MEMORY.md`-এর কতটুকু লোড হয়?",
+      "options": [
+        "পুরো ফাইল, যত বড়ই হোক",
+        "প্রথম ২০০ লাইন বা প্রথম 25KB, যেটা আগে আসে",
+        "শুধু শেষ ১০ লাইন"
+      ],
+      "answer": 1,
+      "explanation": "ডকস অনুযায়ী `MEMORY.md`-এর প্রথম ২০০ লাইন বা প্রথম 25KB লোড হয়। বাকি অংশ শুরুতে লোড হয় না, তাই Claude সূচিটা ছোট রাখে।"
+    },
+    {
+      "question": "\"`.env` ফাইল কখনো পড়া যাবে না\", এমন একটা নিয়ম যেন একবারও না ভাঙে, তার সবচেয়ে নির্ভরযোগ্য উপায় কী?",
+      "options": [
+        "CLAUDE.md-তে বড় হাতের অক্ষরে IMPORTANT লেখা",
+        "Permission-এর deny rule বা hook ব্যবহার করা",
+        "প্রতিটা প্রম্পটে মনে করিয়ে দেওয়া"
+      ],
+      "answer": 1,
+      "explanation": "CLAUDE.md শুধু context, এটা জোর করে মানায় না। Deny rule বা hook Claude Code নিজে প্রয়োগ করে, Claude কী ভাবল তাতে কিছু যায় আসে না।"
+    }
+  ]
+}

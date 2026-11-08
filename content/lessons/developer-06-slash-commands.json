@@ -1,0 +1,183 @@
+{
+  "id": "developer-06-slash-commands",
+  "track": "developer",
+  "order": 6,
+  "title": "Slash Commands",
+  "summary": "`/` দিয়ে শুরু হওয়া কমান্ড দিয়ে সেশন নিয়ন্ত্রণ করা, কাজের ধাপ অনুযায়ী দরকারি কমান্ড চেনা, আর নিজের কমান্ড বানানো।",
+  "updatedAt": "2026-11-08",
+  "blocks": [
+    {
+      "type": "heading",
+      "text": "What slash commands are"
+    },
+    {
+      "type": "paragraph",
+      "text": "Claude Code-এর ভেতরে `/` দিয়ে শুরু হওয়া কমান্ডগুলো সেশন নিয়ন্ত্রণের শর্টকাট। মডেল বদলানো, permission ঠিক করা, context খালি করা, পুরোনো কথোপকথনে ফেরা, সবকিছুর জন্য একটা করে কমান্ড আছে। প্রম্পটে শুধু `/` লিখলে আপনার জন্য উপলব্ধ সব কমান্ডের তালিকা আসে। `/` এর পরে কয়েকটা অক্ষর লিখলে তালিকা ছেঁকে আসে।"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "কমান্ড শুধু মেসেজের একদম শুরুতে চিনতে পারে।",
+        "কমান্ডের নামের পরে যা লিখবেন, সেটা তার argument হয়ে যায়, যেমন `/compact focus on the auth bug fix`।",
+        "Claude উত্তর দেওয়ার সময় কমান্ড পাঠালে সেটা লাইনে থাকে, বর্তমান ধাপ শেষ হলে চলে। তবে `/status` আর `/usage`-এর মতো কিছু কমান্ড সাথে সাথেই চলে।"
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "First session in a repo"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "`/init`: কোডবেস দেখে শুরুর CLAUDE.md বানায়।",
+        "`/memory`: CLAUDE.md এডিট করা আর auto memory চালু/বন্ধ করা।",
+        "`/permissions`: allow, ask আর deny rule দেখা ও বদলানো।",
+        "`/mcp`: MCP server-এর সংযোগ আর লগইন পরিচালনা।"
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "During a task"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "`/plan`: বড় পরিবর্তনের আগে plan mode-এ যাওয়া।",
+        "`/model`: মডেল বদলানো। এটা নতুন সেশনের ডিফল্ট হিসেবেও সেভ হয়।",
+        "`/effort`: Claude কতটা গভীরভাবে ভাববে সেটা ঠিক করা।",
+        "`/context`: context window-এ কী কতটা জায়গা নিচ্ছে তার রঙিন ছবি।",
+        "`/compact`: কথোপকথন সংক্ষেপ করে জায়গা খালি করা।",
+        "`/btw`: পাশ থেকে একটা ছোট প্রশ্ন, যেটা কথোপকথনের ইতিহাসে যোগ হয় না।"
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "Before you ship"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "`/diff`: এখন পর্যন্ত কী কী বদলেছে দেখা।",
+        "`/code-review`: বর্তমান diff-এ বাগ খোঁজা (`/review` এর alias)।",
+        "`/security-review`: diff-এ নিরাপত্তার দুর্বলতা খোঁজা।"
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "Between sessions and when things go wrong"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "`/clear`: খালি context নিয়ে নতুন কথোপকথন। Alias: `/reset`, `/new`।",
+        "`/resume`: আগের কোনো কথোপকথনে ফেরা।",
+        "`/branch`: এই মুহূর্ত থেকে কথোপকথনের একটা শাখা বানিয়ে অন্য দিকে চেষ্টা করা।",
+        "`/rewind`: কোড আর কথোপকথন আগের checkpoint-এ ফেরানো। Alias: `/checkpoint`, `/undo`।",
+        "`/doctor`: ইনস্টল আর কনফিগারেশনের সমস্যা খুঁজে ঠিক করার প্রস্তাব দেয়।",
+        "`/usage`: সেশনের খরচ আর প্ল্যানের লিমিট দেখা। `/cost` এর alias।",
+        "`/help`: সাহায্য আর সব কমান্ড। `/exit`: CLI থেকে বের হওয়া।"
+      ]
+    },
+    {
+      "type": "tip",
+      "text": "কিছু কমান্ডে সরাসরি মান দেওয়া যায়, যেমন `/config theme=dark` বা `/plan fix the auth bug`। মেনু না খুলেই কাজ হয়ে যায়।"
+    },
+    {
+      "type": "heading",
+      "text": "Other quick prefixes"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "`!` দিয়ে শুরু: shell mode। কমান্ড সরাসরি চলে, আউটপুট সেশনে যোগ হয়, আর Claude সেটার উত্তর দেয়। যেমন `! git status`।",
+        "`@`: ফাইলের path autocomplete, যেমন `@src/auth.ts` লিখে নির্দিষ্ট ফাইলের কথা বলা।",
+        "খালি প্রম্পটে `?`: শর্টকাট সাহায্যের প্যানেল খোলা বা বন্ধ করা।"
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "Create your own command"
+    },
+    {
+      "type": "paragraph",
+      "text": "নিজের কমান্ডও বানানো যায়। Custom command এখন skill-এর সাথে মিশে গেছে। `.claude/commands/deploy.md` ফাইল আর `.claude/skills/deploy/SKILL.md` skill, দুটোই `/deploy` কমান্ড তৈরি করে আর একইভাবে কাজ করে। পুরোনো `.claude/commands/` ফাইল এখনো চলে, তবে নতুন কাজের জন্য ডকস skill ব্যবহার করতে বলে। প্রজেক্টে রাখলে টিম পায়, `~/.claude/skills/`-এ রাখলে আপনার সব প্রজেক্টে পাবেন।"
+    },
+    {
+      "type": "paragraph",
+      "text": "কমান্ডের পরে যা লিখবেন, সেটা `$ARGUMENTS`-এর জায়গায় বসে। ডকসের উদাহরণ, `.claude/skills/fix-issue/SKILL.md`:"
+    },
+    {
+      "type": "code",
+      "language": "markdown",
+      "code": "---\nname: fix-issue\ndescription: Fix a GitHub issue\ndisable-model-invocation: true\n---\n\nFix GitHub issue $ARGUMENTS following our coding standards.\n\n1. Read the issue description\n2. Understand the requirements\n3. Implement the fix\n4. Write tests\n5. Create a commit"
+    },
+    {
+      "type": "paragraph",
+      "text": "এখন `/fix-issue 123` লিখলে Claude পায় \"Fix GitHub issue 123 following our coding standards...\"। সাব-ফোল্ডারে রাখা command ফাইলের নামে `:` বসে, যেমন `.claude/commands/frontend/component.md` হয় `/frontend:component`। Skill নিয়ে বিস্তারিত পরের একটা লেসনে আছে।"
+    },
+    {
+      "type": "code",
+      "language": "text",
+      "code": "/fix-issue 123"
+    },
+    {
+      "type": "warning",
+      "text": "কমান্ডের নামে বানান ভুল করে `Enter` চাপলে Claude Code সেটা চালায় না, `Unknown command` দেখায়। মেনুতে কাছাকাছি নামগুলো থাকে, `Tab` বা arrow key দিয়ে সঠিকটা বেছে নিন।"
+    },
+    {
+      "type": "heading",
+      "text": "Recap"
+    },
+    {
+      "type": "steps",
+      "items": [
+        "`/` লিখলে সব কমান্ডের তালিকা আসে। কমান্ড শুধু মেসেজের শুরুতে কাজ করে।",
+        "শুরুতে `/init`, কাজের সময় `/plan`, `/compact`, `/context`, শেষে `/diff`, `/code-review`।",
+        "ভুল হলে `/rewind`, নতুন কাজে `/clear`।",
+        "নিজের কমান্ড বানাতে `.claude/skills/<name>/SKILL.md` লিখুন, argument পেতে `$ARGUMENTS`।"
+      ]
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Claude Code-এ কোন কোন কমান্ড আছে, সেটা দেখার সবচেয়ে দ্রুত উপায় কী?",
+      "options": [
+        "প্রম্পটে `/` লেখা",
+        "`claude --list` চালানো",
+        "ব্রাউজারে সার্চ করা"
+      ],
+      "answer": 0,
+      "explanation": "`/` লিখলে আপনার জন্য উপলব্ধ সব কমান্ডের তালিকা আসে, আর আরও অক্ষর লিখলে তালিকা ছেঁকে আসে।"
+    },
+    {
+      "question": "`/clear`-এর alias কোনগুলো?",
+      "options": [
+        "`/reset` আর `/new`",
+        "`/undo` আর `/checkpoint`",
+        "`/cost` আর `/stats`"
+      ],
+      "answer": 0,
+      "explanation": "`/reset` আর `/new` হলো `/clear`-এর alias। `/undo` আর `/checkpoint` হলো `/rewind`-এর।"
+    },
+    {
+      "question": "`.claude/commands/frontend/component.md` ফাইল কোন কমান্ড তৈরি করে?",
+      "options": [
+        "`/component`",
+        "`/frontend:component`",
+        "`/frontend/component`"
+      ],
+      "answer": 1,
+      "explanation": "সাব-ফোল্ডারের path-এ `/` এর জায়গায় `:` বসে, তাই কমান্ড হয় `/frontend:component`।"
+    },
+    {
+      "question": "Custom command বা skill-এ ব্যবহারকারীর দেওয়া argument কোন placeholder-এ বসে?",
+      "options": [
+        "`{{input}}`",
+        "`$ARGUMENTS`",
+        "`%1`"
+      ],
+      "answer": 1,
+      "explanation": "`$ARGUMENTS` কমান্ডের নামের পরে লেখা সবকিছু দিয়ে বদলে যায়। `/fix-issue 123`-এ এটা হয় `123`।"
+    }
+  ]
+}
