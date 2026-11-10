@@ -1,0 +1,9 @@
+{
+  "id": "claude-code-2-1-322",
+  "source": "claude-code",
+  "date": "2026-11-10",
+  "title": "Claude Code 2.1.322",
+  "summary": "Claude Code 2.1.322-এ এখন Vertex-এ fast mode ব্যবহার করা যাবে, এবং এটি global, us ও eu region-এ কাজ করে। যদি Vertex fast mode গ্রহণ না করে, তাহলে Claude Code নিজে থেকেই standard speed-এ ফিরে যাবে। ফলে আপনি দ্রুত কাজ পাবেন, আর কোনো সমস্যা হলেও কাজ থেমে যাবে না।",
+  "originalEn": "- Added fast mode on Vertex in the global, us and eu regions, falling back to standard speed if Vertex refuses it",
+  "url": "https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md"
+}
