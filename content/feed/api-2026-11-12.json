@@ -1,0 +1,9 @@
+{
+  "id": "api-2026-11-12",
+  "source": "claude-api",
+  "date": "2026-11-12",
+  "title": "Claude API — November 12, 2026",
+  "summary": "Claude API এখন self-hosted Claude Managed Agents চালু করেছে। এর মাধ্যমে আপনি পুরো Managed Agents service নিজের infrastructure-এ চালাতে পারবেন, আর agents, sessions এবং session history-ও সেখানেই সংরক্ষণ করতে পারবেন। server আপনার বেছে নেওয়া provider-এর কাছে model request পাঠায়, যা ডিফল্টভাবে Anthropic। এটি ব্যবহার করতে চাইলে আপনার Anthropic account team-এর সাথে যোগাযোগ করে access চাইতে হবে।",
+  "originalEn": "* We’ve launched [self-hosted Claude Managed Agents](https://platform.claude.com/docs/en/managed-agents/self-hosted). You run the whole Managed Agents service, not only [self-hosted sandboxes](https://platform.claude.com/docs/en/managed-agents/self-hosted-sandboxes), on your own infrastructure, and you store agents, sessions, and session history there. The server sends model requests to the provider that you choose, which is Anthropic by default. To request access, contact your Anthropic account team.",
+  "url": "https://platform.claude.com/docs/en/release-notes/overview"
+}
