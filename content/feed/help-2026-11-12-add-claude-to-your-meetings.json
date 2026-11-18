@@ -1,0 +1,9 @@
+{
+  "id": "help-2026-11-12-add-claude-to-your-meetings",
+  "source": "help-center",
+  "date": "2026-11-12",
+  "title": "Add Claude to your meetings",
+  "summary": "Claude Meetings এখন Team ও Enterprise plan-এর জন্য Claude এবং Claude Desktop-এ beta হিসেবে চালু হচ্ছে। আপনি Claude-কে Google Meet call-এ একজন দৃশ্যমান participant হিসেবে যোগ করতে পারবেন। call চলার সময় Claude notes নেবে, প্রশ্নের উত্তর দেবে এবং docs, whiteboards ও slides-এর মতো artifacts তৈরি করবে। এতে মিটিং আরও সহজ ও কার্যকর হবে।",
+  "originalEn": "Claude Meetings is rolling out in beta on Team and Enterprise plans in Claude and Claude Desktop. You can add Claude to a Google Meet call as a visible participant that takes notes, answers questions, and builds artifacts, such as docs, whiteboards, and slides, during the call. For more information, see **[Use Claude Meetings](https://support.claude.com/en/articles/18325154-use-claude-meetings)**.",
+  "url": "https://support.claude.com/en/articles/12138966-release-notes"
+}
