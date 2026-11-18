@@ -1,0 +1,9 @@
+{
+  "id": "api-2026-11-17",
+  "source": "claude-api",
+  "date": "2026-11-17",
+  "title": "Claude API — November 17, 2026",
+  "summary": "Claude API-তে এখন beta হিসেবে Linked billing চালু হয়েছে, যার জন্য `user-profiles-billing-2026-10-01` beta header লাগবে। এর ফলে আপনার অ্যাপের গ্রাহকরা অ্যাপে ব্যবহৃত Claude-এর খরচ নিজেদের Claude organization-এর মাধ্যমে দিতে পারবেন। গ্রাহক organization লিংক করলে প্রতিটি `/v1/messages` বা `/v1/chat/completions` request-এ `billing_policy` সেট করে ঠিক করা যায় কে খরচ বহন করবে। Claude Console-এ গ্রাহকরা অ্যাপের জন্য spend cap দিতে বা অ্যাপটি unlink করতে পারবেন, আর এটি কেবল সেইসব গ্রাহকের জন্য কাজ করে যাদের organization সরাসরি Anthropic-কে API ব্যবহারের টাকা দেয়।",
+  "originalEn": "* We’ve launched [Linked billing](https://platform.claude.com/docs/en/manage-claude/oauth-apps/organization-billing-connections) in beta with the `user-profiles-billing-2026-10-01` beta header. Your customers can now pay for the Claude usage in your app through their own Claude organization. Once a customer links their organization, set `billing_policy` on each `/v1/messages` or `/v1/chat/completions` request to choose who pays. In the Claude Console, customers can set a spend cap for your app or unlink your app. Linked billing works for customers whose organization pays Anthropic directly for API usage.",
+  "url": "https://platform.claude.com/docs/en/release-notes/overview"
+}
