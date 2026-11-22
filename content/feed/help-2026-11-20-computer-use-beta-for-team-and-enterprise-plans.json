@@ -1,0 +1,9 @@
+{
+  "id": "help-2026-11-20-computer-use-beta-for-team-and-enterprise-plans",
+  "source": "help-center",
+  "date": "2026-11-20",
+  "title": "Computer use (beta) for Team and Enterprise plans",
+  "summary": "Computer use এখন Team এবং Enterprise plan-এ beta হিসেবে পাওয়া যাচ্ছে। এর মাধ্যমে Claude ব্যবহারকারীর screen দেখতে পারে এবং তাঁরা যেসব desktop app-এর অনুমতি দেন, সেগুলোতে কাজ করতে পারে। এটি Claude Desktop-এর নতুন Claude experience-এ চলে, আর Claude on the web ও Claude Mobile-এ **Computer access** চালু থাকলেও ব্যবহার করা যায়। ফিচারটি ধীরে ধীরে বিভিন্ন organization-এ চালু করা হচ্ছে।",
+  "originalEn": "Computer use lets Claude see a user's screen and work in the desktop apps they allow. It works in the new Claude experience in Claude Desktop, and from Claude on the web and Claude Mobile where **Computer access** is on. It's now available in beta on Team and Enterprise plans, and is rolling out to organizations gradually. For more information, see **[Set up computer use for Team and Enterprise plans](https://support.claude.com/en/articles/18483812-set-up-computer-use-for-team-and-enterprise-plans)**.",
+  "url": "https://support.claude.com/en/articles/12138966-release-notes"
+}
