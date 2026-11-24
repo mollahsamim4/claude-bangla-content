@@ -1,0 +1,9 @@
+{
+  "id": "help-2026-11-24-monthly-recap-is-out-of-beta",
+  "source": "help-center",
+  "date": "2026-11-24",
+  "title": "Monthly recap is out of beta",
+  "summary": "Settings-এর monthly recap (Reflect) ফিচারটি এখন beta থেকে বেরিয়ে এসেছে এবং Free, Pro, Max ও Ultra plan-এ web, Claude Desktop এবং Claude for iOS ও Android-এ পাওয়া যাচ্ছে। এখন recap-এ আপনার Claude Code sessions এবং cloud-এর Claude Cowork tasks-এর তথ্যও যুক্ত হতে পারে। এছাড়া পেজ থেকেই আপনি আপনার সংরক্ষিত recaps মুছে ফেলতে পারবেন।",
+  "originalEn": "The monthly recap (Reflect, in Settings) is now out of beta for Free, Pro, Max, and Ultra plans on the web, Claude Desktop, and Claude for iOS and Android. Recaps can now draw on your Claude Code sessions and Claude Cowork tasks in the cloud, and you can delete your stored recaps from the page. For more information, see **[See your monthly recap](https://support.claude.com/en/articles/15672559-see-your-monthly-recap)**.",
+  "url": "https://support.claude.com/en/articles/12138966-release-notes"
+}
