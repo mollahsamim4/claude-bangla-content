@@ -1,0 +1,9 @@
+{
+  "id": "help-2026-11-24-send-files-to-connected-apps-and-save-files-from-them-beta",
+  "source": "help-center",
+  "date": "2026-11-24",
+  "title": "Send files to connected apps and save files from them (beta)",
+  "summary": "এখন Claude আপনার সংযুক্ত করা কোনো app-এ একটি ফাইল পাঠাতে পারে, অথবা app যে ফাইল দেয় তা save করতে পারে। connectors-এর মাধ্যমে এই file transfer ধীরে ধীরে beta হিসেবে Pro, Max ও Ultra plan-এ আসছে। Team ও Enterprise plan-এ এটি পেতে হলে একজন owner-কে এটি চালু করতে হবে।",
+  "originalEn": "Claude can now send a file to an app you've connected, or save a file that the app offers. File transfers with connectors are rolling out gradually in beta on Pro, Max, and Ultra plans, and on Team and Enterprise plans when an owner turns them on. For more information, see **[Send files to connected apps and save files from them](https://support.claude.com/en/articles/18534325)**.",
+  "url": "https://support.claude.com/en/articles/12138966-release-notes"
+}
